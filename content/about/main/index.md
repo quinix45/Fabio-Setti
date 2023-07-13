@@ -7,7 +7,7 @@ use_featured: false # if false, use most recent by date
 number_categories: 3 # set to zero to exclude
 show_intro: true
 intro: |
-  The term <i> Quantitative psychology </i> may sound a bit strange to some. Whenever I tell people outside of psychology about my field, I get the feeling that psychology is mostly perceived as a qualitative discipline. Although this perception is certainly grounded in reality, it is also the case that psychology has become increasingly focused on quantitative research in the past decades. However, unlike <i> hard </i> sciences such as biology and physics, research in psychology faces 2 large issues: arguably small sample sizes (i.e., anywhere between 20 to 1000), and, more importantly, measurement error.  
+  The term <i> Quantitative psychology </i> may sound a bit strange to some. Whenever I tell people outside of psychology about my field, I get the feeling that psychology is mostly perceived as a qualitative discipline. Although this perception is certainly grounded in reality, it is also the case that psychology has become increasingly focused on quantitative research in the past decades. However, unlike "hard" sciences such as biology and physics, research in psychology faces 2 large issues: arguably small sample sizes (i.e., anywhere between 20 to 1000), and, more importantly, measurement error.  
   
      <font size="3">
   
