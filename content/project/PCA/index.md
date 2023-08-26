@@ -1,5 +1,5 @@
 ---
-title: "Hard Coded Principal Component Analysis"
+title: "Principal Component Analysis in Numpy"
 subtitle: "L2 Regularized Principal Component Analysis Coded Only Using Numpy"
 excerpt: "A machine learning project that implements **L2 regularized principal component analysis (PCA)** in `python` by only using `numpy`. The PCA algorithm is then applied to Breast Cancer Wisconsin (BCW) data set to reduce the number of variables needed to give an accurate breast cancer diagnosis. "
 draft: false
