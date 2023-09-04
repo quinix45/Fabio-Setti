@@ -1,8 +1,8 @@
 ---
 title: "Fabio Setti"
 subtitle: "Ph.D. student in Psychometrics and Quantitative Psychology (PQP) at Fordham University"
-description: "I am currently pursuing a Ph.D degree in Psychometrics and Quantitative Psychology at Fordham University, NY. In the context of psychological research, I mostly focus on statistical analysis and psychometric properties of measurement tools." 
-description2: "I really enjoy engaging in research, and especially the computational aspect of working with data. More broadly, I get easily excited about (some say too much!) anything that is data related such as data analysis and even data cleaning!" 
+description: "I am currently pursuing a Ph.D. degree in Psychometrics and Quantitative Psychology at Fordham University, NY. In the context of psychological research, I mostly focus on statistical analysis and psychometric properties of measurement tools." 
+description2: "I really enjoy engaging in research, and especially the computational aspect of working with data. More broadly, I get really excited about exploring novel statistical techniques and anything that is data related, such as data analysis, data visualization, and even data cleaning!" 
 
 
 

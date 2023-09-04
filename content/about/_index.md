@@ -1,7 +1,5 @@
 ---
 title: "Quantitative Psychology?"
-description: |
-  A website template for Hugo developed by RStudio & Formspree and available for free.
 show_header: false
 show_sidebar: true
 show_image: false
