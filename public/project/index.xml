@@ -6,13 +6,21 @@
     <description>Recent content in Personal Projects on Fabio Setti</description>
     <generator>Hugo</generator>
     <language>en</language>
+    <lastBuildDate>Sun, 29 Jun 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://Fabio-Setti.netlify.app/project/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Personal RevealJS Theme</title>
+      <link>https://Fabio-Setti.netlify.app/project/revealjs_theme/</link>
+      <pubDate>Sun, 29 Jun 2025 00:00:00 +0000</pubDate>
+      <guid>https://Fabio-Setti.netlify.app/project/revealjs_theme/</guid>
+      <description>&lt;center&gt; &lt;img src=&#34;featured-hex.PNG&#34;  width=&#34;60%&#34;&gt; &lt;/center&gt;&#xD;&#xA;&lt;/br&gt;&#xD;&#xA;&lt;/br&gt;&#xD;&#xA;&lt;p&gt; In my teaching, I usually find myself needing to teach students both statistics and the R programming language. To this end, I have used &lt;a href=&#34;https://en.wikipedia.org/wiki/Beamer_(LaTeX)&#34; target=&#34;_blank&#34; class=&#34;inline-link&#34;&gt;Beamer slides&lt;/a&gt; in the past, but I have always been unhappy with the lack of customization and the rigidity of the framework. &lt;/p&gt;&#xD;&#xA;&lt;p&gt; I found the &lt;a href=&#34;https://revealjs.com&#34; target=&#34;_blank&#34; class=&#34;inline-link&#34;&gt;revealjs&lt;/a&gt; framework and the seemless integration with &lt;a href=&#34;https://quarto.org/docs/presentations/&#34; target=&#34;_blank&#34; class=&#34;inline-link&#34;&gt;quarto&lt;/a&gt; much more flexible for my needs. For example, revealjs, being an html framework, allows to include interactive elements (e.g., shiny apps, interactive 3D plots) right on the slides! &lt;/p&gt;</description>
+    </item>
     <item>
       <title>Principal Component Analysis in Numpy</title>
       <link>https://Fabio-Setti.netlify.app/project/pca/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://Fabio-Setti.netlify.app/project/pca/</guid>
-      <description>&lt;center&gt; &lt;img src=&#34;featured-hex.png&#34;  width=&#34;50%&#34; height=&#34;20%&#34; style=&#34;padding-bottom:100px;&#34;&gt; &lt;/center&gt;&#xD;&#xA;&lt;p&gt;&lt;embed src=&#34;https://raw.githack.com/quinix45/Numpy_only_regularized_PCA/main/Report-final-project.pdf&#34; width=&#34;730&#34; height=&#34;520&#34; &#xD;&#xA;type=&#34;application/pdf&#34;&gt;&lt;/p&gt;&#xA;&lt;hr&gt;</description>
+      <description>&lt;center&gt; &lt;img src=&#34;featured-hex.png&#34;  width=&#34;50%&#34; height=&#34;20%&#34; style=&#34;padding-bottom:100px;&#34;&gt; &lt;/center&gt;&#xD;&#xA;&lt;p&gt; In this project I implemented &lt;b&gt;L2 regularized principal component analysis (PCA)&lt;/b&gt; in &lt;code&gt;python&lt;/code&gt; by only using &lt;code&gt;numpy&lt;/code&gt;. The PCA algorithm is then applied to the Breast Cancer Wisconsin (BCW) data set to reduce the number of variables needed to give an accurate breast cancer diagnosis. &lt;/p&gt;&#xD;&#xA;&lt;p&gt; There&#39;s probably mistakes here and there, but given that at the time I was a Psychology PhD student in my first year and quite unfamiliar with python, I am pretty happy with how the project turned out and that&#39;s why I keep it here.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

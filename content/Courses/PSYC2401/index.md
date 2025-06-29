@@ -1,7 +1,7 @@
 ---
 title: "PSYC 2401: Memory Lab"
 subtitle: "Lecture slides in Reveal.js for my Memory lab."
-excerpt: "A set of HTML slides For my Memory lab (PSYC 2401). The slides are created in the **reveal.js** frameworks by using the **Quarto** extension in **Rstudio**! "
+excerpt: "A set of HTML slides For the lab portion of PSYC 2401 (undergraduate course). In this lab, along with the students, I go over some classical experiments in the field of memory research and guide students through data analyses"
 date: 2024-01-10
 draft: false
 
@@ -19,9 +19,7 @@ links:
 
 <center> <img src="featured-hex.png"  width="40%" height="20%"> </center>
 
-A repository for my Memory lab slides. The slides are created in the **reveal.js** frameworks by using the **Quarto** extension in **Rstudio**!
-
-Here are the links to the slides (use full screen for appropriate aspect ratio):
+A repository for my Memory lab slides. The slides are created in the **reveal.js** frameworks by using the **Quarto** extension in **Rstudio**! Here are the links to the slides:
 
 <table style="border:0px;">
 <td style="border:0px;">   
@@ -56,7 +54,5 @@ Here are the links to the slides (use full screen for appropriate aspect ratio):
 </td>
 
 </table>
-
-As a side note, there are a lot of formatting tricks that I have learned as I created these slides. Since there aren't many online resources on how to create slides with reveal.js in Quarto, I hope that those interested in using this framework will find my code helpful 🤗
 
 ---

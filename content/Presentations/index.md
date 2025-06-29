@@ -41,7 +41,7 @@ Description: Find My Conference Presentations and Talks Below
 
 </details>
 
-<hr></hr>
+<hr class="fancy"></hr>
 
 <details>
   <summary class="drop-date">2024</summary>
