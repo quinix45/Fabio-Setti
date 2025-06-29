@@ -68,6 +68,7 @@ enableEmoji = true
   # for more http://tachyons.io/docs/typography/font-family/
   textFontFamily = "sans-serif"
   headingFontFamily = "sans-serif"
+  custom_css = ["css/custom.css"]
 
   # Configuration of https://utteranc.es/ for comments
   [params.utterances]

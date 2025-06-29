@@ -2,64 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Fabio Setti</title>
-    <link>/categories/</link>
+    <link>https://Fabio-Setti.netlify.app/categories/</link>
     <description>Recent content in Categories on Fabio Setti</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 28 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 01 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://Fabio-Setti.netlify.app/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Workshop</title>
+      <link>https://Fabio-Setti.netlify.app/categories/workshop/</link>
+      <pubDate>Wed, 01 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://Fabio-Setti.netlify.app/categories/workshop/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Theme Features</title>
-      <link>/categories/theme-features/</link>
+      <link>https://Fabio-Setti.netlify.app/categories/theme-features/</link>
       <pubDate>Thu, 28 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/theme-features/</guid>
+      <guid>https://Fabio-Setti.netlify.app/categories/theme-features/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>evergreen</title>
-      <link>/categories/evergreen/</link>
+      <title>Evergreen</title>
+      <link>https://Fabio-Setti.netlify.app/categories/evergreen/</link>
       <pubDate>Wed, 20 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/evergreen/</guid>
+      <guid>https://Fabio-Setti.netlify.app/categories/evergreen/</guid>
       <description></description>
     </item>
-    
-    <item>
-      <title>workshop</title>
-      <link>/categories/workshop/</link>
-      <pubDate>Tue, 12 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/workshop/</guid>
-      <description></description>
-    </item>
-    
     <item>
       <title>R</title>
-      <link>/categories/r/</link>
+      <link>https://Fabio-Setti.netlify.app/categories/r/</link>
       <pubDate>Sun, 03 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/r/</guid>
+      <guid>https://Fabio-Setti.netlify.app/categories/r/</guid>
       <description></description>
     </item>
-    
-    <item>
-      <title>meetup</title>
-      <link>/categories/meetup/</link>
-      <pubDate>Fri, 01 Jan 2021 14:15:59 -0600</pubDate>
-      
-      <guid>/categories/meetup/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>package</title>
-      <link>/categories/package/</link>
-      <pubDate>Wed, 03 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/package/</guid>
-      <description></description>
-    </item>
-    
   </channel>
 </rss>

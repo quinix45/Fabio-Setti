@@ -9,9 +9,11 @@ disqusShortname = "" # see params.utterances to use utterances instead of Disqus
 metaDataFormat = "yaml"
 footnoteReturnLinkContents = "&#8617;" # ↩
 # set deliberately low for testing choose your preffered number based on the blog layout you've chosen
-paginate = 5
+[pagination]
+  pagerSize = 5
+  
 preserveTaxonomyNames = true
-ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
+ignoreFiles = ["\\.qmd$", "\\.Rmarkdown$", "_cache$", "\\.knit\\.md$", "\\.utf8\\.md$"]
 enableEmoji = true
 
 [markup]
@@ -68,7 +70,6 @@ enableEmoji = true
   # for more http://tachyons.io/docs/typography/font-family/
   textFontFamily = "sans-serif"
   headingFontFamily = "sans-serif"
-
   # Configuration of https://utteranc.es/ for comments
   [params.utterances]
     use_utterances = true
@@ -112,35 +113,27 @@ enableEmoji = true
 [menu]
   # Configure header 
   [[menu.header]]
-    name = "My Field"
-    title = "Quantitative Psychology?"
-    url = "/about/"
+    name = "Courses"
+    title = "Materials for Courses I Taught"
+    url = "/Courses/"
     weight = 1
-  #[[menu.header]]
-    #name = "Blog"
-    #title = "Blog"
-    #url = "/blog/"
-    #weight = 2
+  [[menu.header]]
+    name = "Presentations"
+    title = "Conference Presentations"
+    url = "/Presentations/"
+    #url = "PSYC7804/Slides Files/Lab 1.html"
+    weight = 2
   [[menu.header]]
     name = "Projects"
     title = "Project Portfolio"
     url = "/project/"
     weight = 3
-  #[[menu.header]]
-    #name = "Talks"
-    #title = "Talks"
-    #url = "/talk/"
-    #weight = 4
-  #[[menu.header]]
-    #name = "A collection"
-    #title = "A collection"
-    #url = "/collection/"
-    #weight = 5
   [[menu.header]]
     name = "CV"
     title = "View My CV"
     url = "https://raw.githack.com/quinix45/CV/main/Fabio-Setti-CV.html"
-    weight = 6
+    weight = 4
+
     
   # Configure footer  
   [[menu.footer]]
@@ -159,7 +152,9 @@ enableEmoji = true
     #url = "/contributors/"
     #weight = 3
 
-# see https://gohugo.io/about/hugo-and-gdpr/    
+# see https://gohugo.io/about/hugo-and-gdpr/   
+
+
 [privacy]
   [privacy.disqus]
     disable = false
@@ -170,7 +165,7 @@ enableEmoji = true
   [privacy.instagram]
     disable = false
     simple = true
-  [privacy.twitter]
+  [privacy.x]
     disable = false
     enableDNT = true
     simple = false

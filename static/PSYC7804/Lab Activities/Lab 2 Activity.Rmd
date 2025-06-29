@@ -1,0 +1,242 @@
+---
+title: "Lab 2 Activity"
+output: pdf_document
+header-includes:
+    - \usepackage{setspace}
+---
+
+\onehalfspacing
+
+```{r include=FALSE}
+library(tidyverse)
+```
+
+
+In this lab activity we are going to use the `attitude` dataset, which is already loaded into R. 
+
+**1.** Run `help("attitude")` to get some info on the data and the meaning of each variable. You can also run `View(attitude)` to open the data in the data viewer window.
+
+```{r include=FALSE}
+help("attitude")
+
+dat <- attitude
+```
+
+
+**2.** plot `rating` on the $y$-axis and `complaints` on the $x$-axis. If you were to run a regression, do you think the slope ($b_1$) will be positive or negative? Why? 
+
+```{r include=FALSE}
+
+ggplot(attitude,  
+ aes(x = complaints, y = rating)) +
+ geom_point() +
+ theme_classic()
+
+
+# positive as when complaint handling is more positive, ratings increase 
+```
+
+**3.** Run a linear regression with `complaints` predicting `rating`. 
+
+```{r include=FALSE}
+reg <- lm(rating ~ complaints, attitude)
+
+summary(reg)
+```
+
+
+- What do you conclude about the relation between rating and complaints? 
+
+```{r include=FALSE}
+# there is a significantly positive relation between positive handling of complaints and rating
+```
+
+- How much would we expect `rating` increase to be on average if `complaints` increased by 3 units?
+
+```{r include=FALSE}
+# rating would increase by
+
+coef(reg)[2]*3
+```
+
+**4.** Run a *standardized* regression with `complaints` predicting `rating`. What changes do you see in the `summary()` output?
+
+```{r include=FALSE}
+attitude_std <- data.frame(scale(attitude))
+
+reg_std <- lm(rating ~ complaints, attitude_std)
+
+summary(reg_std)
+
+# intercept is now 0 and the slope is now .83. Everything else remains the same.
+```
+
+**5.** What is the predicted value of `rating` in standardized units when `complaints` is 1 standard deviation below average?
+
+```{r include=FALSE}
+# we would expect ratings to be
+coef(reg_std)[2]*-1
+```
+
+**Tricky questions**
+
+Predictions based on regression represent the *mean* expected value of $Y$ given some value of $X$. Then if the formula to standardize any variable ($\mathrm{Var}$) is:
+
+$$\mathrm{Var_{std}} = \frac{\mathrm{Var} - \mathrm{Var_{mean}}}{\mathrm{Var_{SD}}}$$
+
+Try answering the following questions:
+
+- can you convert the value of `rating` from question **5** back into unstandardized units? (HINT: you will need to use the mean and standard deviation of the original `rating` variable)
+
+```{r include=FALSE}
+
+mean_rtg <- mean(attitude$rating) 
+sd_rtg <- sd(attitude$rating)
+
+
+# the formula to do so is Mean + (SD_rating*predicted_y_value_std)
+
+mean_rtg + (sd_rtg * (coef(reg_std)[2]*-1))
+
+
+# this is because -.83 stands for "-.83 standard deviations below the mean of rating", which is   54.56 in unstandardized units.
+
+# for IQ it would be 100 + (15*-.83) = 87.55
+
+```
+
+- How do you get the same value using the unstandardized regression equation? (HINT: you need to use the mean and standard deviation of the `complaints` variable)
+
+```{r include=FALSE}
+mean_cmpl <- mean(attitude$complaints) 
+sd_cmpl <- sd(attitude$complaints)
+
+# simpler here because we just need to multiply by -1 because we are "one standard deviation below the average complaint handling" 
+
+X_value <- mean_cmpl + (sd_cmpl * -1)
+
+coef(reg)[1] + coef(reg)[2]*X_value
+```
+
+
+\newpage
+
+
+## Some R Practice: Functions
+
+
+Functions are the foundation of R and many other programming languages. A function works in **3 steps**:
+
+1. The function take in some objects and possibly instructions (input). 
+
+2. The function runs some R code that performs operations based on the given objects and instructions. 
+
+3. The function returns the result of the R operations in step 2 (output).
+
+Here is how you define a function in R:
+
+
+```{r eval=FALSE, include=TRUE}
+
+# you need to name you function as you wold a normal R object
+# the function() part is used to define the function arguments (the inputs that the function accepts)
+
+new_function <- function(input){
+  
+  # run some code that does something to the input
+  
+  
+  # the function needs to return some output
+  # you specify what is returned by using return()
+  
+  return(output)
+}
+
+```
+
+So, for example, we can create a function that calculates the mean of any given vector:
+
+```{r}
+
+
+# we specify `vector` as the only function argument
+
+mean_function <- function(vector){
+  
+  mean <- sum(vector)/length(vector)
+  
+  return(mean)
+}
+
+
+# now we can call our function and input a vector
+
+x <- c(1, 2, 4, 5, 6)
+
+mean_function(vector = x)
+
+```
+
+We can see that this is the exact same result as the `mean()` function in R:
+
+
+```{r}
+mean(x)
+```
+
+Note that you can call a function argument whatever you like as long as you are consistent:
+
+```{r}
+mean_function_2 <- function(ice_cream){
+  
+  name_doesnotmatter <- sum(ice_cream)/length(ice_cream)
+  
+  return(name_doesnotmatter)
+}
+
+# will produce the same exact output
+mean_function_2(x)
+```
+Why use functions? Usually you have some code that you run multiple times where you only change a few things. Functions help you not having to copy and paste code over an over, as well as making code more readable. Of course, there are MANY more benefits to being familiar with functions and using functions.
+
+
+**Tasks:**
+
+- can you create a function that computes the standard deviation of a vector? The function that you create must only use the `sum()`, `mean()`, `sqrt()`, and `length()` functions. To test your function, try it on both `c(1,5,66,7,4,3,2)` and `c(17,34,23,2)` as inputs. Then, check that you get the same result as:
+
+```{r}
+x1 <- c(1,5,66,7,4,3,2)
+sd(x1)
+
+x2 <- c(17,34,23,2)
+sd(x2)
+```
+The formula for the sample standard deviation of a variable $X$ is:
+
+$$SD_X = \sqrt{\frac{\sum(X - \bar{X})^2}{N - 1}},$$
+
+```{r include=FALSE}
+
+sd_function <- function(x){
+  
+  sd <- sqrt(sum((x - mean(x))^2)/(length(x)-1))
+  
+  return(sd)
+}
+
+sd_function(x1)
+sd_function(x2)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+

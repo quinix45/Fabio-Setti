@@ -1,1 +1,30 @@
-// Override this file to add your own SCSS styling.
+/* me adding some classes for style */
+
+
+// Drop down element date
+
+.drop-date {
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+  cursor: pointer;
+}
+
+// 2 column layout
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+
+.inline-link {
+	font-weight: bold;      /* Bold the text */
+  }
+  
+.inline-link:hover {
+	text-decoration: underline;  /* Add underline on hover */
+	cursor: pointer;
+  }

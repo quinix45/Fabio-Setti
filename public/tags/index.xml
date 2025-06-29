@@ -2,28 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Fabio Setti</title>
-    <link>/tags/</link>
+    <link>https://Fabio-Setti.netlify.app/tags/</link>
     <description>Recent content in Tags on Fabio Setti</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Wed, 27 Jan 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 27 Jan 2021 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://Fabio-Setti.netlify.app/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>style</title>
-      <link>/tags/style/</link>
+      <title>Style</title>
+      <link>https://Fabio-Setti.netlify.app/tags/style/</link>
       <pubDate>Wed, 27 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/style/</guid>
+      <guid>https://Fabio-Setti.netlify.app/tags/style/</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>hugo-site</title>
-      <link>/tags/hugo-site/</link>
+      <title>Hugo-Site</title>
+      <link>https://Fabio-Setti.netlify.app/tags/hugo-site/</link>
       <pubDate>Sun, 03 Jan 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/hugo-site/</guid>
+      <guid>https://Fabio-Setti.netlify.app/tags/hugo-site/</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>
