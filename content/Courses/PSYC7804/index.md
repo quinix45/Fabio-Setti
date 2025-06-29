@@ -19,6 +19,8 @@ links:
 
 <center> <img src="featured-hex.png"  width="40%"> </center>
 
+</br>
+</br>
 
 <i class="fas fa-chalkboard-teacher"> </i> **Slides:** Click to access Lab presentations. To navigate slides, use left/right arrow keys (on laptop) or swipe left/right (on tablet). The slides are created with the <a href="https://quarto.org/docs/presentations/" target="_blank" class="inline-link">quarto</a> extension of <a href="https://posit.co/download/rstudio-desktop/" target="_blank" class="inline-link">RStudio</a> and use the <a href="https://revealjs.com" target="_blank" class="inline-link">revealjs</a> framework.
 
@@ -56,6 +58,9 @@ links:
   });
 </script>
 
+</br>
+</br>
+</br>
 
 <h3> Lab 1: Descriptive Statistics and Plots </h3>
 
