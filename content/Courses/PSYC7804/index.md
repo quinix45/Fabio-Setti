@@ -64,16 +64,16 @@ links:
 This Lab goes over how to import data into R, compute some descriptive statistics, and the logic and process behind creating plots with <a href="https://ggplot2.tidyverse.org" target="_blank" class="inline-link"> ggplot </a>. An in depth-explanation of QQplots is also included in the last slides. 
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 1.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 1 Code.Rmd" download="Lab 1 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-1-Activity.pdf" download="Lab 1 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 1 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
@@ -84,17 +84,17 @@ This Lab goes over how to import data into R, compute some descriptive statistic
 
 This Lab discusses how to interpret one-predictor regression output, how to use regression to make predictions, what residuals are, and how to run a standardized regression in R. The appendix touches upon the meaning of a regression model and the root of regression assumptions.
 
-<span class="ph0 pt5 post-header">
+<span class="post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 2.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 2 Code.Rmd" download="Lab 2 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class="post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-2-Activity.pdf" download="Lab 2 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 2 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
@@ -103,16 +103,16 @@ This Lab discusses how to interpret one-predictor regression output, how to use 
 
 This Lab discusses how to interpret one-predictor regression output, how to use regression to make predictions, what residuals are, and how to run a standardized regression in R. The appendix touches upon the meaning of a regression model and the root of regression assumptions.
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 3.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 3 Code.Rmd" download="Lab 3 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-3-Activity.pdf" download="Lab 3 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 3 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
@@ -121,17 +121,17 @@ This Lab discusses how to interpret one-predictor regression output, how to use 
 
 This Lab introduces multiple regression, contrasts one-predictor and multiple regression, includes interactive 3D visualization of regression planes, and goes over <i>R</i><sup>2</sup> and the meaning of the term <i>variance explained</i>.
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 4.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 4 Code.Rmd" download="Lab 4 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-4-Activity.pdf" download="Lab 4 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 4 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
@@ -140,18 +140,18 @@ This Lab introduces multiple regression, contrasts one-predictor and multiple re
 
 This lab introduces added variable plots as a way of visualizing partial regression coefficients. The idea of bootstrapping and its applications in the context of linear regression are also discussed. For learning purposes, this Lab also includes raw code that details the steps to create added variable plots, as well as bootstrapped confidence intervals for <i>R</i><sup>2</sup>.
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 5.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 5 Code.Rmd" download="Lab 5 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-5-Activity.pdf" download="Lab 5 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 5 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
@@ -166,18 +166,18 @@ This lab introduces added variable plots as a way of visualizing partial regress
 
 This Lab introduces semi-partials and partial-correlations, and contrasts them with correlation. This lab also discusses model comparison with hierarchical regression and information criteria methods such as AIC and BIC.
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 6.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 6 Code.Rmd" download="Lab 6 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-6-Activity.pdf" download="Lab 6 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 6 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
@@ -187,18 +187,18 @@ This Lab introduces semi-partials and partial-correlations, and contrasts them w
 
 This Lab touches upon multicollinearity in linear regression and its consequences. Dominance analysis is also discussed as a method to evaluate relative importance of predictors in a regression. Power in regression and criticisms of practices related to power are discussed.
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 7.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 7 Code.Rmd" download="Lab 7 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-7-Activity.pdf" download="Lab 7 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 7 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
@@ -209,18 +209,18 @@ This Lab touches upon multicollinearity in linear regression and its consequence
 
 This Lab goes over quadratic regression and detailed interpretations of its regression coefficients. This Lab also includes alternative methods such as piece-wise regression and splines.
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 8.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 8 Code.Rmd" download="Lab 8 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-8-Activity.pdf" download="Lab 8 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 8 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
@@ -233,18 +233,18 @@ This Lab goes over quadratic regression and detailed interpretations of its regr
 
 This Lab goes over interaction effects (AKA moderation) between continuous variables. This Lab includes interpretation of interaction effects, 3D interactive representations, simple slopes interpretations and visualizations, and Johnson-Neyman plots.
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 9.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 9 Code.Rmd" download="Lab 9 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-9-Activity.pdf" download="Lab 9 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 9 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
@@ -254,17 +254,17 @@ This Lab goes over interaction effects (AKA moderation) between continuous varia
 
 This Lab introduces the use of categorical predictors in linear regression. Different coding schemes for categorical predictors such as dummy coding and contrast coding are described. The equivalence of regression with categorical predictors and t-tests and ANOVAs is also discussed.
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 10.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 10 Code.Rmd" download="Lab 10 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-10-Activity.pdf" download="Lab 10 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 10 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
@@ -276,17 +276,17 @@ This Lab introduces the use of categorical predictors in linear regression. Diff
 
 This lab introduces Interactions involving categorical predicotrs. Methods for probing interactions between categorical and continuous predictors are discussed.
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 11.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 11 Code.Rmd" download="Lab 11 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-11-Activity.pdf" download="Lab 11 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 11 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
@@ -296,18 +296,18 @@ This lab introduces Interactions involving categorical predicotrs. Methods for p
 
 This lab introduces mediation analysis with path models using <a href="https://lavaan.ugent.be" target="_blank" class="inline-link">lavaan</a>. Aside from simple mediation, examples of parallel mediation and moderated mediation are also shown. 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 12.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-12-Activity.pdf" download="Lab 12 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 12 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
@@ -317,18 +317,18 @@ This lab introduces mediation analysis with path models using <a href="https://l
 
 This lab presents a short introduction to issues related to missing data. Missing data mechanisms, as well as consequences of missing data mishandling are discussed (e.g., bias of results). Full information maximum likelihood (FIML) is introduced as a way of handling missing data. More advanced missing data methods are briefly mentioned.
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 13.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 13 Code.Rmd" download="Lab 13 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-13-Activity.pdf" download="Lab 13 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 13 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
@@ -338,18 +338,18 @@ This lab presents a short introduction to issues related to missing data. Missin
 This lab discusses leverage, distance, and influence, three properties of individual data points that may impact regression results and conclusions. The regression diagnostics discussed are: hat values, studentized Residuals, DFFITS, Cook’s D, COVRATIO, and DFBETAS. Influence of outliers on regression results is also discussed.
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 14.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 14 Code.Rmd" download="Lab 14 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-14-Activity.pdf" download="Lab 14 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 
-<span class="ph0 pt5 post-header">
+<span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 14 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr></hr>
