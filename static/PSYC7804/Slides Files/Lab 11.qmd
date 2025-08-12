@@ -22,6 +22,7 @@ format:
         - <script src="Fabio_theme/Fabio_theme.js"></script>
 
 editor: source
+build: local
 ---
 
 

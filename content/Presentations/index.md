@@ -18,10 +18,13 @@ Description: Find My Conference Presentations and Talks Below
   <div class="column"> Lucca, Italy</div>
 </div>
   
-**Title:** Coming soon 
+**Title:** Measuring Forecasting Proficiency: An Item Response Theory Approach
+
+\*<sub> This version of the presentation is for a non-psychometrics audience, puts more emphasis on the scoring aspect, and was part of a symposium session.</sub>
+
 
 <span class="ph0 pt5 post-header">
-<a class="btn-links mr2 ba dib" href="404" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a>
+<a class="btn-links mr2 ba dib" href="https://raw.githack.com/quinix45/Conferences_2025/main/SPUDM/SPUDM%20presentation.html#/title-slide" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a>
 
 </br>
   

@@ -1,0 +1,27 @@
+---
+title: "Lab 5: Power"
+author: "Fabio Setti"
+institute: "PSYC 6802 - Introduction to Psychology Statistics"
+bibliography: Additional files/references.bib
+csl: Additional files/apa.csl
+title-slide-attributes:
+  data-transition: "zoom"
+  data-visibility: "uncounted"
+format:
+   revealjs:
+      footer: "Lab 5: Power"
+      width: 1280
+      height: 720
+      chalkboard: true
+      slide-number: c/t 
+      theme: Fabio_theme/Fabio_theme.scss
+      navigation-mode: linear
+      controls: false
+      auto-stretch: false
+      header-includes:
+        - <script src="Fabio_theme/Fabio_theme.js"></script>
+
+editor: source
+build: local
+---
+

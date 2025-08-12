@@ -1,0 +1,19 @@
+---
+title: "Lab 2 Activity"
+format: pdf
+editor: source
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+---
+
+In this lab, we will reproduce some of the graphs made for the Shark Tank data from Lecture 1. Use R Markdown to create a Word or pdf document of your results. When you are done (or when lab time runs out), check in with the TA to receive participation points for the day. **This assignment is not graded aside from participation points.**
+
+
+Dowload the 
+
+First make sure that you download the "Lab_02_Shark_Tank.csv" dataset. Make sure that this file is in your working directory (you may want to change your working directory). See Lab 1 for help with this step. 
+
+The following code will read in the TDF data as a tibble.
+
+
