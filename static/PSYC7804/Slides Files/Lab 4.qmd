@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 4: Introduction To Two-Predictor Regression"
+      footer: "PSYC 7804 - Lab 4: Introduction To Two-Predictor Regression"
       width: 1280
       height: 720
       chalkboard: true

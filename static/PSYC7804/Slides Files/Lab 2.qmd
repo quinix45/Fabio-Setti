@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 2: One-predictor Regression"
+      footer: "PSYC 7804 - Lab 2: One-predictor Regression"
       width: 1280
       height: 720
       chalkboard: true

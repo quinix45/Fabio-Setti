@@ -12,7 +12,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 9: Interactions between continuous variables"
+      footer: "PSYC 7804 - Lab 9: Interactions between continuous variables"
       width: 1280
       height: 720
       chalkboard: true

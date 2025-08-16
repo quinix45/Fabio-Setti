@@ -11,7 +11,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 3: Significance Tests and Reporting Results"
+      footer: "PSYC 7804 - Lab 3: Significance Tests and Reporting Results"
       width: 1280
       height: 720
       chalkboard: true

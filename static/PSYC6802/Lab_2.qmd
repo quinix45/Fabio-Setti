@@ -1,5 +1,5 @@
 ---
-title: "Lab 2: Plotting/Reports"
+title: "Lab 2: Data Exploration, Plotting, and Reporting"
 author: "Fabio Setti"
 institute: "PSYC 6802 - Introduction to Psychology Statistics"
 bibliography: Additional files/references.bib
@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 2: Plotting/Reports"
+      footer: "PSYC 6802 - Lab 2: Data Exploration, Plotting, and Reporting"
       width: 1280
       height: 720
       chalkboard: true
@@ -24,4 +24,99 @@ format:
 editor: source
 build: local
 ---
+
+
+## Today's Packages and Data 🤗
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-150
+
+
+# run for packages that you have not installed yet
+install.packages("tidyverse")
+install.packages("rio")
+```
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(tidyverse)
+library(rio)
+```
+
+
+</br>
+
+<div style="font-size: 26px">
+
+::: {.panel-tabset}
+### `tidyverse`
+
+The `tidyverse` package [@wickham2023] loads a suite of packages that help with data manipulation and visualization. You can find the full package list [here](https://www.tidyverse.org/packages){target="_blank"}. Among others, `tidyverse` loads both  `dplyr` and `ggplot2`. 
+
+### `dplyr`
+
+The `dplyr` package [@wickham2023a] offers a set of intuitive functions to work with data. The `dplyr` functions are great for data manipulation and data cleaning.
+
+### `ggplot2`
+
+The `ggplot2` package [@wickham2024] is the most popular R package for data visualization. There exist other ways to create data visualizations in R, but `ggplot2` is usually my choice.
+
+### `rio`
+
+The `rio` package [@becker2024] developers describe this package as the *Swiss-Army Knife for Data I/O*. The `import()` and `export()` functions can import/export just about any data type.
+
+:::
+
+</div>
+
+:::
+::: {.column width="50%"}
+
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+You can open the data without any downloads with the line below. see [Here](https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%201#/how-i-will-fix-everyones-working-directory-issues){target="_blank"} for *why* and *how* I do it. 
+ 
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+WH_2024 <- rio::import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/World_happiness_2024.csv")
+```
+
+<div style="font-size: 22px"> We'll use the [2024 world happiness report](https://www.worldhappiness.report/ed/2024){target="_blank"} data again. </div>
+
+```{r}
+reactable::reactable(WH_2024,
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300)
+```
+
+
+
+:::
+::::
+
+
+
+
+## References 
+
+<div id="refs"> </div>
 

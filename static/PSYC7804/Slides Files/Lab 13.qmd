@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 13: Missing Data"
+      footer: "PSYC 7804 - Lab 13: Missing Data"
       width: 1280
       height: 720
       chalkboard: true

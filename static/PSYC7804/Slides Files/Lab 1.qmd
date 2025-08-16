@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 1: Descriptive Statistics and Plots"
+      footer: "PSYC 7804 - Lab 1: Descriptive Statistics and Plots"
       width: 1280
       height: 720
       chalkboard: true
@@ -368,7 +368,7 @@ As mentioned in the box on the last slide, `ggplot2` breaks visualizations into 
 :::: {.columns}
 ::: {.column width="30%"}
 
-```{r `code-line-numbers`="1"}
+```{r}
 #| eval: false
 #| echo: true 
 #| code-line-numbers: false

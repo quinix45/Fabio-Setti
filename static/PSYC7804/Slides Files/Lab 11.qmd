@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 11: Interactions With Categorical Predictors"
+      footer: "PSYC 7804 - Lab 11: Interactions With Categorical Predictors"
       width: 1280
       height: 720
       chalkboard: true

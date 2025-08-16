@@ -12,7 +12,7 @@ title-slide-attributes:
 
 format:
    revealjs:
-      footer: "Lab 10: Categorical Predictors"
+      footer: "PSYC 7804 - Lab 10: Categorical Predictors"
       width: 1280
       height: 720
       chalkboard: true

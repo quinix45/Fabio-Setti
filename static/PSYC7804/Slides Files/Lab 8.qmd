@@ -12,7 +12,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 8: Quadratic regression and non-linear alternatives"
+      footer: "PSYC 7804 - Lab 8: Quadratic regression and non-linear alternatives"
       width: 1280
       height: 720
       chalkboard: true

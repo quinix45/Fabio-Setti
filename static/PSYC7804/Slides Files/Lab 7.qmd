@@ -12,7 +12,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 7: Multicollinearity, Dominance Analysis, and Power"
+      footer: "PSYC 7804 - Lab 7: Multicollinearity, Dominance Analysis, and Power"
       width: 1280
       height: 720
       chalkboard: true

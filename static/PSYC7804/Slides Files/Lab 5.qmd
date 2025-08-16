@@ -12,7 +12,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 5: Added Variable Plots and Bootstrapping"
+      footer: "PSYC 7804 - Lab 5: Added Variable Plots and Bootstrapping"
       width: 1280
       height: 720
       chalkboard: true

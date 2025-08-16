@@ -1,0 +1,236 @@
+
+## Running Code and Mathematical Operations
+
+```{r}
+# some basic math operations
+
+# addition
+1 + 3
+
+# multiplication
+3*7
+
+# exponents
+2^3
+```
+
+
+## A Note on how R Interprets Code
+
+
+```{r}
+# The line below is a statement and will produce output
+
+(4 +5)*2
+```
+
+
+```{r}
+(4 + 5)*2  6+6
+```
+
+```{r}
+( 4 +
+  5 )*   2
+
+6  +
+   6
+```
+
+## Operators
+
+```{r}
+# keep the `:` operator in mind, it ends up being useful quite often
+
+3:10
+```
+
+
+## Objects
+
+
+```{r}
+# This means x "is" (4 +5)*2. you can name objects whatever you want but the name cannot begin with a number or include special characters (?, !, etc...). 
+
+x <- (4 +5)*2
+```
+
+
+```{r}
+# R now knows that whenever you write `x` in your code, you mean `18`. 
+
+x + 3
+```
+
+
+## Types of Objects and Dimensions
+
+
+```{r}
+# `c()` is a function (more on functions later), and it stands for "concatenate". The `c()` binds elements together.`c()` is probably the most used R function. `y` will be a vector of length 4.
+
+y <- c(1, 5, 7, 9)
+
+# math operations can be applied to vectors!
+
+y - 3
+```
+
+
+## Charcater Objects
+
+
+```{r}
+# Characters need to be enclosed within "" or ''. This is so that R knows you are not referring to an object ("x" is a character, just x is expected to be an object in your environment)
+x <- "Hello"
+y <- c("hello", "world", "what time is it?")
+```
+
+
+
+```{r}
+# No amthn operations with characters. this will not run
+y - 3
+```
+
+
+```{r}
+# Even if characters are numbers
+x <- c("2", "23", "4")
+# this will not run
+x - 6 
+```
+
+
+## Functions
+
+
+```{r}
+x <- c(2,10, 4, 11, 12, 6)
+# `sum()` is a function; x is the input and the sum of the elements of x is the output
+sum(x)
+```
+
+
+```{r}
+# R is case sensitive
+# there is no `Sum()` function, only `sum()`
+Sum(x)
+```
+
+
+```{r}
+# `Sort()`, by default, sorts vectors from smallest to largest (or in alphabetical order if you give it a character!)
+# Here, we use "decreasing = TRUE" to sort from largest to smallest. 
+
+sort(x, decreasing = TRUE)
+```
+
+
+## The Help Menu
+
+```{r}
+# run the empty function with "?" in front of it to open it's help menu
+?sort()
+# Alternatively you can also highlight or hover over the function (just the function, not the "()") and press F1.
+```
+
+## Packages
+
+```{r}
+# This is how you install packages from CRAN (explained below)
+install.packages("rio")
+```
+
+## Reading files: Working Directories
+
+```{r}
+# to load the functions from a package you need to run the `library(package)` function first
+library(rio)
+
+# rio also suggests to add a few extra packages, so also run the line below. It is the case that packages have functions that use functions from other packages to run, hence why rio suggests to also install other packages here
+install_formats()
+```
+
+
+## Setting Working Directory
+
+```{r}
+# `getwd()` is actually a function that take no input!
+getwd()
+
+## NOTE: because this script is a .qmd file, the working directory is automatically set to the location of the .qmd file. If you are just running this file, easiest is to move the .csv file to the same location as the .qmd document (which avoid needing to set working directories)
+```
+
+
+```{r}
+## SEE SLIDES FOR THIS PART
+
+# on windows, change "fabio" to your windows username
+# setwd("C:/Users/fabio/OneDrive/Desktop")
+```
+
+## Loading Data and Looking at it
+
+```{r}
+# this loads the dataset directly from one of my github pages so you don't need to download it
+
+dat <- import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/World_happiness_2024.csv")
+```
+
+```{r}
+# you can also click on the `dat` object in your environment to open it in the data viewer mode
+str(dat)
+```
+
+## `data.frame` Objects
+
+```{r}
+# When things don't work, check that you are using the right object class (e.g., some functions want data.frame objects and not matrix objects, which are pretty similar but not the same)
+class(dat)
+```
+
+```{r}
+# get the mean of the `Happiness_score` column 
+mean(dat$Happiness_score)
+```
+
+
+```{r}
+# Count countries per region
+table(dat$Region)
+```
+
+
+## Back to Dimensions: Subsetting
+
+
+```{r}
+# Select the element of [row 1, column 1] of the `dat` object
+dat[1,1]
+```
+
+```{r}
+# You can select the entire 2nd row of the "dat" object. If you leave a dimension empty when subsetting, it means "all of this dimension".
+dat[2,]
+```
+
+## More Subsetting Examples 
+
+```{r}
+# You can remove (or substitute!) elements in this way. The "dat_2" object will be "dat" without the first row. `nrow()` counts the rows of a 2D object. 
+dat_2 <- dat[-1,]
+nrow(dat_2)
+```
+
+```{r}
+# You refer to non-adjacent columns/rows through the `c()` function. This selects element 1,4,6 of column 6 of the `dat` object
+dat[c(1,4,6) ,6]
+```
+
+```{r}
+# To subset 1D elements, you simply do this. Here, I get the 5th element of the `x` object
+x <- c(3, 2, 5, 10, 23)
+x[5]
+```
+

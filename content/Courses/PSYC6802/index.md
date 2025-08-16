@@ -12,7 +12,7 @@ links:
 - icon: github
   icon_pack: fab
   name: Find code here
-  url: https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides
+  url: https://github.com/quinix45/Fabio-Setti/tree/main/static/PSYC6802
 ---
 <center> <img src="featured-hex.png"  width="60%"> </center>
 
@@ -21,11 +21,11 @@ links:
 
 <i class="fas fa-chalkboard-teacher"> </i> **Slides:** Click to access Lab presentations. To navigate slides, use left/right arrow keys (on laptop) or swipe left/right (on tablet). The slides are created with the <a href="https://quarto.org/docs/presentations/" target="_blank" class="inline-link">quarto</a> extension of <a href="https://posit.co/download/rstudio-desktop/" target="_blank" class="inline-link">RStudio</a> and use the <a href="https://revealjs.com" target="_blank" class="inline-link">revealjs</a> framework.
 
-<i class="fas fa-code"> </i> **Code:** Click to download raw R code that is used in the Lab slides. The code is included in a .Rmd file that is divided according to the title of each Lab slide.
+<i class="fas fa-code"> </i> **Code:** Click to download raw R code that is used in the Lab slides. The code is included in a .qmd file that is divided according to the title of each Lab slide.
 
 <i class="fas fa-bullseye"> </i> **Activity:** Click to download Lab activity with practice questions. A Lab activity presents questions of varying difficulty related to the respective Lab.
 
-<i class="fas fa-check"> </i> **Activity solution:** Click to download solutions to Lab activity as a .Rmd file. The solutions presented are just one of many ways to solve the activity questions.
+<i class="fas fa-check"> </i> **Activity solution:** Click to download solutions to Lab activity as a .qmd file. The solutions presented are just one of many ways to solve the activity questions.
 
 
 <script>
@@ -47,34 +47,67 @@ links:
           link.click();
           document.body.removeChild(link);
         } else {
-          // Show alert instead
-          alert(`This file will be available for download on ${availableAfter.toLocaleString()}.`);
+          // Show alert instead (no seconds)
+          alert(`This file will be available for download on ${availableAfter.toLocaleString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+          })}.`);
         }
       });
     });
   });
 </script>
 
+<script>
+  function downloadCSV(element) {
+    const csvPath = element.getAttribute('data-csv');
+    if (!csvPath) return;
+
+    const link = document.createElement('a');
+    link.href = csvPath;
+    link.download = csvPath.split('/').pop(); // Extract filename from path
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+</script>
+
+
+
+
 </br>
 </br>
 </br>
 
-<h3> 1. Intro to R </h3>
+<h3> 1. Introduction to R </h3>
 
-Coming soon! 
+This Lab introduces the R programming language and RStudio. This Lab also covers core concepts such as objects, functions, packages, and object subsetting.
+
+
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_1.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_1_code.qmd" download="Lab 1 code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+
+<span class="post-header">
+  <a class="btn-links mr2 ba dib" 
+     href="/PSYC6802/Lab Activities/Lab_1_activity.pdf" 
+     target="_blank" 
+     rel="noopener" 
+     data-csv="/PSYC6802/Lab Activities/Lab_Activity_Data/Mammal_Sleep.csv"
+     onclick="downloadCSV(this)">
+    <i class="fas fa-bullseye"></i> Activity
+  </a>
+</span>
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 1.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-08-29T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_1_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 1 Code.Rmd" download="Lab 1 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-1-Activity.pdf" download="Lab 1 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 1 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 

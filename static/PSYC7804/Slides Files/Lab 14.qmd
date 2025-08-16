@@ -12,7 +12,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 14: Regression Diagnostics"
+      footer: "PSYC 7804 - Lab 14: Regression Diagnostics"
       width: 1280
       height: 720
       chalkboard: true
