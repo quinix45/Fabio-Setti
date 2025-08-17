@@ -7,17 +7,15 @@ header-includes:
   - \onehalfspacing
 ---
 
-Use Quarto to create a pdf document of your results. When you are done (or when lab time runs out), submit bioth your code document and pdf document to Blackboard. **This assignment is not graded aside from participation points.**
+Use Quarto to create a pdf document of your results. When you are done (or when lab time runs out), submit both your code document and pdf document to Blackboard. **This assignment is not graded aside from participation points.**
 
-First make sure that you download the `Shark_Tank_US.csv` dataset. This is data about the US version of [Shark Tank](https://en.wikipedia.org/wiki/Shark_Tank){target="_blank"}, a business reality TV show. Make sure that this file is in your working directory (you may want/need to change your working directory).
-
+First make sure that you [download](https://fabio-setti.netlify.app/data/World_happiness_2024.csv){target="_blank"} the `Shark_Tank_US.csv` dataset. This is data about the US version of [Shark Tank](https://en.wikipedia.org/wiki/Shark_Tank){target="_blank"}, a business reality TV show. Make sure that this file is in your working directory (you may want/need to change your working directory).
 
 ```{r}
 #| eval: false
 #| include: true
 
 library(tidyverse)
-
 ST <- rio::import("Shark_Tank_US.csv")
 ```
 

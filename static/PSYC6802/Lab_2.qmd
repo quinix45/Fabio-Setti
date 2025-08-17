@@ -96,15 +96,13 @@ The `e1071` [@meyer2024] package contains a bunch of machine learning functions.
 
 You can open the data without any downloads with the line below. see [Here](https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%201#/how-i-will-fix-everyones-working-directory-issues){target="_blank"} for *why* and *how* I do it. 
  
-
-
 ```{r}
 #| eval: true
 #| echo: true 
 #| code-line-numbers: false
 #| classes: code-125
 
-WH_2024 <- rio::import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/World_happiness_2024.csv")
+WH_2024 <- rio::import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
 ```
 
 <div style="font-size: 22px"> We'll use the [2024 world happiness report](https://www.worldhappiness.report/ed/2024){target="_blank"} data again. </div>

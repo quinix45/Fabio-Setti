@@ -97,7 +97,7 @@ sqrt(num/den)
 
 # Importing Data and Subsetting
 
-**6.** Import the **mammal_sleep.csv** data set and name it **dat**. you can find the description of the variables in the data set here (https://www.openintro.org/data/index.php?data=mammals). Additionally, there is an extra variable, *primate*, that specifies whether the mammal is a primate or not. Explore the data either visually or with the `str()` function to get a better sense of what you are looking at!
+**6.** Click [here](https://fabio-setti.netlify.app/data/Mammal_Sleep.csv){target="_blank"} to download the **Mammal_Sleep.csv** file, import it into R, and name it `dat`. You can find the description of the variables in the data set here (https://www.openintro.org/data/index.php?data=mammals). Additionally, there is an extra variable, *primate*, that specifies whether the mammal is a primate or not. Explore the data either visually or with the `str()` function to get a better sense of what you are looking at!
 
 ```{r}
 # make sure you have the data in the same working directory. For lab activity I create a folder named "Lab_Activity_Data" where I store all the data I will need for lab activities (If this is confusing come ask me to explain it!). 
