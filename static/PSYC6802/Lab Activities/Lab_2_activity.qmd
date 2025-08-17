@@ -7,13 +7,130 @@ header-includes:
   - \onehalfspacing
 ---
 
-In this lab, we will reproduce some of the graphs made for the Shark Tank data from Lecture 1. Use R Markdown to create a Word or pdf document of your results. When you are done (or when lab time runs out), check in with the TA to receive participation points for the day. **This assignment is not graded aside from participation points.**
+Use Quarto to create a pdf document of your results. When you are done (or when lab time runs out), submit bioth your code document and pdf document to Blackboard. **This assignment is not graded aside from participation points.**
+
+First make sure that you download the `Shark_Tank_US.csv` dataset. This is data about the US version of [Shark Tank](https://en.wikipedia.org/wiki/Shark_Tank){target="_blank"}, a business reality TV show. Make sure that this file is in your working directory (you may want/need to change your working directory).
 
 
-Dowload the 
+```{r}
+#| eval: false
+#| include: true
 
-First make sure that you download the "Lab_02_Shark_Tank.csv" dataset. Make sure that this file is in your working directory (you may want to change your working directory). See Lab 1 for help with this step. 
+library(tidyverse)
 
-The following code will read in the TDF data as a tibble.
+ST <- rio::import("Shark_Tank_US.csv")
+```
 
 
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+library(tidyverse)
+ST <- rio::import("Lab_Activity_Data/Shark_Tank_US.csv")
+```
+
+
+Recreate the following graphs to the best of your ability (feel free to start with any one you please). Use the `ggplot` help pages and the internet to help you! We don't expect you reproduce every aspect of every plot today, but we want to give you some real-world problem-solving practice. After lab today, we'll give you the source code for you to review on your own time.
+
+\newpage
+
+## Plot 1
+
+```{r}
+#| echo: false
+
+ST %>%
+  filter(`Got Deal` == 1) %>% # filter only those pitches that received deals
+  ggplot(aes(x = `Deal Valuation` / 1e6, # deal valuation in millions of dollars (1e6 is short for 1,000,000)
+             y = `Total Deal Equity`, # y axis variable
+             color = Industry)) + # different colored points for different industries
+  geom_point() + # scatterplot
+  theme_classic() + # classic theme does not include background grid lines
+  scale_x_sqrt() + # square root scale transformation
+  labs(x = "Deal Valuation (in Millions)") # pretty x axis label
+```
+
+Plot 1 checklist:
+
+* Filter only those pitches that received deals
+* Transform Deal Valuation (in USD) to millions of USD
+* Plot different industries in different colors
+* Create a scatterplot with deal valuation on *x*-axis and total deal equity on *y*-axis
+* Make sure *x*-axis label matches the plot
+* Choose a plotting theme that omits the background grid lines
+* "Stretch" the *x*-axis scale using square root scaling
+
+## Plot 2
+
+```{r}
+#| echo: false
+
+ST %>%
+  group_by(Industry) %>%
+  mutate(propFem = mean(`Pitchers Gender` == "Female", na.rm = TRUE)) %>% # calculate proportion female for each industry
+  ggplot(aes(fct_reorder(Industry, propFem), # order Industry by proportion female
+             fill = `Pitchers Gender`)) + # color bar plots by gender
+  geom_bar(position = "fill") + # create stacked box plots that take up the entire row
+  coord_flip() + # switch x and y axes
+  labs(x = "Industry", y = "Relative Frequency") + # x and y axis labels
+  scale_fill_brewer(palette = "Dark2") # match color palette
+```
+
+Plot 2 checklist:
+
+* For each industry, calculate the proportion of pitchers that are female. Use the argument `na.rm = TRUE` to avoid `NA` proportions when the average involves `NA` values of gender
+
+* Reorder the levels of the `Insdustry` variable by levels of Proportion Female (previous step)
+
+* Create a stacked bar plot that fills the plotting space
+
+* Use different colors for different genders
+
+* Different industries should be in different rows
+
+* Match the *x* and *y*-axis labels
+
+* To match colors exactly, use the "Dark2" palette from the `RColorBrewer` package (see `scale_fill_brewer` function in `ggplot2`)
+
+## Plot 3
+
+```{r}
+#| echo: false
+
+ST %>% 
+  group_by(`Season Number`, `Episode Number`) %>%
+  
+  ## way 1 of filtering data so that there is one row per episode
+  mutate(Pitch = 1:n()) %>% # number pitches within each episode
+  filter(Pitch == 1, !is.na(`US Viewership`)) %>% ungroup %>%
+
+  ## way 2 of filtering data so that there is one row per episode
+  # summarize(`US Viewership` = mean(`US Viewership`, na.rm = TRUE), .groups = "keep") %>% # doesn't have to be the mean, could be min, max, first value, etc. 
+  # filter(!is.na(`US Viewership`)) %>%
+  
+  ggplot(aes(factor(`Season Number`), # convert Season number to a factor
+             `US Viewership`)) + 
+   geom_boxplot() + # create boxplots
+   geom_jitter(width = .2) + # jittered scatter plot
+   theme_light() + # plot theme 
+   labs(x = "Season Number", y = "Average Episode Viewership (millions)") # change x and y labels
+```
+
+Plot 3 checklist
+
+* This plot includes one point per **Episode** rather than one point per **pitch**. Therefore, before plotting we want to filter the data so that there is only one row per episode. There are several ways to do this.
+
+* One episode has missing values of `US Viewership`. Omit this episode from the plot.
+
+* Season number should be converted to a factor type variable
+
+* Create boxplots
+
+* Create jittered scatterplots with width of .2
+
+* Choose a theme that matches the picture
+
+* Match *x* and *y*-axis labels
