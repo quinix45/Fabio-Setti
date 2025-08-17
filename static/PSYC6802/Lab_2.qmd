@@ -43,6 +43,7 @@ build: local
 # run for packages that you have not installed yet
 install.packages("tidyverse")
 install.packages("rio")
+install.packages("e1071")
 ```
 
 ```{r}
@@ -54,6 +55,7 @@ install.packages("rio")
 
 library(tidyverse)
 library(rio)
+library(e1071)
 ```
 
 
@@ -77,6 +79,11 @@ The `ggplot2` package [@wickham2024] is the most popular R package for data visu
 ### `rio`
 
 The `rio` package [@becker2024] developers describe this package as the *Swiss-Army Knife for Data I/O*. The `import()` and `export()` functions can import/export just about any data type.
+
+### `e1071`
+
+The `e1071` [@meyer2024] package contains a bunch of machine learning functions. We will only use it to calculate skewness and kurtosis. 
+
 
 :::
 
@@ -108,10 +115,906 @@ reactable::reactable(WH_2024,
                      pagination = FALSE, highlight = TRUE, height = 300)
 ```
 
+:::
+::::
+
+## Ways Of Taking a Look at the data
+
+Here are two similar ways of taking a general look at our data. 
+
+:::: {.columns}
+::: {.column width="50%"}
+
+As shown in Lab 1, the base R function is `str()`
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| class-output: hscroll
+
+str(WH_2024)
+```
+
+
+:::
+::: {.column width="50%"}
+
+The `dplyr` function to look at data is `glimpse()`
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| class-output: hscroll
+
+
+glimpse(WH_2024)
+```
+
+:::
+::::
+
+Personally, I usually just use the bulit-in RStudio viewer to look at data. You can open it by clicking on the `WH_2024` object in the environment or by running `View(WH_2024)`.
+
+
+## Factor Variables
+
+
+
+## Tables and Porportions
+
+We have also seen the `table()` function in Lab 1. Here we count the number of countries in each `Region`:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| class-output: hscroll
+
+table(WH_2024$Region)
+```
+
+:::: {.columns}
+::: {.column width="50%"}
+
+What if we want the proportion of countries in each region? We divide by the total number of countries.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| class-output: hscroll
+
+# many ways to get the total. Here I just get the rows of the data since every row is an individual country
+table(WH_2024$Region)/nrow(WH_2024)
+```
+:::
+
+::: {.column width="50%"}
+
+
+Of course we can get percentages by multiplying the proportions by $100$
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| class-output: hscroll
+
+table(WH_2024$Region)/nrow(WH_2024)*100
+```
+:::
+::::
+
+
+## Central Tendency: Mode 
+
+The **mode** is the value that occurs the most in a set of observations. In practice we would calculate the mode only for discrete () or ordinal data (e.g., Likert scales).
+
+:::: {.columns}
+::: {.column width="50%"}
+
+There is no function that directly calculates the mode, but finding the values that occurs the most in a vector is a very simple task. Here we used the `which.max()`
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+tab <- table(WH_2024$Region)
+# we give the output of table(WH_2024$Region) as the input to which.max()
+which.max(tab)
+```
+Given a vector of numbers, the `which.max()` function returns the *index* of the highest value. Thus *Africa* is the mode of the `Region` variable. 
+
+:::
+::: {.column width="50%"}
+
+Let's say that at the same time I would like to know how many times the mode occurs. Instead of just printing all the values of our table, much more efficient is:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+tab[which.max(tab)]
+```
+Here we use the fact that `which.max()` always gives the index of th highest value (`1`, the first one, in this case). Then we extract that value from the `tab` object by using the the `[]` operator
+
+:::
+::::
+
+## Central Tendency: Mean and Median
+
+The mean and median are measures of *central tendency*. We use them to describe values around which data tends to cluster.
+
+:::: {.columns}
+::: {.column width="50%"}
+
+- **Mean:** $\bar{x} = \frac{\sum x_i}{n}$, where the numerator is the sum of all the observations and $n$ is the sample size.  
+
+- **Median:** The value at the 50<sup>th</sup> percentile (more about percentiles later)
+
+The mean is by far more popular than the median for [mathematical reasons](https://www.probabilitycourse.com/chapter3/3_2_2_expectation.php){target="_blank"}, but is influenced by *outliers*
+
+In the case on the right, the median better describes the central tendency of the `x` vector.
+
+:::
+::: {.column width="50%"}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+mean(WH_2024$Happiness_score)
+```
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+median(WH_2024$Happiness_score)
+```
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# some values with an outlier
+x <- c(3,4,5,6,7,8,3,4,5,6,7,90)
+mean(x)
+median(x)
+```
+
+:::
+::::
+
+Still, to describe continuous or ordinal variables, we generally use the mean. 
+
+## Dispersion: Variance and Standard Deviation
+
+The variance and standard deviation (SD) are measures of how "spread out" the data is. Mathematically, they are both measures of how distant observations are from the mean on average. 
+
+:::: {.columns}
+::: {.column width="50%"}
+
+- **Variance:** $S^2 = \frac{\sum (x_i - \bar{x})^2}{n - 1}$, where the numerator is the sum of all the squared differences between each observation ($x_i$) and the mean ($\bar{x}$). The denominator simply divides by the total number of observations ($n$) [minus 1](https://en.wikipedia.org/wiki/Bessel%27s_correction){target="_blank"}. 
+
+- **Standard deviation:** $S = \sqrt{\frac{\sum (x_i - \bar{x})^2}{n - 1}}$, which is simply the square root of the variance. 
+:::
+::: {.column width="50%"}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+var(WH_2024$Happiness_score)
+```
+</br>
+</br>
+</br>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# same as `sqrt(var(WH_2024$Happiness_score))`
+sd(WH_2024$Happiness_score)
+```
+
+:::
+::::
+
+
+:::{.callout-note}
+### Variance or Standard Deviation? 🤔
+
+Glossing over a ton of mathematical nuances, the SD is the measure of dispersion that you should use. Why? The Variance *squares* your variable, making it into *squared units*, which are not very intuitive. By taking the square root of the variance, the SD turns it back into the *original units of the variable*, making it much easier to understand!
+
+:::
+
+## Shape: Skewness and Kurtosis
+
+Skewness and kurtosis are statistics that describe the *shape* of the distribution of some data.
+
+:::: {.columns}
+::: {.column width="50%"}
+- **Skewness:** describes the *degree and direction of asymmetry* in a distribution. If it is negative, the distribution will have a left tail. If it is positive, the distribution will have a right tail. 
+
+
+- **Kurtosis:** describes the *peakedness* of a distribution. Negative values mean that the distribution is more flat than a normal distribution, while positive values imply that the distribution is more peaked than a normal distribution.
+
+:::
+::: {.column width="50%"}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+e1071::skewness(WH_2024$Happiness_score)
+```
+
+</br>
+</br>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+e1071::kurtosis(WH_2024$Happiness_score)
+```
+:::
+::::
+
+:::{.callout-note}
+## The `::` Operator
+
+The `::` operator is used to refer to a specific function from a package. So above, for example, I used the `kurtosis()` function from the `e1071` package. The difference between this and running `library(e1071)` followed by `kurtosis()` is that I am no loading the full `e1071` package. One of the advantage is that it makes it clear what package the `kurtosis()` function comes from; the other advantage is that it avoids [package conflicts](https://stats.oarc.ucla.edu/r/faq/how-does-r-handle-overlapping-object-names){target="_blank"}.
+
+
+:::
+
+## Interactive Normal Distribution
+
+:::: {.columns}
+::: {.column width="80%"}
+<iframe width="90%" height="600px" src="https://fabiosetti.shinyapps.io/Skew_Normal_distribution/"> </iframe>
+:::
+::: {.column width="20%"}
+
+Notice how the mean, median, and mode are no longer the same after you add some skewness.
+
+:::{.callout-note}
+## Mode again?
+I mentioned that we would not calculate the mode for continuous variables. Indeed, in the case of `Happiness_score`, no mode exists because all the values are different. However, when talking about a distribution (like the one on the left), the mode is defined as the *peak of the distribution*. 
+:::
 
 
 :::
 ::::
+
+
+## Percentiles
+
+Given a continuous variable, you can think of percentiles as cut-offs that divide observations into 100 ordered groups. Then, for example, we say that an observation above the 50<sup>th</sup> percentile is "above 50\% of the rest of the observations".
+
+:::: {.columns}
+::: {.column width="50%"}
+
+We use the `quantile()` function to find the percentile of a variable:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# find the 50th percentile (the median). The first argument is the vector of observations and the second argument is the desired percentile (from 0 to 1)
+quantile(WH_2024$Happiness_score, .5)
+```
+We can also get multiple percentiles at once like so:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# get the 25th, 50th, and 75th percentiles of Happiness_score
+quantile(WH_2024$Happiness_score, c(.25, .5, .75))
+```
+
+
+:::
+::: {.column width="50%"}
+
+You may also want to use the interquartile range (IQR) to describe the range between which 50\% of the observations fall. 
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+IQR(WH_2024$Happiness_score)
+```
+The IQR is just the 75<sup>th</sup> percentile minus the 25<sup>th</sup> percentile
+
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# disregard the "75%" that appears above the number
+quantile(WH_2024$Happiness_score, .75) - quantile(WH_2024$Happiness_score, .25)
+```
+:::
+::::
+
+## Plotting With `ggplot2`
+
+I use `ggplot2` a lot, but I can't say that I would be able to create any plot "off the top of my head". There are [many](https://ggplot2.tidyverse.org/reference/index.html){target="_blank"} `ggplot2` functions, so learning what all of them do is impossible. When using `ggplot2`, I recommend that you:  
+
+:::: {.columns}
+::: {.column width="50%"}
+
+<ul style="font-size: 24px">
+
+::: {.fragment fragment-index=1}
+  <li> Try to understand *the logic* behind `ggplot2`'s syntax. </li>
+:::
+
+::: {.fragment fragment-index=2}
+  <li> Start with a simple plot and progressively build upon it. </li>
+:::  
+
+::: {.fragment fragment-index=3}
+  <li> Read functions documentation (i.e., function help menu) when something does not work as expected. </li>
+:::
+
+::: {.fragment fragment-index=4}
+  <li> Look things up. Usually I start with some plot code that I find online that produces a similar plot to what I want, and then I modify/build on top of it. </li>
+:::  
+</ul>
+
+::: {.fragment fragment-index=5}
+::: {.callout-note}
+## GGplot fact that you did not ask for
+`ggplot2` is an implementation of [Leland Wilkinson](https://en.wikipedia.org/wiki/Leland_Wilkinson){target="_blank"}'s Grammar of Graphics, a scheme that breaks down data visualization into its components (e.g, lines, axes, layers...)
+:::
+:::
+
+:::
+::: {.column width="50%"}
+
+<center>
+
+![](Additional files/Images/idea.png){width="75%"}
+
+</center>
+
+:::
+::::
+
+## GGplot: The Canvas
+
+As mentioned in the box on the last slide, `ggplot2` breaks visualizations into small parts and pastes them on top of each other through the `+` operator.
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot() 
+```
+
+Just running `ggplot()` actually gives output! This is our "canvas"
+
+
+(You cannot see anything because the output is a white square, but it's there, I promise 😅)
+
+:::
+
+::: {.column width="70%"}
+
+```{r}
+ggplot() 
+```
+
+:::
+::::
+
+## GGplot: `aes()`
+
+We use the `aes()` function to defined coordinates. Note that the name of the data object (`WH_2024` in our case) is almost always the first argument of the `ggplot()` function. Let's define the axes and put `Social_support` on the *x*-axis and `Happiness_score` on the *y*-axis. 
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score)) 
+```
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score)) 
+```
+
+:::
+::::
+
+## GGplot: Scatterplot
+
+We use one of the `geom_...()` functions to add shapes to our plot. This is a the `geom_point()` function can be use to create scatterplots.
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+ geom_point()
+```
+
+::: {.callout-note}
+## `geom_...()`
+
+The `geom_...()` functions add geometrical elements to a blank plot ([see here](https://ggplot2.tidyverse.org/reference/){target="_blank"} for a list of all the `geom_...()` functions). Note that most `geom_...()` will *inherit* the X and Y coordinates from the ones given to the `aes()` function in the `ggplot()` function. 
+:::
+
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+ geom_point()
+```
+
+:::
+::::
+
+## GGplot: Themes
+
+Sometimes `ggplot2`'s default theme is not the best <span style="font-size: 22px"> (not sure what changed but it should look much worse than what I have on the slides) </span>. There are many [themes](https://r-charts.com/ggplot2/themes/){target="_blank"}
+ you can choose from, I like `theme_classic()`.
+ 
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+ geom_point() +
+ theme_classic()
+```
+
+::: {.callout-note}
+
+## Set plots theme globally
+
+You can also use the `theme_set()` that will set a default theme for all the plots that you create afterwards. So, in our case, we could run `theme_set(theme_classic())`, and the `theme_classic()` function would be applied to all the following plots, without needing to specify `+ theme_classic()` every time.
+
+:::
+:::
+
+::: {.column width="70%"}
+
+```{r}
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+ geom_point() +
+       theme_classic()
+```
+
+:::
+::::
+
+
+## GGplot: Add Regression Line
+
+We just drew a **linear regression line** through the data with `geom_smooth()`. The relation between `Social_support` and `Happiness_score` is strongly positive. 
+
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+ geom_point() +
+ theme_classic() +
+ geom_smooth(method = "lm", 
+             se = FALSE)
+
+# the argument `method = "lm"` tells `geom_smooth()` to draw a regression line. Other options exist 
+```
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+ geom_point() +
+ theme_classic() +
+       geom_smooth(method = "lm", se = FALSE)
+```
+:::
+::::
+
+## GGplot: Modify Plot Elements
+
+
+Here I made a bunch of changes to the plot. Spot the differences! What changes in the code resulted in what changes in the plot?
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+       geom_point(shape = 1) +
+       theme_classic() +
+       geom_smooth(method = "lm", 
+                   color = "red") +
+       labs(title = "Scatterplot Between Happiness and Social support By Country",
+            y= "Country Happiness", 
+            x = "Country Social Support") +
+       theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+             axis.title.x  = element_text(face= "bold", size = 12),
+             axis.title.y = element_text(face= "bold", size = 12))
+```
+
+<br>
+
+<div style="font-size: 24px">
+**NOTE**: The `theme()` function takes in many arguments ([see here](https://ggplot2.tidyverse.org/reference/theme.html){target="_blank"}) that allow you to modify font size, position of plot elements, and much more! </div>
+
+
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+       geom_point(shape = 1) +
+       theme_classic() +
+       geom_smooth(method = "lm", 
+                   color = "red") +
+       labs(title = "Scatterplot Between Happiness and Social support By Country",
+            y= "Country Happiness", 
+            x = "Country Social Support") +
+       theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+             axis.title.x  = element_text(face= "bold", size = 12),
+             axis.title.y = element_text(face= "bold", size = 12))
+```
+
+ 
+:::
+::::
+
+
+## GGplot: Histograms
+
+Histograms are fairly useful for visualizing distributions of single variables. But you have to choose the number of `bins` appropriately.
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# set theme globally
+theme_set(theme_classic())
+
+ggplot(WH_2024,  
+       # note that we only need to give X, why?
+       aes(x = Happiness_score)) +
+       geom_histogram()
+```
+
+
+::: {.callout-note}
+## bins? 
+the number of **bins** is the number of bars on the plot. the `geom_histogram()` function defaults to 30 bins unless you specify otherwise (we indeed have 30 bars on the plot if you count them). 
+:::
+:::
+
+::: {.column width="70%"}
+
+```{r}
+# set theme globally
+theme_set(theme_classic())
+
+ggplot(WH_2024,  
+       # note that we only need to give X, why?
+       aes(x = Happiness_score)) +
+       geom_histogram()
+```
+
+:::
+::::
+
+There are a bit too many **bins**, so it is hard to get a good sense of the distribution. 
+
+
+## GGplot: Histograms bins
+
+Now that we have reduced the number of bins, the distribution looks more reasonable (still not the best though). 
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(WH_2024,  
+       aes(x = Happiness_score)) +
+       geom_histogram(bins = 13) 
+```
+
+:::
+
+
+::: {.column width="70%"}
+
+```{r}
+ggplot(WH_2024,  
+       aes(x = Happiness_score)) +
+       geom_histogram(bins = 13) 
+```
+
+:::
+::::
+
+## GGplot: Better Looking Histogram
+
+Here I just touched up the plot a bit. Notice the `scale_y_continuous(expand = c(0,0))` function. Try running the plot without it and see if you notice the difference!
+
+:::: {.columns}
+::: {.column width="30%"}
+
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(WH_2024,  
+       aes(x = Happiness_score)) +
+       geom_histogram(bins = 13, 
+                      color = "black",
+                      linewidth = .8,
+                      fill = "#7a0b80") +
+      scale_y_continuous(expand = c(0,0))
+```
+
+
+
+::: {.callout-note}
+## HEX color codes 
+
+The "#7a0b80" is actually a color. R supports HEX color codes, which are codes that can represent just about all possible colors. There are many online color pickers ([see here](https://htmlcolorcodes.com/color-picker/){target="_blank"} for example) that will let you select a color and provide the corresponding HEX color code.  
+:::
+
+:::
+::: {.column width="70%"}
+
+
+```{r}
+ggplot(WH_2024,  
+       aes(x = Happiness_score)) +
+       geom_histogram(bins = 13, 
+                      color = "black",
+                      linewidth = .8,
+                      fill = "#7a0b80") +
+      scale_y_continuous(expand = c(0,0))
+```
+
+:::
+::::
+
+
+## GGplot: Boxplots
+
+Box-plots very useful to get a sense of the variable's variance, range, and to check for presence of outliers. 
+
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(WH_2024,
+       aes(y = Happiness_score)) +
+       geom_boxplot()
+```
+
+
+
+::: {.callout-note}
+
+# Reading a Box-plot
+
+The square represents the interquartile range, meaning that the bottom edge is the $25^{th}$ percentile of the variable and the top edge is the $75^{th}$ percentile of the variable. The bolded line is the median of the variable, which is not quite in the middle of the box. This suggests some degree of skew. 
+:::
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(WH_2024,
+       aes(y = Happiness_score)) +
+       geom_boxplot()
+```
+
+:::
+::::
+
+
+## GGplot: Grouped Boxplots 
+
+Boxplots also work quite well to get a graphical representation of group differences. Let's plot `Happiness_score` by `Region`: 
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(WH_2024,
+       aes(y = Happiness_score,
+           x = Region)) +
+       geom_boxplot()
+```
+
+So, just by looking at this boxplot we can tell that there are some noticeble differences in the distribution of `Happiness_score` across `Region`
+:::
+
+::: {.column width="70%"}
+
+```{r}
+ggplot(WH_2024,
+       aes(y = Happiness_score,
+           x = Region)) +
+       geom_boxplot()
+```
+
+:::
+::::
+
+## GGplot: Kernel Density plots
+
+Kernel density plots do a similar job to histograms, but I tend to prefer them over histograms. 
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(WH_2024,
+       aes(x = Happiness_score)) +
+       geom_density() +
+       xlim(1, 10)
+```
+
+<div style="font-size: 24px"> The `xlim()` function takes in 2 values that define the lower and upper bound of the *x*-axis (from 1 to 10). </div>
+
+
+
+::: {.callout-note}
+# Kernel? 
+
+The word *kernel* takes on widely different meanings depending on the context. In this case it is a function that estimates the probability distribution of some data (the black line in the plot) by looking at the density of observations at every point on the $x$-axis. Kernel estimation is often referred to as a [non-parametric method](https://en.wikipedia.org/wiki/Nonparametric_statistics){target="_blank"}. 
+:::
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(WH_2024,
+       aes(x = Happiness_score)) +
+       geom_density() +
+       xlim(1, 10)
+```
+
+:::
+::::
+
+
+
+
+## Reporting 
+
 
 
 
