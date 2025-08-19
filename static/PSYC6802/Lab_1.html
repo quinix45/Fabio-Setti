@@ -114,7 +114,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="Lab_1_files/libs/revealjs/dist/theme/quarto-391e43b3eed944a2e2259324e88f92d2.css">
+  <link rel="stylesheet" href="Lab_1_files/libs/revealjs/dist/theme/quarto-14b6869c65f9db0f6aca2d531d776b2a.css">
   <link href="Lab_1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Lab_1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Lab_1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -230,7 +230,7 @@ Fabio Setti
 
 </section>
 <section id="r-and-rstudio" class="slide level2">
-<h2>R and Rstudio?</h2>
+<h2>R and RStudio?</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <center>
@@ -259,21 +259,27 @@ Thanks to the contribution of many users, nowadays R is quite similar to python 
 <div class="column" style="width:50%;">
 <p><br> <br></p>
 <center>
+<div class="fragment" data-fragment-index="2">
 <p style="font-size:32px;">
 There exist <em>many</em> programming languages and some do something better than others.
 </p>
+</div>
 <p><br></p>
+<div class="fragment fade-in" data-fragment-index="3">
 <p style="font-size:32px;">
 R works pretty well for data analysis and visualization and that’s why we use it 🤷
 </p>
+</div>
 </center>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
 <figure>
 <img src="Additional files/images/Programming_languages.jpg" alt="Programming Languages" style="max-width:100%;">
 <figcaption>
 Some popular programming languages
 </figcaption>
 </figure>
+</div>
 </div></div>
 </section>
 <section id="what-is-rstudio" class="slide level2">
@@ -298,22 +304,32 @@ Likewise, you do not need <strong>RStudio</strong> to use <strong>R</strong>. Ho
 </div>
 </div></div>
 <p><br></p>
+<div class="fragment" data-fragment-index="3">
 <p style="font-size:32px;">
 The people who make RStudio (<a href="https://posit.co/download/rstudio-desktop" target="_blank">https://posit.co/download/rstudio-desktop</a>) have no affiliation with the people who make R as far as I know.
 </p>
+</div>
 </section>
 <section id="coding" class="slide level2">
 <h2>Coding</h2>
 <p>To use R properly you will have to learn how to <em>code</em> (which may sound a bit scary 😟). Coding is like learning a foreign language: There is grammar and there is a logic to how you construct sentences. The exact same is true for programming <em>languages</em>. There is a lot I could say here, but just some advice:</p>
 <div class="columns">
 <div class="column" style="width:33%;">
+<div class="fragment" data-fragment-index="1">
 <p><strong>Errors and Mistakes:</strong> Your code (my code too!) will almost never work perfectly the first time around. Do not get frustrated; understand <em>why</em> your code does not work. Making mistakes over and over and fixing them is how your learn.</p>
+</div>
 </div><div class="column" style="width:33%;">
+<div class="fragment" data-fragment-index="2">
 <p><strong>Understand Your Code:</strong> Do not copy and paste code without understanding what it does. This may work for some of the assignments in this course, but it will eventually lead to <em>huge</em> mistakes when you are doing research on your own.</p>
+</div>
 </div><div class="column" style="width:33%;">
+<div class="fragment" data-fragment-index="3">
 <p><strong>Taking Shortcuts:</strong> There are many shortcuts you can take to write code (e.g., chatGPT). I <em>strongly discourage</em> using AI assistance to write code <u>if you are new to coding</u>. AI code may be wrong (or it may not be what you want), and you first need to develop the knowledge to know when and why code is wrong.</p>
+</div>
 </div></div>
-<p>If you have code problems, I recommend Googling your question and looking for other humans who have answered it (usually on <a href="https://stackoverflow.com" target="_blank">https://stackoverflow.com</a>)</p>
+<div class="fragment" data-fragment-index="4">
+<p>If you have code problems (and I am not around to help), I recommend Googling your question and looking for other humans who have answered it (usually on <a href="https://stackoverflow.com" target="_blank">https://stackoverflow.com</a>)</p>
+</div>
 </section>
 <section id="rstudio-what-am-i-looking-at" class="slide level2">
 <h2>RStudio: What Am I looking at?</h2>
@@ -372,13 +388,17 @@ You can actually write and run code directly in the console, but you cannot save
 <h2>Creating an R Script</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>Before we can do any coding, we need to open a new R script! You can open a new R script by following the steps in the image on the right, or by using pressing <strong>Cmd + Shift + N</strong> (Mac) or <strong>Ctrl + Shift + N</strong> (Windows).</p>
+<p>Before we can do any coding, we need to open a new R script! You can open a new R script by following the steps in the image on the right, or by using pressing <kbd>Crtl</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd>.</p>
+<div class="fragment" data-fragment-index="1">
 <p>A tab named “Untitled1” will appear in your source pane. This is where we are going to write code for today!</p>
 <p><img data-src="Additional%20files/images/Untitled1.png"></p>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>As any other file, you can later save this file anywhere on your computer. It will have the <em>.R</em> extension.</p>
 <center>
-<strong>Save the file and name it “Lab_1_code”</strong>
+👉 Save the file and name it “Lab_1_code” 👈
 </center>
+</div>
 </div><div class="column" style="width:50%;">
 <center>
 <p><img data-src="Additional%20files/images/New_R_Script.png" style="width:50.0%"></p>
@@ -398,22 +418,25 @@ In RStudio, you can either run one or more line of code at once, or run the whol
 <ul style="font-size: 28px;">
 <div class="fragment fade-in" data-fragment-index="2">
 <li>
-<strong>One or more lines</strong>: highlight the lines that you want to run and press <strong>CTRL+Enter</strong> (Windows) or <strong>CMD+Return</strong> (Mac)
+<strong>One or more lines</strong>: highlight the lines that you want to run and press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>Return</kbd> (Mac)
 </li>
 </div>
 <div class="fragment fade-in" data-fragment-index="3">
 <li>
-<strong>Entire Script</strong>: press <strong>CTRL+Shift+Enter</strong> (Windows) or <strong>CMD+Shift+Return</strong> (Mac).
+<strong>Entire Script</strong>: press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Enter</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Return</kbd> (Mac).
 </li>
 </div>
 </ul>
+<div class="fragment" data-fragment-index="4">
 <p>The <img data-src="Additional%20files/images/runbutton.png" style="width:10.0%"> button will also run the next runnable line of code with respect to your cursor.</p>
-<div class="fragment fade-in" data-fragment-index="4">
+</div>
+<div class="fragment fade-in" data-fragment-index="5">
 <center>
-Copy the <em>code chunk</em> on the right into your R script and try running the full script.
+👉 Copy the <em>code chunk</em> on the right into your R script and try running the full script. 👈
 </center>
 </div>
 </div><div class="column" style="width:40%;">
+<div class="fragment fade-in" data-fragment-index="1">
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># some basic math operations</span></span>
 <span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
@@ -425,6 +448,7 @@ Copy the <em>code chunk</em> on the right into your R script and try running the
 <span id="cb1-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># exponents</span></span>
 <span id="cb1-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div></div>
 </section>
@@ -452,6 +476,7 @@ Copy the <em>code chunk</em> on the right into your R script and try running the
 <p>R “reads” code until it find the end of a <em>statement</em> (code that produces output), and then expects the following statement to appear on a new line.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
 <p>For example:</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># The line below is a statement and will produce output</span></span>
@@ -461,6 +486,8 @@ Copy the <em>code chunk</em> on the right into your R script and try running the
 <pre><code>[1] 18</code></pre>
 </div>
 </div>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>However:</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># The this will not run (2 statements on the same line)</span></span>
@@ -473,7 +500,9 @@ Copy the <em>code chunk</em> on the right into your R script and try running the
               ^</code></pre>
 </div>
 </div>
+</div>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
 <p>Spacing among elements of a statement is irrelevant, but it is good practice to be reasonable and consistent.</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># This is not good practice, but it will run.</span></span>
@@ -487,6 +516,7 @@ Copy the <em>code chunk</em> on the right into your R script and try running the
 <span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>   <span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12</code></pre>
+</div>
 </div>
 </div>
 </div></div>
@@ -531,6 +561,7 @@ Copy the <em>code chunk</em> on the right into your R script and try running the
 </tbody>
 </table>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
 <p>Although it may no appear so, <code>:</code> turns out to be very convenient in many cases</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span><span class="sc">:</span><span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -538,35 +569,47 @@ Copy the <em>code chunk</em> on the right into your R script and try running the
 <pre><code>[1]  3  4  5  6  7  8  9 10</code></pre>
 </div>
 </div>
-<p>There exist other operators and <em>logical operators</em> as well, but I will talk about them if they come up.</p>
+<p>There exist other operators and <em>logical operators</em> as well, but I will talk about them as they come up.</p>
+</div>
 </div></div>
 <p><br></p>
+<div class="fragment" data-fragment-index="2">
 <center>
 <div style="font-size: 42px">
 If you are curious, you can find a more comprehensive list of R operators <a href="https://www.w3schools.com/r/r_operators.asp" target="_blank">here</a>
 </div>
 </center>
+</div>
 </section>
 <section id="objects" class="slide level2">
 <h2>Objects</h2>
 <p>Just as many other programming languages, R is <strong>object</strong>-oriented. You can think of objects as <u>containers where information is stored</u> (very important concept to remember).</p>
+<div class="fragment" data-fragment-index="1">
 <p>To create an object in R, you use “<strong>&lt;</strong>” + “<strong>-</strong>”, known as the <em>assignment operator</em>:</p>
+</div>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># This means x "is" (4 +5)*2. you can name objects whatever you want but the name cannot begin with a number or include special characters (?, !, etc...). </span></span>
 <span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> (<span class="dv">4</span> <span class="sc">+</span><span class="dv">5</span>)<span class="sc">*</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
 <p style="font-size:28px;">
-The keyboard shortcut for the assignment operator is <strong>“alt” + “-”</strong> (Win) or <strong>“Option” + “-”</strong> (Mac).
+The keyboard shortcut for the assignment operator is <kbd>alt</kbd> + <kbd>-</kbd> (Win) or <kbd>Option</kbd> + <kbd>-</kbd> (Mac).
 </p>
+</div>
 </div></div>
 <p><br></p>
 <div class="columns">
 <div class="column" style="width:60%;">
+<div class="fragment" data-fragment-index="2">
 <p>No output is produced. However, you will now see the <code>x</code> object appear in your environment!</p>
+</div>
+<div class="fragment" data-fragment-index="3">
 <p>R now knows that whenever you write <code>x</code> in your code, you mean <code>18</code>.</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -574,8 +617,9 @@ The keyboard shortcut for the assignment operator is <strong>“alt” + “-”
 <pre><code>[1] 21</code></pre>
 </div>
 </div>
+</div>
 </div><div class="column" style="width:40%;">
-<div class="fragment fade-in" data-fragment-index="3">
+<div class="fragment fade-in" data-fragment-index="2">
 <p><img data-src="Additional%20files/images/Object_x.png"></p>
 </div>
 </div></div>
@@ -584,6 +628,7 @@ The keyboard shortcut for the assignment operator is <strong>“alt” + “-”
 <h2>Types of Objects and Dimensions</h2>
 <p>Just like there are different types of containers (boxes, drawers, fridges, etc…), there are different types of R objects!</p>
 <p>The <code>x</code> objects that we just created is a <strong>numeric vector</strong> (type of object) of <strong>length 1</strong> 🤔</p>
+<div class="fragment" data-fragment-index="1">
 <p>A vector is a <strong>one-dimensional</strong> collection of elements. To create a vector with more than one element we can do the following:</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># `c()` is a function (more on functions later), and it stands for "concatenate". The `c()` binds elements together.`c()` is probably the most used R function. `y` will be a vector of length 4.</span></span>
@@ -597,9 +642,12 @@ The keyboard shortcut for the assignment operator is <strong>“alt” + “-”
 <pre><code>[1] -2  2  4  6</code></pre>
 </div>
 </div>
+</div>
+<div class="fragment" data-fragment-index="2">
 <center>
 <p>The concept of <em>dimensions</em> will become clearer later. In the meantime, can you think of some objects that may have more than 1 dimension? 🤓</p>
 </center>
+</div>
 </section>
 <section id="charcater-objects" class="slide level2">
 <h2>Charcater Objects</h2>
@@ -609,6 +657,7 @@ The keyboard shortcut for the assignment operator is <strong>“alt” + “-”
 <span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"Hello"</span></span>
 <span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"hello"</span>, <span class="st">"world"</span>, <span class="st">"what time is it?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="fragment" data-fragment-index="1">
 <p>you cannot apply any math operations to character objects</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># this will not run</span></span>
@@ -617,6 +666,8 @@ The keyboard shortcut for the assignment operator is <strong>“alt” + “-”
 <pre><code>Error in y - 3: non-numeric argument to binary operator</code></pre>
 </div>
 </div>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>Also note that you can create character objects/vectors that have numbers in them, but you will not be able to apply math operations to them:</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2"</span>, <span class="st">"23"</span>, <span class="st">"4"</span>)</span>
@@ -626,12 +677,14 @@ The keyboard shortcut for the assignment operator is <strong>“alt” + “-”
 <pre><code>Error in x - 6: non-numeric argument to binary operator</code></pre>
 </div>
 </div>
+</div>
 </section>
 <section id="functions" class="slide level2">
 <h2>Functions</h2>
 <p>A <strong>function</strong> is something that takes one or more objects as <em>input</em> and produces some <em>output</em>.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
 <p>R interprets anything that stars with letters and is followed by a <code>(</code> as a function, after which it executes the function until the next <code>)</code>.</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">6</span>)</span>
@@ -641,6 +694,8 @@ The keyboard shortcut for the assignment operator is <strong>“alt” + “-”
 <pre><code>[1] 45</code></pre>
 </div>
 </div>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>R is case sensitive, so <code>Sum()</code> will not work:</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># there is no `Sum()` function, only `sum()`</span></span>
@@ -649,7 +704,9 @@ The keyboard shortcut for the assignment operator is <strong>“alt” + “-”
 <pre><code>Error in Sum(x): could not find function "Sum"</code></pre>
 </div>
 </div>
+</div>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
 <p>Functions also have <strong>arguments</strong>, that allow you to tweak what the function does. Here <code>decreasing =</code> is an argument of the <code>sort()</code> function:</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># `Sort()`, by default, sorts vectors from smallest to largest (or in alphabetical order if you give it a character!)</span></span>
@@ -660,54 +717,65 @@ The keyboard shortcut for the assignment operator is <strong>“alt” + “-”
 <pre><code>[1] 12 11 10  6  4  2</code></pre>
 </div>
 </div>
+</div>
 </div></div>
-<p>Functions are at the core of anything we do in R. We will learn about many more functions as they come up. If you want to get a flavor of what function do, you can find a list <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html" target="_blank">here</a>.</p>
+<p>Functions are at the core of anything we do in R. We will learn about many more functions as they come up. If you want to get a flavor of some basic R functions, you can find a list <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html" target="_blank">here</a>.</p>
 </section>
 <section id="the-help-menu" class="slide level2">
 <h2>The Help Menu</h2>
 <p>Let’s say I ask Google for an R function that sorts vectors and I find the <code>sort()</code> function!…But how do I know about its arguments? How do I know whether it sorts in ascending or descending order by default? How do I know that the function does what <em>I</em> need? 🤔</p>
+<div class="fragment" data-fragment-index="1">
 <center>
 This is where RSstudio’s <strong>help menu</strong> comes to the rescue! 😀
 </center>
+</div>
 <div class="columns">
 <div class="column" style="width:60%;">
+<div class="fragment" data-fragment-index="1">
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># run the empty function with "?" in front of it to open it's help menu</span></span>
 <span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a>?<span class="fu">sort</span>()</span>
 <span id="cb28-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively you can also highlight or hover over the function (just the function, not the "()") and press F1.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
 <ul style="font-size: 22px;">
-<div class="fragment fade-in" data-fragment-index="3">
+<div class="fragment fade-in" data-fragment-index="2">
 <li>
 <strong>Description</strong>: Brief description of that the function does.
 </li>
 </div>
-<div class="fragment fade-in" data-fragment-index="4">
+<div class="fragment fade-in" data-fragment-index="3">
 <li>
 <strong>Usage</strong>: Shows default values of arguments (i.e., “decreasing” is set to FALSE unless you say otherwise).
 </li>
 </div>
-<div class="fragment fade-in" data-fragment-index="5">
+<div class="fragment fade-in" data-fragment-index="4">
 <li>
 <strong>Arguments</strong>: all the function arguments and what each one does!
 </li>
 </div>
 </ul>
-<div class="fragment fade-in" data-fragment-index="6">
-<p>There’s much more going on here, but notice the <code>{base}</code> after the name of the function. That is the <strong>Package</strong> the function comes from 🧐</p>
+<div class="fragment fade-in" data-fragment-index="5">
+<p>There’s much more going on here, but notice the <code>{base}</code> after the name of the function. That is the <strong>package</strong> the function comes from 🧐</p>
 </div>
 </div><div class="column" style="width:40%;">
+<div class="fragment" data-fragment-index="1">
 <p><img data-src="Additional%20files/images/Help_sort.png" style="width:90.0%"></p>
+</div>
 </div></div>
 </section>
 <section id="packages" class="slide level2">
 <h2>Packages</h2>
 <p>Usually, the base R functions are not enough for most of the tasks that one needs to accomplish in R. Often people have to create their own custom functions.</p>
+<div class="fragment" data-fragment-index="1">
 <p>A <strong>package</strong> is simply a collection of functions that other users make for everyone out of the kindness of their heart 🤗</p>
-<p>Let us install a package that makes opening data in R very smooth, the <code>rio</code> package <span class="citation" data-cites="becker2024">(<a href="#/references" role="doc-biblioref" onclick="">Becker et al., 2024</a>)</span>:</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>Let’s install a package that makes opening data in R very smooth, the <code>rio</code> package <span class="citation" data-cites="becker2024">(<a href="#/references" role="doc-biblioref" onclick="">Becker et al., 2024</a>)</span>:</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># This is how you install packages from CRAN (explained below)</span></span>
 <span id="cb29-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rio"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -716,23 +784,25 @@ This is where RSstudio’s <strong>help menu</strong> comes to the rescue! 😀
 The <code>install.packages()</code> function installs packages from the <a href="https://cran.r-project.org" target="_blank">comprehensive R archive network</a> (CRAN). Among other things, CRAN maintains a library of packages made by users.
 </p>
 </div>
-<div class="fragment fade-in" data-fragment-index="4">
+<div class="fragment fade-in" data-fragment-index="3">
 <p style="font-size:22px;">
 The process to get a package on CRAN is a bit lengthy (and sometimes packages get removed), so some people just upload their packages to <a href="github.com" target="_blank">Github</a>.
 </p>
 </div>
-<div class="fragment fade-in" data-fragment-index="5">
+<div class="fragment fade-in" data-fragment-index="4">
 <p style="font-size:22px;">
 To see all of the packages installed in your RStudio, you can navigate to your viewer pane and select “packages”.
 </p>
 </div>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="4">
 <p><img data-src="Additional%20files/images/Packages_viewer.png"></p>
+</div>
 </div></div>
 </section>
 <section id="reading-files-working-directories" class="slide level2">
 <h2>Reading files: Working Directories</h2>
-<p>We want to open the <strong>World_happiness_2024.csv</strong> data set with the <code>import()</code> function from the <code>rio</code> package. First we download the data (<a href="https://raw.githubusercontent.com/quinix45/PSYC-7804-Regression-Lab-Slides/main/Slides%20Files/Data/World_happiness_2024.csv" target="_blank">click</a> and then save the file). Then we load the <code>rio</code> package:</p>
+<p>We want to open the <strong>World_happiness_2024.csv</strong> data set with the <code>import()</code> function from the <code>rio</code> package. First we download the data (<a href="https://fabio-setti.netlify.app/data/World_happiness_2024.csv" target="_blank">click here</a>). Then we load the <code>rio</code> package:</p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell code-125">
@@ -745,14 +815,14 @@ To see all of the packages installed in your RStudio, you can navigate to your v
 </div><div class="column" style="width:50%;">
 <p>Now, we need to tell R how to find the <code>World_happiness_2024.csv</code> file. Here are a couple of ways of doing this:</p>
 </div></div>
-<div class="fragment fade-in" data-fragment-index="2">
+<div class="fragment fade-in" data-fragment-index="1">
 <ol type="1">
 <li><p style="font-size:24px;">
 Either you use the absolute file path (i.e., a unique address that identifies the location of all files on your computer)
 </p></li>
 </ol>
 </div>
-<div class="fragment fade-in" data-fragment-index="3">
+<div class="fragment fade-in" data-fragment-index="2">
 <ol start="2" type="1">
 <li><p style="font-size:24px;">
 Change your <em>working directory</em> (WD; the default folder where RStudio saves/looks for files) to where the data is (or move the data to your current WD). Your current WD is always displayed at the top of the R console pane next to the R version number.
@@ -760,9 +830,11 @@ Change your <em>working directory</em> (WD; the default folder where RStudio sav
 </ol>
 </div>
 <p><br></p>
+<div class="fragment" data-fragment-index="3">
 <center>
 I will show one quick way of dealing with working directories, which I don’t consider best. My preferred way by far is using <a href="https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects" target="_blank">RStudio projects</a>, which I may talk about at some point.
 </center>
+</div>
 </section>
 <section id="setting-working-directory" class="slide level2">
 <h2>Setting Working Directory</h2>
@@ -776,6 +848,7 @@ I will show one quick way of dealing with working directories, which I don’t c
 <pre><code>[1] "C:/Users/fabio/Dropbox/Work/Github repos/Fabio-Setti/static/PSYC6802"</code></pre>
 </div>
 </div>
+<div class="fragment" data-fragment-index="1">
 <p>I’ll change my current working directory to my Desktop with the <code>setwd()</code> function. This function takes the path to a location on your computer as input. For the Desktop:</p>
 <ul style="font-size: 24px">
 <li>
@@ -789,9 +862,11 @@ I will show one quick way of dealing with working directories, which I don’t c
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># on windows, change "fabio" to your windows username</span></span>
 <span id="cb33-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/fabio/OneDrive/Desktop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+</div>
 </div><div class="column" style="width:40%;">
 <p>Everyone will have something different here</p>
 <p><br> <br></p>
+<div class="fragment" data-fragment-index="2">
 <ul style="font-size: 24px">
 <li>
 For Mac, make sure that files you want to open are stored on your computer and not on the cloud (R does not see files stored on the cloud).
@@ -800,8 +875,11 @@ For Mac, make sure that files you want to open are stored on your computer and n
 OneDrive is really annoying on Windows and puts itself before my Desktop (😤). If you have OneDrive, this will likely happen to you too.
 </li>
 </ul>
+</div>
 </div></div>
+<div class="fragment" data-fragment-index="3">
 <p>Afterwards, move the <code>World_happiness_2024.csv</code> to your Desktop (which should now be your WD)</p>
+</div>
 </section>
 <section id="loading-data-and-looking-at-it" class="slide level2">
 <h2>Loading Data and Looking at it</h2>
@@ -813,6 +891,7 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <div class="cell code-125">
 
 </div>
+<div class="fragment" data-fragment-index="1">
 <p>This is data from the <a href="https://www.worldhappiness.report/ed/2024" target="_blank">2024 world happiness report</a>. The <code>str()</code> function can be used to get a lot of information about objects:</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># you can also click on the `dat` object in your environment to open it in the data viewer mode</span></span>
@@ -830,10 +909,12 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
  $ Corruption             : num  0.454 0.452 0.818 0.476 0.807 0.628 0.516 0.568 0.502 0.677 ...</code></pre>
 </div>
 </div>
+</div>
 </section>
 <section id="data.frame-objects" class="slide level2">
 <h2><code>data.frame</code> Objects</h2>
 <p>Although this information was given to us by the <code>str()</code> function, it is generally useful to first figure out what <em>type of object</em> we are dealing with:</p>
+<div class="fragment" data-fragment-index="1">
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># When things don't work, check that you are using the right object class (e.g., some functions want data.frame objects and not matrix objects, which are pretty similar but not the same)</span></span>
 <span id="cb37-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -842,8 +923,10 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 </div>
 </div>
 <p>the <code>dat</code> object is a <code>data.frame</code>. We will come across other type of objects eventually, but <a href="https://www.geeksforgeeks.org/r-language/r-objects" target="_blank">here</a> is a list of common ones.</p>
+</div>
 <div class="columns">
 <div class="column" style="width:30%;">
+<div class="fragment" data-fragment-index="2">
 <p>For <code>data.frame</code> objects you can use the <code>$</code> operator to refer to columns.</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># get the mean of the `Happiness_score` column </span></span>
@@ -852,7 +935,9 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <pre><code>[1] 5.530893</code></pre>
 </div>
 </div>
+</div>
 </div><div class="column" style="width:70%;">
+<div class="fragment" data-fragment-index="3">
 <p>Let’s also count how many countries are in each <code>Region</code>. The <code>table()</code> function is quite useful for counting categories</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat<span class="sc">$</span>Region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -864,12 +949,16 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
              8              2             11             21 </code></pre>
 </div>
 </div>
+</div>
 </div></div>
 </section>
 <section id="back-to-dimensions-subsetting" class="slide level2">
 <h2>Back to Dimensions: Subsetting</h2>
 <p>You may have realized that <code>data.frame</code> objects, unlike vectors, have <em>2 dimensions</em> (2D), <strong>rows</strong> and <strong>columns</strong>.</p>
+<div class="fragment" data-fragment-index="1">
 <p>Now, If objects are containers for information, then there must be a way to extract <em>only some</em> of the information stored in those containers 🧐 This is called <strong>subsetting</strong> (or <strong>indexing</strong>, depends on the context).</p>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>You can subset 2D objects by referring to the indices of their dimensions in this way <code>object_name[row number, column number]</code>:</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Select the element of [row 1, column 1] of the `dat` object</span></span>
@@ -878,6 +967,8 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <pre><code>[1] "Finland"</code></pre>
 </div>
 </div>
+</div>
+<div class="fragment" data-fragment-index="3">
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># You can select the entire 2nd row of the "dat" object. If you leave a dimension empty when subsetting, it means "all of this dimension".</span></span>
 <span id="cb45-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat[<span class="dv">2</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -886,6 +977,7 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 2      Denmark Western Europe           7.583   1.908           1.52
   Healthy_life_expectancy Freedom Generosity Corruption
 2                   0.699   0.823      0.204      0.452</code></pre>
+</div>
 </div>
 </div>
 </section>
@@ -900,6 +992,7 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <pre><code>[1] 139</code></pre>
 </div>
 </div>
+<div class="fragment" data-fragment-index="1">
 <p>You can also select non-adjacent elements:</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># You refer to non-adjacent columns/rows through the `c()` function. This selects element 1,4,6 of column 6 of the `dat` object</span></span>
@@ -908,6 +1001,8 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <pre><code>[1] 0.695 0.724 0.706</code></pre>
 </div>
 </div>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>…and the 1D case follows a similar logic:</p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># To subset 1D elements, you simply do this. Here, I get the 5th element of the `x` object</span></span>
@@ -917,6 +1012,7 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <pre><code>[1] 23</code></pre>
 </div>
 </div>
+</div>
 </section>
 <section id="is-all-of-this-worth-your-time" class="slide level2">
 <h2>Is all of this worth Your Time?</h2>
@@ -924,30 +1020,259 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <p>Some other reasons for adopting R:</p>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
 <ul>
-<li><p><strong>Free:</strong> R is free and will always be. SPSS and the like charge ridiculous amounts for licenses. (support free stuff, knowledge should be accessible)</p></li>
-<li><p><strong>Reproducibility:</strong> Ever heard of the <a href="https://en.wikipedia.org/wiki/Replication_crisis" target="_blank">replication crisis</a>? R makes it much easier to share code and analyses so that results can be reproduced and checked thoroughly.</p></li>
+<li><strong>Free:</strong> R is free and will always be. SPSS and the like charge ridiculous amounts for licenses. (support free stuff, knowledge should be accessible)</li>
 </ul>
+</div>
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li><strong>Reproducibility:</strong> Ever heard of the <a href="https://en.wikipedia.org/wiki/Replication_crisis" target="_blank">replication crisis</a>? R makes it much easier to share code and analyses so that results can be reproduced and checked thoroughly.</li>
+</ul>
+</div>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
 <ul>
-<li><p><strong>Open source:</strong> There are thousands of people constantly working on R packages, expanding R’s features every day.</p></li>
-<li><p><strong>Flexibility:</strong> R can do just about anything you need. Whereas if you use other software like SPSS, you will likely hit a wall because you need to do something that the software does not allow you to do.</p></li>
+<li><strong>Open source:</strong> There are thousands of people constantly working on R packages, expanding R’s features every day.</li>
 </ul>
+</div>
+<div class="fragment" data-fragment-index="4">
+<ul>
+<li><strong>Flexibility:</strong> R can do just about anything you need. Whereas if you use other software like SPSS, you will likely hit a wall because you need to do something that the software does not allow you to do.<br>
+</li>
+</ul>
+</div>
 </div></div>
 <p><br></p>
+<div class="fragment" data-fragment-index="5">
 <center>
-Learning R may be hard at first, but please believe me when I say that it will be well worth in the end 🤗
+Learning R may be hard at first, but please believe me when I say that it will be well worth it in the end 🤗
 </center>
+</div>
+</section>
+<section>
+<section id="section" class="title-slide slide level1 center">
+<h1></h1>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>But wait! One last thing 🫣 <br> <br> <br></p>
+<h1>
+Reporting With Quarto!
+</h1>
+</div><div class="column" style="width:40%;">
+<center>
+<p><img data-src="Additional%20files/images/quarto.png"></p>
+</center>
+</div></div>
+</section>
+<section id="what-is-quarto" class="slide level2">
+<h2>What is Quarto?</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
+<p><a href="https://quarto.org" target="_blank">Quarto</a> is an “open-source scientific and technical publishing system”. As mentioned on their main page, with quarto, you can:</p>
+<div class="fragment" data-fragment-index="1">
+<ul>
+<li>Create reports that seamlessly integrate plain text and R code (even <a href="https://www.python.org" target="_blank">python</a> and <a href="https://julialang.org" target="_blank">Julia</a>)</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li>Create documents and easily publish them online for everyone to access.</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="3">
+<ul>
+<li>Publish reproducible, production quality articles, presentations (e.g., these slides!), dashboards, websites, blogs, and books in HTML, PDF, MS Word, ePub, and more.</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="4">
+<center>
+<u> In this course, you will use quarto to produce PDF reports for your lab activities and homework assignments. </u>
+</center>
+</div>
+<div class="fragment" data-fragment-index="5">
+<p>Overall I am a big fan of quarto because it fosters accessibility, reproducibility, and transparency 😀</p>
+</div>
+</div><div class="column" style="width:30%;">
+<p><img data-src="Additional%20files/images/quarto.png"></p>
+</div></div>
+</section>
+<section id="setting-up-quarto-to-create-pdfs" class="slide level2">
+<h2>Setting Up Quarto To Create PDFs</h2>
+<p>Before we can create PDFs with quarto, there are <u><strong>2 important steps</strong></u> that you need to follow:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<center>
+<strong>Step 1:</strong>
+</center>
+<p>First, you need to install the <code>rmarkdown</code> package <span class="citation" data-cites="allaire2024">(<a href="#/references" role="doc-biblioref" onclick="">Allaire et al., 2024</a>)</span>.</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rmarkdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><a href="https://rmarkdown.rstudio.com" target="_blank">R Markdown</a> used to be the main way (and may still be) of creating reports in R. However, the RStudio folks have decided to <a href="https://quarto.org/docs/faq/rmarkdown.html" target="_blank">move to quarto</a>, and it will likely become more popular than R Markdown in the near future.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<center>
+<strong>Step 2:</strong>
+</center>
+<p>In general, most of the nice PDFs you see are created with <a href="https://en.wikipedia.org/wiki/LaTeX" target="_blank">LaTeX</a>. The last thing that we need is to install a LaTeX interpreter (kinda like needing R to run R code!).</p>
+<p>To install a LaTeX interpreter that quarto likes, go to the top of your screen and click <em>tools</em> → <em>terminal</em> → <em>new terminal</em></p>
+<p>A window named “terminal” will appear next to the R console. Go to the “terminal” window, type the following line :</p>
+<p><code>quarto install tinytex</code></p>
+<p>and the press <kbd>Enter</kbd> (Win) or <kbd>Return</kbd> (Mac)</p>
+</div>
+</div></div>
+</section>
+<section id="opening-a-quarto-file" class="slide level2">
+<h2>Opening a quarto file</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>quarto files have the <em>.qmd</em> extension. We can open a .qmd file by clicking <em>file</em> → <em>new file</em> → <em>quarto document</em>. You should see the window on right appear. Make sure you select PDF.</p>
+<div class="fragment" data-fragment-index="1">
+<p>Note the <em>Use visual markdown editor</em> check-box. Once you create the document you will have the option to switch between the visual and source editor:</p>
+</div>
+<ul style="font-size: 24px">
+<div class="fragment" data-fragment-index="2">
+<li>
+<strong>Source editor:</strong> The file will look like a plain code file. (I much prefer to use this)
+</li>
+</div>
+<div class="fragment" data-fragment-index="3">
+<li>
+<strong>Visual editor:</strong> The file will look more like a word doc and you will have some point-and-click shortcuts to edit text. This is more user friendly, although it can get a bit clunky.
+</li>
+</div>
+</ul>
+<div class="fragment" data-fragment-index="4">
+<p>Click on <strong>Create</strong> to create a .qmd document, which will already have some instructions in it.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<p><img data-src="Additional%20files/images/quarto_new.png"></p>
+</div></div>
+</section>
+<section id="creating-a-pdf" class="slide level2">
+<h2>Creating a PDF</h2>
+<p>Now you can click on <strong>Render</strong> at the top of the document; you will be asked to save the .qmd file. After you do, you will see a .pdf file appear where you saved your .qmd file.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>This is what the .qmd file looks like from the source editor view:</p>
+<p><img data-src="Additional%20files/images/quarto_template.png"></p>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<center>
+<p>The PDF file output:</p>
+<img data-src="Additional%20files/images/quarto_render.png" style="width:70.0%">
+</center>
+</div>
+</div></div>
+</section>
+<section id="the-yaml-header" class="slide level2">
+<h2>The YAML Header</h2>
+<p>The fist thing that we see in the .qmd file is the are some lines enclosed between two <code>---</code>. That is a <a href="https://quarto-tdg.org/yaml.html" target="_blank">YAML header</a>. The YAML header simply gives quarto some instruction to follow once you click the “Render” button.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<p>default YAML header:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb54-1"><a href=""></a><span class="pp">---</span></span>
+<span id="cb54-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Untitled"</span></span>
+<span id="cb54-3"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> pdf</span></span>
+<span id="cb54-4"><a href=""></a><span class="fu">editor</span><span class="kw">:</span><span class="at"> visual</span></span>
+<span id="cb54-5"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Add author to YAML header and change title:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb55-1"><a href=""></a><span class="pp">---</span></span>
+<span id="cb55-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Example"</span></span>
+<span id="cb55-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> Your name</span></span>
+<span id="cb55-4"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> pdf</span></span>
+<span id="cb55-5"><a href=""></a><span class="fu">editor</span><span class="kw">:</span><span class="at"> visual</span></span>
+<span id="cb55-6"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:50%;">
+<p><br></p>
+<p>Try to make the changes in the second code block and render the PDF again!</p>
+<p><br></p>
+<div class="fragment" data-fragment-index="2">
+<p>For this course, I don’t expect you to make any changes to the YAML header beyond modifying the title and adding your name as the author. Here is <a href="https://quarto.org/docs/reference/formats/pdf.html" target="_blank">a comprehensive list</a> of all the YAML options that exists for PDF documents in quarto.</p>
+</div>
+</div></div>
+</section>
+<section id="plain-text-and-code-chunks" class="slide level2">
+<h2>Plain Text and Code Chunks</h2>
+<p>.qmd files have two main parts <em>plain text</em> and <em>code chunks</em></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<strong>Plain text</strong>
+</center>
+<div class="fragment" data-fragment-index="1">
+<p>Any text outside code chunks is considered plain text. In the template .qmd file <em>“Quarto enables you to…document.”</em> is plain text. When creating PDF files from .qmd files, plain text accepts both Markdown (see <a href="https://www.markdownguide.org/cheat-sheet" target="_blank">here</a>) and LaTeX syntax.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>In this course, LaTeX syntax will only come up if you want to write Greek letters or math symbols (see <a href="https://ashki23.github.io/markdown-latex.html#latex" target="_blank">here</a>)</p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p>Anything in plain text between <code>$</code> signs is interpreted as LaTeX math. So, <code>$\beta$</code> will look like <span class="math inline">\(\beta\)</span>, or <code>$\sqrt{x}$</code> will look like <span class="math inline">\(\sqrt{x}\)</span> (LaTeX looks nice, so give it a try 🫣)</p>
+</div>
+</div><div class="column" style="width:50%;">
+<center>
+<strong>Code chunks</strong>
+</center>
+<div class="fragment" data-fragment-index="4">
+<p>Code chunks are anything that is enclosed between <code>```{r}</code> and <code>```</code></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb56-1"><a href=""></a><span class="in">```{r}</span></span>
+<span id="cb56-2"><a href=""></a><span class="in">1+1</span></span>
+<span id="cb56-3"><a href=""></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+<p>You can create a new code chunk with <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>I</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>Option</kbd> + <kbd>I</kbd> (Mac).</p>
+</div>
+<div class="fragment" data-fragment-index="5">
+<p>Code chunks can be run in many ways, one of them being the green arrow at their to right.</p>
+</div>
+<div class="fragment" data-fragment-index="6">
+<p>You can also modify how the chunks behave when rendered with <a href="https://rpubs.com/drgregmartin/1266667" target="_blank">chunk options</a> (e.g., your advisor does not know R, so you can hide the code and just show the output).</p>
+</div>
+</div></div>
+</section>
+<section id="more-about-code-chunks" class="slide level2">
+<h2>More about Code Chunks</h2>
+<p><strong>1.</strong> When quarto renders a .qmd file, it will run R chunks in order, one by one. This means that your code should work in sequence from the first chunk to the last chunk. For example:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>If you had this chunk</p>
+<pre><code>```{r}
+x + 5
+```</code></pre>
+</div><div class="column" style="width:50%;">
+<p>Followed later by this chunk first</p>
+<pre><code>```{r}
+x &lt;- 4
+```</code></pre>
+</div></div>
+<p>Your document will not render because in the <code>x + 5</code> part, R does not know what <code>x</code> is yet 🧐 I suggest that before you try rendering your document, you run <code>rm(list=ls())</code> to clear your environment and check that your code runs from start to finish!</p>
+<div class="fragment" data-fragment-index="1">
+<p><strong>2.</strong> You only need to install packages once. Do not leave <code>install.packages()</code> functions in your code chunks when trying to render; that will also likely cause issues.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p><strong>3.</strong> You can make your PDF documents look much better by modifying chunk options (e.g., hiding messages and warnings by using <code>#| message: false</code> and <code>#| warning: false</code> in your chunks). You really don’t have to do this, but I would really appreciate if you spent a tad bit more time improving how you PDFs look (makes grading homework easier 🥺)</p>
+</div>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-allaire2024" class="csl-entry" role="listitem">
+Allaire, J. J., Xie [aut, Y., cre, Dervieux, C., McPherson, J., Luraschi, J., Ushey, K., Atkins, A., Wickham, H., Cheng, J., Chang, W., Iannone, R., Dunning, A., filter), A. Y. (cph:. N. sections L., Schloerke, B., Sievert, C., Ryan, D., Aust, F., Allen, J., … filter), A. K. (pagebreak. L. (2024). <em>Rmarkdown: <span>Dynamic Documents</span> for <span>R</span></em>.
+</div>
 <div id="ref-becker2024" class="csl-entry" role="listitem">
 Becker, J., Chan, C., Schoch, D., Chan, G. C., Leeper, T. J., Gandrud, C., MacDonald, A., Zahn, I., Stadlmann, S., Williamson, R., Kennedy, P., Price, R., Davis, T. L., Day, N., Denney, B., Bokov, A., &amp; Gruson, H. (2024). <em>Rio: <span>A Swiss-Army Knife</span> for <span>Data I</span>/<span>O</span></em>.
 </div>
 </div>
 
-</section>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">

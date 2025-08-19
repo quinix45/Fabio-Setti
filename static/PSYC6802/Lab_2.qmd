@@ -116,12 +116,16 @@ reactable::reactable(WH_2024,
 :::
 ::::
 
+
 ## Ways Of Taking a Look at the data
 
 Here are two similar ways of taking a general look at our data. 
 
 :::: {.columns}
 ::: {.column width="50%"}
+
+
+::: {.fragment fragment-index=1}
 
 As shown in Lab 1, the base R function is `str()`
 
@@ -135,9 +139,13 @@ As shown in Lab 1, the base R function is `str()`
 str(WH_2024)
 ```
 
+:::
 
 :::
 ::: {.column width="50%"}
+
+
+::: {.fragment fragment-index=2}
 
 The `dplyr` function to look at data is `glimpse()`
 
@@ -151,12 +159,14 @@ The `dplyr` function to look at data is `glimpse()`
 
 glimpse(WH_2024)
 ```
+:::
 
 :::
 ::::
 
+::: {.fragment fragment-index=3}
 Personally, I usually just use the bulit-in RStudio viewer to look at data. You can open it by clicking on the `WH_2024` object in the environment or by running `View(WH_2024)`.
-
+:::
 
 ## Factor Variables
 
@@ -475,7 +485,310 @@ quantile(WH_2024$Happiness_score, .75) - quantile(WH_2024$Happiness_score, .25)
 :::
 ::::
 
-## Plotting With `ggplot2`
+#
+
+
+:::: {.columns}
+::: {.column width="70%"}
+</br>
+</br>
+</br>
+
+<h1> Data Manipulation with `dplyr` </h1>
+:::
+::: {.column width="30%"}
+
+<center>
+
+![](Additional files/images/Dplyr_hex_logo.png)
+
+</center>
+
+:::
+::::
+
+
+
+## An Overview of `dplyr`
+
+`dplyr` offers a host of function to manipulate data in R. You can more or less achieve anything `dplyr` does with base R functions, but it usually takes more work. Some `dplyr` functions that we will look at are:
+
+:::: {.columns}
+::: {.column width="50%"}
+
+- `select()`: Selects a specific set of columns in a `data.frame`. It can also be used to discard specific columns.
+
+- `mutate()`: Modifies or creates columns in a `data.frame`.
+:::
+
+::: {.column width="50%"}
+- `filter()`: filters row of a `data.frame` based on one or more conditions.
+
+- `gropu_by()` + `summarise()`: I almost always end up using these two functions together. `group_by()` groups the data and `summarise()` creates summaries for each group (makes more sense once you see it).
+
+:::
+::::
+
+Something neat about `tidyverse` functions such as the ones from `dplyr` is that they accept the *pipe operator*, `%>%`.
+
+Later we will see that the advantage of the pipe operator is that it allows to perform multiple actions (e.g., filter the data, than select a column, then compute some summary statistics) in a single statement!
+
+## The `select()` Function
+
+:::: {.columns}
+::: {.column width="50%"}
+
+We can select a subset of columns:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125 
+
+Select_EX1 <- WH_2024 %>% 
+                select(Region, Happiness_score)
+
+# check column names of Select_EX1 object
+colnames(Select_EX1)
+```
+We can also remove columns:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125 
+#| class-output: hscroll
+
+Select_EX2 <- WH_2024 %>% 
+                select(-Region, -Happiness_score)
+
+colnames(Select_EX2)
+```
+:::
+
+::: {.column width="50%"}
+
+
+Notice how the `%>%` *passes* the information to its left to the right. Oh, and you do not have to start a new line after `%>%`, it's just a convention for neater looking code 🤷
+
+
+<p>The keyboard shortcut to get the `%>%` is <kbd>Ctrl</kbd> + <kbd>shift</kbd> + <kbd>M</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>shift</kbd> + <kbd>M</kbd> (Mac) </p>
+
+</br>
+
+:::{.callout-note}
+### `select()` not Working?
+
+Sometimes your code will be perfectly fine but the `select()` function may give you problems.  There is a package called `MASS` that is often loaded in the background and also includes a function called `select()`, that does something completely different. Thus, you may be inadvertently be using the `select()` function from the `MASS` package 😱 this "issue" can be resolved by using the `::` operator and typing `dplyr::select(Region, Happiness_score)` in the first example on the left. Just keep this in mind if `select()` gives you trouble. 
+:::
+
+
+:::
+::::
+
+## The `filter()` Function
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+filter_EX1 <- WH_2024 %>% 
+                filter(Region == "Africa")
+# We are only left with rows where the Region variable has Africa
+nrow(filter_EX1)
+```
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+filter_EX2 <- WH_2024 %>% 
+                filter(Region == "Africa" & Happiness_score > 5)
+# We filter for 2 condition by using the `&`. We additionally ask for only countries that have `Happiness_score` above 5
+nrow(filter_EX2)
+```
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+filter_EX3 <- WH_2024 %>% 
+                filter(Region %in% c("Asia", "Africa"))
+# the `%in%` operator is very useful. It selects all the rows where the Region variable has Africa OR Asia! `%in%` means "equal any of"
+nrow(filter_EX3)
+```
+
+
+:::
+::: {.column width="50%"}
+
+As you can see on the left, there are many ways in which you can filter data. The catch is that it requires you knowing `conditional operators`:
+
+
+<div style="font-size: 24px">  
+| Operator | Description                                   |
+|----------|-----------------------------------------------|
+| `==`     | Equal to                                      |
+| `!=`     | Not equal to                                  |
+| `>`      | Greater than                                  |
+| `<`      | Less than                                     |
+| `>=`     | Greater than or equal to                      |
+| `<=`     | Less than or equal to                         |
+| `%in%`   | Equal any of                                 |
+| `!`      | Logical NOT                                   |
+| `&`      | Element-wise logical AND                      |
+| `|`      | Element-wise logical OR                       |
+</div>
+
+:::
+::::
+
+
+## The `mutate()` Function
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| class-output: hscroll
+
+mutate_EX1 <- WH_2024 %>% 
+               mutate(log_happiness = log(Happiness_score),
+                      # here I sum two columns
+                      free_gen = Freedom + Generosity)
+str(mutate_EX1)
+```
+
+
+:::
+::: {.column width="50%"}
+
+The `mutate()` function works by giving the name of the new variable on the left of the `=` sign and then the transformation of variables on the right. so, `new_var = some_transformation`. 
+
+On the left I create 2 new variables:
+
+- `log_happiness`, which is just a log transformation of the `Happiness_score` variable with the `log()` function.
+
+- `free_gen`, which is the sum of the `Freedom` and `Generosity` variable.
+
+:::
+::::
+
+
+## The `group_by()` and `summarise()` Functions
+
+As I mentioned, I generally use these functions togehter. Here is an example:
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+WH_2024 %>% 
+ group_by(Region) %>% 
+  summarise(mean_happy = mean(Happiness_score),
+            sd_happy = sd(Happiness_score))
+```
+
+
+:::
+::: {.column width="50%"}
+
+In this case, the `summarise()` function creates a new object (a `tibble`, which is essentially a `data.frame`) that includes the mean (`mean()`) and SD (`sd()`) of `Happiness_score` *for each* `Region`. 
+
+Just as before with the `mutate()` function, we need to name the resulting columns by specifying the names before the `=` sign.
+
+Note that this works because we first group the data by region using `group_by(Region)` and then pass it to `summarise()`. This would not be as easy without the `%>%` operator!
+
+:::
+::::
+
+## Concatenating `dplyr` Functions
+
+The `%>%` shines when needing to perform multiple data manipulations in a row. Here is an example:
+
+
+:::: {.columns}
+::: {.column width="60%"}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+# pass the data
+WH_2024 %>%
+  # select only two columns of interest
+  select(Region, Freedom) %>%
+    # filter for Asia and Eastern Europe countries only
+    filter(Region %in% c("Asia", "Eastern Europe")) %>%
+      # Group by Region
+      group_by(Region) %>%
+        # get the mean and median for the two regions
+        summarise(Free_Mean = mean(Freedom),
+                  Free_Median = median(Freedom))
+```
+
+:::
+::: {.column width="40%"}
+
+This is just a random example of how you can be very flexible in how you manipulate data with `dplyr`! 
+
+</br>
+
+As always, there are multiple ways of achieving the same outcome in R. I personally like the `dplyr` package for data manipulation, others may prefer base R functions 🤷
+
+
+:::
+::::
+
+
+
+
+# 
+
+
+:::: {.columns}
+::: {.column width="70%"}
+</br>
+</br>
+</br>
+
+<h1> Data Visualization with `ggplot2` </h1>
+:::
+::: {.column width="30%"}
+
+<center>
+
+![](Additional files/images/Ggplot2_hex_logo.png)
+
+</center>
+
+:::
+::::
+
+
+## Working With `ggplot2`
 
 I use `ggplot2` a lot, but I can't say that I would be able to create any plot "off the top of my head". There are [many](https://ggplot2.tidyverse.org/reference/index.html){target="_blank"} `ggplot2` functions, so learning what all of them do is impossible. When using `ggplot2`, I recommend that you:  
 
@@ -513,14 +826,14 @@ I use `ggplot2` a lot, but I can't say that I would be able to create any plot "
 
 <center>
 
-![](Additional files/Images/idea.png){width="75%"}
+![](Additional files/images/idea.png){width="75%"}
 
 </center>
 
 :::
 ::::
 
-## GGplot: The Canvas
+## The Canvas
 
 As mentioned in the box on the last slide, `ggplot2` breaks visualizations into small parts and pastes them on top of each other through the `+` operator.
 
@@ -552,7 +865,7 @@ ggplot()
 :::
 ::::
 
-## GGplot: `aes()`
+## Define Coordinates with `aes()`
 
 We use the `aes()` function to defined coordinates. Note that the name of the data object (`WH_2024` in our case) is almost always the first argument of the `ggplot()` function. Let's define the axes and put `Social_support` on the *x*-axis and `Happiness_score` on the *y*-axis. 
 
@@ -582,7 +895,7 @@ ggplot(WH_2024,
 :::
 ::::
 
-## GGplot: Scatterplot
+## Scatterplot
 
 We use one of the `geom_...()` functions to add shapes to our plot. This is a the `geom_point()` function can be use to create scatterplots.
 
@@ -621,7 +934,7 @@ ggplot(WH_2024,
 :::
 ::::
 
-## GGplot: Themes
+## Themes
 
 Sometimes `ggplot2`'s default theme is not the best <span style="font-size: 22px"> (not sure what changed but it should look much worse than what I have on the slides) </span>. There are many [themes](https://r-charts.com/ggplot2/themes/){target="_blank"}
  you can choose from, I like `theme_classic()`.
@@ -665,7 +978,7 @@ ggplot(WH_2024,
 ::::
 
 
-## GGplot: Add Regression Line
+##  Add Regression Line
 
 We just drew a **linear regression line** through the data with `geom_smooth()`. The relation between `Social_support` and `Happiness_score` is strongly positive. 
 
@@ -704,7 +1017,7 @@ ggplot(WH_2024,
 :::
 ::::
 
-## GGplot: Modify Plot Elements
+## Modify Plot Elements
 
 
 Here I made a bunch of changes to the plot. Spot the differences! What changes in the code resulted in what changes in the plot?
@@ -763,7 +1076,7 @@ ggplot(WH_2024,
 ::::
 
 
-## GGplot: Histograms
+## Histograms
 
 Histograms are fairly useful for visualizing distributions of single variables. But you have to choose the number of `bins` appropriately.
 
@@ -810,7 +1123,7 @@ ggplot(WH_2024,
 There are a bit too many **bins**, so it is hard to get a good sense of the distribution. 
 
 
-## GGplot: Histograms bins
+## Histograms bins
 
 Now that we have reduced the number of bins, the distribution looks more reasonable (still not the best though). 
 
@@ -842,7 +1155,7 @@ ggplot(WH_2024,
 :::
 ::::
 
-## GGplot: Better Looking Histogram
+## Better Looking Histogram
 
 Here I just touched up the plot a bit. Notice the `scale_y_continuous(expand = c(0,0))` function. Try running the plot without it and see if you notice the difference!
 
@@ -891,7 +1204,7 @@ ggplot(WH_2024,
 ::::
 
 
-## GGplot: Boxplots
+## Boxplots
 
 Box-plots very useful to get a sense of the variable's variance, range, and to check for presence of outliers. 
 
@@ -932,7 +1245,7 @@ ggplot(WH_2024,
 ::::
 
 
-## GGplot: Grouped Boxplots 
+## Grouped Boxplots 
 
 Boxplots also work quite well to get a graphical representation of group differences. Let's plot `Happiness_score` by `Region`: 
 
@@ -966,7 +1279,7 @@ ggplot(WH_2024,
 :::
 ::::
 
-## GGplot: Kernel Density plots
+## Kernel Density plots
 
 Kernel density plots do a similar job to histograms, but I tend to prefer them over histograms. 
 
@@ -1007,13 +1320,6 @@ ggplot(WH_2024,
 
 :::
 ::::
-
-
-
-
-## Reporting 
-
-
 
 
 

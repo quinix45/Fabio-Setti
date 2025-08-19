@@ -26,6 +26,8 @@
 
 
 ```{r}
+# this will not run
+
 (4 + 5)*2  6+6
 ```
 
@@ -175,7 +177,7 @@ getwd()
 ```{r}
 # this loads the dataset directly from one of my github pages so you don't need to download it
 
-dat <- import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/World_happiness_2024.csv")
+dat <- rio::import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
 ```
 
 ```{r}

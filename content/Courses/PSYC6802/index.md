@@ -61,22 +61,6 @@ links:
   });
 </script>
 
-<script>
-  function downloadCSV(element) {
-    const csvPath = element.getAttribute('data-csv');
-    if (!csvPath) return;
-
-    const link = document.createElement('a');
-    link.href = csvPath;
-    link.download = csvPath.split('/').pop(); // Extract filename from path
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-</script>
-
-
-
 
 </br>
 </br>
@@ -93,16 +77,9 @@ This Lab introduces the R programming language and RStudio. This Lab also covers
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_1_code.qmd" download="Lab 1 code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
+
 <span class="post-header">
-  <a class="btn-links mr2 ba dib" 
-     href="/PSYC6802/Lab Activities/Lab_1_activity.pdf" 
-     target="_blank" 
-     rel="noopener" 
-     data-csv="/PSYC6802/Lab Activities/Lab_Activity_Data/Mammal_Sleep.csv"
-     onclick="downloadCSV(this)">
-    <i class="fas fa-bullseye"></i> Activity
-  </a>
-</span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_1_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 
 <span class=" post-header">
@@ -113,22 +90,22 @@ This Lab introduces the R programming language and RStudio. This Lab also covers
 
 
 
-<h3> 2. Plotting/Reports </h3>
+<h3> 2. Data Exploration, Plotting, and Reporting </h3>
 
-Coming soon!
+This Lab goes over some basic descriptive statics, plotting with [`ggplot2`](https://ggplot2.tidyverse.org/index.html), and data manipulation with  [`dplyr`](https://dplyr.tidyverse.org). Additionally, this Lab also introduces [Quarto](https://quarto.org) as a tool for creating neat pdf reports.
 
 <span class="post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 2.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_2.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 2 Code.Rmd" download="Lab 2 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
 <span class="post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-2-Activity.pdf" download="Lab 2 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_2_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 2 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-09-14T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_2_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 

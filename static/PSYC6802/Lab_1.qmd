@@ -26,7 +26,7 @@ build: local
 ---
 
 
-## R and Rstudio? 
+## R and RStudio? 
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -75,11 +75,16 @@ RStudio:
 
 <center>
 
+::: {.fragment fragment-index=2}
 <p style="font-size:32px;"> There exist *many* programming languages and some do something better than others. </p>
+:::
+
 
 </br>
 
+:::{.fragment .fade-in fragment-index=3}
 <p style="font-size:32px;"> R works pretty well for data analysis and visualization and that's why we use it 🤷 </p>
+:::
 
 </center>
 
@@ -87,12 +92,12 @@ RStudio:
 :::
 ::: {.column width="50%"}
 
-
+::: {.fragment fragment-index=2}
 <figure>
   <img src="Additional files/images/Programming_languages.jpg" alt="Programming Languages" style="max-width:100%;">
   <figcaption>Some popular programming languages</figcaption>
 </figure>
-
+:::
 
 :::
 ::::
@@ -128,9 +133,12 @@ RStudio:
 
 </br>
 
+
+::: {.fragment fragment-index=3}
 <p style="font-size:32px;">
 The people who make RStudio ([https://posit.co/download/rstudio-desktop](https://posit.co/download/rstudio-desktop){target="_blank"}) have no affiliation with the people who make R as far as I know. 
 </p>
+:::
 
 ## Coding 
 
@@ -140,26 +148,33 @@ To use R properly you will have to learn how to *code* (which may sound a bit sc
 
 ::: {.column width="33%"}
 
+
+::: {.fragment fragment-index=1}
 **Errors and Mistakes:** Your code (my code too!) will almost never work perfectly the first time around. Do not get frustrated; understand *why* your code does not work. Making mistakes over and over and fixing them is how your learn.
+:::
 
 :::
 ::: {.column width="33%"}
 
+::: {.fragment fragment-index=2}
 **Understand Your Code:** Do not copy and paste code without understanding what it does. This may work for some of the assignments in this course, but it will eventually lead to *huge* mistakes when you are doing research on your own. 
-
+:::
 
 :::
 
 ::: {.column width="33%"}
 
+::: {.fragment fragment-index=3}
 **Taking Shortcuts:** There are many shortcuts you can take to write code (e.g., chatGPT). I *strongly discourage* using AI assistance to write code <u>if you are new to coding</u>. AI code may be wrong (or it may not be what you want), and you first need to develop the knowledge to know when and why code is wrong. 
+:::
 
 :::
 
 ::::
 
-
-If you have code problems, I recommend Googling your question and looking for other humans who have answered it (usually on [https://stackoverflow.com](https://stackoverflow.com){target="_blank"})
+::: {.fragment fragment-index=4}
+If you have code problems (and I am not around to help), I recommend Googling your question and looking for other humans who have answered it (usually on [https://stackoverflow.com](https://stackoverflow.com){target="_blank"})
+:::
 
 ## RStudio: What Am I looking at?
 
@@ -217,19 +232,23 @@ The RStudio interface is divided into **4 panes**:
 
 :::: {.columns}
 ::: {.column width="50%"}
-Before we can do any coding, we need to open a new R script! You can open a new R script by following the steps in the image on the right, or by using pressing **Cmd + Shift + N** (Mac) or **Ctrl + Shift + N** (Windows).
+Before we can do any coding, we need to open a new R script! You can open a new R script by following the steps in the image on the right, or by using pressing <kbd>Crtl</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>N</kbd>.
 
+::: {.fragment fragment-index=1}
+A tab named "Untitled1" will appear in your source pane. This is where we are going to write code for today!
 
-A tab named “Untitled1” will appear in your source pane. This is where we are going to write code for today!
 
 ![](Additional files/images/Untitled1.png)
+:::
 
+
+::: {.fragment fragment-index=2}
 As any other file, you can later save this file anywhere on your computer. It will have the *.R* extension.
 
 <center>
-**Save the file and name it "Lab_1_code"**
+👉 Save the file and name it "Lab_1_code" 👈
 </center>
-
+:::
 
 :::
 ::: {.column width="50%"}
@@ -259,27 +278,28 @@ R can perform just about any mathematical operation. At the same time, let’s s
 <ul style = "font-size: 28px;">
 
 :::{.fragment .fade-in fragment-index="2"}
-<li> **One or more lines**: highlight the lines that you want to run and press **CTRL+Enter** (Windows) or **CMD+Return** (Mac) </li>
+<li> **One or more lines**: highlight the lines that you want to run and press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>Return</kbd> (Mac) </li>
 :::
 
 :::{.fragment .fade-in fragment-index="3"}
-<li> **Entire Script**: press **CTRL+Shift+Enter** (Windows) or **CMD+Shift+Return** (Mac). </li>
+<li> **Entire Script**: press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Enter</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>Return</kbd> (Mac). </li>
 :::
 
 
 </ul>
 
-
+:::{.fragment fragment-index=4}
 The ![](Additional files/images/runbutton.png){width="10%"} button will also run the next runnable line of code with respect to your cursor. 
-
-:::{.fragment .fade-in fragment-index="4"}
-<center> Copy the *code chunk* on the right into your R script and try running the full script. </center>
 :::
 
+:::{.fragment .fade-in fragment-index="5"}
+<center> 👉 Copy the *code chunk* on the right into your R script and try running the full script. 👈</center>
+:::
 
 :::
 ::: {.column width="40%"}
 
+:::{.fragment .fade-in fragment-index="1"}
 ```{r}
 #| eval: false
 #| echo: true 
@@ -297,6 +317,7 @@ The ![](Additional files/images/runbutton.png){width="10%"} button will also run
 # exponents
 2^3
 ```
+:::
 
 :::
 ::::
@@ -337,12 +358,14 @@ The **#** sign represents comments. R will not run commented lines. Comments are
 
 ## A Note on how R Interprets Code
 
-R “reads” code until it find the end of a *statement* (code that produces output), and then expects the following statement to appear on a new line.
+R "reads" code until it find the end of a *statement* (code that produces output), and then expects the following statement to appear on a new line.
 
 
 :::: {.columns}
 ::: {.column width="50%"}
 
+
+::: {.fragment fragment-index=1}
 For example:
 
 ```{r}
@@ -356,6 +379,10 @@ For example:
 (4 +5)*2
 ```
 
+:::
+
+
+::: {.fragment fragment-index=2}
 However:
 
 ```{r}
@@ -369,12 +396,13 @@ However:
 
 (4 + 5)*2  6+6
 ```
-
+:::
 
 
 :::
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=3}
 Spacing among elements of a statement is irrelevant, but it is good practice to be reasonable and consistent.
 
 ```{r}
@@ -391,6 +419,7 @@ Spacing among elements of a statement is irrelevant, but it is good practice to 
 6  +
    6
 ```
+:::
 
 :::
 ::::
@@ -417,6 +446,8 @@ Spacing among elements of a statement is irrelevant, but it is good practice to 
 :::
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=1}
+
 Although it may no appear so, `:` turns out to be very convenient in many cases
 
 ```{r}
@@ -430,31 +461,36 @@ Although it may no appear so, `:` turns out to be very convenient in many cases
 3:10
 ```
 
+There exist other operators and *logical operators* as well, but I will talk about them as they come up.
+:::
 
-There exist other operators and *logical operators* as well, but I will talk about them if they come up.
 
 :::
 ::::
 
 </br>
 
+::: {.fragment fragment-index=2}
 <center>
 
 <div style="font-size: 42px"> If you are curious, you can find a more comprehensive list of R operators [here](https://www.w3schools.com/r/r_operators.asp){target="_blank"} </div>
 
 </center>
-
+:::
 
 ## Objects
 
 Just as many other programming languages, R is **object**-oriented. You can think of objects as <u>containers where information is stored</u> (very important concept to remember).
 
-To create an object in R, you use "**<**" + "**-**", known as the *assignment operator*:
 
+::: {.fragment fragment-index=1}
+To create an object in R, you use "**<**" + "**-**", known as the *assignment operator*:
+:::
 
 :::: {.columns}
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=1}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -466,11 +502,14 @@ To create an object in R, you use "**<**" + "**-**", known as the *assignment op
 x <- (4 +5)*2
 ```
 
-
 :::
+:::
+
 ::: {.column width="50%"}
 
-<p style="font-size:28px;"> The keyboard shortcut for the assignment operator is **"alt" + "-"** (Win) or **"Option" + "-"** (Mac). </p>
+::: {.fragment fragment-index=1}
+<p style="font-size:28px;"> The keyboard shortcut for the assignment operator is <kbd>alt</kbd> + <kbd>-</kbd> (Win) or <kbd>Option</kbd> + <kbd>-</kbd> (Mac). </p>
+:::
 
 :::
 
@@ -481,10 +520,13 @@ x <- (4 +5)*2
 
 :::columns
 ::: {.column width="60%"}
+
+::: {.fragment fragment-index=2}
 No output is produced. However, you will now see the `x` object appear in your environment!
+:::
 
 
-
+::: {.fragment fragment-index=3}
 R now knows that whenever you write `x` in your code, you mean `18`. 
 
 ```{r}
@@ -495,13 +537,13 @@ R now knows that whenever you write `x` in your code, you mean `18`.
 
 x + 3
 ```
-
+:::
 
 :::
 
 ::: {.column width="40%"}
 
-:::{.fragment .fade-in fragment-index="3"}
+:::{.fragment .fade-in fragment-index="2"}
 ![](Additional files/images/Object_x.png)
 :::
 :::
@@ -514,6 +556,8 @@ Just like there are different types of containers (boxes, drawers, fridges, etc�
 
 
 The `x` objects that we just created is a **numeric vector** (type of object) of **length 1** 🤔
+
+::: {.fragment fragment-index=1}
 
 A vector is a **one-dimensional** collection of elements. To create a vector with more than one element we can do the following:
 
@@ -531,13 +575,16 @@ y <- c(1, 5, 7, 9)
 
 y - 3
 ```
+:::
 
+
+::: {.fragment fragment-index=2}
 <center>
 
 The concept of *dimensions* will become clearer later. In the meantime, can you think of some objects that may have more than 1 dimension? 🤓
 
 </center>
-
+:::
 
 ## Charcater Objects
 
@@ -554,6 +601,7 @@ x <- "Hello"
 y <- c("hello", "world", "what time is it?")
 ```
 
+::: {.fragment fragment-index=1}
 you cannot apply any math operations to character objects
 
 ```{r}
@@ -566,7 +614,9 @@ you cannot apply any math operations to character objects
 # this will not run
 y - 3
 ```
+:::
 
+::: {.fragment fragment-index=2}
 Also note that you can create character objects/vectors that have numbers in them, but you will not be able to apply math operations to them:
 
 ```{r}
@@ -580,7 +630,7 @@ x <- c("2", "23", "4")
 # this will not run
 x - 6 
 ```
-
+:::
 
 ## Functions
 
@@ -588,6 +638,8 @@ A **function** is something that takes one or more objects as *input* and produc
 
 :::: {.columns}
 ::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
 R interprets anything that stars with letters and is followed by a `(` as a function, after which it executes the function until the next `)`.
 
 ```{r}
@@ -600,7 +652,9 @@ x <- c(2,10, 4, 11, 12, 6)
 # `sum()` is a function; x is the input and the sum of the elements of x is the output
 sum(x)
 ```
+:::
 
+::: {.fragment fragment-index=2}
 R is case sensitive, so `Sum()` will not work:
 
 ```{r}
@@ -613,10 +667,12 @@ R is case sensitive, so `Sum()` will not work:
 # there is no `Sum()` function, only `sum()`
 Sum(x)
 ```
-
+:::
 
 :::
 ::: {.column width="50%"}
+
+::: {.fragment fragment-index=3}
 Functions also have **arguments**, that allow you to tweak what the function does. Here `decreasing =` is an argument of the `sort()` function:
 
 
@@ -631,24 +687,27 @@ Functions also have **arguments**, that allow you to tweak what the function doe
 
 sort(x, decreasing = TRUE)
 ```
-
+:::
 
 :::
 ::::
 
-Functions are at the core of anything we do in R. We will learn about many more functions as they come up. If you want to get a flavor of what function do, you can find a list [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html){target="_blank"}.
+Functions are at the core of anything we do in R. We will learn about many more functions as they come up. If you want to get a flavor of some basic R functions, you can find a list [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html){target="_blank"}.
 
 ## The Help Menu
 
 Let’s say I ask Google for an R function that sorts vectors and I find the `sort()` function!...But how do I know about its arguments? How do I know whether it sorts in ascending or descending order by default? How do I know that the function does what *I* need? 🤔
 
 
-<center> This is where RSstudio’s **help menu** comes to the rescue! 😀 </center>
 
+::: {.fragment fragment-index=1}
+<center> This is where RSstudio’s **help menu** comes to the rescue! 😀 </center>
+:::
 
 :::: {.columns}
 ::: {.column width="60%"}
 
+::: {.fragment fragment-index=1}
 ```{r}
 #| eval: false
 #| echo: true 
@@ -659,32 +718,38 @@ Let’s say I ask Google for an R function that sorts vectors and I find the `so
 ?sort()
 # Alternatively you can also highlight or hover over the function (just the function, not the "()") and press F1.
 ```
+:::
+
 
 <ul style = "font-size: 22px;">
 
-:::{.fragment .fade-in fragment-index="3"}
+:::{.fragment .fade-in fragment-index="2"}
 <li> **Description**: Brief description of that the function does. </li>
 :::
 
-:::{.fragment .fade-in fragment-index="4"}
+:::{.fragment .fade-in fragment-index="3"}
 <li> **Usage**: Shows default values of arguments (i.e., "decreasing" is set to FALSE unless you say otherwise). </li>
 :::
 
-:::{.fragment .fade-in fragment-index="5"}
+:::{.fragment .fade-in fragment-index="4"}
 <li> **Arguments**: all the function arguments and what each one does! </li>
 :::
 
 </ul>
 
-:::{.fragment .fade-in fragment-index="6"}
-There's much more going on here, but notice the `{base}` after the name of the function. That is the **Package** the function comes from 🧐
+:::{.fragment .fade-in fragment-index="5"}
+There's much more going on here, but notice the `{base}` after the name of the function. That is the **package** the function comes from 🧐
 :::
 
-
 :::
-::: {.column width="40%"}
+
+:::{.column width="40%"}
+
+:::{.fragment fragment-index=1}
 
 ![](Additional files/images/Help_sort.png){width=90%}
+:::
+
 :::
 ::::
 
@@ -692,9 +757,12 @@ There's much more going on here, but notice the `{base}` after the name of the f
 
 Usually, the base R functions are not enough for most of the tasks that one needs to accomplish in R. Often people have to create their own custom functions.
 
+::: {.fragment fragment-index=1}
 A **package** is simply a collection of functions that other users make for everyone out of the kindness of their heart 🤗
+:::
 
-Let us install a package that makes opening data in R very smooth, the `rio` package [@becker2024]:
+::: {.fragment fragment-index=2}
+Let's install a package that makes opening data in R very smooth, the `rio` package [@becker2024]:
 
 ```{r}
 #| eval: false
@@ -705,6 +773,7 @@ Let us install a package that makes opening data in R very smooth, the `rio` pac
 # This is how you install packages from CRAN (explained below)
 install.packages("rio")
 ```
+:::
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -713,11 +782,11 @@ install.packages("rio")
 <p style="font-size:22px;"> The `install.packages()` function installs packages from the [comprehensive R archive network](https://cran.r-project.org){target="_blank"} (CRAN). Among other things, CRAN maintains a library of packages made by users. </p>
 :::
 
-:::{.fragment .fade-in fragment-index="4"}
+:::{.fragment .fade-in fragment-index="3"}
 <p style="font-size:22px;"> The process to get a package on CRAN is a bit lengthy (and sometimes packages get removed), so some people just upload their packages to [Github](github.com){target="_blank"}. </p>
 :::
 
-:::{.fragment .fade-in fragment-index="5"}
+:::{.fragment .fade-in fragment-index="4"}
 <p style="font-size:22px;"> To see all of the packages installed in your RStudio, you can navigate to your viewer pane and select "packages". </p>
 :::
 
@@ -725,7 +794,10 @@ install.packages("rio")
 :::
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=4}
+
 ![](Additional files/images/Packages_viewer.png)
+:::
 
 :::
 ::::
@@ -733,8 +805,8 @@ install.packages("rio")
 
 ## Reading files: Working Directories
 
-We want to open the **World_happiness_2024.csv** data set with the `import()` function from the `rio` package. First we download the data ([click ](https://raw.githubusercontent.com/quinix45/PSYC-7804-Regression-Lab-Slides/main/Slides%20Files/Data/World_happiness_2024.csv){target="_blank"}
-and then save the file). Then we load the `rio` package:
+
+We want to open the **World_happiness_2024.csv** data set with the `import()` function from the `rio` package. First we download the data ([click here](https://fabio-setti.netlify.app/data/World_happiness_2024.csv){target="_blank"}). Then we load the `rio` package:
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -759,18 +831,20 @@ Now, we need to tell R how to find the `World_happiness_2024.csv` file. Here are
 :::
 ::::
 
-:::{.fragment .fade-in fragment-index="2"}
+:::{.fragment .fade-in fragment-index="1"}
 1. <p style="font-size:24px;"> Either you use the absolute file path (i.e., a unique address that identifies the location of all files on your computer) </p>
 :::
 
-:::{.fragment .fade-in fragment-index="3"}
+:::{.fragment .fade-in fragment-index="2"}
 2. <p style="font-size:24px;"> Change your *working directory* (WD; the default folder where RStudio saves/looks for files) to where the data is (or move the data to your current WD). Your current WD is always displayed at the top of the R console pane next to the R version number. </p>
 :::
 
 </br>
 
-<center> I will show one quick way of dealing with working directories, which I don't consider best. My preferred way by far is using [RStudio projects](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects){target="_blank"}, which I may talk about at some point. </center>
 
+::: {.fragment fragment-index=3}
+<center> I will show one quick way of dealing with working directories, which I don't consider best. My preferred way by far is using [RStudio projects](https://support.posit.co/hc/en-us/articles/200526207-Using-RStudio-Projects){target="_blank"}, which I may talk about at some point. </center>
+:::
 
 ## Setting Working Directory
 
@@ -788,6 +862,7 @@ You can get your current working directory by running the `getwd()` function. Th
 # `getwd()` is actually a function that take no input!
 getwd()
 ```
+::: {.fragment fragment-index=1}
 
 I'll change my current working directory to my Desktop with the `setwd()` function. This function takes the path to a location on your computer as input. For the Desktop:
 
@@ -809,7 +884,7 @@ I'll change my current working directory to my Desktop with the `setwd()` functi
 # on windows, change "fabio" to your windows username
 setwd("C:/Users/fabio/OneDrive/Desktop")
 ```
-
+:::
 :::
 
 ::: {.column width="40%"}
@@ -819,6 +894,7 @@ Everyone will have something different here
 </br>
 </br>
 
+::: {.fragment fragment-index=2}
 <ul style="font-size: 24px">  
 
 <li> For Mac, make sure that files you want to open are stored on your computer and not on the cloud (R does not see files stored on the cloud).  </li>
@@ -826,12 +902,14 @@ Everyone will have something different here
 <li> OneDrive is really annoying on Windows and puts itself before my Desktop (😤). If you have OneDrive, this will likely happen to you too.  </li>
 
 </ul>
+:::
 
 :::
 ::::
 
-
+::: {.fragment fragment-index=3}
 Afterwards, move the `World_happiness_2024.csv` to your Desktop (which should now be your WD)
+:::
 
 ## Loading Data and Looking at it
 
@@ -854,8 +932,10 @@ dat <- import("World_happiness_2024.csv")
 #| code-line-numbers: false
 #| classes: code-125
 
-dat <- rio::import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/World_happiness_2024.csv")
+dat <- rio::import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
 ```
+
+::: {.fragment fragment-index=1}
 This is data from the [2024 world happiness report](https://www.worldhappiness.report/ed/2024){target="_blank"}. The `str()` function can be used to get a lot of information about objects:
 
 ```{r}
@@ -867,10 +947,14 @@ This is data from the [2024 world happiness report](https://www.worldhappiness.r
 # you can also click on the `dat` object in your environment to open it in the data viewer mode
 str(dat)
 ```
+:::
+
 
 ## `data.frame` Objects
 
 Although this information was given to us by the `str()` function, it is generally useful to first figure out what *type of object* we are dealing with:
+
+::: {.fragment fragment-index=1}
 
 ```{r}
 #| eval: true
@@ -883,9 +967,12 @@ class(dat)
 ```
 
 the `dat` object is a `data.frame`. We will come across other type of objects eventually, but [here](https://www.geeksforgeeks.org/r-language/r-objects){target="_blank"} is a list of common ones. 
+:::
 
 :::: {.columns}
 ::: {.column width="30%"}
+
+::: {.fragment fragment-index=2}
 
 For `data.frame` objects you can use the `$` operator to refer to columns. 
 
@@ -899,7 +986,11 @@ For `data.frame` objects you can use the `$` operator to refer to columns.
 mean(dat$Happiness_score)
 ```
 :::
+
+:::
 ::: {.column width="70%"}
+
+::: {.fragment fragment-index=3}
 
 Let's also count how many countries are in each `Region`. The `table()` function is quite useful for counting categories
 
@@ -912,6 +1003,7 @@ Let's also count how many countries are in each `Region`. The `table()` function
 
 table(dat$Region)
 ```
+:::
 
 :::
 ::::
@@ -920,9 +1012,12 @@ table(dat$Region)
 
 You may have realized that `data.frame` objects, unlike vectors, have *2 dimensions* (2D), **rows** and **columns**. 
 
+::: {.fragment fragment-index=1}
 Now, If objects are containers for information, then there must be a way to extract *only some* of the information stored in those containers 🧐 This is called **subsetting** (or **indexing**, depends on the context).
+:::
 
 
+::: {.fragment fragment-index=2}
 You can subset 2D objects by referring to the indices of their dimensions in this way `object_name[row number, column number]`:
 
 ```{r}
@@ -934,6 +1029,9 @@ You can subset 2D objects by referring to the indices of their dimensions in thi
 # Select the element of [row 1, column 1] of the `dat` object
 dat[1,1]
 ```
+:::
+
+::: {.fragment fragment-index=3}
 
 ```{r}
 #| eval: true
@@ -944,6 +1042,8 @@ dat[1,1]
 # You can select the entire 2nd row of the "dat" object. If you leave a dimension empty when subsetting, it means "all of this dimension".
 dat[2,]
 ```
+
+:::
 
 ## More Subsetting Examples 
 
@@ -960,6 +1060,8 @@ dat_2 <- dat[-1,]
 nrow(dat_2)
 ```
 
+::: {.fragment fragment-index=1}
+
 You can also select non-adjacent elements:
 
 ```{r}
@@ -971,6 +1073,9 @@ You can also select non-adjacent elements:
 # You refer to non-adjacent columns/rows through the `c()` function. This selects element 1,4,6 of column 6 of the `dat` object
 dat[c(1,4,6) ,6]
 ```
+:::
+
+::: {.fragment fragment-index=2}
 
 ...and the 1D case follows a similar logic:
 
@@ -984,6 +1089,8 @@ dat[c(1,4,6) ,6]
 x <- c(3, 2, 5, 10, 23)
 x[5]
 ```
+:::
+
 ## Is all of this worth Your Time?
 
 I often get students telling me that "they prefer SPSS" (my nemesis 🙃). Normally, I would go on a 20 minutes rant about this, but some like-minded people have done that in this [pretty funny reddit post](https://www.reddit.com/r/statistics/comments/8dy3aj/spss_v_sas_v_stata){target="_blank"}
@@ -993,23 +1100,351 @@ Some other reasons for adopting R:
 :::: {.columns}
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=1}
 - **Free:** R is free and will always be. SPSS and the like charge ridiculous amounts for licenses. (support free stuff, knowledge should be accessible)
+:::
 
+::: {.fragment fragment-index=2}
 - **Reproducibility:** Ever heard of the [replication crisis](https://en.wikipedia.org/wiki/Replication_crisis){target="_blank"}? R makes it much easier to share code and analyses so that results can be reproduced and checked thoroughly. 
+:::
 
 :::
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=3}
 - **Open source:** There are thousands of people constantly working on R packages, expanding R's features every day. 
+:::
 
+::: {.fragment fragment-index=4}
 - **Flexibility:** R can do just about anything you need. Whereas if you use other software like SPSS, you will likely hit a wall because you need to do something that the software does not allow you to do.  
+:::
 
 :::
 ::::
 
 </br>
 
-<center>Learning R may be hard at first, but please believe me when I say that it will be well worth in the end 🤗 </center>
+::: {.fragment fragment-index=5}
+<center>Learning R may be hard at first, but please believe me when I say that it will be well worth it in the end 🤗 </center>
+:::
+
+# 
+
+:::: {.columns}
+::: {.column width="60%"}
+
+But wait! One last thing 🫣
+</br>
+</br>
+</br>
+
+<h1> Reporting With Quarto! </h1>
+:::
+::: {.column width="40%"}
+
+<center>
+
+![](Additional files/images/quarto.png)
+
+</center>
+
+:::
+::::
+
+
+
+## What is Quarto?
+
+
+:::: {.columns}
+::: {.column width="70%"}
+
+[Quarto](https://quarto.org){target="_blank"} is an "open-source scientific and technical publishing system". As mentioned on their main page, with quarto, you can:
+
+
+::: {.fragment fragment-index=1}
+- Create reports that seamlessly integrate plain text and R code (even [python](https://www.python.org){target="_blank"} and [Julia](https://julialang.org){target="_blank"})
+:::
+
+::: {.fragment fragment-index=2}
+- Create documents and easily publish them online for everyone to access.
+:::
+
+::: {.fragment fragment-index=3}
+- Publish reproducible, production quality articles, presentations (e.g., these slides!), dashboards, websites, blogs, and books in HTML, PDF, MS Word, ePub, and more. 
+:::
+
+::: {.fragment fragment-index=4}
+<center> <u> In this course, you will use quarto to produce PDF reports for your lab activities and homework assignments. </u> </center>
+:::
+
+::: {.fragment fragment-index=5}
+Overall I am a big fan of quarto because it fosters accessibility, reproducibility, and transparency 😀
+:::
+
+:::
+::: {.column width="30%"}
+
+![](Additional files/images/quarto.png)
+
+:::
+::::
+
+
+## Setting Up Quarto To Create PDFs
+
+Before we can create PDFs with quarto, there are <u>**2 important steps**</u> that you need to follow:
+
+:::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
+<center> **Step 1:** </center>
+
+First, you need to install the `rmarkdown` package [@allaire2024]. 
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+install.packages("rmarkdown")
+```
+
+[R Markdown](https://rmarkdown.rstudio.com){target="_blank"} used to be the main way (and may still be) of creating reports in R. However, the RStudio folks have decided to [move to quarto](https://quarto.org/docs/faq/rmarkdown.html){target="_blank"}, and it will likely become more popular than R Markdown in the near future.
+:::
+
+  
+
+
+:::
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=2}
+<center> **Step 2:** </center>
+
+In general, most of the nice PDFs you see are created with [LaTeX](https://en.wikipedia.org/wiki/LaTeX){target="_blank"}. The last thing that we need is to install a LaTeX interpreter (kinda like needing R to run R code!).
+
+To install a LaTeX interpreter that quarto likes, go to the top of your screen and click *tools* &rarr; *terminal* &rarr; *new terminal*
+
+
+A window named "terminal" will appear next to the R console. Go to the "terminal" window, type the following line :
+
+`quarto install tinytex`
+
+and the press <kbd>Enter</kbd> (Win) or <kbd>Return</kbd> (Mac)
+:::
+
+:::
+::::
+
+
+## Opening a quarto file
+
+:::: {.columns}
+::: {.column width="50%"}
+quarto files have the *.qmd* extension. We can open a .qmd file by clicking *file* &rarr; *new file* &rarr; *quarto document*. You should see the window on right appear. Make sure you select PDF.
+
+
+::: {.fragment fragment-index=1}
+Note the *Use visual markdown editor* check-box. Once you create the document you will have the option to switch between the visual and source editor:
+:::
+
+<ul style="font-size: 24px">  
+
+::: {.fragment fragment-index=2}
+<li> **Source editor:** The file will look like a plain code file. (I much prefer to use this) </li>
+:::
+
+::: {.fragment fragment-index=3}
+<li> **Visual editor:** The file will look more like a word doc and you will have some point-and-click shortcuts to edit text. This is more user friendly, although it can get a bit clunky. </li>
+:::
+
+</ul>
+
+::: {.fragment fragment-index=4}
+Click on **Create** to create a .qmd document, which will already have some instructions in it.
+:::
+
+:::
+::: {.column width="50%"}
+
+![](Additional files/images/quarto_new.png)
+
+:::
+::::
+
+
+## Creating a PDF
+
+Now you can click on **Render** at the top of the document; you will be asked to save the .qmd file. After you do, you will see a .pdf file appear where you saved your .qmd file.
+
+:::: {.columns}
+::: {.column width="50%"}
+
+This is what the .qmd file looks like from the source editor view:
+
+![](Additional files/images/quarto_template.png)
+
+:::
+::: {.column width="50%"}
+
+
+::: {.fragment fragment-index=1}
+<center>
+
+The PDF file output:
+
+![](Additional files/images/quarto_render.png){width=70%}
+</center>
+:::
+
+:::
+::::
+
+## The YAML Header
+
+The fist thing that we see in the .qmd file is the are some lines enclosed between two `---`. That is a [YAML header](https://quarto-tdg.org/yaml.html){target="_blank"}. The YAML header simply gives quarto some instruction to follow once you click the "Render" button. 
+
+:::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
+
+default YAML header:
+
+```{.yaml}
+---
+title: "Untitled"
+format: pdf
+editor: visual
+---
+```
+
+Add author to YAML header and change title:
+
+```{.yaml}
+---
+title: "Example"
+author: Your name
+format: pdf
+editor: visual
+---
+```
+:::
+
+
+:::
+::: {.column width="50%"}
+
+</br>
+
+Try to make the changes in the second code block and render the PDF again!
+
+</br>
+
+
+::: {.fragment fragment-index=2}
+For this course, I don't expect you to make any changes to the YAML header beyond modifying the title and adding your name as the author. Here is [a comprehensive list](https://quarto.org/docs/reference/formats/pdf.html){target="_blank"} of all the YAML options that exists for PDF documents in quarto.
+:::
+
+:::
+::::
+
+## Plain Text and Code Chunks
+
+.qmd files have two main parts *plain text* and *code chunks*
+
+:::: {.columns}
+::: {.column width="50%"}
+
+
+<center> **Plain text** </center>
+
+::: {.fragment fragment-index=1}
+Any text outside code chunks is considered plain text. In the template .qmd file *"Quarto enables you to...document."* is plain text. When creating PDF files from .qmd files, plain text accepts both Markdown (see [here](https://www.markdownguide.org/cheat-sheet){target="_blank"}) and LaTeX syntax.
+:::
+
+::: {.fragment fragment-index=2}
+In this course, LaTeX syntax will only come up if you want to write Greek letters or math symbols (see [here](https://ashki23.github.io/markdown-latex.html#latex){target="_blank"})
+:::
+
+::: {.fragment fragment-index=3}
+Anything in plain text between `$` signs is interpreted as LaTeX math. So, `$\beta$` will look like $\beta$, or `$\sqrt{x}$` will look like $\sqrt{x}$ (LaTeX looks nice, so give it a try 🫣)
+:::
+
+:::
+::: {.column width="50%"}
+
+
+<center> **Code chunks** </center>
+
+::: {.fragment fragment-index=4}
+Code chunks are anything that is enclosed between ```` ```{r} ```` and ```` ``` ```` 
+
+```{r}
+#| echo: fenced
+
+1+1
+```
+
+You can create a new code chunk with <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>I</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>Option</kbd> + <kbd>I</kbd> (Mac).
+:::
+
+
+::: {.fragment fragment-index=5}
+Code chunks can be run in many ways, one of them being the green arrow at their to right.
+:::
+
+::: {.fragment fragment-index=6}
+You can also modify how the chunks behave when rendered with [chunk options](https://rpubs.com/drgregmartin/1266667){target="_blank"} (e.g., your advisor does not know R, so you can hide the code and just show the output). 
+:::
+
+:::
+::::
+
+
+
+
+## More about Code Chunks 
+
+**1.** When quarto renders a .qmd file, it will run R chunks in order, one by one. This means that your code should work in sequence from the first chunk to the last chunk. For example:
+
+:::: {.columns}
+::: {.column width="50%"}
+
+If you had this chunk
+
+````
+```{r}`r ''`
+x + 5
+```
+````
+:::
+::: {.column width="50%"}
+
+Followed later by this chunk first
+
+````
+```{r}`r ''`
+x <- 4
+```
+````
+
+:::
+::::
+
+Your document will not render because in the `x + 5` part, R does not know what `x` is yet 🧐 I suggest that before you try rendering your document, you run `rm(list=ls())` to clear your environment and check that your code runs from start to finish!
+
+
+::: {.fragment fragment-index=1}
+**2.** You only need to install packages once. Do not leave `install.packages()` functions in your code chunks when trying to render; that will also likely cause issues.
+:::
+
+::: {.fragment fragment-index=2}
+**3.** You can make your PDF documents look much better by modifying chunk options (e.g., hiding messages and warnings by using `#| message: false` and `#| warning: false` in your chunks). You really don't have to do this, but I would really appreciate if you spent a tad bit more time improving how you PDFs look (makes grading homework easier 🥺)
+:::
 
 ## References 
 
