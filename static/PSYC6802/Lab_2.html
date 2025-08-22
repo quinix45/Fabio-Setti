@@ -10,7 +10,7 @@
   <meta name="generator" content="quarto-1.6.42">
 
   <meta name="author" content="Fabio Setti">
-  <title>Lab 2: Data Exploration, Plotting, and Reporting</title>
+  <title>Lab 2: Descriptive Statistics, Data Manipulation, and Plotting</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -229,7 +229,7 @@
     <div class="slides">
 
 <section id="title-slide" data-transition="zoom" data-visibility="uncounted" class="quarto-title-block center">
-  <h1 class="title">Lab 2: Data Exploration, Plotting, and Reporting</h1>
+  <h1 class="title">Lab 2: Descriptive Statistics, Data Manipulation, and Plotting</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -290,15 +290,15 @@ Fabio Setti
 </center>
 <p>You can open the data without any downloads with the line below. see <a href="https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%201#/how-i-will-fix-everyones-working-directory-issues" target="_blank">Here</a> for <em>why</em> and <em>how</em> I do it.</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>WH_2024 <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"https://fabio-setti.netlify.app/data/World_happiness_2024.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>WH_2024 <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"https://fabio-setti.netlify.app/data/World_happiness_2024.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div style="font-size: 22px">
 We’ll use the <a href="https://www.worldhappiness.report/ed/2024" target="_blank">2024 world happiness report</a> data again.
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-d123e5c94e54381ee6b8" class="reactable html-widget" style="width:auto;height:300px;"></div>
-<script type="application/json" data-for="htmlwidget-d123e5c94e54381ee6b8">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Country_name":["Finland","Denmark","Iceland","Sweden","Israel","Netherlands","Norway","Luxembourg","Switzerland","Australia","New Zealand","Costa Rica","Kuwait","Austria","Canada","Belgium","Ireland","Czechia","Lithuania","United Kingdom","Slovenia","United Arab Emirates","United States","Germany","Mexico","Uruguay","France","Saudi Arabia","Kosovo","Singapore","Taiwan Province of China","Romania","El Salvador","Estonia","Poland","Spain","Serbia","Chile","Panama","Malta","Italy","Guatemala","Nicaragua","Brazil","Slovakia","Latvia","Uzbekistan","Argentina","Kazakhstan","Cyprus","Japan","South Korea","Philippines","Vietnam","Portugal","Hungary","Paraguay","Thailand","Malaysia","China","Honduras","Croatia","Greece","Bosnia and Herzegovina","Libya","Jamaica","Peru","Dominican Republic","Mauritius","Moldova","Russia","Bolivia","Ecuador","Kyrgyzstan","Montenegro","Mongolia","Colombia","Venezuela","Indonesia","Bulgaria","Armenia","South Africa","North Macedonia","Algeria","Hong Kong S.A.R. of China","Albania","Congo (Brazzaville)","Mozambique","Georgia","Iraq","Nepal","Laos","Gabon","Ivory Coast","Guinea","Turkiye","Senegal","Iran","Azerbaijan","Nigeria","Cameroon","Ukraine","Namibia","Morocco","Pakistan","Niger","Burkina Faso","Mauritania","Gambia","Chad","Kenya","Tunisia","Benin","Uganda","Myanmar","Cambodia","Ghana","Liberia","Mali","Madagascar","Togo","Jordan","India","Egypt","Sri Lanka","Bangladesh","Ethiopia","Tanzania","Comoros","Yemen","Zambia","Eswatini","Malawi","Botswana","Zimbabwe","Congo (Kinshasa)","Sierra Leone","Lesotho","Lebanon","Afghanistan"],"Region":["Western Europe","Western Europe","Western Europe","Western Europe","Middele East","Western Europe","Western Europe","Western Europe","Western Europe","Oceania","Oceania","South America","Middele East","Western Europe","North America","Western Europe","Western Europe","Eastern Europe","Eastern Europe","Western Europe","Eastern Europe","Middele East","North America","Western Europe","North America","South America","Western Europe","Middele East","Eastern Europe","Asia","Asia","Eastern Europe","North America","Eastern Europe","Eastern Europe","Western Europe","Eastern Europe","South America","North America","Western Europe","Western Europe","North America","North America","South America","Eastern Europe","Eastern Europe","Asia","South America","Asia","Western Europe","Asia","Asia","Asia","Asia","Western Europe","Eastern Europe","South America","Asia","Asia","Asia","North America","Eastern Europe","Western Europe","Eastern Europe","Africa","Caribbean","South America","Caribbean","Africa","Eastern Europe","Eastern Europe","South America","South America","Asia","Eastern Europe","Asia","South America","South America","Asia","Eastern Europe","Eastern Europe","Africa","Eastern Europe","Africa","Asia","Eastern Europe","Africa","Africa","Eastern Europe","Middele East","Asia","Asia","Africa","Africa","Africa","Western Europe","Africa","Middele East","Eastern Europe","Africa","Africa","Eastern Europe","Africa","Africa","Middele East","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Asia","Asia","Africa","Africa","Africa","Africa","Africa","Middele East","Asia","Africa","Asia","Asia","Africa","Africa","Africa","Middele East","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Middele East","Middele East"],"Happiness_score":[7.741,7.583,7.525,7.344,7.341,7.319,7.302,7.122,7.06,7.057,7.029,6.955,6.951,6.905,6.9,6.894,6.838,6.822,6.818,6.749,6.743,6.733,6.725,6.719,6.678,6.611,6.609,6.594,6.561,6.523,6.503,6.491,6.469,6.448,6.442,6.421,6.411,6.36,6.358,6.346,6.324,6.287,6.284,6.272,6.257,6.234,6.195,6.188,6.188,6.068,6.06,6.058,6.048,6.043,6.03,6.017,5.977,5.976,5.975,5.973,5.968,5.942,5.934,5.877,5.866,5.842,5.841,5.823,5.816,5.816,5.785,5.784,5.725,5.714,5.707,5.696,5.695,5.607,5.568,5.463,5.455,5.422,5.369,5.364,5.316,5.304,5.221,5.216,5.185,5.166,5.158,5.139,5.106,5.08,5.023,4.975,4.969,4.923,4.893,4.881,4.874,4.873,4.832,4.795,4.657,4.556,4.548,4.505,4.485,4.471,4.47,4.422,4.377,4.372,4.354,4.341,4.289,4.269,4.232,4.228,4.214,4.186,4.054,3.977,3.898,3.886,3.861,3.781,3.566,3.561,3.502,3.502,3.421,3.383,3.341,3.295,3.245,3.186,2.707,1.721],"Log_GDP":[1.844,1.908,1.881,1.878,1.803,1.901,1.952,2.141,1.97,1.854,1.81,1.561,1.845,1.885,1.84,1.868,2.129,1.783,1.766,1.822,1.786,1.983,1.939,1.871,1.521,1.596,1.818,1.842,1.364,2.118,1.842,1.699,1.265,1.752,1.738,1.766,1.538,1.616,1.702,1.827,1.8,1.26,1.097,1.43,1.706,1.7,1.212,1.562,1.622,1.794,1.786,1.815,1.232,1.331,1.728,1.722,1.398,1.484,1.646,1.497,1.091,1.71,1.684,1.465,1.526,1.28,1.371,1.517,1.57,1.385,1.642,1.217,1.315,1.054,1.571,1.353,1.437,0,1.361,1.629,1.444,1.389,1.475,1.324,1.909,1.438,0.892,0.56,1.467,1.249,0.965,1.208,1.403,1.08,0.831,1.702,0.927,1.435,1.433,1.042,0.943,1.35,1.266,1.213,1.069,0.573,0.756,1.078,0.75,0.603,1.037,1.306,0.914,0.772,0.978,1.011,1.077,0.619,0.747,0.628,0.758,1.262,1.166,1.37,1.361,1.122,0.792,0.82,0.896,0.671,0.899,1.255,0.617,1.445,0.748,0.534,0.654,0.771,1.377,0.628],"Social_support":[1.572,1.52,1.617,1.501,1.513,1.462,1.517,1.355,1.425,1.461,1.527,1.373,1.364,1.336,1.459,1.44,1.39,1.511,1.454,1.326,1.502,1.164,1.392,1.39,1.241,1.431,1.348,1.361,1.277,1.361,1.346,1.236,1.08,1.527,1.417,1.471,1.391,1.369,1.392,1.444,1.328,1.169,1.263,1.269,1.54,1.508,1.394,1.381,1.457,1.217,1.354,1.178,1.146,1.267,1.368,1.528,1.408,1.347,1.143,1.239,1.035,1.445,1.276,1.318,1.1,1.324,1.18,1.272,1.358,1.277,1.351,1.179,1.151,1.477,1.318,1.511,1.241,1.321,1.184,1.469,1.154,1.369,1.277,1.191,1.184,0.924,0.622,0.883,0.99,0.996,0.99,0.846,1.038,0.578,0.622,1.175,0.751,1.136,0.876,1.075,0.856,1.315,1.212,0.471,0.6,0.677,0.685,0.705,0.684,0.805,0.895,0.955,0.128,1.151,0.988,1.019,0.747,0.673,0.688,0.823,0.586,0.983,0.653,0.996,1.179,0.249,0.915,0.706,0.328,1.281,0.809,0.925,0.41,0.969,0.85,0.665,0.566,0.851,0.577,0],"Healthy_life_expectancy":[0.695,0.699,0.718,0.724,0.74,0.706,0.704,0.708,0.747,0.692,0.673,0.661,0.661,0.696,0.701,0.69,0.7,0.638,0.598,0.672,0.695,0.563,0.542,0.702,0.544,0.592,0.727,0.511,0.599,0.769,0.65,0.583,0.549,0.657,0.639,0.729,0.585,0.673,0.633,0.707,0.72,0.467,0.542,0.548,0.638,0.564,0.539,0.585,0.556,0.744,0.785,0.77,0.441,0.539,0.699,0.596,0.549,0.62,0.54,0.629,0.502,0.637,0.696,0.587,0.55,0.567,0.662,0.511,0.49,0.542,0.531,0.488,0.64,0.588,0.587,0.4,0.648,0.491,0.472,0.567,0.603,0.322,0.569,0.568,0.857,0.638,0.306,0.156,0.524,0.498,0.443,0.423,0.344,0.288,0.236,0.631,0.392,0.571,0.496,0.256,0.288,0.513,0.307,0.495,0.321,0.293,0.274,0.4,0.33,0.199,0.353,0.579,0.284,0.373,0.436,0.442,0.36,0.301,0.267,0.333,0.32,0.594,0.417,0.488,0.586,0.513,0.42,0.38,0.37,0.293,0.264,0.176,0.349,0.241,0.232,0.262,0.253,0,0.556,0.242],"Freedom":[0.859,0.823,0.819,0.838,0.641,0.725,0.835,0.801,0.759,0.756,0.746,0.797,0.827,0.703,0.73,0.729,0.758,0.787,0.533,0.713,0.789,0.815,0.586,0.7,0.722,0.775,0.65,0.787,0.739,0.743,0.649,0.717,0.816,0.805,0.6,0.619,0.663,0.651,0.72,0.727,0.513,0.735,0.793,0.685,0.566,0.666,0.835,0.681,0.733,0.529,0.632,0.555,0.826,0.843,0.757,0.581,0.788,0.756,0.829,0.704,0.72,0.469,0.337,0.621,0.592,0.647,0.615,0.73,0.641,0.695,0.551,0.719,0.606,0.834,0.632,0.501,0.644,0.518,0.779,0.62,0.65,0.537,0.58,0.247,0.485,0.69,0.523,0.728,0.68,0.425,0.653,0.796,0.516,0.547,0.521,0.202,0.607,0.366,0.668,0.566,0.521,0.631,0.47,0.631,0.542,0.615,0.483,0.343,0.459,0.411,0.519,0.254,0.567,0.587,0.45,0.863,0.623,0.546,0.586,0.25,0.453,0.593,0.767,0.49,0.583,0.775,0.441,0.709,0.172,0.362,0.727,0.284,0.571,0.567,0.487,0.473,0.469,0.523,0.173,0],"Generosity":[0.142,0.204,0.258,0.221,0.153,0.247,0.224,0.146,0.173,0.225,0.226,0.109,0.2,0.214,0.23,0.17,0.205,0.177,0.044,0.267,0.157,0.209,0.223,0.174,0.086,0.106,0.112,0.114,0.254,0.168,0.068,0.041,0.083,0.166,0.081,0.119,0.2,0.117,0.063,0.25,0.112,0.105,0.133,0.13,0.096,0.127,0.251,0.087,0.149,0.124,0.023,0.126,0.099,0.094,0.047,0.123,0.131,0.283,0.226,0.132,0.175,0.064,0.018,0.246,0.111,0.089,0.078,0.086,0.123,0.077,0.138,0.1,0.087,0.225,0.11,0.237,0.072,0.192,0.399,0.083,0.051,0.078,0.194,0.091,0.147,0.138,0.124,0.158,0,0.141,0.209,0.17,0.045,0.12,0.21,0.068,0.152,0.235,0.112,0.201,0.126,0.285,0.069,0.042,0.144,0.145,0.173,0.133,0.324,0.218,0.282,0.024,0.112,0.178,0.401,0.17,0.183,0.178,0.12,0.172,0.127,0.059,0.174,0.025,0.144,0.14,0.27,0.191,0.128,0.08,0.168,0.059,0.135,0.014,0.096,0.189,0.181,0.082,0.068,0.091],"Corruption":[0.454,0.452,0.818,0.476,0.807,0.628,0.516,0.568,0.502,0.677,0.52,0.877,0.828,0.695,0.632,0.689,0.582,0.932,0.884,0.649,0.869,0.742,0.831,0.632,0.873,0.78,0.719,0.812,0.927,0.425,0.798,0.994,0.747,0.599,0.825,0.823,0.899,0.925,0.957,0.875,0.926,0.922,0.749,0.858,0.942,0.922,0.785,0.92,0.88,0.951,0.781,0.842,0.864,0.84,0.965,0.933,0.935,0.976,0.881,0.836,0.919,0.957,0.907,1,0.796,0.972,0.971,0.804,0.882,0.956,0.879,0.939,0.922,0.97,0.868,0.945,0.941,0.914,0.945,0.994,0.827,0.966,0.985,0.8,0.598,0.951,0.862,0.804,0.826,0.952,0.885,0.833,0.9,0.836,0.893,0.885,0.931,0.877,0.801,0.981,0.94,0.975,0.939,0.918,0.926,0.853,0.821,0.802,0.952,0.887,0.931,0.982,0.748,0.946,0.826,0.929,0.972,0.925,0.91,0.877,0.844,0.811,0.878,0.741,0.969,0.833,0.899,0.743,0.84,0.887,0.891,0.884,0.864,0.918,0.869,0.928,0.947,0.915,0.971,0.912]},"columns":[{"id":"Country_name","name":"Country_name","type":"character"},{"id":"Region","name":"Region","type":"character"},{"id":"Happiness_score","name":"Happiness_score","type":"numeric"},{"id":"Log_GDP","name":"Log_GDP","type":"numeric"},{"id":"Social_support","name":"Social_support","type":"numeric"},{"id":"Healthy_life_expectancy","name":"Healthy_life_expectancy","type":"numeric"},{"id":"Freedom","name":"Freedom","type":"numeric"},{"id":"Generosity","name":"Generosity","type":"numeric"},{"id":"Corruption","name":"Corruption","type":"numeric"}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"1rem"},"height":"300px","dataKey":"79a189929a84d6ba059984611a1e094c"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1acf36743c2a99f13781" class="reactable html-widget" style="width:auto;height:300px;"></div>
+<script type="application/json" data-for="htmlwidget-1acf36743c2a99f13781">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Country_name":["Finland","Denmark","Iceland","Sweden","Israel","Netherlands","Norway","Luxembourg","Switzerland","Australia","New Zealand","Costa Rica","Kuwait","Austria","Canada","Belgium","Ireland","Czechia","Lithuania","United Kingdom","Slovenia","United Arab Emirates","United States","Germany","Mexico","Uruguay","France","Saudi Arabia","Kosovo","Singapore","Taiwan Province of China","Romania","El Salvador","Estonia","Poland","Spain","Serbia","Chile","Panama","Malta","Italy","Guatemala","Nicaragua","Brazil","Slovakia","Latvia","Uzbekistan","Argentina","Kazakhstan","Cyprus","Japan","South Korea","Philippines","Vietnam","Portugal","Hungary","Paraguay","Thailand","Malaysia","China","Honduras","Croatia","Greece","Bosnia and Herzegovina","Libya","Jamaica","Peru","Dominican Republic","Mauritius","Moldova","Russia","Bolivia","Ecuador","Kyrgyzstan","Montenegro","Mongolia","Colombia","Venezuela","Indonesia","Bulgaria","Armenia","South Africa","North Macedonia","Algeria","Hong Kong S.A.R. of China","Albania","Congo (Brazzaville)","Mozambique","Georgia","Iraq","Nepal","Laos","Gabon","Ivory Coast","Guinea","Turkiye","Senegal","Iran","Azerbaijan","Nigeria","Cameroon","Ukraine","Namibia","Morocco","Pakistan","Niger","Burkina Faso","Mauritania","Gambia","Chad","Kenya","Tunisia","Benin","Uganda","Myanmar","Cambodia","Ghana","Liberia","Mali","Madagascar","Togo","Jordan","India","Egypt","Sri Lanka","Bangladesh","Ethiopia","Tanzania","Comoros","Yemen","Zambia","Eswatini","Malawi","Botswana","Zimbabwe","Congo (Kinshasa)","Sierra Leone","Lesotho","Lebanon","Afghanistan"],"Region":["Western Europe","Western Europe","Western Europe","Western Europe","Middele East","Western Europe","Western Europe","Western Europe","Western Europe","Oceania","Oceania","South America","Middele East","Western Europe","North America","Western Europe","Western Europe","Eastern Europe","Eastern Europe","Western Europe","Eastern Europe","Middele East","North America","Western Europe","North America","South America","Western Europe","Middele East","Eastern Europe","Asia","Asia","Eastern Europe","North America","Eastern Europe","Eastern Europe","Western Europe","Eastern Europe","South America","North America","Western Europe","Western Europe","North America","North America","South America","Eastern Europe","Eastern Europe","Asia","South America","Asia","Western Europe","Asia","Asia","Asia","Asia","Western Europe","Eastern Europe","South America","Asia","Asia","Asia","North America","Eastern Europe","Western Europe","Eastern Europe","Africa","Caribbean","South America","Caribbean","Africa","Eastern Europe","Eastern Europe","South America","South America","Asia","Eastern Europe","Asia","South America","South America","Asia","Eastern Europe","Eastern Europe","Africa","Eastern Europe","Africa","Asia","Eastern Europe","Africa","Africa","Eastern Europe","Middele East","Asia","Asia","Africa","Africa","Africa","Western Europe","Africa","Middele East","Eastern Europe","Africa","Africa","Eastern Europe","Africa","Africa","Middele East","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Asia","Asia","Africa","Africa","Africa","Africa","Africa","Middele East","Asia","Africa","Asia","Asia","Africa","Africa","Africa","Middele East","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Middele East","Middele East"],"Happiness_score":[7.741,7.583,7.525,7.344,7.341,7.319,7.302,7.122,7.06,7.057,7.029,6.955,6.951,6.905,6.9,6.894,6.838,6.822,6.818,6.749,6.743,6.733,6.725,6.719,6.678,6.611,6.609,6.594,6.561,6.523,6.503,6.491,6.469,6.448,6.442,6.421,6.411,6.36,6.358,6.346,6.324,6.287,6.284,6.272,6.257,6.234,6.195,6.188,6.188,6.068,6.06,6.058,6.048,6.043,6.03,6.017,5.977,5.976,5.975,5.973,5.968,5.942,5.934,5.877,5.866,5.842,5.841,5.823,5.816,5.816,5.785,5.784,5.725,5.714,5.707,5.696,5.695,5.607,5.568,5.463,5.455,5.422,5.369,5.364,5.316,5.304,5.221,5.216,5.185,5.166,5.158,5.139,5.106,5.08,5.023,4.975,4.969,4.923,4.893,4.881,4.874,4.873,4.832,4.795,4.657,4.556,4.548,4.505,4.485,4.471,4.47,4.422,4.377,4.372,4.354,4.341,4.289,4.269,4.232,4.228,4.214,4.186,4.054,3.977,3.898,3.886,3.861,3.781,3.566,3.561,3.502,3.502,3.421,3.383,3.341,3.295,3.245,3.186,2.707,1.721],"Log_GDP":[1.844,1.908,1.881,1.878,1.803,1.901,1.952,2.141,1.97,1.854,1.81,1.561,1.845,1.885,1.84,1.868,2.129,1.783,1.766,1.822,1.786,1.983,1.939,1.871,1.521,1.596,1.818,1.842,1.364,2.118,1.842,1.699,1.265,1.752,1.738,1.766,1.538,1.616,1.702,1.827,1.8,1.26,1.097,1.43,1.706,1.7,1.212,1.562,1.622,1.794,1.786,1.815,1.232,1.331,1.728,1.722,1.398,1.484,1.646,1.497,1.091,1.71,1.684,1.465,1.526,1.28,1.371,1.517,1.57,1.385,1.642,1.217,1.315,1.054,1.571,1.353,1.437,0,1.361,1.629,1.444,1.389,1.475,1.324,1.909,1.438,0.892,0.56,1.467,1.249,0.965,1.208,1.403,1.08,0.831,1.702,0.927,1.435,1.433,1.042,0.943,1.35,1.266,1.213,1.069,0.573,0.756,1.078,0.75,0.603,1.037,1.306,0.914,0.772,0.978,1.011,1.077,0.619,0.747,0.628,0.758,1.262,1.166,1.37,1.361,1.122,0.792,0.82,0.896,0.671,0.899,1.255,0.617,1.445,0.748,0.534,0.654,0.771,1.377,0.628],"Social_support":[1.572,1.52,1.617,1.501,1.513,1.462,1.517,1.355,1.425,1.461,1.527,1.373,1.364,1.336,1.459,1.44,1.39,1.511,1.454,1.326,1.502,1.164,1.392,1.39,1.241,1.431,1.348,1.361,1.277,1.361,1.346,1.236,1.08,1.527,1.417,1.471,1.391,1.369,1.392,1.444,1.328,1.169,1.263,1.269,1.54,1.508,1.394,1.381,1.457,1.217,1.354,1.178,1.146,1.267,1.368,1.528,1.408,1.347,1.143,1.239,1.035,1.445,1.276,1.318,1.1,1.324,1.18,1.272,1.358,1.277,1.351,1.179,1.151,1.477,1.318,1.511,1.241,1.321,1.184,1.469,1.154,1.369,1.277,1.191,1.184,0.924,0.622,0.883,0.99,0.996,0.99,0.846,1.038,0.578,0.622,1.175,0.751,1.136,0.876,1.075,0.856,1.315,1.212,0.471,0.6,0.677,0.685,0.705,0.684,0.805,0.895,0.955,0.128,1.151,0.988,1.019,0.747,0.673,0.688,0.823,0.586,0.983,0.653,0.996,1.179,0.249,0.915,0.706,0.328,1.281,0.809,0.925,0.41,0.969,0.85,0.665,0.566,0.851,0.577,0],"Healthy_life_expectancy":[0.695,0.699,0.718,0.724,0.74,0.706,0.704,0.708,0.747,0.692,0.673,0.661,0.661,0.696,0.701,0.69,0.7,0.638,0.598,0.672,0.695,0.563,0.542,0.702,0.544,0.592,0.727,0.511,0.599,0.769,0.65,0.583,0.549,0.657,0.639,0.729,0.585,0.673,0.633,0.707,0.72,0.467,0.542,0.548,0.638,0.564,0.539,0.585,0.556,0.744,0.785,0.77,0.441,0.539,0.699,0.596,0.549,0.62,0.54,0.629,0.502,0.637,0.696,0.587,0.55,0.567,0.662,0.511,0.49,0.542,0.531,0.488,0.64,0.588,0.587,0.4,0.648,0.491,0.472,0.567,0.603,0.322,0.569,0.568,0.857,0.638,0.306,0.156,0.524,0.498,0.443,0.423,0.344,0.288,0.236,0.631,0.392,0.571,0.496,0.256,0.288,0.513,0.307,0.495,0.321,0.293,0.274,0.4,0.33,0.199,0.353,0.579,0.284,0.373,0.436,0.442,0.36,0.301,0.267,0.333,0.32,0.594,0.417,0.488,0.586,0.513,0.42,0.38,0.37,0.293,0.264,0.176,0.349,0.241,0.232,0.262,0.253,0,0.556,0.242],"Freedom":[0.859,0.823,0.819,0.838,0.641,0.725,0.835,0.801,0.759,0.756,0.746,0.797,0.827,0.703,0.73,0.729,0.758,0.787,0.533,0.713,0.789,0.815,0.586,0.7,0.722,0.775,0.65,0.787,0.739,0.743,0.649,0.717,0.816,0.805,0.6,0.619,0.663,0.651,0.72,0.727,0.513,0.735,0.793,0.685,0.566,0.666,0.835,0.681,0.733,0.529,0.632,0.555,0.826,0.843,0.757,0.581,0.788,0.756,0.829,0.704,0.72,0.469,0.337,0.621,0.592,0.647,0.615,0.73,0.641,0.695,0.551,0.719,0.606,0.834,0.632,0.501,0.644,0.518,0.779,0.62,0.65,0.537,0.58,0.247,0.485,0.69,0.523,0.728,0.68,0.425,0.653,0.796,0.516,0.547,0.521,0.202,0.607,0.366,0.668,0.566,0.521,0.631,0.47,0.631,0.542,0.615,0.483,0.343,0.459,0.411,0.519,0.254,0.567,0.587,0.45,0.863,0.623,0.546,0.586,0.25,0.453,0.593,0.767,0.49,0.583,0.775,0.441,0.709,0.172,0.362,0.727,0.284,0.571,0.567,0.487,0.473,0.469,0.523,0.173,0],"Generosity":[0.142,0.204,0.258,0.221,0.153,0.247,0.224,0.146,0.173,0.225,0.226,0.109,0.2,0.214,0.23,0.17,0.205,0.177,0.044,0.267,0.157,0.209,0.223,0.174,0.086,0.106,0.112,0.114,0.254,0.168,0.068,0.041,0.083,0.166,0.081,0.119,0.2,0.117,0.063,0.25,0.112,0.105,0.133,0.13,0.096,0.127,0.251,0.087,0.149,0.124,0.023,0.126,0.099,0.094,0.047,0.123,0.131,0.283,0.226,0.132,0.175,0.064,0.018,0.246,0.111,0.089,0.078,0.086,0.123,0.077,0.138,0.1,0.087,0.225,0.11,0.237,0.072,0.192,0.399,0.083,0.051,0.078,0.194,0.091,0.147,0.138,0.124,0.158,0,0.141,0.209,0.17,0.045,0.12,0.21,0.068,0.152,0.235,0.112,0.201,0.126,0.285,0.069,0.042,0.144,0.145,0.173,0.133,0.324,0.218,0.282,0.024,0.112,0.178,0.401,0.17,0.183,0.178,0.12,0.172,0.127,0.059,0.174,0.025,0.144,0.14,0.27,0.191,0.128,0.08,0.168,0.059,0.135,0.014,0.096,0.189,0.181,0.082,0.068,0.091],"Corruption":[0.454,0.452,0.818,0.476,0.807,0.628,0.516,0.568,0.502,0.677,0.52,0.877,0.828,0.695,0.632,0.689,0.582,0.932,0.884,0.649,0.869,0.742,0.831,0.632,0.873,0.78,0.719,0.812,0.927,0.425,0.798,0.994,0.747,0.599,0.825,0.823,0.899,0.925,0.957,0.875,0.926,0.922,0.749,0.858,0.942,0.922,0.785,0.92,0.88,0.951,0.781,0.842,0.864,0.84,0.965,0.933,0.935,0.976,0.881,0.836,0.919,0.957,0.907,1,0.796,0.972,0.971,0.804,0.882,0.956,0.879,0.939,0.922,0.97,0.868,0.945,0.941,0.914,0.945,0.994,0.827,0.966,0.985,0.8,0.598,0.951,0.862,0.804,0.826,0.952,0.885,0.833,0.9,0.836,0.893,0.885,0.931,0.877,0.801,0.981,0.94,0.975,0.939,0.918,0.926,0.853,0.821,0.802,0.952,0.887,0.931,0.982,0.748,0.946,0.826,0.929,0.972,0.925,0.91,0.877,0.844,0.811,0.878,0.741,0.969,0.833,0.899,0.743,0.84,0.887,0.891,0.884,0.864,0.918,0.869,0.928,0.947,0.915,0.971,0.912]},"columns":[{"id":"Country_name","name":"Country_name","type":"character"},{"id":"Region","name":"Region","type":"character"},{"id":"Happiness_score","name":"Happiness_score","type":"numeric"},{"id":"Log_GDP","name":"Log_GDP","type":"numeric"},{"id":"Social_support","name":"Social_support","type":"numeric"},{"id":"Healthy_life_expectancy","name":"Healthy_life_expectancy","type":"numeric"},{"id":"Freedom","name":"Freedom","type":"numeric"},{"id":"Generosity","name":"Generosity","type":"numeric"},{"id":"Corruption","name":"Corruption","type":"numeric"}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"1rem"},"height":"300px","dataKey":"79a189929a84d6ba059984611a1e094c"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div></div>
@@ -308,6 +308,7 @@ We’ll use the <a href="https://www.worldhappiness.report/ed/2024" target="_bla
 <p>Here are two similar ways of taking a general look at our data.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
 <p>As shown in Lab 1, the base R function is <code>str()</code></p>
 <div class="cell code-125">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(WH_2024)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -323,164 +324,204 @@ We’ll use the <a href="https://www.worldhappiness.report/ed/2024" target="_bla
 <span id="cb5-9"><a href=""></a> $ Generosity             : num  0.142 0.204 0.258 0.221 0.153 0.247 0.224 0.146 0.173 0.225 ...</span>
 <span id="cb5-10"><a href=""></a> $ Corruption             : num  0.454 0.452 0.818 0.476 0.807 0.628 0.516 0.568 0.502 0.677 ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: `num` and `&lt;dbl&gt;` are the same type of variable</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
 <p>The <code>dplyr</code> function to look at data is <code>glimpse()</code></p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(WH_2024)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(WH_2024)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb7-1"><a href=""></a>Rows: 140</span>
-<span id="cb7-2"><a href=""></a>Columns: 9</span>
-<span id="cb7-3"><a href=""></a>$ Country_name            &lt;chr&gt; "Finland", "Denmark", "Iceland", "Sweden", "Is…</span>
-<span id="cb7-4"><a href=""></a>$ Region                  &lt;chr&gt; "Western Europe", "Western Europe", "Western E…</span>
-<span id="cb7-5"><a href=""></a>$ Happiness_score         &lt;dbl&gt; 7.741, 7.583, 7.525, 7.344, 7.341, 7.319, 7.30…</span>
-<span id="cb7-6"><a href=""></a>$ Log_GDP                 &lt;dbl&gt; 1.844, 1.908, 1.881, 1.878, 1.803, 1.901, 1.95…</span>
-<span id="cb7-7"><a href=""></a>$ Social_support          &lt;dbl&gt; 1.572, 1.520, 1.617, 1.501, 1.513, 1.462, 1.51…</span>
-<span id="cb7-8"><a href=""></a>$ Healthy_life_expectancy &lt;dbl&gt; 0.695, 0.699, 0.718, 0.724, 0.740, 0.706, 0.70…</span>
-<span id="cb7-9"><a href=""></a>$ Freedom                 &lt;dbl&gt; 0.859, 0.823, 0.819, 0.838, 0.641, 0.725, 0.83…</span>
-<span id="cb7-10"><a href=""></a>$ Generosity              &lt;dbl&gt; 0.142, 0.204, 0.258, 0.221, 0.153, 0.247, 0.22…</span>
-<span id="cb7-11"><a href=""></a>$ Corruption              &lt;dbl&gt; 0.454, 0.452, 0.818, 0.476, 0.807, 0.628, 0.51…</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb8-1"><a href=""></a>Rows: 140</span>
+<span id="cb8-2"><a href=""></a>Columns: 9</span>
+<span id="cb8-3"><a href=""></a>$ Country_name            &lt;chr&gt; "Finland", "Denmark", "Iceland", "Sweden", "Is…</span>
+<span id="cb8-4"><a href=""></a>$ Region                  &lt;chr&gt; "Western Europe", "Western Europe", "Western E…</span>
+<span id="cb8-5"><a href=""></a>$ Happiness_score         &lt;dbl&gt; 7.741, 7.583, 7.525, 7.344, 7.341, 7.319, 7.30…</span>
+<span id="cb8-6"><a href=""></a>$ Log_GDP                 &lt;dbl&gt; 1.844, 1.908, 1.881, 1.878, 1.803, 1.901, 1.95…</span>
+<span id="cb8-7"><a href=""></a>$ Social_support          &lt;dbl&gt; 1.572, 1.520, 1.617, 1.501, 1.513, 1.462, 1.51…</span>
+<span id="cb8-8"><a href=""></a>$ Healthy_life_expectancy &lt;dbl&gt; 0.695, 0.699, 0.718, 0.724, 0.740, 0.706, 0.70…</span>
+<span id="cb8-9"><a href=""></a>$ Freedom                 &lt;dbl&gt; 0.859, 0.823, 0.819, 0.838, 0.641, 0.725, 0.83…</span>
+<span id="cb8-10"><a href=""></a>$ Generosity              &lt;dbl&gt; 0.142, 0.204, 0.258, 0.221, 0.153, 0.247, 0.22…</span>
+<span id="cb8-11"><a href=""></a>$ Corruption              &lt;dbl&gt; 0.454, 0.452, 0.818, 0.476, 0.807, 0.628, 0.51…</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div></div>
+<div class="fragment" data-fragment-index="3">
 <p>Personally, I usually just use the bulit-in RStudio viewer to look at data. You can open it by clicking on the <code>WH_2024</code> object in the environment or by running <code>View(WH_2024)</code>.</p>
+</div>
 </section>
-<section id="factor-variables" class="slide level2">
-<h2>Factor Variables</h2>
-</section>
+
 <section id="tables-and-porportions" class="slide level2">
 <h2>Tables and Porportions</h2>
 <p>We have also seen the <code>table()</code> function in Lab 1. Here we count the number of countries in each <code>Region</code>:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(WH_2024<span class="sc">$</span>Region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(WH_2024<span class="sc">$</span>Region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb9-1"><a href=""></a></span>
-<span id="cb9-2"><a href=""></a>        Africa           Asia      Caribbean Eastern Europe   Middele East </span>
-<span id="cb9-3"><a href=""></a>            40             22              2             23             11 </span>
-<span id="cb9-4"><a href=""></a> North America        Oceania  South America Western Europe </span>
-<span id="cb9-5"><a href=""></a>             8              2             11             21 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb14-1"><a href=""></a></span>
+<span id="cb14-2"><a href=""></a>        Africa           Asia      Caribbean Eastern Europe   Middele East </span>
+<span id="cb14-3"><a href=""></a>            40             22              2             23             11 </span>
+<span id="cb14-4"><a href=""></a> North America        Oceania  South America Western Europe </span>
+<span id="cb14-5"><a href=""></a>             8              2             11             21 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
 <p>What if we want the proportion of countries in each region? We divide by the total number of countries.</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># many ways to get the total. Here I just get the rows of the data since every row is an individual country</span></span>
-<span id="cb10-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(WH_2024<span class="sc">$</span>Region)<span class="sc">/</span><span class="fu">nrow</span>(WH_2024)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># many ways to get the total. Here I just get the rows of the data since every row is an individual country</span></span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(WH_2024<span class="sc">$</span>Region)<span class="sc">/</span><span class="fu">nrow</span>(WH_2024)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb11-1"><a href=""></a></span>
-<span id="cb11-2"><a href=""></a>        Africa           Asia      Caribbean Eastern Europe   Middele East </span>
-<span id="cb11-3"><a href=""></a>    0.28571429     0.15714286     0.01428571     0.16428571     0.07857143 </span>
-<span id="cb11-4"><a href=""></a> North America        Oceania  South America Western Europe </span>
-<span id="cb11-5"><a href=""></a>    0.05714286     0.01428571     0.07857143     0.15000000 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb16-1"><a href=""></a></span>
+<span id="cb16-2"><a href=""></a>        Africa           Asia      Caribbean Eastern Europe   Middele East </span>
+<span id="cb16-3"><a href=""></a>    0.28571429     0.15714286     0.01428571     0.16428571     0.07857143 </span>
+<span id="cb16-4"><a href=""></a> North America        Oceania  South America Western Europe </span>
+<span id="cb16-5"><a href=""></a>    0.05714286     0.01428571     0.07857143     0.15000000 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
 <p>Of course we can get percentages by multiplying the proportions by <span class="math inline">\(100\)</span></p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(WH_2024<span class="sc">$</span>Region)<span class="sc">/</span><span class="fu">nrow</span>(WH_2024)<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(WH_2024<span class="sc">$</span>Region)<span class="sc">/</span><span class="fu">nrow</span>(WH_2024)<span class="sc">*</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb13-1"><a href=""></a></span>
-<span id="cb13-2"><a href=""></a>        Africa           Asia      Caribbean Eastern Europe   Middele East </span>
-<span id="cb13-3"><a href=""></a>     28.571429      15.714286       1.428571      16.428571       7.857143 </span>
-<span id="cb13-4"><a href=""></a> North America        Oceania  South America Western Europe </span>
-<span id="cb13-5"><a href=""></a>      5.714286       1.428571       7.857143      15.000000 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb18-1"><a href=""></a></span>
+<span id="cb18-2"><a href=""></a>        Africa           Asia      Caribbean Eastern Europe   Middele East </span>
+<span id="cb18-3"><a href=""></a>     28.571429      15.714286       1.428571      16.428571       7.857143 </span>
+<span id="cb18-4"><a href=""></a> North America        Oceania  South America Western Europe </span>
+<span id="cb18-5"><a href=""></a>      5.714286       1.428571       7.857143      15.000000 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div></div>
 </section>
 <section id="central-tendency-mode" class="slide level2">
 <h2>Central Tendency: Mode</h2>
-<p>The <strong>mode</strong> is the value that occurs the most in a set of observations. In practice we would calculate the mode only for discrete () or ordinal data (e.g., Likert scales).</p>
+<p>The <strong>mode</strong> is the value that occurs the most in a set of observations. In practice we would calculate the mode only for discrete or ordinal data (e.g., Likert scales).</p>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
 <p>There is no function that directly calculates the mode, but finding the values that occurs the most in a vector is a very simple task. Here we used the <code>which.max()</code></p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(WH_2024<span class="sc">$</span>Region)</span>
-<span id="cb14-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># we give the output of table(WH_2024$Region) as the input to which.max()</span></span>
-<span id="cb14-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">which.max</span>(tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a>tab <span class="ot">&lt;-</span> <span class="fu">table</span>(WH_2024<span class="sc">$</span>Region)</span>
+<span id="cb19-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># we give the output of table(WH_2024$Region) as the input to which.max()</span></span>
+<span id="cb19-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">which.max</span>(tab)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Africa 
      1 </code></pre>
 </div>
 </div>
 <p>Given a vector of numbers, the <code>which.max()</code> function returns the <em>index</em> of the highest value. Thus <em>Africa</em> is the mode of the <code>Region</code> variable.</p>
+</div>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
 <p>Let’s say that at the same time I would like to know how many times the mode occurs. Instead of just printing all the values of our table, much more efficient is:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a>tab[<span class="fu">which.max</span>(tab)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a>tab[<span class="fu">which.max</span>(tab)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Africa 
     40 </code></pre>
 </div>
 </div>
 <p>Here we use the fact that <code>which.max()</code> always gives the index of th highest value (<code>1</code>, the first one, in this case). Then we extract that value from the <code>tab</code> object by using the the <code>[]</code> operator</p>
+</div>
 </div></div>
 </section>
 <section id="central-tendency-mean-and-median" class="slide level2">
 <h2>Central Tendency: Mean and Median</h2>
 <p>The mean and median are measures of <em>central tendency</em>. We use them to describe values around which data tends to cluster.</p>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:55%;">
+<div class="fragment" data-fragment-index="1">
 <ul>
-<li><p><strong>Mean:</strong> <span class="math inline">\(\bar{x} = \frac{\sum x_i}{n}\)</span>, where the numerator is the sum of all the observations and <span class="math inline">\(n\)</span> is the sample size.</p></li>
-<li><p><strong>Median:</strong> The value at the 50<sup>th</sup> percentile (more about percentiles later)</p></li>
+<li><strong>Mean:</strong> <span class="math inline">\(\bar{x} = \frac{\sum x_i}{n}\)</span>, where the numerator is the sum of all the observations and <span class="math inline">\(n\)</span> is the sample size.<br>
+</li>
 </ul>
+</div>
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li><strong>Median:</strong> The value at the 50<sup>th</sup> percentile (more about percentiles later)</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="3">
 <p>The mean is by far more popular than the median for <a href="https://www.probabilitycourse.com/chapter3/3_2_2_expectation.php" target="_blank">mathematical reasons</a>, but is influenced by <em>outliers</em></p>
 <p>In the case on the right, the median better describes the central tendency of the <code>x</code> vector.</p>
-</div><div class="column" style="width:50%;">
+</div>
+</div><div class="column" style="width:45%;">
+<div class="fragment" data-fragment-index="1">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.530893</code></pre>
 </div>
 </div>
+</div>
+<div class="fragment" data-fragment-index="2">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.8005</code></pre>
 </div>
 </div>
+</div>
+<div class="fragment" data-fragment-index="3">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># some values with an outlier</span></span>
-<span id="cb22-2"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">90</span>)</span>
-<span id="cb22-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># some values with an outlier</span></span>
+<span id="cb27-2"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">90</span>)</span>
+<span id="cb27-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12.33333</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.5</code></pre>
 </div>
 </div>
+</div>
 </div></div>
+<div class="fragment" data-fragment-index="4">
 <p>Still, to describe continuous or ordinal variables, we generally use the mean.</p>
+</div>
 </section>
 <section id="dispersion-variance-and-standard-deviation" class="slide level2">
 <h2>Dispersion: Variance and Standard Deviation</h2>
 <p>The variance and standard deviation (SD) are measures of how “spread out” the data is. Mathematically, they are both measures of how distant observations are from the mean on average.</p>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:55%;">
+<div class="fragment" data-fragment-index="1">
 <ul>
-<li><p><strong>Variance:</strong> <span class="math inline">\(S^2 = \frac{\sum (x_i - \bar{x})^2}{n - 1}\)</span>, where the numerator is the sum of all the squared differences between each observation (<span class="math inline">\(x_i\)</span>) and the mean (<span class="math inline">\(\bar{x}\)</span>). The denominator simply divides by the total number of observations (<span class="math inline">\(n\)</span>) <a href="https://en.wikipedia.org/wiki/Bessel%27s_correction" target="_blank">minus 1</a>.</p></li>
-<li><p><strong>Standard deviation:</strong> <span class="math inline">\(S = \sqrt{\frac{\sum (x_i - \bar{x})^2}{n - 1}}\)</span>, which is simply the square root of the variance.</p></li>
+<li><strong>Variance:</strong> <span class="math inline">\(S^2 = \frac{\sum (x_i - \bar{x})^2}{n - 1}\)</span>, where the numerator is the sum of all the squared differences between each observation (<span class="math inline">\(x_i\)</span>) and the mean (<span class="math inline">\(\bar{x}\)</span>). The denominator simply divides by the total number of observations (<span class="math inline">\(n\)</span>) <a href="https://en.wikipedia.org/wiki/Bessel%27s_correction" target="_blank">minus 1</a>.</li>
 </ul>
-</div><div class="column" style="width:50%;">
+</div>
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li><strong>Standard deviation:</strong> <span class="math inline">\(S = \sqrt{\frac{\sum (x_i - \bar{x})^2}{n - 1}}\)</span>, which is simply the square root of the variance.</li>
+</ul>
+</div>
+</div><div class="column" style="width:45%;">
+<div class="fragment" data-fragment-index="1">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.395344</code></pre>
 </div>
 </div>
+</div>
 <p><br> <br> <br></p>
+<div class="fragment" data-fragment-index="2">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># same as `sqrt(var(WH_2024$Happiness_score))`</span></span>
-<span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># same as `sqrt(var(WH_2024$Happiness_score))`</span></span>
+<span id="cb33-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.181247</code></pre>
 </div>
 </div>
+</div>
 </div></div>
+<div class="fragment" data-fragment-index="3">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -494,31 +535,43 @@ We’ll use the <a href="https://www.worldhappiness.report/ed/2024" target="_bla
 </div>
 </div>
 </div>
+</div>
 </section>
 <section id="shape-skewness-and-kurtosis" class="slide level2">
 <h2>Shape: Skewness and Kurtosis</h2>
 <p>Skewness and kurtosis are statistics that describe the <em>shape</em> of the distribution of some data.</p>
 <div class="columns">
-<div class="column" style="width:50%;">
+<div class="column" style="width:60%;">
+<div class="fragment" data-fragment-index="1">
 <ul>
-<li><p><strong>Skewness:</strong> describes the <em>degree and direction of asymmetry</em> in a distribution. If it is negative, the distribution will have a left tail. If it is positive, the distribution will have a right tail.</p></li>
-<li><p><strong>Kurtosis:</strong> describes the <em>peakedness</em> of a distribution. Negative values mean that the distribution is more flat than a normal distribution, while positive values imply that the distribution is more peaked than a normal distribution.</p></li>
+<li><strong>Skewness:</strong> describes the <em>degree and direction of asymmetry</em> in a distribution. If it is negative, the distribution will have a left tail. If it is positive, the distribution will have a right tail.</li>
 </ul>
-</div><div class="column" style="width:50%;">
+</div>
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li><strong>Kurtosis:</strong> describes the <em>peakedness</em> of a distribution. Negative values mean that the distribution is more flat than a normal distribution, while positive values imply that the distribution is more peaked than a normal distribution.</li>
+</ul>
+</div>
+</div><div class="column" style="width:40%;">
+<div class="fragment" data-fragment-index="1">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a>e1071<span class="sc">::</span><span class="fu">skewness</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-hidden="true" tabindex="-1"></a>e1071<span class="sc">::</span><span class="fu">skewness</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.5154923</code></pre>
 </div>
 </div>
+</div>
 <p><br> <br></p>
+<div class="fragment" data-fragment-index="2">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a>e1071<span class="sc">::</span><span class="fu">kurtosis</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-hidden="true" tabindex="-1"></a>e1071<span class="sc">::</span><span class="fu">kurtosis</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -0.2906174</code></pre>
 </div>
 </div>
+</div>
 </div></div>
+<div class="fragment" data-fragment-index="3">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -528,7 +581,8 @@ We’ll use the <a href="https://www.worldhappiness.report/ed/2024" target="_bla
 <p><strong>The <code>::</code> Operator</strong></p>
 </div>
 <div class="callout-content">
-<p>The <code>::</code> operator is used to refer to a specific function from a package. So above, for example, I used the <code>kurtosis()</code> function from the <code>e1071</code> package. The difference between this and running <code>library(e1071)</code> followed by <code>kurtosis()</code> is that I am no loading the full <code>e1071</code> package. One of the advantage is that it makes it clear what package the <code>kurtosis()</code> function comes from; the other advantage is that it avoids <a href="https://stats.oarc.ucla.edu/r/faq/how-does-r-handle-overlapping-object-names" target="_blank">package conflicts</a>.</p>
+<p>The <code>::</code> operator is used to refer to a specific function from a package. So above, for example, I used the <code>kurtosis()</code> function from the <code>e1071</code> package. The difference between this and running <code>library(e1071)</code> followed by <code>kurtosis()</code> is that I am no loading the full <code>e1071</code> package. One of the advantage is that it makes it clear what package the <code>kurtosis()</code> function comes from; the other advantage is that it avoids <a href="https://stats.oarc.ucla.edu/r/faq/how-does-r-handle-overlapping-object-names">package conflicts</a>{target=“_blank”.</p>
+</div>
 </div>
 </div>
 </div>
@@ -561,39 +615,47 @@ We’ll use the <a href="https://www.worldhappiness.report/ed/2024" target="_bla
 <p>Given a continuous variable, you can think of percentiles as cut-offs that divide observations into 100 ordered groups. Then, for example, we say that an observation above the 50<sup>th</sup> percentile is “above 50% of the rest of the observations”.</p>
 <div class="columns">
 <div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
 <p>We use the <code>quantile()</code> function to find the percentile of a variable:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># find the 50th percentile (the median). The first argument is the vector of observations and the second argument is the desired percentile (from 0 to 1)</span></span>
-<span id="cb34-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(WH_2024<span class="sc">$</span>Happiness_score, .<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># find the 50th percentile (the median). The first argument is the vector of observations and the second argument is the desired percentile (from 0 to 1)</span></span>
+<span id="cb39-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(WH_2024<span class="sc">$</span>Happiness_score, .<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   50% 
 5.8005 </code></pre>
 </div>
 </div>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>We can also get multiple percentiles at once like so:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># get the 25th, 50th, and 75th percentiles of Happiness_score</span></span>
-<span id="cb36-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(WH_2024<span class="sc">$</span>Happiness_score, <span class="fu">c</span>(.<span class="dv">25</span>, .<span class="dv">5</span>, .<span class="dv">75</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># get the 25th, 50th, and 75th percentiles of Happiness_score</span></span>
+<span id="cb41-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(WH_2024<span class="sc">$</span>Happiness_score, <span class="fu">c</span>(.<span class="dv">25</span>, .<span class="dv">5</span>, .<span class="dv">75</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    25%     50%     75% 
 4.63175 5.80050 6.42625 </code></pre>
 </div>
 </div>
+</div>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
 <p>You may also want to use the interquartile range (IQR) to describe the range between which 50% of the observations fall.</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">IQR</span>(WH_2024<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1.7945</code></pre>
 </div>
 </div>
+</div>
+<div class="fragment" data-fragment-index="4">
 <p>The IQR is just the 75<sup>th</sup> percentile minus the 25<sup>th</sup> percentile</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># disregard the "75%" that appears above the number</span></span>
-<span id="cb40-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(WH_2024<span class="sc">$</span>Happiness_score, .<span class="dv">75</span>) <span class="sc">-</span> <span class="fu">quantile</span>(WH_2024<span class="sc">$</span>Happiness_score, .<span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># disregard the "75%" that appears above the number</span></span>
+<span id="cb45-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(WH_2024<span class="sc">$</span>Happiness_score, .<span class="dv">75</span>) <span class="sc">-</span> <span class="fu">quantile</span>(WH_2024<span class="sc">$</span>Happiness_score, .<span class="dv">25</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   75% 
 1.7945 </code></pre>
+</div>
 </div>
 </div>
 </div></div>
@@ -616,6 +678,7 @@ Data Manipulation with <code>dplyr</code>
 <section id="an-overview-of-dplyr" class="slide level2">
 <h2>An Overview of <code>dplyr</code></h2>
 <p><code>dplyr</code> offers a host of function to manipulate data in R. You can more or less achieve anything <code>dplyr</code> does with base R functions, but it usually takes more work. Some <code>dplyr</code> functions that we will look at are:</p>
+<div class="fragment" data-fragment-index="1">
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
@@ -628,8 +691,11 @@ Data Manipulation with <code>dplyr</code>
 <li><p><code>gropu_by()</code> + <code>summarise()</code>: I almost always end up using these two functions together. <code>group_by()</code> groups the data and <code>summarise()</code> creates summaries for each group (makes more sense once you see it).</p></li>
 </ul>
 </div></div>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>Something neat about <code>tidyverse</code> functions such as the ones from <code>dplyr</code> is that they accept the <em>pipe operator</em>, <code>%&gt;%</code>.</p>
 <p>Later we will see that the advantage of the pipe operator is that it allows to perform multiple actions (e.g., filter the data, than select a column, then compute some summary statistics) in a single statement!</p>
+</div>
 </section>
 <section id="the-select-function" class="slide level2">
 <h2>The <code>select()</code> Function</h2>
@@ -637,34 +703,39 @@ Data Manipulation with <code>dplyr</code>
 <div class="column" style="width:50%;">
 <p>We can select a subset of columns:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a>Select_EX1 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
-<span id="cb42-2"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="fu">select</span>(Region, Happiness_score)</span>
-<span id="cb42-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb42-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># check column names of Select_EX1 object</span></span>
-<span id="cb42-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Select_EX1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="" aria-hidden="true" tabindex="-1"></a>Select_EX1 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
+<span id="cb47-2"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="fu">select</span>(Region, Happiness_score)</span>
+<span id="cb47-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># check column names of Select_EX1 object</span></span>
+<span id="cb47-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Select_EX1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Region"          "Happiness_score"</code></pre>
 </div>
 </div>
+<div class="fragment" data-fragment-index="1">
 <p>We can also remove columns:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="" aria-hidden="true" tabindex="-1"></a>Select_EX2 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
-<span id="cb44-2"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="fu">select</span>(<span class="sc">-</span>Region, <span class="sc">-</span>Happiness_score)</span>
-<span id="cb44-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Select_EX2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="" aria-hidden="true" tabindex="-1"></a>Select_EX2 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
+<span id="cb49-2"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="fu">select</span>(<span class="sc">-</span>Region, <span class="sc">-</span>Happiness_score)</span>
+<span id="cb49-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Select_EX2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb45"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb45-1"><a href=""></a>[1] "Country_name"            "Log_GDP"                </span>
-<span id="cb45-2"><a href=""></a>[3] "Social_support"          "Healthy_life_expectancy"</span>
-<span id="cb45-3"><a href=""></a>[5] "Freedom"                 "Generosity"             </span>
-<span id="cb45-4"><a href=""></a>[7] "Corruption"             </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb50-1"><a href=""></a>[1] "Country_name"            "Log_GDP"                </span>
+<span id="cb50-2"><a href=""></a>[3] "Social_support"          "Healthy_life_expectancy"</span>
+<span id="cb50-3"><a href=""></a>[5] "Freedom"                 "Generosity"             </span>
+<span id="cb50-4"><a href=""></a>[7] "Corruption"             </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
 <p>Notice how the <code>%&gt;%</code> <em>passes</em> the information to its left to the right. Oh, and you do not have to start a new line after <code>%&gt;%</code>, it’s just a convention for neater looking code 🤷</p>
 <p>
 The keyboard shortcut to get the <code>%&gt;%</code> is <kbd>Ctrl</kbd> + <kbd>shift</kbd> + <kbd>M</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>shift</kbd> + <kbd>M</kbd> (Mac)
 </p>
+</div>
 <p><br></p>
+<div class="fragment" data-fragment-index="3">
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -678,6 +749,7 @@ The keyboard shortcut to get the <code>%&gt;%</code> is <kbd>Ctrl</kbd> + <kbd>s
 </div>
 </div>
 </div>
+</div>
 </div></div>
 </section>
 <section id="the-filter-function" class="slide level2">
@@ -685,34 +757,44 @@ The keyboard shortcut to get the <code>%&gt;%</code> is <kbd>Ctrl</kbd> + <kbd>s
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="" aria-hidden="true" tabindex="-1"></a>filter_EX1 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
-<span id="cb46-2"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="fu">filter</span>(Region <span class="sc">==</span> <span class="st">"Africa"</span>)</span>
-<span id="cb46-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># We are only left with rows where the Region variable has Africa</span></span>
-<span id="cb46-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(filter_EX1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="" aria-hidden="true" tabindex="-1"></a>filter_EX1 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
+<span id="cb51-2"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="fu">filter</span>(Region <span class="sc">==</span> <span class="st">"Africa"</span>)</span>
+<span id="cb51-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># We are only left with rows where the Region variable has Africa</span></span>
+<span id="cb51-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(filter_EX1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 40</code></pre>
 </div>
 </div>
+<div class="fragment" data-fragment-index="1">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="" aria-hidden="true" tabindex="-1"></a>filter_EX2 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
-<span id="cb48-2"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="fu">filter</span>(Region <span class="sc">==</span> <span class="st">"Africa"</span> <span class="sc">&amp;</span> Happiness_score <span class="sc">&gt;</span> <span class="dv">5</span>)</span>
-<span id="cb48-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># We filter for 2 condition by using the `&amp;`. We additionally ask for only countries that have `Happiness_score` above 5</span></span>
-<span id="cb48-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(filter_EX2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="" aria-hidden="true" tabindex="-1"></a>filter_EX2 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
+<span id="cb53-2"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="fu">filter</span>(Region <span class="sc">==</span> <span class="st">"Africa"</span> <span class="sc">&amp;</span> Happiness_score <span class="sc">&gt;</span> <span class="dv">5</span>)</span>
+<span id="cb53-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># We filter for 2 condition by using the `&amp;`. We additionally ask for only countries that have `Happiness_score` above 5</span></span>
+<span id="cb53-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(filter_EX2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 9</code></pre>
 </div>
 </div>
+</div>
+<div class="fragment" data-fragment-index="2">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="" aria-hidden="true" tabindex="-1"></a>filter_EX3 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
-<span id="cb50-2"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="fu">filter</span>(Region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Asia"</span>, <span class="st">"Africa"</span>))</span>
-<span id="cb50-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># the `%in%` operator is very useful. It selects all the rows where the Region variable has Africa OR Asia! `%in%` means "equal any of"</span></span>
-<span id="cb50-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(filter_EX3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="" aria-hidden="true" tabindex="-1"></a>filter_EX3 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
+<span id="cb55-2"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="fu">filter</span>(Region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Asia"</span>, <span class="st">"Africa"</span>))</span>
+<span id="cb55-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># the `%in%` operator is very useful. It selects all the rows where the Region variable has Africa OR Asia! `%in%` means "equal any of"</span></span>
+<span id="cb55-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(filter_EX3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 62</code></pre>
 </div>
 </div>
+</div>
 </div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
 <p>As you can see on the left, there are many ways in which you can filter data. The catch is that it requires you knowing <code>conditional operators</code>:</p>
+<style>
+td, th {
+   border: none!important;
+}
+</style>
 <div style="font-size: 24px">
 <table class="caption-top">
 <thead>
@@ -765,6 +847,7 @@ The keyboard shortcut to get the <code>%&gt;%</code> is <kbd>Ctrl</kbd> + <kbd>s
 </tbody>
 </table>
 </div>
+</div>
 </div></div>
 </section>
 <section id="the-mutate-function" class="slide level2">
@@ -772,45 +855,47 @@ The keyboard shortcut to get the <code>%&gt;%</code> is <kbd>Ctrl</kbd> + <kbd>s
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="" aria-hidden="true" tabindex="-1"></a>mutate_EX1 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
-<span id="cb52-2"><a href="" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mutate</span>(<span class="at">log_happiness =</span> <span class="fu">log</span>(Happiness_score),</span>
-<span id="cb52-3"><a href="" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># here I sum two columns</span></span>
-<span id="cb52-4"><a href="" aria-hidden="true" tabindex="-1"></a>                      <span class="at">free_gen =</span> Freedom <span class="sc">+</span> Generosity)</span>
-<span id="cb52-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mutate_EX1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="" aria-hidden="true" tabindex="-1"></a>mutate_EX1 <span class="ot">&lt;-</span> WH_2024 <span class="sc">%&gt;%</span> </span>
+<span id="cb57-2"><a href="" aria-hidden="true" tabindex="-1"></a>               <span class="fu">mutate</span>(<span class="at">log_happiness =</span> <span class="fu">log</span>(Happiness_score),</span>
+<span id="cb57-3"><a href="" aria-hidden="true" tabindex="-1"></a>                      <span class="co"># here I sum two columns</span></span>
+<span id="cb57-4"><a href="" aria-hidden="true" tabindex="-1"></a>                      <span class="at">free_gen =</span> Freedom <span class="sc">+</span> Generosity)</span>
+<span id="cb57-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(mutate_EX1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<div class="sourceCode" id="cb53"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb53-1"><a href=""></a>'data.frame':   140 obs. of  11 variables:</span>
-<span id="cb53-2"><a href=""></a> $ Country_name           : chr  "Finland" "Denmark" "Iceland" "Sweden" ...</span>
-<span id="cb53-3"><a href=""></a> $ Region                 : chr  "Western Europe" "Western Europe" "Western Europe" "Western Europe" ...</span>
-<span id="cb53-4"><a href=""></a> $ Happiness_score        : num  7.74 7.58 7.53 7.34 7.34 ...</span>
-<span id="cb53-5"><a href=""></a> $ Log_GDP                : num  1.84 1.91 1.88 1.88 1.8 ...</span>
-<span id="cb53-6"><a href=""></a> $ Social_support         : num  1.57 1.52 1.62 1.5 1.51 ...</span>
-<span id="cb53-7"><a href=""></a> $ Healthy_life_expectancy: num  0.695 0.699 0.718 0.724 0.74 0.706 0.704 0.708 0.747 0.692 ...</span>
-<span id="cb53-8"><a href=""></a> $ Freedom                : num  0.859 0.823 0.819 0.838 0.641 0.725 0.835 0.801 0.759 0.756 ...</span>
-<span id="cb53-9"><a href=""></a> $ Generosity             : num  0.142 0.204 0.258 0.221 0.153 0.247 0.224 0.146 0.173 0.225 ...</span>
-<span id="cb53-10"><a href=""></a> $ Corruption             : num  0.454 0.452 0.818 0.476 0.807 0.628 0.516 0.568 0.502 0.677 ...</span>
-<span id="cb53-11"><a href=""></a> $ log_happiness          : num  2.05 2.03 2.02 1.99 1.99 ...</span>
-<span id="cb53-12"><a href=""></a> $ free_gen               : num  1.001 1.027 1.077 1.059 0.794 ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb58-1"><a href=""></a>'data.frame':   140 obs. of  11 variables:</span>
+<span id="cb58-2"><a href=""></a> $ Country_name           : chr  "Finland" "Denmark" "Iceland" "Sweden" ...</span>
+<span id="cb58-3"><a href=""></a> $ Region                 : chr  "Western Europe" "Western Europe" "Western Europe" "Western Europe" ...</span>
+<span id="cb58-4"><a href=""></a> $ Happiness_score        : num  7.74 7.58 7.53 7.34 7.34 ...</span>
+<span id="cb58-5"><a href=""></a> $ Log_GDP                : num  1.84 1.91 1.88 1.88 1.8 ...</span>
+<span id="cb58-6"><a href=""></a> $ Social_support         : num  1.57 1.52 1.62 1.5 1.51 ...</span>
+<span id="cb58-7"><a href=""></a> $ Healthy_life_expectancy: num  0.695 0.699 0.718 0.724 0.74 0.706 0.704 0.708 0.747 0.692 ...</span>
+<span id="cb58-8"><a href=""></a> $ Freedom                : num  0.859 0.823 0.819 0.838 0.641 0.725 0.835 0.801 0.759 0.756 ...</span>
+<span id="cb58-9"><a href=""></a> $ Generosity             : num  0.142 0.204 0.258 0.221 0.153 0.247 0.224 0.146 0.173 0.225 ...</span>
+<span id="cb58-10"><a href=""></a> $ Corruption             : num  0.454 0.452 0.818 0.476 0.807 0.628 0.516 0.568 0.502 0.677 ...</span>
+<span id="cb58-11"><a href=""></a> $ log_happiness          : num  2.05 2.03 2.02 1.99 1.99 ...</span>
+<span id="cb58-12"><a href=""></a> $ free_gen               : num  1.001 1.027 1.077 1.059 0.794 ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
 <p>The <code>mutate()</code> function works by giving the name of the new variable on the left of the <code>=</code> sign and then the transformation of variables on the right. so, <code>new_var = some_transformation</code>.</p>
+<div class="fragment" data-fragment-index="1">
 <p>On the left I create 2 new variables:</p>
 <ul>
 <li><p><code>log_happiness</code>, which is just a log transformation of the <code>Happiness_score</code> variable with the <code>log()</code> function.</p></li>
 <li><p><code>free_gen</code>, which is the sum of the <code>Freedom</code> and <code>Generosity</code> variable.</p></li>
 </ul>
+</div>
 </div></div>
 </section>
 <section id="the-group_by-and-summarise-functions" class="slide level2">
 <h2>The <code>group_by()</code> and <code>summarise()</code> Functions</h2>
-<p>As I mentioned, I generally use these functions togehter. Here is an example:</p>
+<p>As I mentioned, I generally use these functions together. Here is an example:</p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="" aria-hidden="true" tabindex="-1"></a>WH_2024 <span class="sc">%&gt;%</span> </span>
-<span id="cb54-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">group_by</span>(Region) <span class="sc">%&gt;%</span> </span>
-<span id="cb54-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_happy =</span> <span class="fu">mean</span>(Happiness_score),</span>
-<span id="cb54-4"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_happy =</span> <span class="fu">sd</span>(Happiness_score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="" aria-hidden="true" tabindex="-1"></a>WH_2024 <span class="sc">%&gt;%</span> </span>
+<span id="cb59-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">group_by</span>(Region) <span class="sc">%&gt;%</span> </span>
+<span id="cb59-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_happy =</span> <span class="fu">mean</span>(Happiness_score),</span>
+<span id="cb59-4"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">sd_happy =</span> <span class="fu">sd</span>(Happiness_score))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 9 × 3
   Region         mean_happy sd_happy
@@ -828,8 +913,12 @@ The keyboard shortcut to get the <code>%&gt;%</code> is <kbd>Ctrl</kbd> + <kbd>s
 </div>
 </div><div class="column" style="width:50%;">
 <p>In this case, the <code>summarise()</code> function creates a new object (a <code>tibble</code>, which is essentially a <code>data.frame</code>) that includes the mean (<code>mean()</code>) and SD (<code>sd()</code>) of <code>Happiness_score</code> <em>for each</em> <code>Region</code>.</p>
+<div class="fragment" data-fragment-index="1">
 <p>Just as before with the <code>mutate()</code> function, we need to name the resulting columns by specifying the names before the <code>=</code> sign.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>Note that this works because we first group the data by region using <code>group_by(Region)</code> and then pass it to <code>summarise()</code>. This would not be as easy without the <code>%&gt;%</code> operator!</p>
+</div>
 </div></div>
 </section>
 <section id="concatenating-dplyr-functions" class="slide level2">
@@ -838,17 +927,17 @@ The keyboard shortcut to get the <code>%&gt;%</code> is <kbd>Ctrl</kbd> + <kbd>s
 <div class="columns">
 <div class="column" style="width:60%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># pass the data</span></span>
-<span id="cb56-2"><a href="" aria-hidden="true" tabindex="-1"></a>WH_2024 <span class="sc">%&gt;%</span></span>
-<span id="cb56-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># select only two columns of interest</span></span>
-<span id="cb56-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Region, Freedom) <span class="sc">%&gt;%</span></span>
-<span id="cb56-5"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="co"># filter for Asia and Eastern Europe countries only</span></span>
-<span id="cb56-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Asia"</span>, <span class="st">"Eastern Europe"</span>)) <span class="sc">%&gt;%</span></span>
-<span id="cb56-7"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Group by Region</span></span>
-<span id="cb56-8"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(Region) <span class="sc">%&gt;%</span></span>
-<span id="cb56-9"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="co"># get the mean and median for the two regions</span></span>
-<span id="cb56-10"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise</span>(<span class="at">Free_Mean =</span> <span class="fu">mean</span>(Freedom),</span>
-<span id="cb56-11"><a href="" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Free_Median =</span> <span class="fu">median</span>(Freedom))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># pass the data</span></span>
+<span id="cb61-2"><a href="" aria-hidden="true" tabindex="-1"></a>WH_2024 <span class="sc">%&gt;%</span></span>
+<span id="cb61-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># select only two columns of interest</span></span>
+<span id="cb61-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Region, Freedom) <span class="sc">%&gt;%</span></span>
+<span id="cb61-5"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="co"># filter for Asia and Eastern Europe countries only</span></span>
+<span id="cb61-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(Region <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Asia"</span>, <span class="st">"Eastern Europe"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb61-7"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="co"># Group by Region</span></span>
+<span id="cb61-8"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="fu">group_by</span>(Region) <span class="sc">%&gt;%</span></span>
+<span id="cb61-9"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="co"># get the mean and median for the two regions</span></span>
+<span id="cb61-10"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise</span>(<span class="at">Free_Mean =</span> <span class="fu">mean</span>(Freedom),</span>
+<span id="cb61-11"><a href="" aria-hidden="true" tabindex="-1"></a>                  <span class="at">Free_Median =</span> <span class="fu">median</span>(Freedom))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
   Region         Free_Mean Free_Median
@@ -860,7 +949,9 @@ The keyboard shortcut to get the <code>%&gt;%</code> is <kbd>Ctrl</kbd> + <kbd>s
 </div><div class="column" style="width:40%;">
 <p>This is just a random example of how you can be very flexible in how you manipulate data with <code>dplyr</code>!</p>
 <p><br></p>
-<p>As always, there are multiple ways of achieving the same outcome in R. I personally like the <code>dplyr</code> package for data manipulation, others may prefer base R functions 🤷</p>
+<div class="fragment" data-fragment-index="1">
+<p>As always, there are multiple ways of achieving the same outcome in R. When dealing with <code>data.frame</code> objects, I personally like the <code>dplyr</code> functions to manipulate data. Others may prefer base R functions 🤷</p>
+</div>
 </div></div>
 </section></section>
 <section>
@@ -932,32 +1023,10 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Just running <code>ggplot()</code> actually gives output! This is our “canvas”</p>
 <p>(You cannot see anything because the output is a white square, but it’s there, I promise 😅)</p>
-</div><div class="column" style="width:70%;">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-32-1.png" width="960"></p>
-</figure>
-</div>
-</div>
-</div>
-</div></div>
-</section>
-<section id="define-coordinates-with-aes" class="slide level2">
-<h2>Define Coordinates with <code>aes()</code></h2>
-<p>We use the <code>aes()</code> function to defined coordinates. Note that the name of the data object (<code>WH_2024</code> in our case) is almost always the first argument of the <code>ggplot()</code> function. Let’s define the axes and put <code>Social_support</code> on the <em>x</em>-axis and <code>Happiness_score</code> on the <em>y</em>-axis.</p>
-<div class="columns">
-<div class="column" style="width:30%;">
-<div class="cell code-125">
-<div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
-<span id="cb59-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> Social_support, </span>
-<span id="cb59-3"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> Happiness_score)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 </div><div class="column" style="width:70%;">
 <div class="cell">
 <div class="cell-output-display">
@@ -970,16 +1039,38 @@ Look things up. Usually I start with some plot code that I find online that prod
 </div>
 </div></div>
 </section>
+<section id="define-coordinates-with-aes" class="slide level2">
+<h2>Define Coordinates with <code>aes()</code></h2>
+<p>We use the <code>aes()</code> function to defined coordinates. Note that the name of the data object (<code>WH_2024</code> in our case) is almost always the first argument of the <code>ggplot()</code> function. Let’s define the axes and put <code>Social_support</code> on the <em>x</em>-axis and <code>Happiness_score</code> on the <em>y</em>-axis.</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
+<span id="cb64-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> Social_support, </span>
+<span id="cb64-3"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> Happiness_score)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-36-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
 <section id="scatterplot" class="slide level2">
 <h2>Scatterplot</h2>
 <p>We use one of the <code>geom_...()</code> functions to add shapes to our plot. This is a the <code>geom_point()</code> function can be use to create scatterplots.</p>
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
-<span id="cb60-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> Social_support, </span>
-<span id="cb60-3"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> Happiness_score))  <span class="sc">+</span></span>
-<span id="cb60-4"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
+<span id="cb65-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> Social_support, </span>
+<span id="cb65-3"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> Happiness_score))  <span class="sc">+</span></span>
+<span id="cb65-4"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -999,7 +1090,7 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-36-1.png" width="960"></p>
+<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-38-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1012,11 +1103,11 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
-<span id="cb61-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> Social_support, </span>
-<span id="cb61-3"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> Happiness_score))  <span class="sc">+</span></span>
-<span id="cb61-4"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb61-5"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
+<span id="cb66-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> Social_support, </span>
+<span id="cb66-3"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> Happiness_score))  <span class="sc">+</span></span>
+<span id="cb66-4"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb66-5"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">theme_classic</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -1036,7 +1127,7 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-38-1.png" width="960"></p>
+<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-40-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1049,51 +1140,15 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
-<span id="cb62-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> Social_support, </span>
-<span id="cb62-3"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> Happiness_score))  <span class="sc">+</span></span>
-<span id="cb62-4"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb62-5"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb62-6"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, </span>
-<span id="cb62-7"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">se =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb62-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># the argument `method = "lm"` tells `geom_smooth()` to draw a regression line. Other options exist </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div><div class="column" style="width:70%;">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure>
-<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-40-1.png" width="960"></p>
-</figure>
-</div>
-</div>
-</div>
-</div></div>
-</section>
-<section id="modify-plot-elements" class="slide level2">
-<h2>Modify Plot Elements</h2>
-<p>Here I made a bunch of changes to the plot. Spot the differences! What changes in the code resulted in what changes in the plot?</p>
-<div class="columns">
-<div class="column" style="width:30%;">
-<div class="cell">
-<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
-<span id="cb63-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> Social_support, </span>
-<span id="cb63-3"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> Happiness_score))  <span class="sc">+</span></span>
-<span id="cb63-4"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb63-5"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
-<span id="cb63-6"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, </span>
-<span id="cb63-7"><a href="" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb63-8"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Scatterplot Between Happiness and Social support By Country"</span>,</span>
-<span id="cb63-9"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">y=</span> <span class="st">"Country Happiness"</span>, </span>
-<span id="cb63-10"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">x =</span> <span class="st">"Country Social Support"</span>) <span class="sc">+</span></span>
-<span id="cb63-11"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">16</span>),</span>
-<span id="cb63-12"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">axis.title.x  =</span> <span class="fu">element_text</span>(<span class="at">face=</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>),</span>
-<span id="cb63-13"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">face=</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><br></p>
-<div style="font-size: 24px">
-<strong>NOTE</strong>: The <code>theme()</code> function takes in many arguments (<a href="https://ggplot2.tidyverse.org/reference/theme.html" target="_blank">see here</a>) that allow you to modify font size, position of plot elements, and much more!
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
+<span id="cb67-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> Social_support, </span>
+<span id="cb67-3"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> Happiness_score))  <span class="sc">+</span></span>
+<span id="cb67-4"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb67-5"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb67-6"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, </span>
+<span id="cb67-7"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">se =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb67-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># the argument `method = "lm"` tells `geom_smooth()` to draw a regression line. Other options exist </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:70%;">
 <div class="cell">
@@ -1107,19 +1162,55 @@ Look things up. Usually I start with some plot code that I find online that prod
 </div>
 </div></div>
 </section>
+<section id="modify-plot-elements" class="slide level2">
+<h2>Modify Plot Elements</h2>
+<p>Here I made a bunch of changes to the plot. Spot the differences! What changes in the code resulted in what changes in the plot?</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
+<span id="cb68-2"><a href="" aria-hidden="true" tabindex="-1"></a> <span class="fu">aes</span>(<span class="at">x =</span> Social_support, </span>
+<span id="cb68-3"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="at">y =</span> Happiness_score))  <span class="sc">+</span></span>
+<span id="cb68-4"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb68-5"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb68-6"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, </span>
+<span id="cb68-7"><a href="" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb68-8"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Scatterplot Between Happiness and Social support By Country"</span>,</span>
+<span id="cb68-9"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">y=</span> <span class="st">"Country Happiness"</span>, </span>
+<span id="cb68-10"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">x =</span> <span class="st">"Country Social Support"</span>) <span class="sc">+</span></span>
+<span id="cb68-11"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">face =</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">16</span>),</span>
+<span id="cb68-12"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">axis.title.x  =</span> <span class="fu">element_text</span>(<span class="at">face=</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb68-13"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">face=</span> <span class="st">"bold"</span>, <span class="at">size =</span> <span class="dv">12</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<div style="font-size: 24px">
+<strong>NOTE</strong>: The <code>theme()</code> function takes in many arguments (<a href="https://ggplot2.tidyverse.org/reference/theme.html" target="_blank">see here</a>) that allow you to modify font size, position of plot elements, and much more!
+</div>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-44-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
 <section id="histograms" class="slide level2">
 <h2>Histograms</h2>
 <p>Histograms are fairly useful for visualizing distributions of single variables. But you have to choose the number of <code>bins</code> appropriately.</p>
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># set theme globally</span></span>
-<span id="cb64-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_classic</span>())</span>
-<span id="cb64-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
-<span id="cb64-5"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="co"># note that we only need to give X, why?</span></span>
-<span id="cb64-6"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Happiness_score)) <span class="sc">+</span></span>
-<span id="cb64-7"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># set theme globally</span></span>
+<span id="cb69-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_classic</span>())</span>
+<span id="cb69-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
+<span id="cb69-5"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="co"># note that we only need to give X, why?</span></span>
+<span id="cb69-6"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Happiness_score)) <span class="sc">+</span></span>
+<span id="cb69-7"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_histogram</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -1139,7 +1230,7 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-44-1.png" width="960"></p>
+<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-46-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1153,16 +1244,16 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
-<span id="cb65-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Happiness_score)) <span class="sc">+</span></span>
-<span id="cb65-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">13</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
+<span id="cb70-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Happiness_score)) <span class="sc">+</span></span>
+<span id="cb70-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">13</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div><div class="column" style="width:70%;">
 <div class="cell">
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-46-1.png" width="960"></p>
+<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-48-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1175,13 +1266,13 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
-<span id="cb66-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Happiness_score)) <span class="sc">+</span></span>
-<span id="cb66-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">13</span>, </span>
-<span id="cb66-4"><a href="" aria-hidden="true" tabindex="-1"></a>                      <span class="at">color =</span> <span class="st">"black"</span>,</span>
-<span id="cb66-5"><a href="" aria-hidden="true" tabindex="-1"></a>                      <span class="at">linewidth =</span> .<span class="dv">8</span>,</span>
-<span id="cb66-6"><a href="" aria-hidden="true" tabindex="-1"></a>                      <span class="at">fill =</span> <span class="st">"#7a0b80"</span>) <span class="sc">+</span></span>
-<span id="cb66-7"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,  </span>
+<span id="cb71-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Happiness_score)) <span class="sc">+</span></span>
+<span id="cb71-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_histogram</span>(<span class="at">bins =</span> <span class="dv">13</span>, </span>
+<span id="cb71-4"><a href="" aria-hidden="true" tabindex="-1"></a>                      <span class="at">color =</span> <span class="st">"black"</span>,</span>
+<span id="cb71-5"><a href="" aria-hidden="true" tabindex="-1"></a>                      <span class="at">linewidth =</span> .<span class="dv">8</span>,</span>
+<span id="cb71-6"><a href="" aria-hidden="true" tabindex="-1"></a>                      <span class="at">fill =</span> <span class="st">"#7a0b80"</span>) <span class="sc">+</span></span>
+<span id="cb71-7"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -1201,7 +1292,7 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-48-1.png" width="960"></p>
+<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-50-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1214,9 +1305,9 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,</span>
-<span id="cb67-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> Happiness_score)) <span class="sc">+</span></span>
-<span id="cb67-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,</span>
+<span id="cb72-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> Happiness_score)) <span class="sc">+</span></span>
+<span id="cb72-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
@@ -1236,7 +1327,7 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-50-1.png" width="960"></p>
+<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-52-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1249,10 +1340,10 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,</span>
-<span id="cb68-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> Happiness_score,</span>
-<span id="cb68-3"><a href="" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> Region)) <span class="sc">+</span></span>
-<span id="cb68-4"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,</span>
+<span id="cb73-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">y =</span> Happiness_score,</span>
+<span id="cb73-3"><a href="" aria-hidden="true" tabindex="-1"></a>           <span class="at">x =</span> Region)) <span class="sc">+</span></span>
+<span id="cb73-4"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_boxplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>So, just by looking at this boxplot we can tell that there are some noticeble differences in the distribution of <code>Happiness_score</code> across <code>Region</code></p>
 </div><div class="column" style="width:70%;">
@@ -1260,7 +1351,7 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-52-1.png" width="960"></p>
+<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-54-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1273,10 +1364,10 @@ Look things up. Usually I start with some plot code that I find online that prod
 <div class="columns">
 <div class="column" style="width:30%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,</span>
-<span id="cb69-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Happiness_score)) <span class="sc">+</span></span>
-<span id="cb69-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_density</span>() <span class="sc">+</span></span>
-<span id="cb69-4"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">xlim</span>(<span class="dv">1</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(WH_2024,</span>
+<span id="cb74-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Happiness_score)) <span class="sc">+</span></span>
+<span id="cb74-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_density</span>() <span class="sc">+</span></span>
+<span id="cb74-4"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">xlim</span>(<span class="dv">1</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div style="font-size: 24px">
 The <code>xlim()</code> function takes in 2 values that define the lower and upper bound of the <em>x</em>-axis (from 1 to 10).
@@ -1299,7 +1390,7 @@ The <code>xlim()</code> function takes in 2 values that define the lower and upp
 <div class="cell-output-display">
 <div>
 <figure>
-<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-54-1.png" width="960"></p>
+<p><img data-src="Lab_2_files/figure-revealjs/unnamed-chunk-56-1.png" width="960"></p>
 </figure>
 </div>
 </div>
@@ -1330,7 +1421,7 @@ Wickham, H., &amp; RStudio. (2023). <em>Tidyverse: <span>Easily Install</span> a
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
-<p>PSYC 6802 - Lab 2: Data Exploration, Plotting, and Reporting</p>
+<p>PSYC 6802 - Lab 2: Descriptive Statistics, Data Manipulation, and Plotting</p>
 </div>
 </div></div>
 

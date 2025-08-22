@@ -1,0 +1,8 @@
+---
+title: "Lab 3 Activity"
+format: pdf
+editor: source
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+---

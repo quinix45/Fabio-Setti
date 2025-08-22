@@ -1,5 +1,5 @@
 ---
-title: "Lab 2: Data Exploration, Plotting, and Reporting"
+title: "Lab 2: Descriptive Statistics, Data Manipulation, and Plotting"
 author: "Fabio Setti"
 institute: "PSYC 6802 - Introduction to Psychology Statistics"
 bibliography: Additional files/references.bib
@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "PSYC 6802 - Lab 2: Data Exploration, Plotting, and Reporting"
+      footer: "PSYC 6802 - Lab 2: Descriptive Statistics, Data Manipulation, and Plotting"
       width: 1280
       height: 720
       chalkboard: true
@@ -102,7 +102,7 @@ You can open the data without any downloads with the line below. see [Here](http
 #| code-line-numbers: false
 #| classes: code-125
 
-WH_2024 <- rio::import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
+WH_2024 <- import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
 ```
 
 <div style="font-size: 22px"> We'll use the [2024 world happiness report](https://www.worldhappiness.report/ed/2024){target="_blank"} data again. </div>
@@ -137,6 +137,7 @@ As shown in Lab 1, the base R function is `str()`
 #| class-output: hscroll
 
 str(WH_2024)
+# NOTE: `num` and `<dbl>` are the same type of variable
 ```
 
 :::
@@ -156,7 +157,6 @@ The `dplyr` function to look at data is `glimpse()`
 #| classes: code-125
 #| class-output: hscroll
 
-
 glimpse(WH_2024)
 ```
 :::
@@ -168,7 +168,64 @@ glimpse(WH_2024)
 Personally, I usually just use the bulit-in RStudio viewer to look at data. You can open it by clicking on the `WH_2024` object in the environment or by running `View(WH_2024)`.
 :::
 
-## Factor Variables
+## Factor Variables{visibility="hidden"}
+
+<!-- hiding this for now because it does not make sense to introduce factor variables now -->
+
+On the previous slide we saw that both `country_name` and `Region` are character variables. R is a bit peculiar because, aside from character variables, it also has `factor` variables. 
+
+:::: {.columns}
+::: {.column width="50%"}
+
+
+<div style="font-size: 26px"> Given a character vector with some repeating values: </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+char_EX <- c("control", "control", "treatment", "control", "treatment")
+str(char_EX)
+```
+
+<div style="font-size: 26px"> We can turn the character variable into a factor variable: </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+char_EX_fct <- factor(char_EX,
+                      levels = c("control", "treatment"),
+                      labels = c("ctrl", "trt"))
+
+str(char_EX_fct)
+```
+
+:::
+::: {.column width="50%"}
+
+<div style="font-size: 22px"> We will see later that factor variables help when dealing with analyses involving categorical variables (mostly regressions and ANOVAs). </div>
+
+</br>
+
+<ul style="font-size: 26px">  
+
+<li>  `levels =`: here you define the levels of you factors (the name of each group).  </li>
+<li>  `labels =`: here you can label the corresponding groups. Now `control` and `treatment` will show up as `ctrl` and `trt`.  </li>
+
+</ul>
+
+
+:::
+::::
+
+In genreal, it may be a good idea to turn character variables into factors (although I don't do it here)
+
+
 
 
 
@@ -189,6 +246,9 @@ table(WH_2024$Region)
 :::: {.columns}
 ::: {.column width="50%"}
 
+
+::: {.fragment fragment-index=1}
+
 What if we want the proportion of countries in each region? We divide by the total number of countries.
 
 ```{r}
@@ -202,10 +262,11 @@ What if we want the proportion of countries in each region? We divide by the tot
 table(WH_2024$Region)/nrow(WH_2024)
 ```
 :::
+:::
 
 ::: {.column width="50%"}
 
-
+::: {.fragment fragment-index=2}
 Of course we can get percentages by multiplying the proportions by $100$
 
 ```{r}
@@ -218,16 +279,18 @@ Of course we can get percentages by multiplying the proportions by $100$
 table(WH_2024$Region)/nrow(WH_2024)*100
 ```
 :::
+:::
 ::::
 
 
 ## Central Tendency: Mode 
 
-The **mode** is the value that occurs the most in a set of observations. In practice we would calculate the mode only for discrete () or ordinal data (e.g., Likert scales).
+The **mode** is the value that occurs the most in a set of observations. In practice we would calculate the mode only for discrete or ordinal data (e.g., Likert scales).
 
 :::: {.columns}
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=1}
 There is no function that directly calculates the mode, but finding the values that occurs the most in a vector is a very simple task. Here we used the `which.max()`
 
 ```{r}
@@ -244,8 +307,12 @@ which.max(tab)
 Given a vector of numbers, the `which.max()` function returns the *index* of the highest value. Thus *Africa* is the mode of the `Region` variable. 
 
 :::
+
+:::
 ::: {.column width="50%"}
 
+
+::: {.fragment fragment-index=2}
 Let's say that at the same time I would like to know how many times the mode occurs. Instead of just printing all the values of our table, much more efficient is:
 
 ```{r}
@@ -257,6 +324,7 @@ Let's say that at the same time I would like to know how many times the mode occ
 tab[which.max(tab)]
 ```
 Here we use the fact that `which.max()` always gives the index of th highest value (`1`, the first one, in this case). Then we extract that value from the `tab` object by using the the `[]` operator
+:::
 
 :::
 ::::
@@ -266,19 +334,27 @@ Here we use the fact that `which.max()` always gives the index of th highest val
 The mean and median are measures of *central tendency*. We use them to describe values around which data tends to cluster.
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="55%"}
 
+
+::: {.fragment fragment-index=1}
 - **Mean:** $\bar{x} = \frac{\sum x_i}{n}$, where the numerator is the sum of all the observations and $n$ is the sample size.  
-
+:::
+::: {.fragment fragment-index=2}
 - **Median:** The value at the 50<sup>th</sup> percentile (more about percentiles later)
+:::
 
+::: {.fragment fragment-index=3}
 The mean is by far more popular than the median for [mathematical reasons](https://www.probabilitycourse.com/chapter3/3_2_2_expectation.php){target="_blank"}, but is influenced by *outliers*
 
 In the case on the right, the median better describes the central tendency of the `x` vector.
+:::
 
 :::
-::: {.column width="50%"}
+::: {.column width="45%"}
 
+
+::: {.fragment fragment-index=1}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -287,7 +363,10 @@ In the case on the right, the median better describes the central tendency of th
 
 mean(WH_2024$Happiness_score)
 ```
+:::
 
+
+::: {.fragment fragment-index=2}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -296,7 +375,9 @@ mean(WH_2024$Happiness_score)
 
 median(WH_2024$Happiness_score)
 ```
+:::
 
+::: {.fragment fragment-index=3}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -308,25 +389,33 @@ x <- c(3,4,5,6,7,8,3,4,5,6,7,90)
 mean(x)
 median(x)
 ```
+:::
 
 :::
 ::::
 
+::: {.fragment fragment-index=4}
 Still, to describe continuous or ordinal variables, we generally use the mean. 
+:::
 
 ## Dispersion: Variance and Standard Deviation
 
 The variance and standard deviation (SD) are measures of how "spread out" the data is. Mathematically, they are both measures of how distant observations are from the mean on average. 
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="55%"}
 
+::: {.fragment fragment-index=1}
 - **Variance:** $S^2 = \frac{\sum (x_i - \bar{x})^2}{n - 1}$, where the numerator is the sum of all the squared differences between each observation ($x_i$) and the mean ($\bar{x}$). The denominator simply divides by the total number of observations ($n$) [minus 1](https://en.wikipedia.org/wiki/Bessel%27s_correction){target="_blank"}. 
+:::
 
+::: {.fragment fragment-index=2}
 - **Standard deviation:** $S = \sqrt{\frac{\sum (x_i - \bar{x})^2}{n - 1}}$, which is simply the square root of the variance. 
 :::
-::: {.column width="50%"}
+:::
+::: {.column width="45%"}
 
+::: {.fragment fragment-index=1}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -335,10 +424,13 @@ The variance and standard deviation (SD) are measures of how "spread out" the da
 
 var(WH_2024$Happiness_score)
 ```
+:::
+
 </br>
 </br>
 </br>
 
+::: {.fragment fragment-index=2}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -348,16 +440,17 @@ var(WH_2024$Happiness_score)
 # same as `sqrt(var(WH_2024$Happiness_score))`
 sd(WH_2024$Happiness_score)
 ```
+:::
 
 :::
 ::::
 
-
+::: {.fragment fragment-index=3}
 :::{.callout-note}
 ### Variance or Standard Deviation? 🤔
 
 Glossing over a ton of mathematical nuances, the SD is the measure of dispersion that you should use. Why? The Variance *squares* your variable, making it into *squared units*, which are not very intuitive. By taking the square root of the variance, the SD turns it back into the *original units of the variable*, making it much easier to understand!
-
+:::
 :::
 
 ## Shape: Skewness and Kurtosis
@@ -365,15 +458,21 @@ Glossing over a ton of mathematical nuances, the SD is the measure of dispersion
 Skewness and kurtosis are statistics that describe the *shape* of the distribution of some data.
 
 :::: {.columns}
-::: {.column width="50%"}
+::: {.column width="60%"}
+
+::: {.fragment fragment-index=1}
 - **Skewness:** describes the *degree and direction of asymmetry* in a distribution. If it is negative, the distribution will have a left tail. If it is positive, the distribution will have a right tail. 
+:::
 
 
+::: {.fragment fragment-index=2}
 - **Kurtosis:** describes the *peakedness* of a distribution. Negative values mean that the distribution is more flat than a normal distribution, while positive values imply that the distribution is more peaked than a normal distribution.
+:::
 
 :::
-::: {.column width="50%"}
+::: {.column width="40%"}
 
+::: {.fragment fragment-index=1}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -382,10 +481,12 @@ Skewness and kurtosis are statistics that describe the *shape* of the distributi
 
 e1071::skewness(WH_2024$Happiness_score)
 ```
+:::
 
 </br>
 </br>
 
+::: {.fragment fragment-index=2}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -394,15 +495,17 @@ e1071::skewness(WH_2024$Happiness_score)
 
 e1071::kurtosis(WH_2024$Happiness_score)
 ```
+
+:::
 :::
 ::::
 
+::: {.fragment fragment-index=3}
 :::{.callout-note}
 ## The `::` Operator
 
-The `::` operator is used to refer to a specific function from a package. So above, for example, I used the `kurtosis()` function from the `e1071` package. The difference between this and running `library(e1071)` followed by `kurtosis()` is that I am no loading the full `e1071` package. One of the advantage is that it makes it clear what package the `kurtosis()` function comes from; the other advantage is that it avoids [package conflicts](https://stats.oarc.ucla.edu/r/faq/how-does-r-handle-overlapping-object-names){target="_blank"}.
-
-
+The `::` operator is used to refer to a specific function from a package. So above, for example, I used the `kurtosis()` function from the `e1071` package. The difference between this and running `library(e1071)` followed by `kurtosis()` is that I am no loading the full `e1071` package. One of the advantage is that it makes it clear what package the `kurtosis()` function comes from; the other advantage is that it avoids [package conflicts](https://stats.oarc.ucla.edu/r/faq/how-does-r-handle-overlapping-object-names){target="_blank".
+:::
 :::
 
 ## Interactive Normal Distribution
@@ -432,6 +535,8 @@ Given a continuous variable, you can think of percentiles as cut-offs that divid
 :::: {.columns}
 ::: {.column width="50%"}
 
+
+::: {.fragment fragment-index=1}
 We use the `quantile()` function to find the percentile of a variable:
 
 ```{r}
@@ -443,6 +548,9 @@ We use the `quantile()` function to find the percentile of a variable:
 # find the 50th percentile (the median). The first argument is the vector of observations and the second argument is the desired percentile (from 0 to 1)
 quantile(WH_2024$Happiness_score, .5)
 ```
+:::
+
+::: {.fragment fragment-index=2}
 We can also get multiple percentiles at once like so:
 
 ```{r}
@@ -454,11 +562,12 @@ We can also get multiple percentiles at once like so:
 # get the 25th, 50th, and 75th percentiles of Happiness_score
 quantile(WH_2024$Happiness_score, c(.25, .5, .75))
 ```
-
+:::
 
 :::
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=3}
 You may also want to use the interquartile range (IQR) to describe the range between which 50\% of the observations fall. 
 
 ```{r}
@@ -469,9 +578,11 @@ You may also want to use the interquartile range (IQR) to describe the range bet
 
 IQR(WH_2024$Happiness_score)
 ```
+:::
+
+::: {.fragment fragment-index=4}
+
 The IQR is just the 75<sup>th</sup> percentile minus the 25<sup>th</sup> percentile
-
-
 
 ```{r}
 #| eval: true
@@ -482,6 +593,7 @@ The IQR is just the 75<sup>th</sup> percentile minus the 25<sup>th</sup> percent
 # disregard the "75%" that appears above the number
 quantile(WH_2024$Happiness_score, .75) - quantile(WH_2024$Happiness_score, .25)
 ```
+:::
 :::
 ::::
 
@@ -513,6 +625,8 @@ quantile(WH_2024$Happiness_score, .75) - quantile(WH_2024$Happiness_score, .25)
 
 `dplyr` offers a host of function to manipulate data in R. You can more or less achieve anything `dplyr` does with base R functions, but it usually takes more work. Some `dplyr` functions that we will look at are:
 
+
+::: {.fragment fragment-index=1}
 :::: {.columns}
 ::: {.column width="50%"}
 
@@ -528,10 +642,13 @@ quantile(WH_2024$Happiness_score, .75) - quantile(WH_2024$Happiness_score, .25)
 
 :::
 ::::
+:::
 
+::: {.fragment fragment-index=2}
 Something neat about `tidyverse` functions such as the ones from `dplyr` is that they accept the *pipe operator*, `%>%`.
 
 Later we will see that the advantage of the pipe operator is that it allows to perform multiple actions (e.g., filter the data, than select a column, then compute some summary statistics) in a single statement!
+:::
 
 ## The `select()` Function
 
@@ -552,6 +669,8 @@ Select_EX1 <- WH_2024 %>%
 # check column names of Select_EX1 object
 colnames(Select_EX1)
 ```
+
+::: {.fragment fragment-index=1}
 We can also remove columns:
 
 ```{r}
@@ -567,23 +686,27 @@ Select_EX2 <- WH_2024 %>%
 colnames(Select_EX2)
 ```
 :::
+:::
 
 ::: {.column width="50%"}
 
-
+::: {.fragment fragment-index=2}
 Notice how the `%>%` *passes* the information to its left to the right. Oh, and you do not have to start a new line after `%>%`, it's just a convention for neater looking code 🤷
 
 
 <p>The keyboard shortcut to get the `%>%` is <kbd>Ctrl</kbd> + <kbd>shift</kbd> + <kbd>M</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>shift</kbd> + <kbd>M</kbd> (Mac) </p>
+:::
 
 </br>
 
+
+::: {.fragment fragment-index=3}
 :::{.callout-note}
 ### `select()` not Working?
 
 Sometimes your code will be perfectly fine but the `select()` function may give you problems.  There is a package called `MASS` that is often loaded in the background and also includes a function called `select()`, that does something completely different. Thus, you may be inadvertently be using the `select()` function from the `MASS` package 😱 this "issue" can be resolved by using the `::` operator and typing `dplyr::select(Region, Happiness_score)` in the first example on the left. Just keep this in mind if `select()` gives you trouble. 
 :::
-
+:::
 
 :::
 ::::
@@ -605,6 +728,8 @@ filter_EX1 <- WH_2024 %>%
 nrow(filter_EX1)
 ```
 
+
+::: {.fragment fragment-index=1}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -616,7 +741,9 @@ filter_EX2 <- WH_2024 %>%
 # We filter for 2 condition by using the `&`. We additionally ask for only countries that have `Happiness_score` above 5
 nrow(filter_EX2)
 ```
+:::
 
+::: {.fragment fragment-index=2}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -628,28 +755,35 @@ filter_EX3 <- WH_2024 %>%
 # the `%in%` operator is very useful. It selects all the rows where the Region variable has Africa OR Asia! `%in%` means "equal any of"
 nrow(filter_EX3)
 ```
-
+:::
 
 :::
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=3}
 As you can see on the left, there are many ways in which you can filter data. The catch is that it requires you knowing `conditional operators`:
 
+<style>
+td, th {
+   border: none!important;
+}
+</style>
 
 <div style="font-size: 24px">  
 | Operator | Description                                   |
 |----------|-----------------------------------------------|
-| `==`     | Equal to                                      |
-| `!=`     | Not equal to                                  |
-| `>`      | Greater than                                  |
-| `<`      | Less than                                     |
-| `>=`     | Greater than or equal to                      |
-| `<=`     | Less than or equal to                         |
-| `%in%`   | Equal any of                                 |
-| `!`      | Logical NOT                                   |
-| `&`      | Element-wise logical AND                      |
-| `|`      | Element-wise logical OR                       |
+|   `==`   | Equal to                                      |
+|   `!=`   | Not equal to                                  |
+|   `>`    | Greater than                                  |
+|   `<`    | Less than                                     |
+|   `>=`   | Greater than or equal to                      |
+|   `<=`   | Less than or equal to                         |
+|   `%in%` | Equal any of                                  |
+|   `!`    | Logical NOT                                   |
+|   `&`    | Element-wise logical AND                      |
+|   `|`    | Element-wise logical OR                       |
 </div>
+:::
 
 :::
 ::::
@@ -679,11 +813,15 @@ str(mutate_EX1)
 
 The `mutate()` function works by giving the name of the new variable on the left of the `=` sign and then the transformation of variables on the right. so, `new_var = some_transformation`. 
 
+
+::: {.fragment fragment-index=1}
+
 On the left I create 2 new variables:
 
 - `log_happiness`, which is just a log transformation of the `Happiness_score` variable with the `log()` function.
 
 - `free_gen`, which is the sum of the `Freedom` and `Generosity` variable.
+:::
 
 :::
 ::::
@@ -691,7 +829,7 @@ On the left I create 2 new variables:
 
 ## The `group_by()` and `summarise()` Functions
 
-As I mentioned, I generally use these functions togehter. Here is an example:
+As I mentioned, I generally use these functions together. Here is an example:
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -708,15 +846,21 @@ WH_2024 %>%
             sd_happy = sd(Happiness_score))
 ```
 
-
 :::
+
 ::: {.column width="50%"}
 
 In this case, the `summarise()` function creates a new object (a `tibble`, which is essentially a `data.frame`) that includes the mean (`mean()`) and SD (`sd()`) of `Happiness_score` *for each* `Region`. 
 
+:::{.fragment fragment-index=1}
+
 Just as before with the `mutate()` function, we need to name the resulting columns by specifying the names before the `=` sign.
 
+:::
+
+:::{.fragment fragment-index=2}
 Note that this works because we first group the data by region using `group_by(Region)` and then pass it to `summarise()`. This would not be as easy without the `%>%` operator!
+:::
 
 :::
 ::::
@@ -756,8 +900,9 @@ This is just a random example of how you can be very flexible in how you manipul
 
 </br>
 
-As always, there are multiple ways of achieving the same outcome in R. I personally like the `dplyr` package for data manipulation, others may prefer base R functions 🤷
-
+::: {.fragment fragment-index=1}
+As always, there are multiple ways of achieving the same outcome in R. When dealing with `data.frame` objects, I personally like the `dplyr` functions to manipulate data. Others may prefer base R functions 🤷
+:::
 
 :::
 ::::

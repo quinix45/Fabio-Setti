@@ -1,0 +1,346 @@
+
+## Today's Packages and Data 🤗
+
+```{r}
+# run for packages that you have not installed yet
+install.packages("tidyverse")
+install.packages("rio")
+install.packages("e1071")
+```
+
+
+```{r}
+library(tidyverse)
+library(rio)
+library(e1071)
+```
+
+
+```{r}
+# import data
+
+WH_2024 <- import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
+```
+
+
+## Ways Of Taking a Look at the data
+
+```{r}
+
+str(WH_2024)
+# NOTE: `num` and `<dbl>` are the same type of variable
+```
+
+
+```{r}
+glimpse(WH_2024)
+```
+
+## Tables and Porportions
+
+```{r}
+table(WH_2024$Region)
+```
+
+
+```{r}
+# many ways to get the total. Here I just get the rows of the data since every row is an individual country
+table(WH_2024$Region)/nrow(WH_2024)
+```
+
+```{r}
+table(WH_2024$Region)/nrow(WH_2024)*100
+```
+
+
+## Central Tendency: Mode
+
+
+```{r}
+tab <- table(WH_2024$Region)
+# we give the output of table(WH_2024$Region) as the input to which.max()
+which.max(tab)
+```
+
+
+```{r}
+tab[which.max(tab)]
+```
+
+
+## Central Tendency: Mean and Median
+
+
+```{r}
+mean(WH_2024$Happiness_score)
+```
+
+```{r}
+median(WH_2024$Happiness_score)
+```
+
+```{r}
+# some values with an outlier
+x <- c(3,4,5,6,7,8,3,4,5,6,7,90)
+mean(x)
+median(x)
+```
+
+
+## Dispersion: Variance and Standard Deviation
+
+
+```{r}
+var(WH_2024$Happiness_score)
+```
+
+```{r}
+# same as `sqrt(var(WH_2024$Happiness_score))`
+sd(WH_2024$Happiness_score)
+```
+
+
+## Shape: Skewness and Kurtosis
+
+```{r}
+e1071::skewness(WH_2024$Happiness_score)
+
+e1071::kurtosis(WH_2024$Happiness_score)
+```
+
+
+
+## Percentiles
+
+```{r}
+quantile(WH_2024$Happiness_score, .5)
+```
+
+
+```{r}
+quantile(WH_2024$Happiness_score, c(.25, .5, .75))
+```
+
+
+```{r}
+IQR(WH_2024$Happiness_score)
+```
+
+
+```{r}
+quantile(WH_2024$Happiness_score, .75) - quantile(WH_2024$Happiness_score, .25)
+```
+
+
+## The `select()` Function
+
+```{r}
+Select_EX1 <- WH_2024 %>% 
+                select(Region, Happiness_score)
+
+# check column names of Select_EX1 object
+colnames(Select_EX1)
+```
+
+```{r}
+Select_EX2 <- WH_2024 %>% 
+                select(-Region, -Happiness_score)
+
+colnames(Select_EX2)
+```
+
+
+## The `filter()` Function
+
+
+```{r}
+filter_EX1 <- WH_2024 %>% 
+                filter(Region == "Africa")
+# We are only left with rows where the Region variable has Africa
+nrow(filter_EX1)
+```
+
+```{r}
+filter_EX2 <- WH_2024 %>% 
+                filter(Region == "Africa" & Happiness_score > 5)
+# We filter for 2 condition by using the `&`. We additionally ask for only countries that have `Happiness_score` above 5
+nrow(filter_EX2)
+```
+
+```{r}
+filter_EX3 <- WH_2024 %>% 
+                filter(Region %in% c("Asia", "Africa"))
+# the `%in%` operator is very useful. It selects all the rows where the Region variable has Africa OR Asia! `%in%` means "equal any of"
+nrow(filter_EX3)
+```
+
+## The `mutate()` Function
+
+```{r}
+mutate_EX1 <- WH_2024 %>% 
+               mutate(log_happiness = log(Happiness_score),
+                      # here I sum two columns
+                      free_gen = Freedom + Generosity)
+str(mutate_EX1)
+```
+
+## The `group_by()` and `summarise()` Functions
+
+
+```{r}
+WH_2024 %>% 
+ group_by(Region) %>% 
+  summarise(mean_happy = mean(Happiness_score),
+            sd_happy = sd(Happiness_score))
+```
+
+## Concatenating `dplyr` Functions
+
+```{r}
+
+# pass the data
+WH_2024 %>%
+  # select only two columns of interest
+  select(Region, Freedom) %>%
+    # filter for Asia and Eastern Europe countries only
+    filter(Region %in% c("Asia", "Eastern Europe")) %>%
+      # Group by Region
+      group_by(Region) %>%
+        # get the mean and median for the two regions
+        summarise(Free_Mean = mean(Freedom),
+                  Free_Median = median(Freedom))
+```
+
+
+## The Canvas
+
+
+```{r}
+ggplot() 
+```
+
+## Define Coordinates with `aes()`
+
+```{r}
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score)) 
+```
+
+
+## Scatterplot
+
+
+```{r}
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+ geom_point()
+```
+
+## Themes
+
+```{r}
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+ geom_point() +
+ theme_classic()
+```
+
+##  Add Regression Line
+
+```{r}
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+ geom_point() +
+ theme_classic() +
+ geom_smooth(method = "lm", 
+             se = FALSE)
+```
+
+## Modify Plot Elements
+
+
+```{r}
+ggplot(WH_2024,  
+ aes(x = Social_support, 
+     y = Happiness_score))  +
+       geom_point(shape = 1) +
+       theme_classic() +
+       geom_smooth(method = "lm", 
+                   color = "red") +
+       labs(title = "Scatterplot Between Happiness and Social support By Country",
+            y= "Country Happiness", 
+            x = "Country Social Support") +
+       theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+             axis.title.x  = element_text(face= "bold", size = 12),
+             axis.title.y = element_text(face= "bold", size = 12))
+```
+
+## Histograms
+
+```{r}
+# set theme globally
+theme_set(theme_classic())
+
+ggplot(WH_2024,  
+       # note that we only need to give X, why?
+       aes(x = Happiness_score)) +
+       geom_histogram()
+```
+
+
+## Histograms bins
+
+```{r}
+ggplot(WH_2024,  
+       aes(x = Happiness_score)) +
+       geom_histogram(bins = 13) 
+```
+
+
+## Better Looking Histogram
+
+```{r}
+ggplot(WH_2024,  
+       aes(x = Happiness_score)) +
+       geom_histogram(bins = 13, 
+                      color = "black",
+                      linewidth = .8,
+                      fill = "#7a0b80") +
+      scale_y_continuous(expand = c(0,0))
+```
+
+## Boxplots
+
+```{r}
+ggplot(WH_2024,
+       aes(y = Happiness_score)) +
+       geom_boxplot()
+```
+
+
+## Grouped Boxplots 
+
+
+```{r}
+ggplot(WH_2024,
+       aes(y = Happiness_score,
+           x = Region)) +
+       geom_boxplot()
+```
+
+
+## Kernel Density plots
+
+```{r}
+ggplot(WH_2024,
+       aes(x = Happiness_score)) +
+       geom_density() +
+       xlim(1, 10)
+```
+
+
+

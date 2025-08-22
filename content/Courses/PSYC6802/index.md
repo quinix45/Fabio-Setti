@@ -66,9 +66,9 @@ links:
 </br>
 </br>
 
-<h3> 1. Introduction to R </h3>
+<h3> 1. Introduction to R  </h3>
 
-This Lab introduces the R programming language and RStudio. This Lab also covers core concepts such as objects, functions, packages, and object subsetting.
+This Lab introduces the R programming language and RStudio. This Lab also covers core concepts such as objects, functions, packages, and object subsetting. Additionally, this Lab introduces [Quarto](https://quarto.org) as a tool for creating neat PDF reports.
 
 
 <span class=" post-header">
@@ -90,16 +90,15 @@ This Lab introduces the R programming language and RStudio. This Lab also covers
 
 
 
-<h3> 2. Data Exploration, Plotting, and Reporting </h3>
+<h3> 2. Descriptive Statistics, Data Manipulation, and Plotting </h3>
 
-This Lab goes over some basic descriptive statics, plotting with [`ggplot2`](https://ggplot2.tidyverse.org/index.html), and data manipulation with  [`dplyr`](https://dplyr.tidyverse.org). Additionally, this Lab also introduces [Quarto](https://quarto.org) as a tool for creating neat pdf reports.
+This Lab goes over some basic descriptive statics, data manipulation with  [`dplyr`](https://dplyr.tidyverse.org), and plotting with [`ggplot2`](https://ggplot2.tidyverse.org/index.html). 
 
 <span class="post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_2.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 2 Code.Rmd" download="Lab 2 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
-
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_2_code.qmd" download="Lab 2 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 <span class="post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_2_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
@@ -114,16 +113,16 @@ This Lab goes over some basic descriptive statics, plotting with [`ggplot2`](htt
 Coming soon!
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 3.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_3.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 3 Code.Rmd" download="Lab 3 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_3_code.qmd" download="Lab 3 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-3-Activity.pdf" download="Lab 3 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_3_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 3 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_3_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -132,17 +131,17 @@ Coming soon!
 Coming soon!
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 4.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_4.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 4 Code.Rmd" download="Lab 4 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_4_code.qmd" download="Lab 4 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-4-Activity.pdf" download="Lab 4 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_4_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 4 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_4_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -151,18 +150,18 @@ Coming soon!
 Coming soon!
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 5.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_5.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 5 Code.Rmd" download="Lab 5 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
-
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-5-Activity.pdf" download="Lab 5 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_5_code.qmd" download="Lab 5 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 5 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_5_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+
+
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_5_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
 
@@ -177,18 +176,18 @@ Coming soon!
 Coming soon!
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 6.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_6.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 6 Code.Rmd" download="Lab 6 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
-
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-6-Activity.pdf" download="Lab 6 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_6_code.qmd" download="Lab 6 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 6 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_6_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+
+
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_6_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
 <hr class="fancy"></hr>
@@ -198,18 +197,18 @@ Coming soon!
 Coming soon!
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 7.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_7.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 7 Code.Rmd" download="Lab 7 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
-
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-7-Activity.pdf" download="Lab 7 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_7_code.qmd" download="Lab 7 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 7 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_7_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+
+
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_7_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -220,18 +219,18 @@ Coming soon!
 Coming soon!
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 8.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_8.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 8 Code.Rmd" download="Lab 8 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
-
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-8-Activity.pdf" download="Lab 8 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_8_code.qmd" download="Lab 8 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 8 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_8_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+
+
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_8_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
 
@@ -244,18 +243,18 @@ Coming soon!
 Coming soon!
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 9.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_9.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 9 Code.Rmd" download="Lab 9 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
-
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-9-Activity.pdf" download="Lab 9 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_9_code.qmd" download="Lab 9 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 9 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_9_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+
+
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_9_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
 <hr class="fancy"></hr>
@@ -265,17 +264,17 @@ Coming soon!
 Coming soon!
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 10.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_10.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 10 Code.Rmd" download="Lab 10 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_10_code.qmd" download="Lab 10 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-10-Activity.pdf" download="Lab 10 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_10_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 10 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_10_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -287,17 +286,17 @@ Coming soon!
 Coming soon!
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 11.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_11.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 11 Code.Rmd" download="Lab 11 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_11_code.qmd" download="Lab 11 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-11-Activity.pdf" download="Lab 11 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_11_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 11 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_11_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
 <hr class="fancy"></hr>
@@ -307,18 +306,16 @@ Coming soon!
 Coming soon!
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 12.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_12.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-12-Activity.pdf" download="Lab 12 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
-
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
-
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_12_code.qmd" download="Lab 12 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 12 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_12_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_12_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -328,18 +325,18 @@ Coming soon!
 Coming soon!
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 13.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_13.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 13 Code.Rmd" download="Lab 13 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
-
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-13-Activity.pdf" download="Lab 13 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_13_code.qmd" download="Lab 13 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 13 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_13_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+
+
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_13_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -349,17 +346,17 @@ Coming soon!
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 14.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_14.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Code/Lab 14 Code.Rmd" download="Lab 14 Code.Rmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
-
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804/Lab Activities/Lab-14-Activity.pdf" download="Lab 14 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_14_code.qmd" download="Lab 14 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 14 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_14_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+
+
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_14_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr></hr>

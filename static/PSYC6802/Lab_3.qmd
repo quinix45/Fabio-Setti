@@ -25,3 +25,69 @@ editor: source
 build: local
 ---
 
+
+## Today's Packages and Data 🤗
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-150
+
+
+# run for packages that you have not installed yet
+# install.packages("tidyverse")
+install.packages("psych")
+```
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(psych)
+library(tidyverse)
+```
+
+::: {.panel-tabset}
+### `psych`
+
+The `psych` package [@revelle2024a] includes many functions that help with common analyses that you would encounter in psychological research. This package will come up over and over in the Lab potion of this course. 
+
+:::
+
+::: {.column width="50%"}
+
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+You can open the data without any downloads with the line below. see [Here](https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%201#/how-i-will-fix-everyones-working-directory-issues){target="_blank"} for *why* and *how* I do it. 
+ 
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+WH_2024 <- import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
+```
+
+<div style="font-size: 22px"> We'll use the [2024 world happiness report](https://www.worldhappiness.report/ed/2024){target="_blank"} data again. </div>
+
+```{r}
+reactable::reactable(WH_2024,
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300)
+```
+
+:::
+::::
+
+
+
