@@ -555,7 +555,7 @@ x + 3
 Just like there are different types of containers (boxes, drawers, fridges, etc…), there are different types of R objects!
 
 
-The `x` objects that we just created is a **numeric vector** (type of object) of **length 1** 🤔
+The `x` object that we just created is a **numeric vector** (type of object) of **length 1** 🤔
 
 ::: {.fragment fragment-index=1}
 
@@ -586,7 +586,7 @@ The concept of *dimensions* will become clearer later. In the meantime, can you 
 </center>
 :::
 
-## Charcater Objects
+## Character Objects
 
 So far we have only dealt with numbers, but *character* objects also come up a lot:
 
