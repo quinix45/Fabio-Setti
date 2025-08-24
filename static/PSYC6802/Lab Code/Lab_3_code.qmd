@@ -1,0 +1,203 @@
+
+## Today's Packages and Data 🤗
+
+```{r}
+# run for packages that you have not installed yet
+# install.packages("tidyverse")
+install.packages("epitools")
+```
+
+
+```{r}
+library(epitools)
+library(tidyverse)
+```
+
+
+```{r}
+# rio::import() calls the import() function from the rio package without needing to load the package
+flights <- rio::import("https://fabio-setti.netlify.app/data/Airlines.csv")
+```
+
+
+```{r}
+# this dataset is quite big!
+str(flights)
+```
+
+## Factor Variables
+
+```{r}
+# here I redefine the `Delay` column. You could also create a new column if you wanted to
+flights$Delay <- factor(flights$Delay,
+                        levels = c(0, 1),
+                        labels = c("On Time", "Delay"))
+```
+
+
+```{r}
+table(flights$Delay)
+```
+
+
+## &#x3C7;<sup>2</sup> Test of Goodness of Fit
+
+```{r}
+flips <- c(110, 90)
+
+chisq.test(flips)
+```
+
+
+```{r}
+# this is the formula above written in R (scary math can be done pretty quickly in R)
+sum(((flips - 100)^2)/100)
+```
+
+```{r}
+# this gives the p-value (DFs in this case is always going to be the number of categories - 1)
+pchisq(2, df = 1, lower.tail = FALSE)
+```
+
+## chi-square Test of Independence
+
+```{r}
+AA_vs_DL <- flights %>%
+              filter(Airline %in% c("AA", "DL"))
+```
+
+```{r}
+tabl <- table(AA_vs_DL$Airline, AA_vs_DL$Delay)
+tabl
+
+chisq.test(tabl)
+```
+
+
+## Easily Find Expected Frequencies
+
+
+```{r}
+chi_test <- chisq.test(tabl)
+chi_test$expected
+```
+
+
+```{r}
+names(chi_test)
+```
+
+
+## Effect Sizes For chi-square Tests
+
+```{r}
+# sum(tabl) sums all the values in the table, thus giving the total
+sqrt(410.66/sum(tabl))
+```
+
+
+```{r}
+# When both columns and rows have 2 categories, W and V are equivalent
+sqrt(410.66/(sum(tabl)*(2 - 1)))
+```
+
+
+## Likelihood Ratio Test
+
+```{r}
+# NOTE: It may be worth spending some time understanding why this line of code works 
+like_chi <- 2*sum(tabl*log(tabl/chi_test$expected))
+like_chi
+```
+
+```{r}
+# DF are (Nrows - 1)*(Ncols - 1) = (2 - 1)*(2 - 1) = 1
+pchisq(like_chi, df = 1, lower.tail = FALSE) 
+```
+
+
+
+## Small Expected Frequencies
+
+
+```{r}
+# the correction is applied by defualt
+chisq.test(tabl)
+```
+
+```{r}
+# get unadjusted chi-square (it will be very similar to the adjusted one because our expected proportions are really large)
+chi_unadj <- chisq.test(tabl, correct = FALSE)$statistic
+chi_unadj 
+```
+
+```{r}
+# E. Pearson adjustment
+chi_unadj*(sum(tabl)/(sum(tabl) - 1))
+```
+
+
+## Fisher's Exact Test
+
+
+```{r}
+fisher.test(tabl)
+```
+
+
+## Odds Ratios
+
+```{r}
+# odds for AA 
+tabl[1,2]/tabl[1,1]
+
+# odds for Delta
+tabl[2,2]/tabl[2,1]
+```
+
+
+```{r}
+# the ratio is simply
+
+(tabl[2,2]/tabl[2,1])/(tabl[1,2]/tabl[1,1])
+```
+
+## Relative Risk
+
+
+```{r}
+# risk for AA 
+tabl[1,2]/sum(tabl[1,])
+
+# risk for Delta
+tabl[2,2]/sum(tabl[2,])
+```
+
+
+
+```{r}
+# the ratio is simply
+
+(tabl[2,2]/sum(tabl[2,]))/(tabl[1,2]/sum(tabl[1,]))
+```
+## Odds Ratios with `epitools`
+
+```{r}
+epitools::oddsratio.fisher(tabl)
+```
+
+
+## Relative Risk with `epitools`
+
+
+```{r}
+epitools::riskratio.wald(tabl)
+```
+
+## Calculate Different Odds and Risk
+
+```{r}
+epitools::oddsratio.fisher(tabl, rev = "rows")
+```
+
+

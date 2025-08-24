@@ -4,7 +4,7 @@ title: "PSYC 6802: Introduction to Psychology Statistics"
 excerpt: "A set of HTML slides for the lab portion of PSYC 6802 (graduate course). In this lab, I provide an introduction to the **R** programming language and go over how to implement popular statistical analyses employed in the social sciences."
 featured: true
 date: 2025-08-01
-draft: true
+draft: false
 layout: single
 
 
@@ -92,7 +92,7 @@ This Lab introduces the R programming language and RStudio. This Lab also covers
 
 <h3> 2. Descriptive Statistics, Data Manipulation, and Plotting </h3>
 
-This Lab goes over some basic descriptive statics, data manipulation with  [`dplyr`](https://dplyr.tidyverse.org), and plotting with [`ggplot2`](https://ggplot2.tidyverse.org/index.html). 
+This Lab goes over some basic descriptive statistics, data manipulation with  [`dplyr`](https://dplyr.tidyverse.org), and plotting with [`ggplot2`](https://ggplot2.tidyverse.org/index.html). 
 
 <span class="post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_2.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
@@ -110,7 +110,7 @@ This Lab goes over some basic descriptive statics, data manipulation with  [`dpl
 
 <h3> 3. Chi-Square </h3>
 
-Coming soon!
+This lab introduces some categorical data analysis methods for contingency tables. In particular, this lab goes over &#967;<sup>2</sup> tests, likelihood ratio test, and Fisher's exact test. Further, the lab also goes over odds and risk, as well as odds ratios and relative risk. 
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_3.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

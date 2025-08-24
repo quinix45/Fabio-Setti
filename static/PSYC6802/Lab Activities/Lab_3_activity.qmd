@@ -6,3 +6,78 @@ header-includes:
   - \usepackage{setspace}
   - \onehalfspacing
 ---
+
+Use quarto to create a pdf document of your results. When you are done (or when lab time runs out), submit both your code document and pdf document to Blackboard. **This assignment is not graded aside from participation points.**
+
+
+For this lab activity, you will keep using `Airlines.csv` data. Run all of these commands first to import the data and turn the `Delay` variable into a factor:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| warning: false
+#| code-line-numbers: false
+
+library(tidyverse)
+library(rio)
+
+flights <- import("https://fabio-setti.netlify.app/data/Airlines.csv") %>% 
+              mutate(Delay = factor(Delay,
+                                    levels = c("0", "1"),
+                                    labels = c("On Time", "Delay")))
+```
+
+
+## Questions
+
+**1.** Check whether there is an association between delays and airline. Do it for Delta Airlines (`DL`) and Southwest Airlines (`WN`). Further, do this only for flights originating from Los Angeles (`LAX`) and flying to Salt Lake City (`SLC`). (**HINT:** this will require filtering the data for multiple conditions)
+
+```{r eval=FALSE, include=FALSE}
+
+flights_filtered <- flights %>% 
+                      filter(Airline %in% c("WN", "DL"),
+                             AirportFrom == "LAX",
+                             AirportTo == "SLC")
+
+tabl <- table(flights_filtered$Airline, flights_filtered$Delay)
+
+chisq.test(tabl)
+```
+**2.** compute the $W$ coefficient. How would you interpret this effect size based on Cohen's guidelines?
+
+```{r eval=FALSE, include=FALSE}
+# small to medium effect size
+N <- sum(tabl)
+sqrt(chisq.test(tabl)$statistic / N)
+```
+
+**3.** Write $\chi^2(1, N = 242) = 9.71$, $p = .002$, $W = .2$ in your .qmd document. The rendered PDF should show the exact same characters in the same style. You will need to use [LaTeX math](https://qmd4sci.njtierney.com/math.html){target="_blank"}.
+
+
+**4.** What is the risk ratio of Delta Airlines being on time compared to Southwest Airlines? How do you interpret the resulting value?
+
+```{r eval=FALSE, include=FALSE}
+# Delta is 1.81 times more likely to be on time compared to south west
+epitools::riskratio.wald(tabl, rev = "both") 
+```
+
+**5.** Based on the results that you got so far, should you choose Delta or Southwest if you were to fly from Los Angels to Salt Lake city? Explain. You can use any of the information above to justify your answer.
+
+```{r eval=FALSE, include=FALSE}
+# Delta seems like the safer option, as Southwest presents a higher proportion of delays
+
+tabl
+```
+
+```{r eval=FALSE, include=FALSE}
+# Further, Delta is 1.81 times more likely to be on time
+
+(73/154)/(23/88)
+```
+
+
+
+
+
+

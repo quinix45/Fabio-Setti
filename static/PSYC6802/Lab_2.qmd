@@ -168,67 +168,6 @@ glimpse(WH_2024)
 Personally, I usually just use the bulit-in RStudio viewer to look at data. You can open it by clicking on the `WH_2024` object in the environment or by running `View(WH_2024)`.
 :::
 
-## Factor Variables{visibility="hidden"}
-
-<!-- hiding this for now because it does not make sense to introduce factor variables now -->
-
-On the previous slide we saw that both `country_name` and `Region` are character variables. R is a bit peculiar because, aside from character variables, it also has `factor` variables. 
-
-:::: {.columns}
-::: {.column width="50%"}
-
-
-<div style="font-size: 26px"> Given a character vector with some repeating values: </div>
-
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
-
-char_EX <- c("control", "control", "treatment", "control", "treatment")
-str(char_EX)
-```
-
-<div style="font-size: 26px"> We can turn the character variable into a factor variable: </div>
-
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
-
-char_EX_fct <- factor(char_EX,
-                      levels = c("control", "treatment"),
-                      labels = c("ctrl", "trt"))
-
-str(char_EX_fct)
-```
-
-:::
-::: {.column width="50%"}
-
-<div style="font-size: 22px"> We will see later that factor variables help when dealing with analyses involving categorical variables (mostly regressions and ANOVAs). </div>
-
-</br>
-
-<ul style="font-size: 26px">  
-
-<li>  `levels =`: here you define the levels of you factors (the name of each group).  </li>
-<li>  `labels =`: here you can label the corresponding groups. Now `control` and `treatment` will show up as `ctrl` and `trt`.  </li>
-
-</ul>
-
-
-:::
-::::
-
-In genreal, it may be a good idea to turn character variables into factors (although I don't do it here)
-
-
-
-
-
 ## Tables and Porportions
 
 We have also seen the `table()` function in Lab 1. Here we count the number of countries in each `Region`:

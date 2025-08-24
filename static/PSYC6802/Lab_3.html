@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="Lab_3_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Lab_3_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Lab_3_files/libs/quarto-html/popper.min.js"></script>
+<script src="Lab_3_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Lab_3_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Lab_3_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Lab_3_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.6.42">
+
+  <meta name="author" content="Fabio Setti">
+  <title>Lab 3: Chi-Square</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="Lab_3_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Lab_3_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="Lab_3_files/libs/revealjs/dist/theme/quarto-14b6869c65f9db0f6aca2d531d776b2a.css">
+  <link href="Lab_3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Lab_3_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Lab_3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Lab_3_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="Lab_3_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="Lab_3_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="Fabio_theme/Fabio_theme.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-transition="zoom" data-visibility="uncounted" class="quarto-title-block center">
+  <h1 class="title">Lab 3: Chi-Square</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Fabio Setti 
+</div>
+        <p class="quarto-title-affiliation">
+            PSYC 6802 - Introduction to Psychology Statistics
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="todays-packages-and-data" class="slide level2">
+<h2>Today’s Packages and Data 🤗</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Install Packages Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># run for packages that you have not installed yet</span></span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("tidyverse")</span></span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"epitools"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(epitools)</span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1"><code>epitools</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<p>The <code>epitools</code> package <span class="citation" data-cites="aragon2020">(<a href="#/references" role="doc-biblioref" onclick="">Aragon et al., 2020</a>)</span> includes many functions that help with calculating odds ratios and risk ratios. These are common statistics that are used to summarize the information in contingency tables.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<center style="padding-bottom: 21px;">
+<span class="data-title">Data</span>
+</center>
+<p>Today we’ll look at some flight delays:</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># rio::import() calls the import() function from the rio package without needing to load the package</span></span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a>flights <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"https://fabio-setti.netlify.app/data/Airlines.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># this dataset is quite big!</span></span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(flights)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb5-1"><a href=""></a>'data.frame':   539383 obs. of  9 variables:</span>
+<span id="cb5-2"><a href=""></a> $ id         : int  1 2 3 4 5 6 7 8 9 10 ...</span>
+<span id="cb5-3"><a href=""></a> $ Airline    : chr  "CO" "US" "AA" "AA" ...</span>
+<span id="cb5-4"><a href=""></a> $ Flight     : int  269 1558 2400 2466 108 1094 1768 2722 2606 2538 ...</span>
+<span id="cb5-5"><a href=""></a> $ AirportFrom: chr  "SFO" "PHX" "LAX" "SFO" ...</span>
+<span id="cb5-6"><a href=""></a> $ AirportTo  : chr  "IAH" "CLT" "DFW" "DFW" ...</span>
+<span id="cb5-7"><a href=""></a> $ DayOfWeek  : int  3 3 3 3 3 3 3 3 3 3 ...</span>
+<span id="cb5-8"><a href=""></a> $ Time       : int  15 15 20 20 30 30 30 30 35 40 ...</span>
+<span id="cb5-9"><a href=""></a> $ Length     : int  205 222 165 195 202 181 220 228 216 200 ...</span>
+<span id="cb5-10"><a href=""></a> $ Delay      : int  1 1 1 1 0 1 0 0 1 1 ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="factor-variables" class="slide level2">
+<h2>Factor Variables</h2>
+<p>We will mostly be looking at categorical variables today, so it’s a good point to introduce <code>factor</code> variables. Notice the <code>Delay</code> variable on the previous slide, which is an <code>integer</code> vector of <em>0</em>s and <em>1</em>s:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div style="font-size: 26px">
+Given a character or integer vector with some repeating values, we can turn the vector into a factor with the <code>factor()</code> function:
+</div>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># here I redefine the `Delay` column. You could also create a new column if you wanted to</span></span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a>flights<span class="sc">$</span>Delay <span class="ot">&lt;-</span> <span class="fu">factor</span>(flights<span class="sc">$</span>Delay,</span>
+<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb6-4"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"On Time"</span>, <span class="st">"Delay"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So, we define the values as 0 = <em>On Time</em> and 1 = <em>Delay</em>:</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(flights<span class="sc">$</span>Delay)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+On Time   Delay 
+ 299119  240264 </code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p><br></p>
+<p>A <code>factor</code> variable is more or less the same as assigning value labels in SPSS.</p>
+<ul style="font-size: 26px">
+<li>
+<code>levels =</code>: here you define the levels of you factors (the name of each group).
+</li>
+<li>
+<code>labels =</code>: here you can label the corresponding groups. Now <code>control</code> and <code>treatment</code> will show up as <code>ctrl</code> and <code>trt</code>.
+</li>
+</ul>
+<div style="font-size: 22px">
+We will see later that factor variables help when dealing with analyses involving categorical variables (mostly regressions and ANOVAs).
+</div>
+</div></div>
+</section>
+<section id="χ2-test-of-goodness-of-fit" class="slide level2">
+<h2>χ<sup>2</sup> Test of Goodness of Fit</h2>
+<p>The <span class="math inline">\(\chi^2\)</span> (<span class="math inline">\(\chi\)</span> reads “ki”) test of goodness of fit refers to a test used to check whether some values occur at different rates than what you would expect. The simplest possible example is checking if a coin is fair (i.e., <em>heads</em> and <em>tails</em> come up 50% of the times):</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>I flipped my coin 200 times and I got 110 heads and 90 tails:</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a>flips <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">110</span>, <span class="dv">90</span>)</span>
+<span id="cb9-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(flips)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Chi-squared test for given probabilities
+
+data:  flips
+X-squared = 2, df = 1, p-value = 0.1573</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>The null and alternative hypotheses are:</p>
+<ul style="font-size: 26px">
+<li>
+<span class="math inline">\(H_0\)</span>: The coin is fair
+</li>
+<li>
+<span class="math inline">\(H_1\)</span>: The coin <em>is not</em> fair
+</li>
+</ul>
+<p>The <code>chisq.test()</code> function takes in either a vector or table of counts and runs a <span class="math inline">\(\chi^2\)</span> test.</p>
+</div></div>
+<p><br></p>
+<p>Thus, at <span class="math inline">\(\alpha = .05\)</span>, there wasn’t enough evidence to reject the <span class="math inline">\(H_0\)</span>, <span class="math inline">\(\chi^2(1) = 2\)</span>, <span class="math inline">\(p = .16\)</span>.</p>
+</section>
+<section id="χ2-test-by-hand" class="slide level2">
+<h2>χ<sup>2</sup> Test by Hand</h2>
+<p>Sometimes I like to run these analyses “by hand” to check that I am doing the right thing. In the lecture you have seen that the formula to calculate the <span class="math inline">\(\chi^2\)</span> statistic is given by:</p>
+<p><span class="math display">\[\chi^2 = \sum_i \frac{(O_i - E_i)^2}{E_i}\]</span> Where <span class="math inline">\(O_i\)</span> is the observed proportion of a category and <span class="math inline">\(E_i\)</span> is the expected proportion of that category. Since we have 200 flips, <em>if the coin is fair</em>, we expect both tails and head to happen 100 times each (<span class="math inline">\(E_i = 100\)</span> in both cases), so:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># this is the formula above written in R (scary math can be done pretty quickly in R)</span></span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(((flips <span class="sc">-</span> <span class="dv">100</span>)<span class="sc">^</span><span class="dv">2</span>)<span class="sc">/</span><span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># this gives the p-value (DFs in this case is always going to be the number of categories - 1)</span></span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(<span class="dv">2</span>, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1572992</code></pre>
+</div>
+</div>
+</div></div>
+<p>Of course you would always use the <code>chisq.test()</code> function in practice, but I want to briefly touch on the intuition behind the <span class="math inline">\(\chi^2\)</span> formula.</p>
+</section>
+<section id="intuition-behind-the-χ2-statistic" class="slide level2">
+<h2>Intuition Behind the χ<sup>2</sup> Statistic</h2>
+<p>Unfortunately many statistics formulas seem to come out of nowhere 🤷 <span class="math inline">\(\chi^2 = \sum_i \frac{(O_i - E_i)^2}{E_i}\)</span> is no exception. However, you can often gain a good sense of what the formula is doing by breaking down its components:</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<ul>
+<li><span class="math inline">\(\sum_i\)</span>: This sign says “sum all the <em>i</em> things”. If you recall, this sign was also in the mean and the SD formula. In 99% of the cases, the <span class="math inline">\(\sum\)</span> sign is a tell that the formula is trying to summarize some information.</li>
+</ul>
+</div><div class="column" style="width:40%;">
+<ul>
+<li><span class="math inline">\((O_i - E_i)^2\)</span>: The numerator is usually where the important stuff happens. Here, the numerator calculates <em>how different the observed count is from what we expected</em>. The <span class="math inline">\(^2\)</span> makes everything positive so that differences don’t cancel out when you “sum all the <em>i</em> things” (the SD formula does the same!).</li>
+</ul>
+</div><div class="column" style="width:30%;">
+<ul>
+<li><span class="math inline">\(E_i\)</span>: In most formulas the denominator makes sure the numerator is adjusted before been summed. In the case of the <span class="math inline">\(\chi^2\)</span>, it adjusts for how often you expect to see each value.</li>
+</ul>
+</div></div>
+<p>So, the <span class="math inline">\(\chi^2\)</span> formula <em>summarizes how different your observed data is compared to what you would expect to see</em>. The more unexpected your observed frequencies, the larger the <span class="math inline">\(\chi^2\)</span> statistic will be.</p>
+</section>
+<section id="χ2-test-of-independence" class="slide level2">
+<h2>χ<sup>2</sup> Test of Independence</h2>
+<div style="font-size: 26px">
+The <span class="math inline">\(\chi^2\)</span> test of independence is actually the same exact test as before; however, we call it test of <em>independence</em> when we use use it to analyze <a href="https://en.wikipedia.org/wiki/Contingency_table" target="_blank">contingency tables</a>. For example let’s create a table with delays by two airplane companies, <em>Delta</em> and <em>American Airlines</em>:
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>I create a new <code>data.frame</code> that only includes <em>Delta</em> and <em>AA</em>:</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a>AA_vs_DL <span class="ot">&lt;-</span> flights <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a>              <span class="fu">filter</span>(Airline <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"AA"</span>, <span class="st">"DL"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And then I create a table:</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a>tabl <span class="ot">&lt;-</span> <span class="fu">table</span>(AA_vs_DL<span class="sc">$</span>Airline, AA_vs_DL<span class="sc">$</span>Delay)</span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a>tabl</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     On Time Delay
+  AA   27920 17736
+  DL   33488 27452</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>The null and alternative hypotheses are:</p>
+<ul style="font-size: 26px">
+<li>
+<span class="math inline">\(H_0\)</span>: Airlines and delays are independent
+</li>
+<li>
+<span class="math inline">\(H_1\)</span>: Airlines and delays <em>are not</em> independent
+</li>
+</ul>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(tabl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test with Yates' continuity correction
+
+data:  tabl
+X-squared = 410.66, df = 1, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div></div>
+<p>We reject <span class="math inline">\(H_0\)</span>, <span class="math inline">\(\chi^2 (1) =  410.66\)</span>, <span class="math inline">\(p &lt; .001\)</span>, meaning that there is some association between airline and delay.</p>
+</section>
+<section id="easily-find-expected-frequencies" class="slide level2">
+<h2>Easily Find Expected Frequencies</h2>
+<p>Even in the case of a table the formula to calculate the <span class="math inline">\(\chi^2\)</span> statistic is still <span class="math inline">\(\sum_i \frac{(O_i - E_i)^2}{E_i}\)</span>. Although it does not change the overall logic, the <em>expected</em> cell frequencies, <span class="math inline">\(E_i\)</span>, is calculated in a slightly different way: <span class="math inline">\(E_i =\frac{R_{tot} \times C_{\mathrm{tot}}}{Total}\)</span>, where</p>
+<div class="columns">
+<div class="column" style="width:33%;">
+<ul>
+<li><span class="math inline">\(R_{tot}\)</span>: total number of observations in <em>row</em>.</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<ul>
+<li><span class="math inline">\(C_{tot}\)</span>: total number of observations in <em>column</em>.</li>
+</ul>
+</div><div class="column" style="width:33%;">
+<ul>
+<li><span class="math inline">\(Total\)</span>: Is the sum of all values in the table (the sample size).</li>
+</ul>
+</div></div>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>You do not have to do this by hand. You can do the following:</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a>chi_test <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tabl)</span>
+<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a>chi_test<span class="sc">$</span>expected</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+      On Time    Delay
+  AA 26301.58 19354.42
+  DL 35106.42 25833.58</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:60%;">
+<p>This works because the <code>chisq.test()</code> function actually saves a lot of information when you save it as an object.</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(chi_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb23-1"><a href=""></a>[1] "statistic" "parameter" "p.value"   "method"    "data.name" "observed" </span>
+<span id="cb23-2"><a href=""></a>[7] "expected"  "residuals" "stdres"   </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>The same is true for many of the functions that we will see later in teh course.</p>
+</div></div>
+</section>
+<section id="some-association-what-does-that-mean" class="slide level2">
+<h2>“Some Association”? What does that Mean?</h2>
+<p>You may find the <em>some association</em> part from two slides ago a bit vague…and you’d be right! All the <span class="math inline">\(\chi^2\)</span> test we just ran tells us is that there is <em>some association somewhere</em> in out table. In our case it is easy to figure out which airline has a higher proportion of delays, but it becomes much harder when the number of rows and columns increases 🧐</p>
+<p>Once again the <span class="math inline">\(\chi^2\)</span> formula summarize how different <span class="math inline">\(O_i\)</span>s are from <span class="math inline">\(E_i\)</span>s, how different the data is from what we would expect if <span class="math inline">\(H_0\)</span> is true. The idea is that, based on <a href="https://en.wikipedia.org/wiki/Independence_(probability_theory)" target="_blank">probability theory</a>:</p>
+<div style="height:30px;">
+
+</div>
+<center>
+<p><u> the only way that we observe something that is on average far from our expected frequencies is if there is some association between the rows and the columns </u></p>
+</center>
+<div style="height:30px;">
+
+</div>
+<p>Thus, it would be <em>really unlikely</em> to see a table of observed frequencies that is different that the expected if <span class="math inline">\(H_0\)</span> is true and that is no association. Notice that this is <span class="math inline">\(H_1\)</span> from two slides ago and is the only thing that you are testing when running a <span class="math inline">\(\chi^2\)</span> test 🤔</p>
+</section>
+<section id="effect-sizes-for-χ2-tests" class="slide level2">
+<h2>Effect Sizes For χ<sup>2</sup> Tests</h2>
+<div style="font-size: 26px">
+Ok, so, we know that there is some association between airlines and delays (<span class="math inline">\(\chi^2 (1) =  410.66\)</span>, <span class="math inline">\(p &lt; .001\)</span>), but we really do not know how <em>practically meaningful</em> the strength of the association is (many statistically significant results are often practically meaningless 🫠). This is where <a href="https://www.scribbr.com/statistics/effect-size" target="_blank">effect sizes</a> come into the picture. Effect sizes are meant to be measures of <em>practical significance</em>, and they often have little relation with <em>statistical significance</em>.
+</div>
+<div style="height:30px;">
+
+</div>
+<center>
+There are two popular effect sizes for <span class="math inline">\(\chi^2\)</span> tests
+</center>
+<div style="height:40px;">
+
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<strong><span class="math inline">\(W\)</span> Coefficient</strong>
+</center>
+<p><span class="math inline">\(W = \sqrt{\frac{\chi^2}{Total}}\)</span></p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># sum(tabl) sums all the values in the table, thus giving the total</span></span>
+<span id="cb24-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fl">410.66</span><span class="sc">/</span><span class="fu">sum</span>(tabl))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.06206843</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<center>
+<strong>Cramer’s <span class="math inline">\(V\)</span></strong>
+</center>
+<p><span class="math inline">\(V = \sqrt{\frac{\chi^2}{Total \times (k - 1)}}\)</span>, where <span class="math inline">\(k\)</span> is either the row or column with the smallest number of categories.</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># When both columns and rows have 2 categories, W and V are equivalent</span></span>
+<span id="cb26-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sqrt</span>(<span class="fl">410.66</span><span class="sc">/</span>(<span class="fu">sum</span>(tabl)<span class="sc">*</span>(<span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span>)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.06206843</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="interpreting-effect-sizes" class="slide level2">
+<h2>Interpreting Effect Sizes</h2>
+<p>We got a <span class="math inline">\(W = .06\)</span>. How big (or small) is that effect size? The correct answer is that it depends. The determination usually involves some cost-benefit trade off which depends on the field that you are in.</p>
+<p>Now, everyone will reference effect sizes “guidelines” from <span class="citation" data-cites="cohen1988">Cohen (<a href="#/references" role="doc-biblioref" onclick="">1988</a>)</span>, who went through many popular effect sizes metrics and suggested some thresholds for what is a <em>small</em>, <em>medium</em>, and <em>large</em> effect size.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>According to Cohen’s guidelines for <span class="math inline">\(W\)</span> :</p>
+<ul style="font-size: 28px">
+<li>
+<span class="math inline">\(W = .1\)</span> → small
+</li>
+<li>
+<span class="math inline">\(W = .3\)</span> → medium
+</li>
+<li>
+<span class="math inline">\(W = .5\)</span> → large
+</li>
+</ul>
+<p>So, our effect size of <span class="math inline">\(W = .06\)</span> is <strong>small</strong>, meaning that the <em>degree</em> of association between airlines and delay is small (i.e., although one airline has more delays, it’s not by that much).</p>
+</div><div class="column" style="width:50%;">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>“Guidelines”? The Unfortunate Truth</strong></p>
+</div>
+<div class="callout-content">
+<p>The main argument for providing guidelines is that it helps applied researchers to make decisions. The idea is reasonable, but in my experience this sometimes turns into <em>“I don’t really understand it, so tell me what to do based on these numbers in my output”</em>. The most obvious case is <span class="math inline">\(p &lt; .05\)</span>, which is probably the main cause of the <a href="https://www.americanscientist.org/article/the-statistical-crisis-in-science" target="_blank">replication crisis</a>. Unfortunately, we teach to follow these “guidelines”, and this course will be no different (I am not happy about it 😔). When doing statistics in the real world, always stop and ask yourself <u><em>why</em></u> you are doing something or making a certain decision. If your answer is “because someone else said so”, then you still do not know the <u><em>why</em></u>, which is the most important thing.</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="likelihood-ratio-test" class="slide level2">
+<h2>Likelihood Ratio Test</h2>
+<p>You may come across the <em>likelihood ratio test</em>, which in the case of a contingency table ends up being quite similar to the <span class="math inline">\(\chi^2\)</span> test:</p>
+<p><span class="math display">\[\chi^2 = 2 \sum_i[O_i \times \ln(\frac{O_i}{E_i}) ]\]</span></p>
+<p>Where <span class="math inline">\(\ln()\)</span> is the <a href="https://www.youtube.com/watch?v=daUlTsnCNRQ" target="_blank">natural logarithm</a>. In R this scary equation is quite simple to compute:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: It may be worth spending some time understanding why this line of code works </span></span>
+<span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a>like_chi <span class="ot">&lt;-</span> <span class="dv">2</span><span class="sc">*</span><span class="fu">sum</span>(tabl<span class="sc">*</span><span class="fu">log</span>(tabl<span class="sc">/</span>chi_test<span class="sc">$</span>expected))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell code-125">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 411.9941</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>We get a really similar <span class="math inline">\(\chi^2\)</span> value and therefore a really similar <em>p</em>-value:</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># DF are (Nrows - 1)*(Ncols - 1) = (2 - 1)*(2 - 1) = 1</span></span>
+<span id="cb30-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">pchisq</span>(like_chi, <span class="at">df =</span> <span class="dv">1</span>, <span class="at">lower.tail =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.349157e-91</code></pre>
+</div>
+</div>
+</div></div>
+<p>The classical <span class="math inline">\(\chi^2\)</span> test generally works best for contingency tables. However, the likelihood ratio test is more general and will come up again because it can be used to compare different statistical models.</p>
+</section>
+<section id="small-expected-frequencies" class="slide level2">
+<h2>Small Expected Frequencies</h2>
+<p>Some smart math people have worked out that if any of the expected frequencies are too small (<span class="math inline">\(E_i \leq 5\)</span>, not the case of the example), the the type I error rate (more on this in Lab 4) of the <span class="math inline">\(\chi^2\)</span> test is not accurate. In this case you should apply some <em>adjustments</em> to your <span class="math inline">\(\chi^2\)</span> statistic. Both of these are fine:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<strong>Yates Correction</strong>
+</center>
+<p>The <code>chisq.test()</code> function applies this correction by default. You can see it in the output:</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(tabl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<div class="sourceCode" id="cb33"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb33-1"><a href=""></a></span>
+<span id="cb33-2"><a href=""></a>    Pearson's Chi-squared test with Yates' continuity correction</span>
+<span id="cb33-3"><a href=""></a></span>
+<span id="cb33-4"><a href=""></a>data:  tabl</span>
+<span id="cb33-5"><a href=""></a>X-squared = 410.66, df = 1, p-value &lt; 2.2e-16</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>This is good because there is no “disadvantage” to applying this correction, so it may as well be the default.</p>
+</div><div class="column" style="width:50%;">
+<center>
+<strong>E. Pearson Adjustment</strong>
+</center>
+<p><span class="math inline">\(\chi^2_{adj} = \chi^2 \times \frac{N}{N -1}\)</span>, where <span class="math inline">\(N\)</span> is the sample size.</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># get unadjusted chi-square (it will be very similar to the adjusted one because our expected proportions are really large)</span></span>
+<span id="cb34-2"><a href="" aria-hidden="true" tabindex="-1"></a>chi_unadj <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tabl, <span class="at">correct =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>statistic</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>X-squared 
+ 410.9175 </code></pre>
+</div>
+</div>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a>chi_unadj<span class="sc">*</span>(<span class="fu">sum</span>(tabl)<span class="sc">/</span>(<span class="fu">sum</span>(tabl) <span class="sc">-</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>X-squared 
+ 410.9214 </code></pre>
+</div>
+</div>
+<p>The adjustment makes almost no difference because of the really large <span class="math inline">\(N\)</span>.</p>
+</div></div>
+</section>
+<section id="fishers-exact-test" class="slide level2">
+<h2>Fisher’s Exact Test</h2>
+<p>When you have small expected frequencies, <strong>Fisher’s exact test</strong> is probably a better choice than a <span class="math inline">\(\chi^2\)</span> test. The <em>why</em> it is a better choice is not straightforward to explain (but let me know if you are curious).</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Fisher’s exact test works by checking whether the <strong>odds ratio</strong> (see next slides) of the table is significantly different from 1.</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">fisher.test</span>(tabl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Fisher's Exact Test for Count Data
+
+data:  tabl
+p-value &lt; 2.2e-16
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 1.258956 1.322845
+sample estimates:
+odds ratio 
+  1.290446 </code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>The null and alternative hypotheses are:</p>
+<ul style="font-size: 26px">
+<li>
+<span class="math inline">\(H_0\)</span>: the odds ratio is 1
+</li>
+<li>
+<span class="math inline">\(H_1\)</span>: the odds ratio <em>is not</em> 1
+</li>
+</ul>
+<p>The odds ratio is significantly different from 1, odds = 1.29, <span class="math inline">\(p &lt; .001\)</span>, 95% CI[1.26, 1.32]</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Fun Fact</strong></p>
+</div>
+<div class="callout-content">
+<p>Fisher’s exact test is based on the <a href="https://www.britannica.com/topic/hypergeometric-distribution" target="_blank">hypergeometric distribution</a>. The fun fact is that the hypergeometric distribution is the probability distribution that is used to determine the probability of drawing certain hands in card games. Incidentally, the hypergeometric distribution is used a lot in <a href="https://dlsun.github.io/probability/hypergeometric.html" target="_blank">Texas Hold’em Poker</a>, and any other competitive card game really.</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="odds-and-probability" class="slide level2">
+<h2>Odds and Probability</h2>
+<p>Odds and probabilities are two different ways of describing the likelihood of an event occurring. Let’s say that team A and team B are playing a Basketball game and we think know that team A wind 80% of the times. Let’s define <span class="math inline">\(\pi = .8\)</span> as the probability of team A winning. Then, the the <strong>odds</strong> of team A winning are:</p>
+<p><span class="math display">\[\mathrm{odds} = \frac{\pi}{1 - \pi} = \frac{.8}{1 - .8} = 4 \]</span></p>
+<p>This is what you would normally hear as “team A has 4 to 1 odds of beating team B”. It is important to note that given any odds, we can recover the <strong>probability</strong> <span class="math inline">\(\pi\)</span>:</p>
+<p><span class="math display">\[\pi = \frac{\mathrm{odds}}{\mathrm{odds} + 1} = \frac{4}{4 + 1} = .8\]</span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Odds:</strong> Number of successes compared to number of failures.</p>
+</div><div class="column" style="width:50%;">
+<p><strong>Probability:</strong> Number of successes compared to total number of trials.</p>
+</div></div>
+</section>
+<section id="odds-ratios" class="slide level2">
+<h2>Odds Ratios</h2>
+<p>In the case of our airplane example, we can look at the odds of both Delta and AA having a delayed flight:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<div class="cell code-125">
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     On Time Delay
+  AA   27920 17736
+  DL   33488 27452</code></pre>
+</div>
+</div>
+</center>
+<p>The “success” in this case is the flight being delayed, so it goes on top in the numerator.</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># odds for AA </span></span>
+<span id="cb41-2"><a href="" aria-hidden="true" tabindex="-1"></a>tabl[<span class="dv">1</span>,<span class="dv">2</span>]<span class="sc">/</span>tabl[<span class="dv">1</span>,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6352436</code></pre>
+</div>
+</div>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># odds for Delta</span></span>
+<span id="cb43-2"><a href="" aria-hidden="true" tabindex="-1"></a>tabl[<span class="dv">2</span>,<span class="dv">2</span>]<span class="sc">/</span>tabl[<span class="dv">2</span>,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8197563</code></pre>
+</div>
+</div>
+<p><strong>Note:</strong> if you wanted the odds of flights being on time, you would flip the fractions above.</p>
+</div><div class="column" style="width:50%;">
+<p>We see that Delta is more likely to have delays as it’s odds are higher than AA. But by how much? We can calculate an <strong>odds ratio</strong>:</p>
+<p><span class="math display">\[\mathrm{odds_{ratio}} = \frac{\mathrm{odds_{DL}}}{\mathrm{odds_{AA}}} = \frac{.82}{.63} = 1.3\]</span></p>
+<p><strong>Interpretation:</strong> The odds of Delta flights being delayed are 1.3 larger than the odds of AA flights being delayed.</p>
+<div style="height:30px;">
+
+</div>
+<p>So, an odds ratio is quite literally the ratio of two odds 😀</p>
+</div></div>
+</section>
+<section id="relative-risk" class="slide level2">
+<h2>Relative Risk</h2>
+<p>In epidemiology language, <strong>Risk</strong> is the exact same as probability. We can get the risk (probability) of either company’s flights being delayed:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<div class="cell code-125">
+<div class="cell-output cell-output-stdout">
+<pre><code>    
+     On Time Delay
+  AA   27920 17736
+  DL   33488 27452</code></pre>
+</div>
+</div>
+</center>
+<p>Because risk is probability, now we use the sum of the row in the denominator. Delays are still treated as “successes”:</p>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># risk for AA </span></span>
+<span id="cb46-2"><a href="" aria-hidden="true" tabindex="-1"></a>tabl[<span class="dv">1</span>,<span class="dv">2</span>]<span class="sc">/</span><span class="fu">sum</span>(tabl[<span class="dv">1</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.3884703</code></pre>
+</div>
+</div>
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># risk for Delta</span></span>
+<span id="cb48-2"><a href="" aria-hidden="true" tabindex="-1"></a>tabl[<span class="dv">2</span>,<span class="dv">2</span>]<span class="sc">/</span><span class="fu">sum</span>(tabl[<span class="dv">2</span>,])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.4504759</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>How much more likely are Delta flights to be delayed? The <strong>relative risk</strong> of a Delta flights being delayed compared to AA flights answers this question:</p>
+<p><span class="math display">\[\mathrm{risk_{rel}} = \frac{\mathrm{risk_{DL}}}{\mathrm{risk_{AA}}} = \frac{.45}{.39} = 1.15\]</span></p>
+<p><strong>Interpretation:</strong> Delta flights are 1.15 more likely to be delayed compared to AA flights.</p>
+<p>So <em>odds</em> and <em>risk</em> (probability) have different interpretations. Be careful when you use them or read about them.</p>
+</div></div>
+</section>
+<section id="odds-ratios-with-epitools" class="slide level2">
+<h2>Odds Ratios with <code>epitools</code></h2>
+<p>In practice, you probably want to use the <code>epitootls</code> package to calculate odds ratios:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="" aria-hidden="true" tabindex="-1"></a>epitools<span class="sc">::</span><span class="fu">oddsratio.fisher</span>(tabl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$data
+       
+        On Time Delay  Total
+  AA      27920 17736  45656
+  DL      33488 27452  60940
+  Total   61408 45188 106596
+
+$measure
+    odds ratio with 95% C.I.
+     estimate    lower    upper
+  AA 1.000000       NA       NA
+  DL 1.290446 1.258956 1.322845
+
+$p.value
+    two-sided
+     midp.exact fisher.exact   chi.square
+  AA         NA           NA           NA
+  DL          0 1.502078e-91 2.314218e-91
+
+$correction
+[1] FALSE
+
+attr(,"method")
+[1] "Conditional MLE &amp; exact CI from 'fisher.test'"</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>The function prints a bunch of stuff. The first thing to note is that the odds ratio is under <code>$measure</code> in the second row <code>DL 1.290446</code>, which is the same thing we got by hand. The first row is 1 because the function is dividing the odds of AA being late to the odds of every row (<span class="math inline">\(\frac{\mathrm{odds_{AA}}}{\mathrm{odds_{AA}}} = 1\)</span>).</p>
+<p>More importantly, under <code>$measure</code> you can also find the 95% CI for each of the odds ratios.</p>
+<p>Finally, under <code>$p.value</code> you can find significance tests based on three different tests criteria (which will almost always agree in practice). In all cases, <span class="math inline">\(p &lt; .001\)</span>.</p>
+</div></div>
+</section>
+<section id="relative-risk-with-epitools" class="slide level2">
+<h2>Relative Risk with <code>epitools</code></h2>
+<p>The <code>epitootls</code> package also has functions that calculates relative risk (also called risk ratio):</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125" data-max-height="150px">
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="" aria-hidden="true" tabindex="-1"></a>epitools<span class="sc">::</span><span class="fu">riskratio.wald</span>(tabl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$data
+       
+        On Time Delay  Total
+  AA      27920 17736  45656
+  DL      33488 27452  60940
+  Total   61408 45188 106596
+
+$measure
+    risk ratio with 95% C.I.
+     estimate    lower    upper
+  AA 1.000000       NA       NA
+  DL 1.159615 1.142957 1.176515
+
+$p.value
+    two-sided
+     midp.exact fisher.exact   chi.square
+  AA         NA           NA           NA
+  DL          0 1.502078e-91 2.314218e-91
+
+$correction
+[1] FALSE
+
+attr(,"method")
+[1] "Unconditional MLE &amp; normal approximation (Wald) CI"</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>The output is the same, so we find the risk ratio and the confidence interval under <code>$measure</code>. Once again, go the same risk ratio by hand (with some rounding error).</p>
+<p>The <code>epitools</code> package has other functions to calculate odds ratios and relative risk, which only differ a bit in how the 95% CI is computed (very similar in practice).</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>e-N?</strong></p>
+</div>
+<div class="callout-content">
+<p>In R output you will often see some <code>e-N</code>. On the left we see <code>e-91</code> in the <em>p</em>-values. This is computer notation to represent small numbers. So, <code>1.134e-3</code> means <code>0.001134</code>. Then, <code>e-91</code> means zero with 90 zeros after the decimal point (pretty small number). This is good because you do not want to see 90 zeros in your output.</p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="calculate-different-odds-and-risk" class="slide level2">
+<h2>Calculate Different Odds and Risk</h2>
+<p>By default, the <code>epitools</code> functions take the odds or risk of the <em>first row</em>, and treat the <em>second column</em> as the <em>success</em>. Then, they divide every other row by the odds/risk of the first row. (you can have more than 2 rows, but you always need two columns)</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="" aria-hidden="true" tabindex="-1"></a>epitools<span class="sc">::</span><span class="fu">oddsratio.fisher</span>(tabl, <span class="at">rev =</span> <span class="st">"rows"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$data
+       
+        On Time Delay  Total
+  DL      33488 27452  60940
+  AA      27920 17736  45656
+  Total   61408 45188 106596
+
+$measure
+    odds ratio with 95% C.I.
+      estimate     lower     upper
+  DL 1.0000000        NA        NA
+  AA 0.7749256 0.7559463 0.7943092
+
+$p.value
+    two-sided
+     midp.exact fisher.exact   chi.square
+  DL         NA           NA           NA
+  AA          0 1.502078e-91 2.314218e-91
+
+$correction
+[1] FALSE
+
+attr(,"method")
+[1] "Conditional MLE &amp; exact CI from 'fisher.test'"</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>You can change the order of the table columns and rows by using the <code>rev =</code> argument. Here I invert the <em>rows</em>. You can confirm that by comparing the table under <code>$data</code> from this slide to the previous slides.</p>
+<p>The idea is that, because you know how the functions calculate odds/risk ratios, you give it a table such that it calculates what you want. Here <code>.77</code> is <span class="math inline">\(\frac{\mathrm{odds_{AA}}}{\mathrm{odds_{DL}}}\)</span>.</p>
+<p>How do I know all of this? The function help menu <code>?oddsratio.fisher</code>! (the <code>risk</code> version of these function work exactly the same)</p>
+</div></div>
+</section>
+<section id="for-all-you-categorical-data-analysis-needs" class="slide level2">
+<h2>For All you Categorical Data Analysis Needs</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>Categorical data comes up a lot in applied research, and we definitely do not talk about categorical data much in your average intro to statistics course (or in regression).</p>
+<div style="height:30px;">
+
+</div>
+<p>If you are dealing with lots of categorical data, I <em>highly recommend</em> you try to get a hold of <em>Categorical Data Analysis</em> by <span class="citation" data-cites="agresti2018">Agresti (<a href="#/references" role="doc-biblioref" onclick="">2018</a>)</span>. This book is quite comprehensive, includes R code examples, and explains many important concepts very clearly!</p>
+<div style="height:30px;">
+
+</div>
+<p><strong>NOTE:</strong> You may also find the same book called <em>An Introduction to Categorical Data Analysis</em>, but they are the same book. Not sure what’s up with that 🤷</p>
+</div><div class="column" style="width:50%;">
+<center>
+<img data-src="Additional%20files/images/Agresti_book.jpg" style="width:60.0%">
+</center>
+</div></div>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-agresti2018" class="csl-entry" role="listitem">
+Agresti, A. (2018). <em>An introduction to categorical data analysis</em>. John Wiley &amp; Sons.
+</div>
+<div id="ref-aragon2020" class="csl-entry" role="listitem">
+Aragon, T. J., Fay, M. P., Wollschlaeger, D., &amp; Omidpanah, A. (2020). <em>Epitools: <span>Epidemiology Tools</span></em>.
+</div>
+<div id="ref-cohen1988" class="csl-entry" role="listitem">
+Cohen, J. (1988). <em>Statistical <span>Power Analysis</span> for the <span>Behavioral Sciences</span></em> (2nd edition). Routledge.
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>PSYC 6802 - Lab 3: Chi-Square</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="Lab_3_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="Lab_3_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Lab_3_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Lab_3_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Lab_3_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Lab_3_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="Lab_3_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="Lab_3_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Lab_3_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Lab_3_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Lab_3_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+    window.document.addEventListener("DOMContentLoaded", function (event) {
+      const toggleBodyColorMode = (bsSheetEl) => {
+        const mode = bsSheetEl.getAttribute("data-mode");
+        const bodyEl = window.document.querySelector("body");
+        if (mode === "dark") {
+          bodyEl.classList.add("quarto-dark");
+          bodyEl.classList.remove("quarto-light");
+        } else {
+          bodyEl.classList.add("quarto-light");
+          bodyEl.classList.remove("quarto-dark");
+        }
+      }
+      const toggleBodyColorPrimary = () => {
+        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+        if (bsSheetEl) {
+          toggleBodyColorMode(bsSheetEl);
+        }
+      }
+      toggleBodyColorPrimary();  
+      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+      tabsets.forEach(function(tabset) {
+        const tabby = new Tabby('#' + tabset.id);
+      });
+      const isCodeAnnotation = (el) => {
+        for (const clz of el.classList) {
+          if (clz.startsWith('code-annotation-')) {                     
+            return true;
+          }
+        }
+        return false;
+      }
+      const onCopySuccess = function(e) {
+        // button target
+        const button = e.trigger;
+        // don't keep focus
+        button.blur();
+        // flash "checked"
+        button.classList.add('code-copy-button-checked');
+        var currentTitle = button.getAttribute("title");
+        button.setAttribute("title", "Copied!");
+        let tooltip;
+        if (window.bootstrap) {
+          button.setAttribute("data-bs-toggle", "tooltip");
+          button.setAttribute("data-bs-placement", "left");
+          button.setAttribute("data-bs-title", "Copied!");
+          tooltip = new bootstrap.Tooltip(button, 
+            { trigger: "manual", 
+              customClass: "code-copy-button-tooltip",
+              offset: [0, -8]});
+          tooltip.show();    
+        }
+        setTimeout(function() {
+          if (tooltip) {
+            tooltip.hide();
+            button.removeAttribute("data-bs-title");
+            button.removeAttribute("data-bs-toggle");
+            button.removeAttribute("data-bs-placement");
+          }
+          button.setAttribute("title", currentTitle);
+          button.classList.remove('code-copy-button-checked');
+        }, 1000);
+        // clear code selection
+        e.clearSelection();
+      }
+      const getTextToCopy = function(trigger) {
+          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+      }
+      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+        text: getTextToCopy
+      });
+      clipboard.on('success', onCopySuccess);
+      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+          text: getTextToCopy,
+          container: window.document.getElementById('quarto-embedded-source-code-modal')
+        });
+        clipboardModal.on('success', onCopySuccess);
+      }
+        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+        var mailtoRegex = new RegExp(/^mailto:/);
+          var filterRegex = new RegExp('/' + window.location.host + '/');
+        var isInternal = (href) => {
+            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+        }
+        // Inspect non-navigation links and adorn them if external
+     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+        for (var i=0; i<links.length; i++) {
+          const link = links[i];
+          if (!isInternal(link.href)) {
+            // undo the damage that might have been done by quarto-nav.js in the case of
+            // links that we want to consider external
+            if (link.dataset.originalHref !== undefined) {
+              link.href = link.dataset.originalHref;
+            }
+          }
+        }
+      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+        const config = {
+          allowHTML: true,
+          maxWidth: 500,
+          delay: 100,
+          arrow: false,
+          appendTo: function(el) {
+              return el.closest('section.slide') || el.parentElement;
+          },
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start',
+        };
+        if (contentFn) {
+          config.content = contentFn;
+        }
+        if (onTriggerFn) {
+          config.onTrigger = onTriggerFn;
+        }
+        if (onUntriggerFn) {
+          config.onUntrigger = onUntriggerFn;
+        }
+          config['offset'] = [0,0];
+          config['maxWidth'] = 700;
+        window.tippy(el, config); 
+      }
+      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+      for (var i=0; i<noterefs.length; i++) {
+        const ref = noterefs[i];
+        tippyHover(ref, function() {
+          // use id or data attribute instead here
+          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+          try { href = new URL(href).hash; } catch {}
+          const id = href.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note) {
+            return note.innerHTML;
+          } else {
+            return "";
+          }
+        });
+      }
+      const findCites = (el) => {
+        const parentEl = el.parentElement;
+        if (parentEl) {
+          const cites = parentEl.dataset.cites;
+          if (cites) {
+            return {
+              el,
+              cites: cites.split(' ')
+            };
+          } else {
+            return findCites(el.parentElement)
+          }
+        } else {
+          return undefined;
+        }
+      };
+      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+      for (var i=0; i<bibliorefs.length; i++) {
+        const ref = bibliorefs[i];
+        const citeInfo = findCites(ref);
+        if (citeInfo) {
+          tippyHover(citeInfo.el, function() {
+            var popup = window.document.createElement('div');
+            citeInfo.cites.forEach(function(cite) {
+              var citeDiv = window.document.createElement('div');
+              citeDiv.classList.add('hanging-indent');
+              citeDiv.classList.add('csl-entry');
+              var biblioDiv = window.document.getElementById('ref-' + cite);
+              if (biblioDiv) {
+                citeDiv.innerHTML = biblioDiv.innerHTML;
+              }
+              popup.appendChild(citeDiv);
+            });
+            return popup.innerHTML;
+          });
+        }
+      }
+    });
+    </script>
+    
+
+</body></html>
