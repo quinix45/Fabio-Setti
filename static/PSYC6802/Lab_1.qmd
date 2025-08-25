@@ -692,7 +692,10 @@ sort(x, decreasing = TRUE)
 :::
 ::::
 
+
+::: {.fragment fragment-index=4}
 Functions are at the core of anything we do in R. We will learn about many more functions as they come up. If you want to get a flavor of some basic R functions, you can find a list [here](https://stat.ethz.ch/R-manual/R-devel/library/base/html/00Index.html){target="_blank"}.
+:::
 
 ## The Help Menu
 
@@ -1340,7 +1343,9 @@ editor: visual
 
 </br>
 
+::: {.fragment fragment-index=2}
 Try to make the changes in the second code block and render the PDF again!
+:::
 
 </br>
 

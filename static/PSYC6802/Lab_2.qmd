@@ -230,7 +230,7 @@ The **mode** is the value that occurs the most in a set of observations. In prac
 ::: {.column width="50%"}
 
 ::: {.fragment fragment-index=1}
-There is no function that directly calculates the mode, but finding the values that occurs the most in a vector is a very simple task. Here we used the `which.max()`
+There is no function that directly calculates the mode, but finding the values that occurs the most in a vector is a very simple task. Here we use `which.max()`:
 
 ```{r}
 #| eval: true
