@@ -104,13 +104,13 @@ This Lab goes over some basic descriptive statistics, data manipulation with  [`
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_2_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-09-14T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_2_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-09-07T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_2_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
 <h3> 3. Chi-Square </h3>
 
-This lab introduces some categorical data analysis methods for contingency tables. In particular, this lab goes over &#967;<sup>2</sup> tests, likelihood ratio test, and Fisher's exact test. Further, the lab also goes over odds and risk, as well as odds ratios and relative risk. 
+This lab introduces some categorical data analysis methods for contingency tables. In particular, this Lab goes over &#967;<sup>2</sup> tests, likelihood ratio test, and Fisher's exact test. Further, the Lab also goes over odds and risk, as well as odds ratios and relative risk. 
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_3.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
@@ -122,13 +122,13 @@ This lab introduces some categorical data analysis methods for contingency table
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_3_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_3_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-09-12T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_3_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
 <h3> 4. t-Test </h3>
 
-Coming soon!
+This Lab introduces one-sample, paired-samples, and independent-samples *t*-tests, as well as a non-parametric alternative. Cohen's *d*, a measure of effect size for mean differences, as well as methods to asses the assumption of normality are also discussed.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_4.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
@@ -141,7 +141,7 @@ Coming soon!
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_4_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_4_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-09-19T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_4_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -161,7 +161,7 @@ Coming soon!
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_5_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-09-26T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_5_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
 
@@ -187,7 +187,7 @@ Coming soon!
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_6_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-10-03T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_6_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
 <hr class="fancy"></hr>
@@ -208,7 +208,7 @@ Coming soon!
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_7_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-10-10T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_7_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -230,7 +230,7 @@ Coming soon!
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_8_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-10-17T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_8_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
 
@@ -254,7 +254,7 @@ Coming soon!
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_9_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-10-24T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_9_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
 <hr class="fancy"></hr>
@@ -274,7 +274,7 @@ Coming soon!
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_10_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_10_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-10-31T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_10_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -296,7 +296,7 @@ Coming soon!
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_11_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_11_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-07T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_11_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
 <hr class="fancy"></hr>
@@ -315,7 +315,7 @@ Coming soon!
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_12_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_12_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-14T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_12_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -336,7 +336,7 @@ Coming soon!
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_13_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-21T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_13_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -357,6 +357,6 @@ Coming soon!
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-01-01T00:00:00Z" data-file="/PSYC6802/Lab Activities/Lab_14_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-12-05T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_14_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr></hr>

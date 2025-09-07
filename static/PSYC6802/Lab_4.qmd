@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 4: t-Test"
+      footer: "PSYC 6802 - Lab 4: t-Test"
       width: 1280
       height: 720
       chalkboard: true
@@ -25,3 +25,1093 @@ editor: source
 build: local
 ---
 
+## Today's Packages and Data 🤗
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-125
+
+
+# run for packages that you have not installed yet
+# install.packages("tidyverse")
+install.packages("effectsize")
+```
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(effectsize)
+library(car)
+library(tidyverse)
+# I am setting a theme for all the plots
+theme_set(theme_classic(base_size = 16, 
+                        base_family = 'serif'))
+```
+
+</br>
+
+::: {.panel-tabset}
+
+### `effectsize`
+
+The `effectsize` package [@ben-shachar2025] provides functions that compute effect sizes for a wide variety of effect sizes that are commonly used in statistical analyses. 
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+Today we will work with the [Cuisine_rating.csv](https://www.kaggle.com/datasets/surajjha101/cuisine-rating){target='_blank'} data, which is a collection of ratings of different restaurants by 200 customers:
+ 
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/Cuisine_rating.csv")
+```
+
+```{r}
+reactable::reactable(dat,
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300)
+```
+
+:::
+::::
+
+## $t$-tests
+
+In general, *t*-tests are used to test whether some number is significantly different from *some value* (0 in 99% of the cases). In this Lab, we will look at the specific case where we use *t*-tests to check whether some *mean differences are significantly different from 0*. 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+<ul style='font-size: 26px'>
+
+<li> **One-sample *t*-test:** This test is used to test whether a statistic is significantly different from some value. This is actually the most common type of *t*-test, and in later labs, we will see that this is the *t*-test used to test the significance of *regression coefficients*. </li>
+
+<li> **Paired-samples *t*-test:** This test is used to to check mean difference between *2 dependent samples*. We will soon see that this test is equivalent to a one-sample *t*-test. </li>
+
+<li> **independent-samples *t*-test:** This test is used to test mean differences between *2 independent samples*. </li>
+
+</ul>
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+<center> **Why all These *t*-tests? ** </center>
+
+These "different" *t*-tests are more or less the same. They all do the same thing, save for a small nuance.
+
+The overarching idea is that we have some value, usually a **mean**, and we want to test whether it is significantly different from some other value, usually **0**. 
+
+The main component that we need to do this is the **variance** (or SD, same thing) of the mean. How this variance is calculated is the nuance. See [here](https://pmc.ncbi.nlm.nih.gov/articles/PMC5579465){target='_blank'} for a good explanation.
+
+:::
+
+:::
+::::
+
+## The $t$ statistic
+
+For *t*-tests we need to calculate what is know as the *t* statistic. The formula to calculate any *t* statistic is:
+
+$$t = \frac{\bar{x} - \mu }{S/\sqrt{n}}$$
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+where:
+
+<ul style='font-size: 26px'>
+
+<li>  $\bar{x}$ is the *sample mean* </li>
+
+<li>  $\mu$ is the values you are testing against, usually called the *null population mean*. </li>
+
+<li>  $S$ is the sample standard deviation. </li>
+
+<li>  $n$ is the sample size. </li>
+
+</ul>
+
+:::
+
+
+::: {.fragment fragment-index=2}
+The $S/\sqrt{n}$ is what is known as the **standard error**, $SE$, an essential concept to understand before *p*-values can make any sense.
+:::
+
+
+:::
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=3}
+
+The $SE$ is the standard deviation of the **sampling distribution** (makes no sense, I know 🫣):
+:::
+
+::: {.fragment fragment-index=4}
+ <p style='font-size: 26px'> Let's say that you collect some data and then calculate some mean, $\bar{x}$. And then, let's say that in some imaginary reality you are able to re-collect the data in the exact same way an infinite number of times. Each time you collect the data you calculate $\bar{x}$ in the same way, eventually ending up with a *distribution of* $\bar{x}$s. </p>
+:::
+
+::: {.fragment fragment-index=5}
+This imaginary distribution of $\bar{x}$s is the **sampling distribution**.
+:::
+
+:::
+::::
+
+## Sampling Distribution: Try it Yourself
+
+:::: {.columns}
+::: {.column width="80%"}
+
+<iframe width="1700px" height="600px" src="https://quinix45.github.io/shinylive_apps/Sampling_dist/"> </iframe>
+
+:::
+::: {.column width="20%"}
+
+
+::: {.fragment fragment-index=1}
+<div style="font-size: 24px"> As you increase the number of *experiments* (i.e., times you re-collect data), you will see that that the SD of the sampling distribution (plot on the right) will equal exactly </div>
+
+
+
+$$SE = \frac{\sigma}{\sqrt{N}}$$
+
+:::
+
+
+
+<div style="font-size: 22px"> **Note:** In practice we use $S$ and not $\sigma$, which we do not need! </div>
+
+
+:::
+::::
+
+## So...?
+
+::: {.fragment fragment-index=1}
+In the case of $t$-tests, the null hypothesis assumes some null value, $\mu$, and checks how unlikely it is to get the sample mean value, $\bar{x}$ if $\mu$ is the true population mean.  
+:::
+
+
+::: {.fragment fragment-index=2}
+This would be impossible to do unless we somehow had an estimate of the standard deviation of $\mu$, which is exactly what $SE$ is! We can rewrite the general $t$ statistic formula as $t = \frac{\bar{x} - \mu }{SE}$. Also, in most cases $\mu = 0$, so, more often than not, the formula becomes
+:::
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=2}
+$$t = \frac{\bar{x}}{SE}$$
+
+:::
+
+::: {.fragment fragment-index=3}
+Thus, $t$ can be roughly interpreted as how many *standard deviation units* $\bar{x}$ is away from $\mu$. The *p*-value will be how unlikely $\bar{x}$, or something more extreme, is to happen if $\mu$ is the true population mean.
+:::
+
+:::
+::: {.column width = '50%'}
+::: {.fragment fragment-index=3}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-summary: "Plot Code"
+#| code-fold: true
+
+ggplot() +
+  geom_function(fun = dt, args = list(df = 199), color = "#7a0b80") +
+  labs(x = "All Possible t statistics if H0 is true") +
+  xlim(-3, 3) +
+  geom_vline(xintercept = 2, lty = 2, col = "red") +
+  geom_vline(xintercept = -2, lty = 2, col = "red") +
+  annotate("text", x = 0, y = .2, label = paste("Values beyond the red dotted lines \n are unlikely to happen if H0 is true"), size = 5) +
+  scale_y_continuous(expand = c(0,0)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.line.y =  element_blank())
+```
+:::
+
+:::
+::::
+
+## One-Sample $t$-test by Hand
+
+We want to find out whether the average food rating (`Food_Rating`) is significantly different from 3. Then:
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+We know that $\mu = 3$. $\bar{x}$ is:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+mean <- mean(dat$Food_Rating)
+```
+
+
+
+```{r}
+#| classes: code-125
+mean(dat$Food_Rating)
+```
+
+:::
+
+::: {.fragment fragment-index=2}
+and $S$ is:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+S <- sd(dat$Food_Rating)
+```
+
+```{r}
+#| classes: code-125
+S
+```
+
+:::
+
+::: {.fragment fragment-index=3}
+
+Meaning that $SE$ will be:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+SE <- S/sqrt(nrow(dat))
+```
+
+```{r}
+#| classes: code-125
+SE
+```
+
+:::
+:::
+
+
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=4}
+Then, the $t$ statistic will be:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+t <- (mean - 3)/SE
+```
+```{r}
+#| classes: code-125
+t
+```
+
+:::
+
+::: {.fragment fragment-index=5}
+
+And degrees of freedom are going to be $df = n - 1$, so:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+df <- nrow(dat) - 1
+```
+```{r}
+#| classes: code-125
+df
+```
+
+:::
+
+
+::: {.fragment fragment-index=6}
+
+The appropriate two-tailed $p$-value is:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+(1 - pt(t, df = df))*2
+```
+
+:::
+
+:::
+::::
+
+
+## A graphical representation
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+
+
+The *p*-value represents how likely seeing $t = 2.2$ would be if the null hypothesis, $H_0$, is true, in which case we would expect $t = 0$.
+
+
+::: {.fragment fragment-index=1}
+If $H_0$ is true, we should see $t = 2.2$ or *more extreme* in $2.8\%$ of the samples ($p = .028$). 
+:::
+
+::: {.fragment fragment-index=2}
+Is this *enough* evidence to "reject" $H_0$? There is no *objective* answer to this question (and *p* < .05 is not an objective answer). 
+:::
+
+:::
+::: {.column width = '70%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-summary: "Plot Code"
+#| code-fold: true
+
+ggplot() +
+  geom_function(fun = dt, args = list(df = df), color = "#7a0b80") +
+  labs(x = "All Possible t statistics if H0 is true") +
+  xlim(-3, 3) +
+  geom_vline(xintercept = t, lty = 2, col = "red") +
+  annotate("text", x = t + .5, y = .1, label = paste("Our t-value, \n", round(t, 2)), size = 5) +
+  scale_y_continuous(expand = c(0,0)) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.line.y =  element_blank())
+```
+
+
+:::
+::::
+
+
+## One-Sample $t$-test in R
+
+In practice, you would use the `t.test()` function to run a one-sample *t*-test.
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| class-output: hscroll
+
+
+t.test(dat$Food_Rating, 
+       mu = 3)
+```
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+Some notes about the code:
+
+<ul style='font-size: 26px'>
+
+<li> `dat$Food_Rating`: this is the column in the data that we want to run the *t*-test for. </li>
+
+<li> `mu = 3`: the `mu` argument is used to specify the null population mean; it's set to `0` by default, so you only have to specify a value when you are testing against a value that is not 0. </li>
+
+</ul>
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=2}
+So, the average food rating is significantly different from 3 at $\alpha = .05$, $t(199) = 2.2, p = .02, 95\% \mathrm{CI}[3.03; 3.42]$.
+:::
+
+::: {.fragment fragment-index=3}
+However, we do not know how practically large the difference from 3 is. We need an effect size 😀
+:::
+
+## Cohen's $d$ for One-Sample $t$-tests
+
+Cohen's *d* is essentially a measure of the standardized mean difference between the observed and null mean. In the case of the one-sample *t*-test
+
+$$d = \frac{\bar{x} - \mu}{S}$$
+
+
+:::: {.columns}
+::: {.column width = '45%'}
+
+::: {.fragment fragment-index=1}
+For the case of our sample, *d* is
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# small effect size
+(mean(dat$Food_Rating) - 3)/sd(dat$Food_Rating)
+```
+
+<center>  
+According to @cohen1988:
+
+<ul style="font-size: 24px">  
+
+<li> $d = .2$ &rarr; small </li>
+
+<li> $d = .5$ &rarr; medium </li>
+
+<li> $d = .8$ &rarr; large </li>
+
+</ul>
+
+</center>
+:::
+
+:::
+::: {.column width = '55%'}
+
+
+::: {.fragment fragment-index=2}
+So, the difference between the observed mean is not that meaningful according to Cohen's guideline (but once again, practical meaningfulness may depend on the context). 
+:::
+
+::: {.fragment fragment-index=3}
+To put what *d* does in perspective, think of it as *standard units differences*. On an [IQ test scale](https://www.edubloxtutor.com/iq-test-scores){target='_blank'}, a jump from 100 to 115 would be exactly $d = 1$, a standard deviation difference. 
+:::
+
+::: {.fragment fragment-index=4}
+ <p style='font-size: 22px'> Oh, also, Cohen's *d* formula is very similar to the *t* statistic formula. Coincidences? 🤔 </p>
+:::
+
+:::
+::::
+
+## Cohen's $d$ With `effectsize`
+
+We can also use the `effectsize` package to compute Cohen's *d*, which has the advantage to provide some extra information
+
+:::: {.columns}
+::: {.column width = '50%'}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cohens_d(dat$Food_Rating,
+         mu = 3)
+```
+
+
+Notice that once again we need to specify the value we are testing against, 3, which is otherwise 0 by default.
+
+
+::: {.fragment fragment-index=1}
+
+The function has the advantage of also computing the 95\% confidence in interval for Cohen's *d*. 
+
+:::
+
+:::
+::: {.column width = '50%'}
+ 
+
+::: {.fragment fragment-index=2}
+<center> <p style='font-size: 30px'>   **confidence intervals interpretations** </p> </center>
+
+<ul style='font-size: 28px'>
+
+<li> **Incorrect interpretation:** We are 95\% confident that the true Cohen's *d* is between .02 and .3.   </li>
+
+
+<li> **Correct interpretation:** if we were to repeat the exact same experiment an infinite number of times 95\% of the calculated Cohen's *d*s will be between .02 and .3.   </li>
+
+
+</ul>
+
+:::
+
+
+::: {.fragment fragment-index=3}
+The second interpretations seems complicated for no reasons, but we have [frequentist statistics](https://www.redjournal.org/article/S0360-3016%2821%2903256-9/fulltext){target='_blank'} and *p*-values to thank for that. If you are curious to get a sense of the nuance, [here](https://math.stackexchange.com/questions/2361477/confidence-interval-interpretation-difficulty){target='_blank'} is a good explanation.
+:::
+
+:::
+::::
+
+
+## Paired-Samples $t$-test in R 
+
+We Want to test whether individuals' mean ratings on service and food are significantly different from each other. Because each individual is measured on both variables, the two columns are *dependent*:
+
+:::: {.columns}
+::: {.column width = '40%'}
+:::{.fragment fragment-index=1} 
+
+This is one way of running a paired-saples *t*-test:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+t.test(dat$Service_Rating, dat$Food_Rating,
+      paired = TRUE)
+```
+
+:::
+:::
+
+::: {.column width = '60%'}
+
+:::{.fragment fragment-index=2} 
+
+I personally prefer to run paired-samples *t*-tests this way:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+t.test(dat$Service_Rating - dat$Food_Rating)
+```
+
+ <p style='font-size: 24px'> This works because paired-samples *t*-tests are just one-sample *t*-tests on the difference between the two variables where $H_0: \mu = 0$. </p>
+
+:::
+:::
+::::
+
+
+## Independent-Samples $t$-test: A Note
+
+While there is no mathematical difference between the one-sample and the paired-samples *t*-test, the independent-samples *t*-test differs by the fact that you are comparing two **independent** samples. 
+
+:::{.fragment fragment-index=1} 
+
+From undergrad you may remember the [pooled variance](https://stats.libretexts.org/Bookshelves/Applied_Statistics/Natural_Resources_Biometrics_(Kiernan)/04%3A_Inferences_about_the_Differences_of_Two_Populations/4.02%3A_Pooled_Two-sampled_t-test_(Assuming_Equal_Variances)){target='_blank'}, $S_p^2$. In rough terms, the pooled variance is an average of the two groups variances weighted by their sample sizes.
+
+
+$$S_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}, t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{S_p^2/n_1 + S_p^2/n_2}}$$
+
+The formula to calculate the *t*-statistic has the exact same logic as before, it is still a mean difference divided by the $SE$. 
+:::
+:::{.fragment fragment-index=2} 
+These calculations are standard in just about every intro to statistics textbook; however, running a *t*-test this way makes the *assumption* that the two groups have equal variances, which is never the case in practice. `R` functions usually default to running [Welch's *t*-tests](https://en.wikipedia.org/wiki/Welch%27s_t-test){target='_blank'}, which are best in practice. The reason you don't see formulas for Welch's *t*-test in textbooks is because calculating the *df*s is [a bit tedious](https://stats.stackexchange.com/questions/48636/are-the-degrees-of-freedom-for-welchs-test-always-less-than-the-df-of-the-poole){target='_blank'} 🤷
+:::
+
+## Independent-Samples $t$-test in R (Welch)
+
+
+We want to test whether there is a significant difference in mean overall restaurant (`Overall_Rating`) rating by *gender* (`Gender`). The syntax is slightly different here.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+  
+t.test(Overall_Rating ~ Gender, 
+       data = dat)
+```
+
+:::
+
+::: {.column width = '50%'}
+
+Notice the `Overall_Rating ~ Gender`. You can read the `~` syntax as a *"by"*, and it comes up over and over in `R` functions.
+
+
+:::{.fragment fragment-index=1} 
+In this case, `Overall_Rating ~ Gender` reads something like *"Give me the mean of the `Overall_Rating` variable by each level in the `Gender` variable and check the difference"*. 
+:::
+
+:::{.fragment fragment-index=2} 
+Importantly, we need to specify where both `Overall_Rating` and `Gender` are coming from. We do that with the `data = dat` argument, which tell `R` to look inside the `dat` object.
+:::
+
+:::
+::::
+
+## Equal Variances Assumed
+
+Below is the independent-samples *t*-test with the pooled standard deviation, which assumes equal variances.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+  
+t.test(Overall_Rating ~ Gender, 
+       data = dat,
+       var.equal = TRUE)
+```
+
+:::
+::: {.column width = '50%'}
+
+The two main differences from before is that The *t*-statistic and the *df*s are larger than before. These two differences will also lead to lower *p*-values, although the difference is quite small in this case.
+
+:::{.fragment fragment-index=1} 
+As mentioned, you should never use the `var.equal = TRUE` version. But why is it the most common one? I have two guesses:
+
+<ul style='font-size: 26px'>
+
+<li>  Back in the day, the calculation of the *df*s was a bit too tedious and folks did not want to deal with it. </li>
+
+<li>  This version always gives slightly lower *p*-values, and folks like smaller *p*-values. </li>
+
+</ul>
+:::
+
+:::
+::::
+
+## Independent-Samples $t$-test: Cohen's $d$
+
+For independent-samples *t*-tests, the `effectsize` package also uses a similar syntax to the `t.test()` function:
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cohens_d(Overall_Rating ~ Gender, 
+         data = dat,
+         pooled_sd = FALSE)
+```
+
+
+:::
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cohens_d(Overall_Rating ~ Gender, 
+         data = dat)
+```
+
+:::
+::::
+
+We need to add the `pooled_sd = FALSE` argument here because by default the function will used the pooled standard deviation. In this specific case, the difference is irrelevant.
+
+</br>
+
+:::{.fragment fragment-index=2} 
+In general, always make sure you read the output of functions carefully. both the `t.test()` and the `cohens_d()` functions tell use what type of *t*-test they are running and what standard deviation they are using. 
+:::
+
+## Assumptions
+
+Now for a really complex topic that unfortunately we spend almost no time on in most statistics class. In most cases you will here that *statistical models make assumptions*; what you will not hear is:
+
+
+:::: {.columns}
+::: {.column width = '33%'}
+
+:::{.fragment fragment-index=1} 
+<center> Deciding to run any statistical analysis involves *you* making assumptions. </center>
+:::
+
+:::
+::: {.column width = '33%'}
+
+:::{.fragment fragment-index=2} 
+<center> Assumptions are always wrong. What matters is *how badly* you violate them.  </center>
+:::
+
+:::
+::: {.column width = '33%'}
+
+:::{.fragment fragment-index=3} 
+<center> Where do assumptions come from? 😕 </center>
+:::
+
+:::
+::::
+
+:::{.fragment fragment-index=4} 
+The way we teach statistics does not facilitate the understanding of these concepts, nor tries to address them. The main issues comes down to us teaching *how* to do statistics but not teaching *why* we do statistics and *what* statistics do. 
+:::
+
+:::{.fragment fragment-index=5} 
+The one thing that I will say is that, fundamentally, *statistics* try to explain <u>how observed data comes into existence</u>. Because the true process by which data comes into existence is infinitely complex, statistical models make *assumptions* about the nature of the process that causes data to come into existence. 
+:::
+
+:::{.fragment fragment-index=6} 
+So, statistical models (yes, the *t*-test is a statistical model), are a simplified explanations of reality that expect to see certain patterns in the data. Checking assumptions involves evaluating how different the osberved data is from what your model would expect.
+:::
+
+## Normality of Groups: Descriptives
+
+
+In the case of Welch's *t*-test, the only assumption is that the two groups are normally distributed around their mean. There are multiple ways of evaluating the normality of groups. descriptive statistics are one way.
+
+:::: {.columns}
+::: {.column width = '60%'}
+
+
+:::{.fragment fragment-index=1} 
+Here we use `group_by()` and `summarise()` in combinations to get descriptive statistics about the distributions of the two groups by `Overall_Rating`
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat %>% 
+  group_by(Gender) %>%
+      summarise(mean = mean(Overall_Rating), 
+                sd = sd(Overall_Rating),
+                skew = e1071::skewness(Overall_Rating), 
+                kurt = e1071::kurtosis(Overall_Rating))
+```
+
+:::
+:::
+::: {.column width = '40%'}
+
+:::{.fragment fragment-index=2} 
+
+</br>
+
+ <p style='font-size: 30px'> Judging by the skewnwss and kurtosis alone, I would not be very concenred about the non normality of the data.   </p>
+
+
+</br>
+
+<p style='font-size: 30px'> However, graphical representations are generally much more informative! </p>
+
+:::
+
+
+:::
+::::
+
+## Normality of Groups: QQplot
+
+QQplots can be good to evaluate whether a variable is not normally distributed and *where* the deviation from normality happens along the possible values of the variable (see [here](https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%201#/understanding-qqplots){target='_blank'} for more). 
+
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+       aes(sample = Overall_Rating)) +
+       stat_qq() + 
+       stat_qq_line() +
+       # facet_wrap() will create plots for each of the levels of Gender!
+       facet_wrap(~ Gender)
+```
+
+:::
+
+::: {.fragment fragment-index=2}
+QQplots do not work too well for this data because it is not fully continuous. In general, you'd want the line to pass through all the points, or rows of points in this case. These plots don't look the best.
+:::
+
+:::
+::: {.column width = '70%'}
+
+::: {.fragment fragment-index=1}
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+       aes(sample = Overall_Rating)) +
+       stat_qq() + 
+       stat_qq_line() +
+       facet_wrap(~ Gender)
+```
+
+:::
+
+:::
+::::
+
+## Normality of Groups: Density Plots
+
+I personally find density plots more intuitive than QQplots. 
+
+:::: {.columns}
+::: {.column width = '30%'}
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+       aes(x = Overall_Rating)) +
+       geom_density()+
+       facet_wrap(~ Gender)
+```
+
+::: {.fragment fragment-index=1}
+Here it is even more apparent that the distribution of the two groups does not resamble a normal distribution. 
+
+The two graphical methods reveal issues that descriptive statistics alone do not quite pick up on.
+:::
+
+
+:::
+::: {.column width = '70%'}
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+       aes(x = Overall_Rating)) +
+       geom_density()+
+       facet_wrap(~ Gender)
+```
+
+
+:::
+::::
+
+
+
+## Outliers: Trimmed Mean
+
+We will talk more about outliers later in the course, but if the data is to be normally distributed, one should not expect to see any extreme values. *Outliers* are unexpected extreme values compared to the rest of the sample.
+
+::: {.fragment fragment-index=1}
+In [Lab 2](https://fabio-setti.netlify.app/psyc6802/lab_2#/central-tendency-mean-and-median){target='_blank'} we have seen how a single outlier can have a strong influence on the mean. This means that a single outlier could drastically impact your results in *t*-tests.
+:::
+
+</br>
+
+::: {.fragment fragment-index=2}
+:::: {.columns}
+::: {.column width = '50%'}
+
+The *trimmed mean* calculates the mean of a variable but removes a percentage of the highest and lowest value. So, if the trimmed mean changes a lot, there may be some outliers lurking in your data. 
+
+
+Here, the means are almost the same, so there does not seem to be any influential outliers.
+
+:::
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat %>% 
+  group_by(Gender) %>%
+    summarize(mean = mean(Overall_Rating),
+              #takes out the top and bottom 2.5%
+              tmean = mean(Overall_Rating, trim = .05))
+```
+
+:::
+::::
+:::
+
+## Outliers: Standardized Units
+
+We can turn any observation $x_i$ into standardizes units (Z-scores) with the following formula:
+$$z_i = \frac{x_i - \bar{x}}{S_x}$$
+
+
+::: {.fragment fragment-index=1}
+
+This formula makes it so that an observation that equals the mean will be 0, and the units will be interpreted as *SD units away from the mean*. We know that something that is 3 standard deviations above or below a mean is *very* unlikely to be observed (e.g., only .001% of the population will have an IQ above 145).
+
+:::
+
+:::{.fragment fragment-index=1}
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat %>% 
+  # create standardized version of Overall_Rating
+  mutate(Overall_Rating_std = (Overall_Rating - mean(Overall_Rating))/sd(Overall_Rating)) %>% 
+    group_by(Gender) %>% 
+    # count how many have absolute value above 3
+     summarise(N_extreme = sum(abs(Overall_Rating_std) > 3))
+```
+
+:::
+::: {.column width = '20%'}
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat %>% 
+  # create standardized version of Overall_Rating
+  mutate(Overall_Rating_std = (Overall_Rating - mean(Overall_Rating))/sd(Overall_Rating)) %>% 
+    group_by(Gender) %>% 
+    # count how many have absolute value above 3
+     summarise(N_extreme = sum(abs(Overall_Rating_std) > 3))
+```
+
+
+:::
+
+::: {.column width = '30%'}
+Once again, no outliers. We will talk about other outlier detection methods later on in the course.
+
+:::
+::::
+:::
+
+
+## Wilcoxon Signed-Rank Test
+
+What we saw on the previous slides is that the `Overall_Rating` variable really does not seem normally distributed in any of the two groups. In these cases, it is more prodent to run **non-parametric tests**. 
+
+:::{.fragment fragment-index=1}
+Non-parametric tests usually require less assumptions and their results are more robust when there are some assumption violations. The trade-off (if you like *p*-values) is that they are always *less powerful* (see Lab 5) and make it harder to reject $H_0$. In the case of the *t*-test, one non-parametric alternative is the [Wilcoxon Signed-Rank Test](https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test){target='_blank'}.
+:::
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+:::{.fragment fragment-index=2} 
+
+</br>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+wilcox.test(Overall_Rating ~ Gender, 
+            data = dat)
+```
+
+:::
+:::
+
+
+::: {.column width = '50%'}
+
+
+:::{.fragment fragment-index=3} 
+It comes as no surprise that the *p*-value is larger than both of the previous *t*-tests. 
+
+::: {.callout-note}
+### Non-parametric tests
+
+Non-parametric tests are generally a good idea when you have a small sample size. That is because assumptions are more and more likely to be met as sample size increases, and will often be violated in small samples. A rule of thumb is that you probably want to use non-parametric tests when you have groups with $N < 30$.
+:::
+
+:::
+:::
+::::
+
+
+## References 
+
+<div id="refs"> </div>

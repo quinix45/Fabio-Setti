@@ -165,10 +165,10 @@ glimpse(WH_2024)
 ::::
 
 ::: {.fragment fragment-index=3}
-Personally, I usually just use the bulit-in RStudio viewer to look at data. You can open it by clicking on the `WH_2024` object in the environment or by running `View(WH_2024)`.
+Personally, I usually just use the built-in RStudio viewer to look at data. You can open it by clicking on the `WH_2024` object in the environment or by running `View(WH_2024)`.
 :::
 
-## Tables and Porportions
+## Tables and Proportions
 
 We have also seen the `table()` function in Lab 1. Here we count the number of countries in each `Region`:
 
@@ -577,7 +577,7 @@ quantile(WH_2024$Happiness_score, .75) - quantile(WH_2024$Happiness_score, .25)
 ::: {.column width="50%"}
 - `filter()`: filters row of a `data.frame` based on one or more conditions.
 
-- `gropu_by()` + `summarise()`: I almost always end up using these two functions together. `group_by()` groups the data and `summarise()` creates summaries for each group (makes more sense once you see it).
+- `group_by()` + `summarise()`: I almost always end up using these two functions together. `group_by()` groups the data and `summarise()` creates summaries for each group (makes more sense once you see it).
 
 :::
 ::::

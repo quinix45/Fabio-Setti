@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 5: Power"
+      footer: "PSYC 6802 - Lab 5: Power"
       width: 1280
       height: 720
       chalkboard: true
@@ -25,3 +25,8 @@ editor: source
 build: local
 ---
 
+
+
+## References 
+
+<div id="refs"> </div>

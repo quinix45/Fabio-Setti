@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 1: Logistic Regression"
+      footer: "PSYC 6802 - Lab 11: Logistic Regression"
       width: 1280
       height: 720
       chalkboard: true
@@ -24,3 +24,10 @@ format:
 editor: source
 build: local
 ---
+
+
+
+
+## References 
+
+<div id="refs"> </div>

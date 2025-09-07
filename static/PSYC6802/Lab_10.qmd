@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 10: Multiple Regression II"
+      footer: "PSYC 6802 - Lab 10: Multiple Regression II"
       width: 1280
       height: 720
       chalkboard: true
@@ -25,3 +25,9 @@ editor: source
 build: local
 ---
 
+
+
+
+## References 
+
+<div id="refs"> </div>

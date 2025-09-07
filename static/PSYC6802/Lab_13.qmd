@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 13: Latent Variables"
+      footer: "PSYC 6802 - Lab 13: Latent Variables"
       width: 1280
       height: 720
       chalkboard: true
@@ -24,3 +24,9 @@ format:
 editor: source
 build: local
 ---
+
+
+
+## References 
+
+<div id="refs"> </div>

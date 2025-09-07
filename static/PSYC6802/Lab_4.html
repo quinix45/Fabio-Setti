@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="Lab_4_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Lab_4_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Lab_4_files/libs/quarto-html/popper.min.js"></script>
+<script src="Lab_4_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Lab_4_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Lab_4_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Lab_4_files/libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.24">
+
+  <meta name="author" content="Fabio Setti">
+  <title>Lab 4: t-Test</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="Lab_4_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Lab_4_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="Lab_4_files/libs/revealjs/dist/theme/quarto-c71bddcdc0f876fc515a112d049ed6b8.css">
+  <link href="Lab_4_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Lab_4_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Lab_4_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Lab_4_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="Lab_4_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="Lab_4_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="Lab_4_files/libs/core-js-2.5.3/shim.min.js"></script>
+
+  <script src="Lab_4_files/libs/react-18.2.0/react.min.js"></script>
+
+  <script src="Lab_4_files/libs/react-18.2.0/react-dom.min.js"></script>
+
+  <script src="Lab_4_files/libs/reactwidget-2.0.0/react-tools.js"></script>
+
+  <script src="Lab_4_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+  <link href="Lab_4_files/libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+
+  <script src="Lab_4_files/libs/reactable-binding-0.4.4/reactable.js"></script>
+
+  <script src="Fabio_theme/Fabio_theme.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-transition="zoom" data-visibility="uncounted" class="quarto-title-block center">
+  <h1 class="title">Lab 4: t-Test</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Fabio Setti 
+</div>
+        <p class="quarto-title-affiliation">
+            PSYC 6802 - Introduction to Psychology Statistics
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="todays-packages-and-data" class="slide level2">
+<h2>Today’s Packages and Data 🤗</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Install Packages Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># run for packages that you have not installed yet</span></span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("tidyverse")</span></span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"effectsize"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell code-150">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(effectsize)</span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># I am setting a theme for all the plots</span></span>
+<span id="cb2-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_classic</span>(<span class="at">base_size =</span> <span class="dv">16</span>, </span>
+<span id="cb2-6"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="at">base_family =</span> <span class="st">'serif'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1"><code>effectsize</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<p>The <code>effectsize</code> package <span class="citation" data-cites="ben-shachar2025">(<a href="#/references" role="doc-biblioref" onclick="">Ben-Shachar et al., 2025</a>)</span> provides functions that compute effect sizes for a wide variety of effect sizes that are commonly used in statistical analyses.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<center style="padding-bottom: 21px;">
+<span class="data-title">Data</span>
+</center>
+<p>Today we will work with the <a href="https://www.kaggle.com/datasets/surajjha101/cuisine-rating" target="_blank">Cuisine_rating.csv</a> data, which is a collection of ratings of different restaurants by 200 customers:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"https://fabio-setti.netlify.app/data/Cuisine_rating.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-4efd7e022e902ae462c2" class="reactable html-widget" style="width:auto;height:300px;"></div>
+<script type="application/json" data-for="htmlwidget-4efd7e022e902ae462c2">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"User_ID":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200],"Area code":[153,123,122,153,129,111,111,153,107,129,123,123,123,107,107,153,107,153,129,129,123,153,107,154,129,123,129,111,154,154,107,154,122,129,129,107,154,123,153,123,129,154,123,129,123,111,129,122,111,107,107,153,153,123,107,122,123,129,123,122,129,122,123,153,129,107,111,154,111,107,154,123,123,153,123,154,129,153,111,111,154,153,122,154,153,107,123,129,122,123,154,111,123,107,111,123,122,123,123,153,117,192,137,121,198,172,188,166,124,129,131,149,101,104,140,145,159,195,105,198,130,139,111,113,123,127,134,148,154,158,159,159,161,167,172,176,110,120,131,137,142,162,173,184,199,102,106,113,142,157,185,147,183,138,136,169,176,196,175,135,124,125,158,186,176,194,173,182,196,197,176,169,184,192,135,186,175,179,149,139,163,162,162,166,158,136,186,137,154,167,185,178,105,103,107,175,170,160,130,140],"Location":["Upper East Side,NY","St. George,NY","Upper West Side,NY","Upper East Side,NY","Central Park,NY","China Town, NY","China Town, NY","Upper East Side,NY","Riverdale,NY","Central Park,NY","St. George,NY","St. George,NY","St. George,NY","Riverdale,NY","Riverdale,NY","Upper East Side,NY","Riverdale,NY","Upper East Side,NY","Central Park,NY","Central Park,NY","St. George,NY","Upper East Side,NY","Riverdale,NY","Market City, NY","Central Park,ny","St. George,NY","Central Park,NY","China Town, NY","Market City, NY","Market City, NY","Riverdale,NY","Market City, MY","Upper West Side,NY","Central Park,ny","Central Park,NY","Riverdale,NY","Market City, NY","St. George,NY","Upper East Side,NY","St. George,NY","Central Park,NY","Market City, NY","St. George,NY","Central Park,NY","St. George,NY","China Town, NY","Central Park,ny","Upper West Side,NY","China Town, NY","Riverdale,NY","Riverdale,NY","Upper East Side,NY","Upper East Side,NY","St. George,NY","Riverdale,NY","Upper West Side,NY","St. George,NY","Central Park,ny","St. George,NY","Upper West Side,NY","Central Park,NY","Upper West Side,NY","St. George,NY","Upper East Side,NY","Central Park,NY","Riverdale,NY","China Town, NY","Market City, NY","China Town, NY","Riverdale,NY","Market City, NY","St. George,NY","St. George,NY","Upper East Side,NY","St. George,NY","Market City, NY","Central Park,NY","Upper East Side,NY","China Town, NY","China Town, NY","Market City, NY","Upper East Side,NY","Upper West Side,NY","Market City, NY","Upper East Side,NY","Riverdale,NY","St. George,NY","Central Park,NY","Upper West Side,NY","St. George,NY","Cedar Hill, NY","China Town, NY","St. George,NY","Riverdale,NY","China Town, NY","St. George,NY","Upper West Side,NY","St. George,NY","St. George,NY","Upper East Side,NY","Upper East Side,NY","St. George,NY","Upper West Side,NY","Upper East Side,NY","Central Park,NY","China Town, NY","China Town, NY","Upper East Side,NY","Riverdale,NY","Central Park,NY","St. George,NY","St. George,NY","St. George,NY","Riverdale,NY","Riverdale,NY","Upper East Side,NY","Riverdale,NY","Upper East Side,NY","Central Park,NY","Central Park,NY","St. George,NY","Upper East Side,NY","Riverdale,NY","Market City, NY","Central Park,ny","St. George,NY","Central Park,NY","China Town, NY","Market City, NY","Market City, NY","Riverdale,NY","Market City, MY","Upper West Side,NY","Central Park,ny","Central Park,NY","Riverdale,NY","Market City, NY","St. George,NY","Upper East Side,NY","St. George,NY","Central Park,NY","Market City, NY","St. George,NY","Central Park,NY","St. George,NY","China Town, NY","Central Park,ny","Upper West Side,NY","China Town, NY","Riverdale,NY","Riverdale,NY","Upper East Side,NY","Upper East Side,NY","St. George,NY","Riverdale,NY","Upper West Side,NY","St. George,NY","Central Park,ny","St. George,NY","Upper West Side,NY","Central Park,NY","Upper West Side,NY","St. George,NY","Upper East Side,NY","Central Park,NY","Riverdale,NY","China Town, NY","Market City, NY","China Town, NY","Riverdale,NY","Market City, NY","St. George,NY","St. George,NY","Upper East Side,NY","St. George,NY","Market City, NY","Central Park,NY","Upper East Side,NY","China Town, NY","China Town, NY","Market City, NY","Upper East Side,NY","Upper West Side,NY","Market City, NY","Upper East Side,NY","Riverdale,NY","St. George,NY","Central Park,NY","Upper West Side,NY","St. George,NY","Cedar Hill, NY","China Town, NY","St. George,NY","Riverdale,NY","China Town, NY","St. George,NY","Upper West Side,NY","St. George,NY","St. George,NY","Upper East Side,NY"],"Gender":["Female","Female","Male","Female","Male","Male","Female","Female","Male","Male","Female","Male","Female","Male","Male","Female","Male","Male","Male","Male","Female","Female","Female","Male","Male","Male","Female","Male","Female","Female","Female","Male","Male","Female","Male","Male","Male","Female","Male","Male","Male","Female","Male","Male","Female","Male","Male","Female","Male","Female","Female","Female","Female","Male","Female","Female","Female","Male","Male","Male","Female","Female","Male","Female","Female","Male","Male","Male","Male","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Male","Male","Male","Female","Male","Male","Female","Female","Male","Male","Male","Male","Female","Male","Female","Female","Female","Male","Male","Female","Female","Male","Female","Male","Male","Female","Female","Male","Male","Female","Male","Female","Male","Male","Female","Male","Male","Male","Male","Female","Female","Female","Male","Male","Male","Female","Male","Female","Female","Female","Male","Male","Female","Male","Male","Male","Female","Male","Male","Male","Female","Male","Male","Female","Male","Male","Female","Male","Female","Female","Female","Female","Male","Female","Female","Female","Male","Male","Male","Female","Female","Male","Female","Female","Male","Male","Male","Male","Female","Male","Male","Male","Male","Male","Male","Male","Male","Male","Female","Female","Male","Male","Male","Female","Male","Male","Female","Female","Male","Male","Male","Male","Female","Male","Female","Female","Female","Male","Male"],"YOB":[2006,1991,1977,1956,1997,1995,1977,2003,1965,1995,1975,1963,2006,1980,1956,1956,2007,2004,2001,1959,2009,1983,1971,1974,1963,1969,2001,2000,1977,1988,1999,1971,1995,2009,2001,1998,2006,1990,1987,1986,2001,1967,1985,2000,1969,1976,1976,1987,1998,1974,2007,2005,1974,1989,1958,1991,1981,1962,1964,1959,2003,1955,2002,1989,1996,1975,2009,2000,1961,1998,1957,2006,1962,1994,2002,1955,1974,1979,1965,1998,1974,1964,1996,1981,1978,1999,1961,2007,2003,1988,1960,1969,2000,1985,1974,1982,2000,2006,2002,2005,2006,1991,1977,1956,1997,1995,1977,2003,1965,1995,1975,1963,2006,1980,1956,1956,2007,2004,2001,1959,2009,1983,1971,1974,1963,1969,2001,2000,1977,1988,1999,1971,1995,2009,2001,1998,2006,1990,1987,1986,2001,1967,1985,2000,1969,1976,1976,1987,1998,1974,2007,2005,1974,1989,1958,1991,1981,1962,1964,1959,2003,1955,2002,1989,1996,1975,2009,2000,1961,1998,1957,2006,1962,1994,2002,1955,1974,1979,1965,1998,1974,1964,1996,1981,1978,1999,1961,2007,2003,1988,1960,1969,2000,1985,1974,1982,2000,2006,2002,2005],"Marital Status":["Single","Married","Single","Married","Single","Single","Married","Single","Single","Single","Married","Married","Single","Single","Married","Married","Single","Single","Single","Married","Single","Married","Married","Divorced","Single","Single","Single","Single","Married","Married","Married","Married","Single","Single","Divorced","Single","Single","Single","Married","Single","Single","Single","Married","Single","Married","Married","Single","Married","Single","Married","Single","Single","Single","Single","Single","Single","Divorced","Married","Single","Married","Single","Divorced","Single","Married","Single","Married","Single","Married","Married","Single","Married","Single","Married","Married","Single","Married","Single","Single","Married","Single","Married","Married","Married","Married","Divorced","Single","Married","Single","Married","Divorced","Married","Divorced","Single","Married","Married","Single","Married","Single","Married","Married","Single","Married","Single","Married","Single","Single","Married","Single","Single","Single","Married","Married","Single","Single","Married","Married","Single","Single","Single","Married","Single","Married","Married","Divorced","Single","Single","Single","Single","Married","Married","Married","Married","Single","Single","Divorced","Single","Single","Single","Married","Single","Single","Single","Married","Single","Married","Married","Single","Married","Single","Married","Single","Single","Single","Single","Single","Single","Divorced","Married","Single","Married","Single","Divorced","Single","Married","Single","Married","Single","Married","Married","Single","Married","Single","Married","Married","Single","Married","Single","Single","Married","Single","Married","Married","Married","Married","Divorced","Single","Married","Single","Married","Divorced","Married","Divorced","Single","Married","Married","Single","Married","Single","Married","Married"],"Occupation":["Professional","Student","Student","Professional","Student","Student","Professional","Professional","Student","Student","Professional","Student","Professional","Student","Student","Student","Student","Student","Student","Student","Student","Professional","Professional","Professional","Professional","Professional","Student","Student","Student","Student","Student","Student","Professional","Professional","Student","Professional","Student","Student","Student","Student","Student","Student","Student","Student","Professional","Student","Professional","Professional","Student","Student","Student","Student","Professional","Professional","Professional","Professional","Student","Professional","Student","Professional","Student","Professional","Student","Student","Student","Student","Student","Professional","Student","Student","Student","Student","Professional","Student","Student","Professional","Professional","Student","Professional","Student","Professional","Professional","Student","Student","Student","Student","Professional","Professional","Professional","Professional","Professional","Professional","Professional","Student","Student","Professional","Student","Professional","Student","Student","Professional","Student","Student","Professional","Student","Student","Professional","Professional","Student","Student","Professional","Student","Professional","Student","Student","Student","Student","Student","Student","Student","Student","Professional","Professional","Professional","Professional","Professional","Student","Student","Student","Student","Student","Student","Professional","Professional","Student","Professional","Student","Student","Student","Student","Student","Student","Student","Student","Professional","Student","Professional","Professional","Student","Student","Student","Student","Professional","Professional","Professional","Professional","Student","Professional","Student","Professional","Student","Professional","Student","Student","Student","Student","Student","Professional","Student","Student","Student","Student","Professional","Student","Student","Professional","Professional","Student","Professional","Student","Professional","Professional","Student","Student","Student","Student","Professional","Professional","Professional","Professional","Professional","Professional","Professional","Student","Student","Professional","Student","Professional","Student","Student"],"Budget":[3,3,5,5,4,5,5,3,5,4,4,4,5,5,3,3,5,3,3,4,3,5,5,1,3,3,3,5,4,5,4,1,3,5,1,5,4,5,4,4,2,5,5,3,3,3,3,3,3,5,4,3,4,5,5,4,2,3,5,5,4,4,4,5,4,4,3,3,4,1,5,5,4,3,3,3,3,5,3,1,4,4,4,5,4,4,4,5,4,3,4,3,5,5,3,4,4,5,3,4,3,4,5,5,4,5,5,3,5,4,4,4,5,5,3,3,5,3,3,4,3,5,5,1,3,3,3,5,4,5,4,1,3,5,1,5,4,5,4,4,2,5,5,3,3,3,3,3,3,5,4,3,4,5,5,4,2,3,5,5,4,4,4,5,4,4,3,3,4,1,5,5,4,3,3,3,3,5,3,1,4,4,4,5,4,4,4,5,4,3,4,3,5,5,3,4,4,5,3,4],"Cuisines":["Japanese","Indian","Seafood","Japanese","Filipino","Seafood","Indian","Filipino","Italian","Chinese","French","Chinese","Chinese","Italian","Filipino","French","Seafood","Japanese","Filipino","Seafood","Indian","Italian","Chinese","Seafood","Indian","Japanese","Indian","Indian","French","Seafood","Chinese","Indian","Indian","Indian","Japanese","Japanese","Japanese","French","French","Filipino","Seafood","Filipino","Japanese","French","Italian","Chinese","French","Seafood","Seafood","Japanese","Japanese","Chinese","Chinese","Filipino","Filipino","Filipino","Italian","Filipino","Japanese","Italian","Japanese","Japanese","Japanese","Italian","Italian","French","Seafood","Indian","French","Italian","Japanese","Filipino","Indian","Indian","Filipino","Indian","Filipino","Chinese","Seafood","Filipino","French","Chinese","French","Japanese","Chinese","Japanese","Filipino","French","French","Indian","Indian","French","French","Filipino","Indian","French","Chinese","Japanese","Filipino","French","Japanese","Indian","Seafood","Japanese","Filipino","Seafood","Indian","Filipino","Italian","Chinese","French","Chinese","Chinese","Italian","Filipino","French","Seafood","Japanese","Filipino","Seafood","Indian","Italian","Chinese","Seafood","Indian","Japanese","Indian","Indian","French","Seafood","Chinese","Indian","Indian","Indian","Japanese","Japanese","Japanese","French","French","Filipino","Seafood","Filipino","Japanese","French","Italian","Chinese","French","Seafood","Seafood","Japanese","Japanese","Chinese","Chinese","Filipino","Filipino","Filipino","Italian","Filipino","Japanese","Italian","Japanese","Japanese","Japanese","Italian","Italian","French","Seafood","Indian","French","Italian","Japanese","Filipino","Indian","Indian","Filipino","Indian","Filipino","Chinese","Seafood","Filipino","French","Chinese","French","Japanese","Chinese","Japanese","Filipino","French","French","Indian","Indian","French","French","Filipino","Indian","French","Chinese","Japanese","Filipino","French"],"Alcohol":["Never","Never","Often","Never","Socially","Never","Often","Often","Socially","Often","Never","Never","Socially","Often","Often","Often","Socially","Often","Socially","Often","Socially","Socially","Never","Socially","Socially","Never","Never","Never","Socially","Never","Never","Never","Often","Socially","Socially","Never","Often","Never","Never","Never","Often","Often","Never","Never","Often","Never","Often","Never","Never","Socially","Often","Often","Never","Socially","Socially","Often","Socially","Never","Never","Socially","Never","Never","Never","Never","Never","Socially","Socially","Never","Never","Never","Socially","Socially","Never","Often","Never","Never","Socially","Socially","Often","Often","Never","Often","Often","Socially","Often","Often","Often","Often","Often","Often","Socially","Never","Never","Often","Often","Never","Never","Never","Never","Never","Never","Never","Often","Never","Socially","Never","Never","Often","Socially","Often","Socially","Never","Socially","Often","Often","Often","Socially","Often","Socially","Often","Socially","Socially","Never","Socially","Socially","Never","Never","Never","Socially","Never","Never","Never","Often","Socially","Socially","Never","Often","Never","Never","Never","Often","Often","Never","Never","Often","Never","Often","Never","Never","Socially","Often","Often","Never","Socially","Socially","Often","Socially","Never","Never","Socially","Never","Never","Never","Never","Never","Socially","Socially","Never","Never","Never","Socially","Socially","Never","Often","Never","Never","Socially","Socially","Often","Often","Never","Often","Often","Socially","Often","Often","Often","Often","Often","Often","Socially","Never","Never","Often","Often","Never","Never","Never","Never","Never"],"Smoker":["Never","Socially","Often","Socially","Never","Never","Socially","Often","Socially","Often","Often","Socially","Never","Socially","Never","Never","Never","Often","Socially","Never","Often","Never","Often","Often","Socially","Socially","Socially","Never","Never","Socially","Socially","Often","Never","Socially","Often","Socially","Often","Never","Never","Never","Never","Socially","Never","Often","Never","Never","Socially","Socially","Socially","Socially","Often","Socially","Often","Often","Socially","Socially","Often","Never","Socially","Socially","Never","Often","Often","Socially","Never","Often","Never","Often","Socially","Often","Often","Never","Never","Socially","Never","Socially","Never","Never","Often","Socially","Socially","Socially","Socially","Often","Often","Often","Socially","Often","Often","Often","Socially","Often","Often","Never","Often","Socially","Often","Often","Socially","Never","Socially","Never","Often","Socially","Never","Often","Socially","Often","Often","Often","Often","Socially","Never","Socially","Never","Never","Never","Often","Socially","Never","Often","Never","Often","Often","Socially","Socially","Socially","Never","Never","Socially","Socially","Often","Never","Socially","Often","Socially","Often","Never","Never","Never","Never","Socially","Never","Often","Never","Never","Socially","Socially","Socially","Socially","Often","Socially","Often","Often","Socially","Socially","Often","Never","Socially","Socially","Never","Often","Often","Socially","Never","Often","Never","Often","Socially","Often","Often","Never","Never","Socially","Never","Socially","Never","Never","Often","Socially","Socially","Socially","Socially","Often","Often","Often","Socially","Often","Often","Often","Socially","Often","Often","Never","Often","Socially","Often","Often","Socially","Never"],"Food_Rating":[5,1,5,3,2,5,1,5,3,5,3,3,5,5,1,4,2,1,3,3,5,1,4,5,2,4,2,1,2,4,3,4,3,1,5,1,5,3,2,3,2,5,3,4,4,2,5,1,1,2,5,3,3,4,5,3,5,3,4,2,4,5,5,1,5,2,3,5,3,2,4,1,1,1,3,2,2,5,5,1,4,3,2,5,5,4,1,5,5,5,2,3,5,1,2,1,1,5,3,3,4,4,4,3,2,4,5,4,5,4,3,3,5,5,2,4,3,2,3,3,5,1,4,5,3,4,2,3,2,4,3,4,4,3,4,2,4,3,2,3,2,5,3,4,4,2,5,1,1,2,5,3,3,4,5,3,5,3,4,2,4,5,5,1,5,2,3,5,3,2,4,1,1,1,3,2,2,5,5,1,4,3,2,5,5,4,1,5,5,5,2,3,5,1,2,1,1,5,3,3],"Service_Rating":[4,1,5,1,4,1,4,2,3,2,2,1,5,2,1,1,1,5,5,1,3,4,2,5,5,3,3,5,1,4,2,2,2,5,5,3,2,2,3,1,2,5,1,1,1,5,3,5,2,5,5,2,5,4,3,1,5,4,2,2,3,5,5,1,5,5,3,2,3,5,4,2,1,5,4,3,5,1,5,5,4,5,4,4,5,1,5,5,5,5,5,1,5,4,5,2,2,2,2,2,4,3,2,1,4,3,4,2,3,3,3,1,4,3,2,1,1,5,5,1,3,4,2,5,5,3,3,5,1,4,2,2,2,5,5,3,2,2,3,1,2,5,1,1,1,5,3,5,2,5,5,2,5,4,3,1,5,4,2,2,3,5,5,1,5,5,3,2,3,5,4,2,1,5,4,3,5,1,5,5,4,5,4,4,5,1,5,5,5,5,5,1,5,4,5,2,2,2,2,2],"Overall_Rating":[4.5,1,5,2,3,3,2.5,3.5,3,3.5,2.5,2,5,3.5,1,2.5,1.5,3,4,2,4,2.5,3,5,3.5,3.5,2.5,3,1.5,4,2.5,3,2.5,3,5,2,3.5,2.5,2.5,2,2,5,2,2.5,2.5,3.5,4,3,1.5,3.5,5,2.5,4,4,4,2,5,3.5,3,2,3.5,5,5,1,5,3.5,3,3.5,3,3.5,4,1.5,1,3,3.5,2.5,3.5,3,5,3,4,4,3,4.5,5,2.5,3,5,5,5,3.5,2,5,2.5,3.5,1.5,1.5,3.5,2.5,2.5,4,3.5,3,2,3,3.5,4.5,3,4,3.5,3,2,4.5,4,2,2.5,2,3.5,4,2,4,2.5,3,5,4,3.5,2.5,4,1.5,4,2.5,3,3,4,4.5,2.5,3,2.5,2.5,2,2,5,2,2.5,2.5,3.5,4,3,1.5,3.5,5,2.5,4,4,4,2,5,3.5,3,2,3.5,5,5,1,5,3.5,3,3.5,3,3.5,4,1.5,1,3,3.5,2.5,3.5,3,5,3,4,4,3,4.5,5,2.5,3,5,5,5,3.5,2,5,2.5,3.5,1.5,1.5,3.5,2.5,2.5],"Often":["No","No","Yes","No","No","No","No","Yes","No","Yes","No","No","No","No","No","No","No","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","No","No","No","No","No","Yes","Yes","No","Yes","Yes","Yes","No","No","No","No","Yes","No","No","No","No","No","No","No","Yes","No","No","No","No","Yes","No","Yes","No","No","No","No","No","No","No","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","No","Yes","No","No","No","No","No","Yes","Yes","No","Yes","Yes","Yes","No","No","No","No","Yes","No","No","No","No","No"]},"columns":[{"id":"User_ID","name":"User_ID","type":"numeric"},{"id":"Area code","name":"Area code","type":"numeric"},{"id":"Location","name":"Location","type":"character"},{"id":"Gender","name":"Gender","type":"character"},{"id":"YOB","name":"YOB","type":"numeric"},{"id":"Marital Status","name":"Marital Status","type":"character"},{"id":"Occupation","name":"Occupation","type":"character"},{"id":"Budget","name":"Budget","type":"numeric"},{"id":"Cuisines","name":"Cuisines","type":"character"},{"id":"Alcohol","name":"Alcohol","type":"character"},{"id":"Smoker","name":"Smoker","type":"character"},{"id":"Food_Rating","name":"Food_Rating","type":"numeric"},{"id":"Service_Rating","name":"Service_Rating","type":"numeric"},{"id":"Overall_Rating","name":"Overall_Rating","type":"numeric"},{"id":"Often","name":"Often","type":"character"}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"1rem"},"height":"300px","dataKey":"d87b91a6ed9f113b5e1b2da1f5d5fbbf"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div></div>
+</section>
+<section id="t-tests" class="slide level2">
+<h2><span class="math inline">\(t\)</span>-tests</h2>
+<p>In general, <em>t</em>-tests are used to test whether some number is significantly different from <em>some value</em> (0 in 99% of the cases). In this Lab, we will look at the specific case where we use <em>t</em>-tests to check whether some <em>mean differences are significantly different from 0</em>.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<ul style="font-size: 26px">
+<li>
+<strong>One-sample <em>t</em>-test:</strong> This test is used to test whether a statistic is significantly different from some value. This is actually the most common type of <em>t</em>-test, and in later labs, we will see that this is the <em>t</em>-test used to test the significance of <em>regression coefficients</em>.
+</li>
+<li>
+<strong>Paired-samples <em>t</em>-test:</strong> This test is used to to check mean difference between <em>2 dependent samples</em>. We will soon see that this test is equivalent to a one-sample <em>t</em>-test.
+</li>
+<li>
+<strong>independent-samples <em>t</em>-test:</strong> This test is used to test mean differences between <em>2 independent samples</em>.
+</li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<center>
+<strong>Why all These <em>t</em>-tests? </strong>
+</center>
+<p>These “different” <em>t</em>-tests are more or less the same. They all do the same thing, save for a small nuance.</p>
+<p>The overarching idea is that we have some value, usually a <strong>mean</strong>, and we want to test whether it is significantly different from some other value, usually <strong>0</strong>.</p>
+<p>The main component that we need to do this is the <strong>variance</strong> (or SD, same thing) of the mean. How this variance is calculated is the nuance. See <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC5579465" target="_blank">here</a> for a good explanation.</p>
+</div>
+</div></div>
+</section>
+<section id="the-t-statistic" class="slide level2">
+<h2>The <span class="math inline">\(t\)</span> statistic</h2>
+<p>For <em>t</em>-tests we need to calculate what is know as the <em>t</em> statistic. The formula to calculate any <em>t</em> statistic is:</p>
+<p><span class="math display">\[t = \frac{\bar{x} - \mu }{S/\sqrt{n}}\]</span></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<p>where:</p>
+<ul style="font-size: 26px">
+<li>
+<span class="math inline">\(\bar{x}\)</span> is the <em>sample mean</em>
+</li>
+<li>
+<span class="math inline">\(\mu\)</span> is the values you are testing against, usually called the <em>null population mean</em>.
+</li>
+<li>
+<span class="math inline">\(S\)</span> is the sample standard deviation.
+</li>
+<li>
+<span class="math inline">\(n\)</span> is the sample size.
+</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>The <span class="math inline">\(S/\sqrt{n}\)</span> is what is known as the <strong>standard error</strong>, <span class="math inline">\(SE\)</span>, an essential concept to understand before <em>p</em>-values can make any sense.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
+<p>The <span class="math inline">\(SE\)</span> is the standard deviation of the <strong>sampling distribution</strong> (makes no sense, I know 🫣):</p>
+</div>
+<div class="fragment" data-fragment-index="4">
+<p style="font-size: 26px">
+Let’s say that you collect some data and then calculate some mean, <span class="math inline">\(\bar{x}\)</span>. And then, let’s say that in some imaginary reality you are able to re-collect the data in the exact same way an infinite number of times. Each time you collect the data you calculate <span class="math inline">\(\bar{x}\)</span> in the same way, eventually ending up with a <em>distribution of</em> <span class="math inline">\(\bar{x}\)</span>s.
+</p>
+</div>
+<div class="fragment" data-fragment-index="5">
+<p>This imaginary distribution of <span class="math inline">\(\bar{x}\)</span>s is the <strong>sampling distribution</strong>.</p>
+</div>
+</div></div>
+</section>
+<section id="sampling-distribution-try-it-yourself" class="slide level2">
+<h2>Sampling Distribution: Try it Yourself</h2>
+<div class="columns">
+<div class="column" style="width:80%;">
+<iframe width="1700px" height="600px" src="https://quinix45.github.io/shinylive_apps/Sampling_dist/">
+</iframe>
+</div><div class="column" style="width:20%;">
+<div class="fragment" data-fragment-index="1">
+<div style="font-size: 24px">
+As you increase the number of <em>experiments</em> (i.e., times you re-collect data), you will see that that the SD of the sampling distribution (plot on the right) will equal exactly
+</div>
+<p><span class="math display">\[SE = \frac{\sigma}{\sqrt{N}}\]</span></p>
+</div>
+<div style="font-size: 22px">
+<strong>Note:</strong> In practice we use <span class="math inline">\(S\)</span> and not <span class="math inline">\(\sigma\)</span>, which we do not need!
+</div>
+</div></div>
+</section>
+<section id="so" class="slide level2">
+<h2>So…?</h2>
+<div class="fragment" data-fragment-index="1">
+<p>In the case of <span class="math inline">\(t\)</span>-tests, the null hypothesis assumes some null value, <span class="math inline">\(\mu\)</span>, and checks how unlikely it is to get the sample mean value, <span class="math inline">\(\bar{x}\)</span> if <span class="math inline">\(\mu\)</span> is the true population mean.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>This would be impossible to do unless we somehow had an estimate of the standard deviation of <span class="math inline">\(\mu\)</span>, which is exactly what <span class="math inline">\(SE\)</span> is! We can rewrite the general <span class="math inline">\(t\)</span> statistic formula as <span class="math inline">\(t = \frac{\bar{x} - \mu }{SE}\)</span>. Also, in most cases <span class="math inline">\(\mu = 0\)</span>, so, more often than not, the formula becomes</p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<p><span class="math display">\[t = \frac{\bar{x}}{SE}\]</span></p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p>Thus, <span class="math inline">\(t\)</span> can be roughly interpreted as how many <em>standard deviation units</em> <span class="math inline">\(\bar{x}\)</span> is away from <span class="math inline">\(\mu\)</span>. The <em>p</em>-value will be how unlikely <span class="math inline">\(\bar{x}\)</span>, or something more extreme, is to happen if <span class="math inline">\(\mu\)</span> is the true population mean.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(<span class="at">fun =</span> dt, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df =</span> <span class="dv">199</span>), <span class="at">color =</span> <span class="st">"#7a0b80"</span>) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"All Possible t statistics if H0 is true"</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb4-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="sc">-</span><span class="dv">2</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb4-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> .<span class="dv">2</span>, <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">"Values beyond the red dotted lines </span><span class="sc">\n</span><span class="st"> are unlikely to happen if H0 is true"</span>), <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb4-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb4-10"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb4-11"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb4-12"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line.y =</span>  <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_4_files/figure-revealjs/unnamed-chunk-5-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="one-sample-t-test-by-hand" class="slide level2">
+<h2>One-Sample <span class="math inline">\(t\)</span>-test by Hand</h2>
+<p>We want to find out whether the average food rating (<code>Food_Rating</code>) is significantly different from 3. Then:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<p>We know that <span class="math inline">\(\mu = 3\)</span>. <span class="math inline">\(\bar{x}\)</span> is:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>mean <span class="ot">&lt;-</span> <span class="fu">mean</span>(dat<span class="sc">$</span>Food_Rating)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell code-125">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3.22</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>and <span class="math inline">\(S\)</span> is:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a>S <span class="ot">&lt;-</span> <span class="fu">sd</span>(dat<span class="sc">$</span>Food_Rating)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell code-125">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1.411226</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p>Meaning that <span class="math inline">\(SE\)</span> will be:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a>SE <span class="ot">&lt;-</span> S<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">nrow</span>(dat))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell code-125">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.09978872</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="4">
+<p>Then, the <span class="math inline">\(t\)</span> statistic will be:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a>t <span class="ot">&lt;-</span> (mean <span class="sc">-</span> <span class="dv">3</span>)<span class="sc">/</span>SE</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell code-125">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.204658</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment" data-fragment-index="5">
+<p>And degrees of freedom are going to be <span class="math inline">\(df = n - 1\)</span>, so:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">nrow</span>(dat) <span class="sc">-</span> <span class="dv">1</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell code-125">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 199</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment" data-fragment-index="6">
+<p>The appropriate two-tailed <span class="math inline">\(p\)</span>-value is:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a>(<span class="dv">1</span> <span class="sc">-</span> <span class="fu">pt</span>(t, <span class="at">df =</span> df))<span class="sc">*</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.02862407</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="a-graphical-representation" class="slide level2">
+<h2>A graphical representation</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p>The <em>p</em>-value represents how likely seeing <span class="math inline">\(t = 2.2\)</span> would be if the null hypothesis, <span class="math inline">\(H_0\)</span>, is true, in which case we would expect <span class="math inline">\(t = 0\)</span>.</p>
+<div class="fragment" data-fragment-index="1">
+<p>If <span class="math inline">\(H_0\)</span> is true, we should see <span class="math inline">\(t = 2.2\)</span> or <em>more extreme</em> in <span class="math inline">\(2.8\%\)</span> of the samples (<span class="math inline">\(p = .028\)</span>).</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>Is this <em>enough</em> evidence to “reject” <span class="math inline">\(H_0\)</span>? There is no <em>objective</em> answer to this question (and <em>p</em> &lt; .05 is not an objective answer).</p>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(<span class="at">fun =</span> dt, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">df =</span> df), <span class="at">color =</span> <span class="st">"#7a0b80"</span>) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"All Possible t statistics if H0 is true"</span>) <span class="sc">+</span></span>
+<span id="cb17-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">3</span>, <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> t, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb17-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> t <span class="sc">+</span> .<span class="dv">5</span>, <span class="at">y =</span> .<span class="dv">1</span>, <span class="at">label =</span> <span class="fu">paste</span>(<span class="st">"Our t-value, </span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">round</span>(t, <span class="dv">2</span>)), <span class="at">size =</span> <span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb17-9"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb17-10"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks.y=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb17-11"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.line.y =</span>  <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_4_files/figure-revealjs/unnamed-chunk-17-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="one-sample-t-test-in-r" class="slide level2">
+<h2>One-Sample <span class="math inline">\(t\)</span>-test in R</h2>
+<p>In practice, you would use the <code>t.test()</code> function to run a one-sample <em>t</em>-test.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Food_Rating, </span>
+<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">mu =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode numberSource hscroll number-lines code-with-copy"><code class="sourceCode"><span id="cb19-1"><a href=""></a></span>
+<span id="cb19-2"><a href=""></a>    One Sample t-test</span>
+<span id="cb19-3"><a href=""></a></span>
+<span id="cb19-4"><a href=""></a>data:  dat$Food_Rating</span>
+<span id="cb19-5"><a href=""></a>t = 2.2047, df = 199, p-value = 0.02862</span>
+<span id="cb19-6"><a href=""></a>alternative hypothesis: true mean is not equal to 3</span>
+<span id="cb19-7"><a href=""></a>95 percent confidence interval:</span>
+<span id="cb19-8"><a href=""></a> 3.023221 3.416779</span>
+<span id="cb19-9"><a href=""></a>sample estimates:</span>
+<span id="cb19-10"><a href=""></a>mean of x </span>
+<span id="cb19-11"><a href=""></a>     3.22 </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<p>Some notes about the code:</p>
+<ul style="font-size: 26px">
+<li>
+<code>dat$Food_Rating</code>: this is the column in the data that we want to run the <em>t</em>-test for.
+</li>
+<li>
+<code>mu = 3</code>: the <code>mu</code> argument is used to specify the null population mean; it’s set to <code>0</code> by default, so you only have to specify a value when you are testing against a value that is not 0.
+</li>
+</ul>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="2">
+<p>So, the average food rating is significantly different from 3 at <span class="math inline">\(\alpha = .05\)</span>, <span class="math inline">\(t(199) = 2.2, p = .02, 95\% \mathrm{CI}[3.03; 3.42]\)</span>.</p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p>However, we do not know how practically large the difference from 3 is. We need an effect size 😀</p>
+</div>
+</section>
+<section id="cohens-d-for-one-sample-t-tests" class="slide level2">
+<h2>Cohen’s <span class="math inline">\(d\)</span> for One-Sample <span class="math inline">\(t\)</span>-tests</h2>
+<p>Cohen’s <em>d</em> is essentially a measure of the standardized mean difference between the observed and null mean. In the case of the one-sample <em>t</em>-test</p>
+<p><span class="math display">\[d = \frac{\bar{x} - \mu}{S}\]</span></p>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="fragment" data-fragment-index="1">
+<p>For the case of our sample, <em>d</em> is</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># small effect size</span></span>
+<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a>(<span class="fu">mean</span>(dat<span class="sc">$</span>Food_Rating) <span class="sc">-</span> <span class="dv">3</span>)<span class="sc">/</span><span class="fu">sd</span>(dat<span class="sc">$</span>Food_Rating)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.1558929</code></pre>
+</div>
+</div>
+<center>
+<p>According to <span class="citation" data-cites="cohen1988">Cohen (<a href="#/references" role="doc-biblioref" onclick="">1988</a>)</span>:</p>
+<ul style="font-size: 24px">
+<li>
+<span class="math inline">\(d = .2\)</span> → small
+</li>
+<li>
+<span class="math inline">\(d = .5\)</span> → medium
+</li>
+<li>
+<span class="math inline">\(d = .8\)</span> → large
+</li>
+</ul>
+</center>
+</div>
+</div><div class="column" style="width:55%;">
+<div class="fragment" data-fragment-index="2">
+<p>So, the difference between the observed mean is not that meaningful according to Cohen’s guideline (but once again, practical meaningfulness may depend on the context).</p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p>To put what <em>d</em> does in perspective, think of it as <em>standard units differences</em>. On an <a href="https://www.edubloxtutor.com/iq-test-scores" target="_blank">IQ test scale</a>, a jump from 100 to 115 would be exactly <span class="math inline">\(d = 1\)</span>, a standard deviation difference.</p>
+</div>
+<div class="fragment" data-fragment-index="4">
+<p style="font-size: 22px">
+Oh, also, Cohen’s <em>d</em> formula is very similar to the <em>t</em> statistic formula. Coincidences? 🤔
+</p>
+</div>
+</div></div>
+</section>
+<section id="cohens-d-with-effectsize" class="slide level2">
+<h2>Cohen’s <span class="math inline">\(d\)</span> With <code>effectsize</code></h2>
+<p>We can also use the <code>effectsize</code> package to compute Cohen’s <em>d</em>, which has the advantage to provide some extra information</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(dat<span class="sc">$</span>Food_Rating,</span>
+<span id="cb22-2"><a href="" aria-hidden="true" tabindex="-1"></a>         <span class="at">mu =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cohen's d |       95% CI
+------------------------
+0.16      | [0.02, 0.30]
+
+- Deviation from a difference of 3.</code></pre>
+</div>
+</div>
+<p>Notice that once again we need to specify the value we are testing against, 3, which is otherwise 0 by default.</p>
+<div class="fragment" data-fragment-index="1">
+<p>The function has the advantage of also computing the 95% confidence in interval for Cohen’s <em>d</em>.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<center>
+<p style="font-size: 30px">
+<strong>confidence intervals interpretations</strong>
+</p>
+</center>
+<ul style="font-size: 28px">
+<li>
+<strong>Incorrect interpretation:</strong> We are 95% confident that the true Cohen’s <em>d</em> is between .02 and .3.
+</li>
+<li>
+<strong>Correct interpretation:</strong> if we were to repeat the exact same experiment an infinite number of times 95% of the calculated Cohen’s <em>d</em>s will be between .02 and .3.
+</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p>The second interpretations seems complicated for no reasons, but we have <a href="https://www.redjournal.org/article/S0360-3016%2821%2903256-9/fulltext" target="_blank">frequentist statistics</a> and <em>p</em>-values to thank for that. If you are curious to get a sense of the nuance, <a href="https://math.stackexchange.com/questions/2361477/confidence-interval-interpretation-difficulty" target="_blank">here</a> is a good explanation.</p>
+</div>
+</div></div>
+</section>
+<section id="paired-samples-t-test-in-r" class="slide level2">
+<h2>Paired-Samples <span class="math inline">\(t\)</span>-test in R</h2>
+<p>We Want to test whether individuals’ mean ratings on service and food are significantly different from each other. Because each individual is measured on both variables, the two columns are <em>dependent</em>:</p>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="fragment" data-fragment-index="1">
+<p>This is one way of running a paired-saples <em>t</em>-test:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Service_Rating, dat<span class="sc">$</span>Food_Rating,</span>
+<span id="cb24-2"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="at">paired =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Paired t-test
+
+data:  dat$Service_Rating and dat$Food_Rating
+t = 0.07089, df = 199, p-value = 0.9436
+alternative hypothesis: true mean difference is not equal to 0
+95 percent confidence interval:
+ -0.2681717  0.2881717
+sample estimates:
+mean difference 
+           0.01 </code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:60%;">
+<div class="fragment" data-fragment-index="2">
+<p>I personally prefer to run paired-samples <em>t</em>-tests this way:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Service_Rating <span class="sc">-</span> dat<span class="sc">$</span>Food_Rating)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  dat$Service_Rating - dat$Food_Rating
+t = 0.07089, df = 199, p-value = 0.9436
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ -0.2681717  0.2881717
+sample estimates:
+mean of x 
+     0.01 </code></pre>
+</div>
+</div>
+<p style="font-size: 24px">
+This works because paired-samples <em>t</em>-tests are just one-sample <em>t</em>-tests on the difference between the two variables where <span class="math inline">\(H_0: \mu = 0\)</span>.
+</p>
+</div>
+</div></div>
+</section>
+<section id="independent-samples-t-test-a-note" class="slide level2">
+<h2>Independent-Samples <span class="math inline">\(t\)</span>-test: A Note</h2>
+<p>While there is no mathematical difference between the one-sample and the paired-samples <em>t</em>-test, the independent-samples <em>t</em>-test differs by the fact that you are comparing two <strong>independent</strong> samples.</p>
+<div class="fragment" data-fragment-index="1">
+<p>From undergrad you may remember the <a href="https://stats.libretexts.org/Bookshelves/Applied_Statistics/Natural_Resources_Biometrics_(Kiernan)/04%3A_Inferences_about_the_Differences_of_Two_Populations/4.02%3A_Pooled_Two-sampled_t-test_(Assuming_Equal_Variances)" target="_blank">pooled variance</a>, <span class="math inline">\(S_p^2\)</span>. In rough terms, the pooled variance is an average of the two groups variances weighted by their sample sizes.</p>
+<p><span class="math display">\[S_p^2 = \frac{(n_1 - 1)s_1^2 + (n_2 - 1)s_2^2}{n_1 + n_2 - 2}, t = \frac{\bar{x}_1 - \bar{x}_2}{\sqrt{S_p^2/n_1 + S_p^2/n_2}}\]</span></p>
+<p>The formula to calculate the <em>t</em>-statistic has the exact same logic as before, it is still a mean difference divided by the <span class="math inline">\(SE\)</span>.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>These calculations are standard in just about every intro to statistics textbook; however, running a <em>t</em>-test this way makes the <em>assumption</em> that the two groups have equal variances, which is never the case in practice. <code>R</code> functions usually default to running <a href="https://en.wikipedia.org/wiki/Welch%27s_t-test" target="_blank">Welch’s <em>t</em>-tests</a>, which are best in practice. The reason you don’t see formulas for Welch’s <em>t</em>-test in textbooks is because calculating the <em>df</em>s is <a href="https://stats.stackexchange.com/questions/48636/are-the-degrees-of-freedom-for-welchs-test-always-less-than-the-df-of-the-poole" target="_blank">a bit tedious</a> 🤷</p>
+</div>
+</section>
+<section id="independent-samples-t-test-in-r-welch" class="slide level2">
+<h2>Independent-Samples <span class="math inline">\(t\)</span>-test in R (Welch)</h2>
+<p>We want to test whether there is a significant difference in mean overall restaurant (<code>Overall_Rating</code>) rating by <em>gender</em> (<code>Gender</code>). The syntax is slightly different here.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Overall_Rating <span class="sc">~</span> Gender, </span>
+<span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  Overall_Rating by Gender
+t = 1.1696, df = 154.21, p-value = 0.244
+alternative hypothesis: true difference in means between group Female and group Male is not equal to 0
+95 percent confidence interval:
+ -0.1288966  0.5030181
+sample estimates:
+mean in group Female   mean in group Male 
+            3.335366             3.148305 </code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>Notice the <code>Overall_Rating ~ Gender</code>. You can read the <code>~</code> syntax as a <em>“by”</em>, and it comes up over and over in <code>R</code> functions.</p>
+<div class="fragment" data-fragment-index="1">
+<p>In this case, <code>Overall_Rating ~ Gender</code> reads something like <em>“Give me the mean of the <code>Overall_Rating</code> variable by each level in the <code>Gender</code> variable and check the difference”</em>.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>Importantly, we need to specify where both <code>Overall_Rating</code> and <code>Gender</code> are coming from. We do that with the <code>data = dat</code> argument, which tell <code>R</code> to look inside the <code>dat</code> object.</p>
+</div>
+</div></div>
+</section>
+<section id="equal-variances-assumed" class="slide level2">
+<h2>Equal Variances Assumed</h2>
+<p>Below is the independent-samples <em>t</em>-test with the pooled standard deviation, which assumes equal variances.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(Overall_Rating <span class="sc">~</span> Gender, </span>
+<span id="cb30-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">data =</span> dat,</span>
+<span id="cb30-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">var.equal =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Two Sample t-test
+
+data:  Overall_Rating by Gender
+t = 1.2067, df = 198, p-value = 0.229
+alternative hypothesis: true difference in means between group Female and group Male is not equal to 0
+95 percent confidence interval:
+ -0.1186291  0.4927506
+sample estimates:
+mean in group Female   mean in group Male 
+            3.335366             3.148305 </code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>The two main differences from before is that The <em>t</em>-statistic and the <em>df</em>s are larger than before. These two differences will also lead to lower <em>p</em>-values, although the difference is quite small in this case.</p>
+<div class="fragment" data-fragment-index="1">
+<p>As mentioned, you should never use the <code>var.equal = TRUE</code> version. But why is it the most common one? I have two guesses:</p>
+<ul style="font-size: 26px">
+<li>
+Back in the day, the calculation of the <em>df</em>s was a bit too tedious and folks did not want to deal with it.
+</li>
+<li>
+This version always gives slightly lower <em>p</em>-values, and folks like smaller <em>p</em>-values.
+</li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="independent-samples-t-test-cohens-d" class="slide level2">
+<h2>Independent-Samples <span class="math inline">\(t\)</span>-test: Cohen’s <span class="math inline">\(d\)</span></h2>
+<p>For independent-samples <em>t</em>-tests, the <code>effectsize</code> package also uses a similar syntax to the <code>t.test()</code> function:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(Overall_Rating <span class="sc">~</span> Gender, </span>
+<span id="cb32-2"><a href="" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> dat,</span>
+<span id="cb32-3"><a href="" aria-hidden="true" tabindex="-1"></a>         <span class="at">pooled_sd =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cohen's d |        95% CI
+-------------------------
+0.17      | [-0.12, 0.46]
+
+- Estimated using un-pooled SD.</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cohens_d</span>(Overall_Rating <span class="sc">~</span> Gender, </span>
+<span id="cb34-2"><a href="" aria-hidden="true" tabindex="-1"></a>         <span class="at">data =</span> dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cohen's d |        95% CI
+-------------------------
+0.17      | [-0.11, 0.46]
+
+- Estimated using pooled SD.</code></pre>
+</div>
+</div>
+</div></div>
+<p>We need to add the <code>pooled_sd = FALSE</code> argument here because by default the function will used the pooled standard deviation. In this specific case, the difference is irrelevant.</p>
+<p><br></p>
+<div class="fragment" data-fragment-index="2">
+<p>In general, always make sure you read the output of functions carefully. both the <code>t.test()</code> and the <code>cohens_d()</code> functions tell use what type of <em>t</em>-test they are running and what standard deviation they are using.</p>
+</div>
+</section>
+<section id="assumptions" class="slide level2">
+<h2>Assumptions</h2>
+<p>Now for a really complex topic that unfortunately we spend almost no time on in most statistics class. In most cases you will here that <em>statistical models make assumptions</em>; what you will not hear is:</p>
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="fragment" data-fragment-index="1">
+<center>
+Deciding to run any statistical analysis involves <em>you</em> making assumptions.
+</center>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="fragment" data-fragment-index="2">
+<center>
+Assumptions are always wrong. What matters is <em>how badly</em> you violate them.
+</center>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="fragment" data-fragment-index="3">
+<center>
+Where do assumptions come from? 😕
+</center>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="4">
+<p>The way we teach statistics does not facilitate the understanding of these concepts, nor tries to address them. The main issues comes down to us teaching <em>how</em> to do statistics but not teaching <em>why</em> we do statistics and <em>what</em> statistics do.</p>
+</div>
+<div class="fragment" data-fragment-index="5">
+<p>The one thing that I will say is that, fundamentally, <em>statistics</em> try to explain <u>how observed data comes into existence</u>. Because the true process by which data comes into existence is infinitely complex, statistical models make <em>assumptions</em> about the nature of the process that causes data to come into existence.</p>
+</div>
+<div class="fragment" data-fragment-index="6">
+<p>So, statistical models (yes, the <em>t</em>-test is a statistical model), are a simplified explanations of reality that expect to see certain patterns in the data. Checking assumptions involves evaluating how different the osberved data is from what your model would expect.</p>
+</div>
+</section>
+<section id="normality-of-groups-descriptives" class="slide level2">
+<h2>Normality of Groups: Descriptives</h2>
+<p>In the case of Welch’s <em>t</em>-test, the only assumption is that the two groups are normally distributed around their mean. There are multiple ways of evaluating the normality of groups. descriptive statistics are one way.</p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="fragment" data-fragment-index="1">
+<p>Here we use <code>group_by()</code> and <code>summarise()</code> in combinations to get descriptive statistics about the distributions of the two groups by <code>Overall_Rating</code></p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> </span>
+<span id="cb36-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Gender) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(Overall_Rating), </span>
+<span id="cb36-4"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="at">sd =</span> <span class="fu">sd</span>(Overall_Rating),</span>
+<span id="cb36-5"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="at">skew =</span> e1071<span class="sc">::</span><span class="fu">skewness</span>(Overall_Rating), </span>
+<span id="cb36-6"><a href="" aria-hidden="true" tabindex="-1"></a>                <span class="at">kurt =</span> e1071<span class="sc">::</span><span class="fu">kurtosis</span>(Overall_Rating))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 5
+  Gender  mean    sd    skew   kurt
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+1 Female  3.34 1.19  -0.0653 -1.05 
+2 Male    3.15 0.996  0.0990 -0.492</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:40%;">
+<div class="fragment" data-fragment-index="2">
+<p><br></p>
+<p style="font-size: 30px">
+Judging by the skewnwss and kurtosis alone, I would not be very concenred about the non normality of the data.
+</p>
+<p><br></p>
+<p style="font-size: 30px">
+However, graphical representations are generally much more informative!
+</p>
+</div>
+</div></div>
+</section>
+<section id="normality-of-groups-qqplot" class="slide level2">
+<h2>Normality of Groups: QQplot</h2>
+<p>QQplots can be good to evaluate whether a variable is not normally distributed and <em>where</em> the deviation from normality happens along the possible values of the variable (see <a href="https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%201#/understanding-qqplots" target="_blank">here</a> for more).</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div class="fragment" data-fragment-index="1">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat,  </span>
+<span id="cb38-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">sample =</span> Overall_Rating)) <span class="sc">+</span></span>
+<span id="cb38-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">stat_qq</span>() <span class="sc">+</span> </span>
+<span id="cb38-4"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">stat_qq_line</span>() <span class="sc">+</span></span>
+<span id="cb38-5"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="co"># facet_wrap() will create plots for each of the levels of Gender!</span></span>
+<span id="cb38-6"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">facet_wrap</span>(<span class="sc">~</span> Gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>QQplots do not work too well for this data because it is not fully continuous. In general, you’d want the line to pass through all the points, or rows of points in this case. These plots don’t look the best.</p>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="fragment" data-fragment-index="1">
+<div class="cell code-125">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_4_files/figure-revealjs/unnamed-chunk-29-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="normality-of-groups-density-plots" class="slide level2">
+<h2>Normality of Groups: Density Plots</h2>
+<p>I personally find density plots more intuitive than QQplots.</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat,  </span>
+<span id="cb39-2"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">aes</span>(<span class="at">x =</span> Overall_Rating)) <span class="sc">+</span></span>
+<span id="cb39-3"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_density</span>()<span class="sc">+</span></span>
+<span id="cb39-4"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="fu">facet_wrap</span>(<span class="sc">~</span> Gender)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment" data-fragment-index="1">
+<p>Here it is even more apparent that the distribution of the two groups does not resamble a normal distribution.</p>
+<p>The two graphical methods reveal issues that descriptive statistics alone do not quite pick up on.</p>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="cell code-125">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_4_files/figure-revealjs/unnamed-chunk-31-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="outliers-trimmed-mean" class="slide level2">
+<h2>Outliers: Trimmed Mean</h2>
+<p>We will talk more about outliers later in the course, but if the data is to be normally distributed, one should not expect to see any extreme values. <em>Outliers</em> are unexpected extreme values compared to the rest of the sample.</p>
+<div class="fragment" data-fragment-index="1">
+<p>In <a href="https://fabio-setti.netlify.app/psyc6802/lab_2#/central-tendency-mean-and-median" target="_blank">Lab 2</a> we have seen how a single outlier can have a strong influence on the mean. This means that a single outlier could drastically impact your results in <em>t</em>-tests.</p>
+</div>
+<p><br></p>
+<div class="fragment" data-fragment-index="2">
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>The <em>trimmed mean</em> calculates the mean of a variable but removes a percentage of the highest and lowest value. So, if the trimmed mean changes a lot, there may be some outliers lurking in your data.</p>
+<p>Here, the means are almost the same, so there does not seem to be any influential outliers.</p>
+</div><div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> </span>
+<span id="cb40-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Gender) <span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(Overall_Rating),</span>
+<span id="cb40-4"><a href="" aria-hidden="true" tabindex="-1"></a>              <span class="co">#takes out the top and bottom 2.5%</span></span>
+<span id="cb40-5"><a href="" aria-hidden="true" tabindex="-1"></a>              <span class="at">tmean =</span> <span class="fu">mean</span>(Overall_Rating, <span class="at">trim =</span> .<span class="dv">05</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 3
+  Gender  mean tmean
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;
+1 Female  3.34  3.36
+2 Male    3.15  3.15</code></pre>
+</div>
+</div>
+</div></div>
+</div>
+</section>
+<section id="outliers-standardized-units" class="slide level2">
+<h2>Outliers: Standardized Units</h2>
+<p>We can turn any observation <span class="math inline">\(x_i\)</span> into standardizes units (Z-scores) with the following formula: <span class="math display">\[z_i = \frac{x_i - \bar{x}}{S_x}\]</span></p>
+<div class="fragment" data-fragment-index="1">
+<p>This formula makes it so that an observation that equals the mean will be 0, and the units will be interpreted as <em>SD units away from the mean</em>. We know that something that is 3 standard deviations above or below a mean is <em>very</em> unlikely to be observed (e.g., only .001% of the population will have an IQ above 145).</p>
+</div>
+<div class="fragment" data-fragment-index="1">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat <span class="sc">%&gt;%</span> </span>
+<span id="cb42-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="co"># create standardized version of Overall_Rating</span></span>
+<span id="cb42-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Overall_Rating_std =</span> (Overall_Rating <span class="sc">-</span> <span class="fu">mean</span>(Overall_Rating))<span class="sc">/</span><span class="fu">sd</span>(Overall_Rating)) <span class="sc">%&gt;%</span> </span>
+<span id="cb42-4"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(Gender) <span class="sc">%&gt;%</span> </span>
+<span id="cb42-5"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="co"># count how many have absolute value above 3</span></span>
+<span id="cb42-6"><a href="" aria-hidden="true" tabindex="-1"></a>     <span class="fu">summarise</span>(<span class="at">N_extreme =</span> <span class="fu">sum</span>(<span class="fu">abs</span>(Overall_Rating_std) <span class="sc">&gt;</span> <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:20%;">
+<div class="cell code-125">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  Gender N_extreme
+  &lt;chr&gt;      &lt;int&gt;
+1 Female         0
+2 Male           0</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<p>Once again, no outliers. We will talk about other outlier detection methods later on in the course.</p>
+</div></div>
+</div>
+</section>
+<section id="wilcoxon-signed-rank-test" class="slide level2">
+<h2>Wilcoxon Signed-Rank Test</h2>
+<p>What we saw on the previous slides is that the <code>Overall_Rating</code> variable really does not seem normally distributed in any of the two groups. In these cases, it is more prodent to run <strong>non-parametric tests</strong>.</p>
+<div class="fragment" data-fragment-index="1">
+<p>Non-parametric tests usually require less assumptions and their results are more robust when there are some assumption violations. The trade-off (if you like <em>p</em>-values) is that they are always <em>less powerful</em> (see Lab 5) and make it harder to reject <span class="math inline">\(H_0\)</span>. In the case of the <em>t</em>-test, one non-parametric alternative is the <a href="https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test" target="_blank">Wilcoxon Signed-Rank Test</a>.</p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<p><br></p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">wilcox.test</span>(Overall_Rating <span class="sc">~</span> Gender, </span>
+<span id="cb44-2"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Wilcoxon rank sum test with continuity correction
+
+data:  Overall_Rating by Gender
+W = 5277.5, p-value = 0.2704
+alternative hypothesis: true location shift is not equal to 0</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
+<p>It comes as no surprise that the <em>p</em>-value is larger than both of the previous <em>t</em>-tests.</p>
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Non-parametric tests</strong></p>
+</div>
+<div class="callout-content">
+<p>Non-parametric tests are generally a good idea when you have a small sample size. That is because assumptions are more and more likely to be met as sample size increases, and will often be violated in small samples. A rule of thumb is that you probably want to use non-parametric tests when you have groups with <span class="math inline">\(N &lt; 30\)</span>.</p>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-ben-shachar2025" class="csl-entry" role="listitem">
+Ben-Shachar, M. S., Makowski, D., Lüdecke, D., Patil, I., Wiernik, B. M., Thériault, R., Kelley, K., Stanley, D., Caldwell, A., Burnett, J., Karreth, J., &amp; Waggoner, P. (2025). <em>Effectsize: <span>Indices</span> of <span>Effect Size</span></em>.
+</div>
+<div id="ref-cohen1988" class="csl-entry" role="listitem">
+Cohen, J. (1988). <em>Statistical <span>Power Analysis</span> for the <span>Behavioral Sciences</span></em> (2nd edition). Routledge.
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>PSYC 6802 - Lab 4: t-Test</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="Lab_4_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="Lab_4_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Lab_4_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Lab_4_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Lab_4_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Lab_4_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="Lab_4_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="Lab_4_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Lab_4_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Lab_4_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Lab_4_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>
