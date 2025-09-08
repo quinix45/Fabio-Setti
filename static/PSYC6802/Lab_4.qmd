@@ -52,7 +52,6 @@ install.packages("effectsize")
 #| classes: code-150
 
 library(effectsize)
-library(car)
 library(tidyverse)
 # I am setting a theme for all the plots
 theme_set(theme_classic(base_size = 16, 

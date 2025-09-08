@@ -25,6 +25,77 @@ editor: source
 build: local
 ---
 
+## Today's Packages and Data 🤗
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-125
+
+
+# run for packages that you have not installed yet
+# install.packages("tidyverse")
+install.packages("pwr")
+```
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(effectsize)
+library(car)
+library(tidyverse)
+# I am setting a theme for all the plots
+theme_set(theme_classic(base_size = 16, 
+                        base_family = 'serif'))
+```
+
+</br>
+
+::: {.panel-tabset}
+
+### `effectsize`
+
+The `effectsize` package [@ben-shachar2025] provides functions that compute effect sizes for a wide variety of effect sizes that are commonly used in statistical analyses. 
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+Today we will work with the [Cuisine_rating.csv](https://www.kaggle.com/datasets/surajjha101/cuisine-rating){target='_blank'} data, which is a collection of ratings of different restaurants by 200 customers:
+ 
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/Cuisine_rating.csv")
+```
+
+```{r}
+reactable::reactable(dat,
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300)
+```
+
+:::
+::::
+
 
 
 ## References 
