@@ -6,8 +6,8 @@
 <script src="Lab_1_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Lab_1_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Lab_1_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Lab_1_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.6.42">
+<link href="Lab_1_files/libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.24">
 
   <meta name="author" content="Fabio Setti">
   <title>Lab 1: Introduction to R</title>
@@ -29,8 +29,9 @@
       vertical-align: middle;
     }
     /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
     pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
     pre > code.sourceCode > span:empty { height: 1.2em; }
     .sourceCode { overflow: visible; }
     code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -41,7 +42,7 @@
     }
     @media print {
     pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
     }
     pre.numberSource code
       { counter-reset: source-line 0; }
@@ -114,7 +115,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="Lab_1_files/libs/revealjs/dist/theme/quarto-14b6869c65f9db0f6aca2d531d776b2a.css">
+  <link rel="stylesheet" href="Lab_1_files/libs/revealjs/dist/theme/quarto-c71bddcdc0f876fc515a112d049ed6b8.css">
   <link href="Lab_1_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Lab_1_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Lab_1_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -438,7 +439,7 @@ In RStudio, you can either run one or more line of code at once, or run the whol
 </div><div class="column" style="width:40%;">
 <div class="fragment fade-in" data-fragment-index="1">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># some basic math operations</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># some basic math operations</span></span>
 <span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># addition</span></span>
 <span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">3</span></span>
@@ -447,7 +448,7 @@ In RStudio, you can either run one or more line of code at once, or run the whol
 <span id="cb1-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span><span class="sc">*</span><span class="dv">7</span></span>
 <span id="cb1-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-9"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># exponents</span></span>
-<span id="cb1-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">^</span><span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div></div>
@@ -479,9 +480,9 @@ In RStudio, you can either run one or more line of code at once, or run the whol
 <div class="fragment" data-fragment-index="1">
 <p>For example:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># The line below is a statement and will produce output</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># The line below is a statement and will produce output</span></span>
 <span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a>(<span class="dv">4</span> <span class="sc">+</span><span class="dv">5</span>)<span class="sc">*</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a>(<span class="dv">4</span> <span class="sc">+</span><span class="dv">5</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 18</code></pre>
 </div>
@@ -490,9 +491,9 @@ In RStudio, you can either run one or more line of code at once, or run the whol
 <div class="fragment" data-fragment-index="2">
 <p>However:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># The this will not run (2 statements on the same line)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># The this will not run (2 statements on the same line)</span></span>
 <span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>(<span class="dv">4</span> <span class="sc">+</span> <span class="dv">5</span>)<span class="sc">*</span><span class="dv">2</span>  <span class="dv">6</span><span class="sc">+</span><span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>(<span class="dv">4</span> <span class="sc">+</span> <span class="dv">5</span>)<span class="sc">*</span><span class="dv">2</span>  <span class="dv">6</span><span class="sc">+</span><span class="dv">6</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in parse(text = input): &lt;text&gt;:3:12: unexpected numeric constant
 2: 
@@ -505,15 +506,15 @@ In RStudio, you can either run one or more line of code at once, or run the whol
 <div class="fragment" data-fragment-index="3">
 <p>Spacing among elements of a statement is irrelevant, but it is good practice to be reasonable and consistent.</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># This is not good practice, but it will run.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># This is not good practice, but it will run.</span></span>
 <span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a>( <span class="dv">4</span> <span class="sc">+</span></span>
-<span id="cb6-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="dv">5</span> )<span class="sc">*</span>   <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="dv">5</span> )<span class="sc">*</span>   <span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 18</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>  <span class="sc">+</span></span>
-<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>   <span class="dv">6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dv">6</span>  <span class="sc">+</span></span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>   <span class="dv">6</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12</code></pre>
 </div>
@@ -564,7 +565,7 @@ In RStudio, you can either run one or more line of code at once, or run the whol
 <div class="fragment" data-fragment-index="1">
 <p>Although it may no appear so, <code>:</code> turns out to be very convenient in many cases</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span><span class="sc">:</span><span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="dv">3</span><span class="sc">:</span><span class="dv">10</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1]  3  4  5  6  7  8  9 10</code></pre>
 </div>
@@ -591,9 +592,9 @@ If you are curious, you can find a more comprehensive list of R operators <a hre
 <div class="column" style="width:50%;">
 <div class="fragment" data-fragment-index="1">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># This means x "is" (4 +5)*2. you can name objects whatever you want but the name cannot begin with a number or include special characters (?, !, etc...). </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># This means x "is" (4 +5)*2. you can name objects whatever you want but the name cannot begin with a number or include special characters (?, !, etc...). </span></span>
 <span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> (<span class="dv">4</span> <span class="sc">+</span><span class="dv">5</span>)<span class="sc">*</span><span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> (<span class="dv">4</span> <span class="sc">+</span><span class="dv">5</span>)<span class="sc">*</span><span class="dv">2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
@@ -612,7 +613,7 @@ The keyboard shortcut for the assignment operator is <kbd>alt</kbd> + <kbd>-</kb
 <div class="fragment" data-fragment-index="3">
 <p>R now knows that whenever you write <code>x</code> in your code, you mean <code>18</code>.</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="sc">+</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 21</code></pre>
 </div>
@@ -631,13 +632,13 @@ The keyboard shortcut for the assignment operator is <kbd>alt</kbd> + <kbd>-</kb
 <div class="fragment" data-fragment-index="1">
 <p>A vector is a <strong>one-dimensional</strong> collection of elements. To create a vector with more than one element we can do the following:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># `c()` is a function (more on functions later), and it stands for "concatenate". The `c()` binds elements together.`c()` is probably the most used R function. `y` will be a vector of length 4.</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># `c()` is a function (more on functions later), and it stands for "concatenate". The `c()` binds elements together.`c()` is probably the most used R function. `y` will be a vector of length 4.</span></span>
 <span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">7</span>, <span class="dv">9</span>)</span>
 <span id="cb15-4"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># math operations can be applied to vectors!</span></span>
 <span id="cb15-6"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="" aria-hidden="true" tabindex="-1"></a>y <span class="sc">-</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-7"><a href="" aria-hidden="true" tabindex="-1"></a>y <span class="sc">-</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -2  2  4  6</code></pre>
 </div>
@@ -653,15 +654,15 @@ The keyboard shortcut for the assignment operator is <kbd>alt</kbd> + <kbd>-</kb
 <h2>Character Objects</h2>
 <p>So far we have only dealt with numbers, but <em>character</em> objects also come up a lot:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Characters need to be enclosed within "" or ''. This is so that R knows you are not referring to an object ("x" is a character, just x is expected to be an object in your environment)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Characters need to be enclosed within "" or ''. This is so that R knows you are not referring to an object ("x" is a character, just x is expected to be an object in your environment)</span></span>
 <span id="cb17-2"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="st">"Hello"</span></span>
-<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"hello"</span>, <span class="st">"world"</span>, <span class="st">"what time is it?"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-3"><a href="" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"hello"</span>, <span class="st">"world"</span>, <span class="st">"what time is it?"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="fragment" data-fragment-index="1">
 <p>you cannot apply any math operations to character objects</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># this will not run</span></span>
-<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a>y <span class="sc">-</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># this will not run</span></span>
+<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a>y <span class="sc">-</span> <span class="dv">3</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in y - 3: non-numeric argument to binary operator</code></pre>
 </div>
@@ -670,9 +671,9 @@ The keyboard shortcut for the assignment operator is <kbd>alt</kbd> + <kbd>-</kb
 <div class="fragment" data-fragment-index="2">
 <p>Also note that you can create character objects/vectors that have numbers in them, but you will not be able to apply math operations to them:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2"</span>, <span class="st">"23"</span>, <span class="st">"4"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"2"</span>, <span class="st">"23"</span>, <span class="st">"4"</span>)</span>
 <span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># this will not run</span></span>
-<span id="cb20-3"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="sc">-</span> <span class="dv">6</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-3"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="sc">-</span> <span class="dv">6</span> </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in x - 6: non-numeric argument to binary operator</code></pre>
 </div>
@@ -687,9 +688,9 @@ The keyboard shortcut for the assignment operator is <kbd>alt</kbd> + <kbd>-</kb
 <div class="fragment" data-fragment-index="1">
 <p>R interprets anything that stars with letters and is followed by a <code>(</code> as a function, after which it executes the function until the next <code>)</code>.</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">6</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">10</span>, <span class="dv">4</span>, <span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">6</span>)</span>
 <span id="cb22-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># `sum()` is a function; x is the input and the sum of the elements of x is the output</span></span>
-<span id="cb22-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 45</code></pre>
 </div>
@@ -698,8 +699,8 @@ The keyboard shortcut for the assignment operator is <kbd>alt</kbd> + <kbd>-</kb
 <div class="fragment" data-fragment-index="2">
 <p>R is case sensitive, so <code>Sum()</code> will not work:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># there is no `Sum()` function, only `sum()`</span></span>
-<span id="cb24-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">Sum</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># there is no `Sum()` function, only `sum()`</span></span>
+<span id="cb24-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">Sum</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
 <pre><code>Error in Sum(x): could not find function "Sum"</code></pre>
 </div>
@@ -709,10 +710,10 @@ The keyboard shortcut for the assignment operator is <kbd>alt</kbd> + <kbd>-</kb
 <div class="fragment" data-fragment-index="3">
 <p>Functions also have <strong>arguments</strong>, that allow you to tweak what the function does. Here <code>decreasing =</code> is an argument of the <code>sort()</code> function:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># `Sort()`, by default, sorts vectors from smallest to largest (or in alphabetical order if you give it a character!)</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># `Sort()`, by default, sorts vectors from smallest to largest (or in alphabetical order if you give it a character!)</span></span>
 <span id="cb26-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Here, we use "decreasing = TRUE" to sort from largest to smallest. </span></span>
 <span id="cb26-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(x, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb26-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(x, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 12 11 10  6  4  2</code></pre>
 </div>
@@ -735,9 +736,9 @@ This is where RSstudio’s <strong>help menu</strong> comes to the rescue! 😀
 <div class="column" style="width:60%;">
 <div class="fragment" data-fragment-index="1">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># run the empty function with "?" in front of it to open it's help menu</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># run the empty function with "?" in front of it to open it's help menu</span></span>
 <span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a>?<span class="fu">sort</span>()</span>
-<span id="cb28-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively you can also highlight or hover over the function (just the function, not the "()") and press F1.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Alternatively you can also highlight or hover over the function (just the function, not the "()") and press F1.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <ul style="font-size: 22px;">
@@ -775,8 +776,8 @@ This is where RSstudio’s <strong>help menu</strong> comes to the rescue! 😀
 <div class="fragment" data-fragment-index="2">
 <p>Let’s install a package that makes opening data in R very smooth, the <code>rio</code> package <span class="citation" data-cites="becker2024">(<a href="#/references" role="doc-biblioref" onclick="">Becker et al., 2024</a>)</span>:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># This is how you install packages from CRAN (explained below)</span></span>
-<span id="cb29-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rio"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># This is how you install packages from CRAN (explained below)</span></span>
+<span id="cb29-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rio"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 <div class="columns">
@@ -808,11 +809,11 @@ To see all of the packages installed in your RStudio, you can navigate to your v
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># to load the functions from a package you need to run the `library(package)` function first</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># to load the functions from a package you need to run the `library(package)` function first</span></span>
 <span id="cb30-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rio)</span>
 <span id="cb30-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># rio also suggests to add a few extra packages, so also run the line below. It is the case that packages have functions that use functions from other packages to run, hence why rio suggests to also install other packages here</span></span>
-<span id="cb30-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install_formats</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb30-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install_formats</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:50%;">
 <p>Now, we need to tell R how to find the <code>World_happiness_2024.csv</code> file. Here are a couple of ways of doing this:</p>
@@ -844,8 +845,8 @@ I will show one quick way of dealing with working directories, which I don’t c
 <div class="columns">
 <div class="column" style="width:60%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># `getwd()` is actually a function that take no input!</span></span>
-<span id="cb31-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># `getwd()` is actually a function that take no input!</span></span>
+<span id="cb31-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">getwd</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "C:/Users/fabio/Dropbox/Work/Github repos/Fabio-Setti/static/PSYC6802"</code></pre>
 </div>
@@ -861,8 +862,8 @@ I will show one quick way of dealing with working directories, which I don’t c
 </li>
 </ul>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># on windows, change "fabio" to your windows username</span></span>
-<span id="cb33-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/fabio/OneDrive/Desktop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># on windows, change "fabio" to your windows username</span></span>
+<span id="cb33-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">setwd</span>(<span class="st">"C:/Users/fabio/OneDrive/Desktop"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div>
 </div><div class="column" style="width:40%;">
@@ -887,8 +888,8 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <h2>Loading Data and Looking at it</h2>
 <p>Now that our working directory is (hopefully) sorted out, we can use the <code>import()</code> function from <code>rio</code> to load our data. Data needs to be saved as a new object, so we use <code>&lt;-</code> to name it:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># I name the data `dat`. an object named `dat` will appear in your environment</span></span>
-<span id="cb34-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"World_happiness_2024.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># I name the data `dat`. an object named `dat` will appear in your environment</span></span>
+<span id="cb34-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">import</span>(<span class="st">"World_happiness_2024.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell code-125">
 
@@ -896,8 +897,8 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <div class="fragment" data-fragment-index="1">
 <p>This is data from the <a href="https://www.worldhappiness.report/ed/2024" target="_blank">2024 world happiness report</a>. The <code>str()</code> function can be used to get a lot of information about objects:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># you can also click on the `dat` object in your environment to open it in the data viewer mode</span></span>
-<span id="cb35-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># you can also click on the `dat` object in your environment to open it in the data viewer mode</span></span>
+<span id="cb35-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>'data.frame':   140 obs. of  9 variables:
  $ Country_name           : chr  "Finland" "Denmark" "Iceland" "Sweden" ...
@@ -918,8 +919,8 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <p>Although this information was given to us by the <code>str()</code> function, it is generally useful to first figure out what <em>type of object</em> we are dealing with:</p>
 <div class="fragment" data-fragment-index="1">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># When things don't work, check that you are using the right object class (e.g., some functions want data.frame objects and not matrix objects, which are pretty similar but not the same)</span></span>
-<span id="cb37-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># When things don't work, check that you are using the right object class (e.g., some functions want data.frame objects and not matrix objects, which are pretty similar but not the same)</span></span>
+<span id="cb37-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(dat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "data.frame"</code></pre>
 </div>
@@ -931,8 +932,8 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <div class="fragment" data-fragment-index="2">
 <p>For <code>data.frame</code> objects you can use the <code>$</code> operator to refer to columns.</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># get the mean of the `Happiness_score` column </span></span>
-<span id="cb39-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat<span class="sc">$</span>Happiness_score)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># get the mean of the `Happiness_score` column </span></span>
+<span id="cb39-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat<span class="sc">$</span>Happiness_score)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 5.530893</code></pre>
 </div>
@@ -942,7 +943,7 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <div class="fragment" data-fragment-index="3">
 <p>Let’s also count how many countries are in each <code>Region</code>. The <code>table()</code> function is quite useful for counting categories</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat<span class="sc">$</span>Region)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat<span class="sc">$</span>Region)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
         Africa           Asia      Caribbean Eastern Europe   Middele East 
@@ -963,8 +964,8 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <div class="fragment" data-fragment-index="2">
 <p>You can subset 2D objects by referring to the indices of their dimensions in this way <code>object_name[row number, column number]</code>:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Select the element of [row 1, column 1] of the `dat` object</span></span>
-<span id="cb43-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat[<span class="dv">1</span>,<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Select the element of [row 1, column 1] of the `dat` object</span></span>
+<span id="cb43-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat[<span class="dv">1</span>,<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "Finland"</code></pre>
 </div>
@@ -972,8 +973,8 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 </div>
 <div class="fragment" data-fragment-index="3">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># You can select the entire 2nd row of the "dat" object. If you leave a dimension empty when subsetting, it means "all of this dimension".</span></span>
-<span id="cb45-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat[<span class="dv">2</span>,]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># You can select the entire 2nd row of the "dat" object. If you leave a dimension empty when subsetting, it means "all of this dimension".</span></span>
+<span id="cb45-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat[<span class="dv">2</span>,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Country_name         Region Happiness_score Log_GDP Social_support
 2      Denmark Western Europe           7.583   1.908           1.52
@@ -987,9 +988,9 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <h2>More Subsetting Examples</h2>
 <p>You can modify specific elements like so:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># You can remove (or substitute!) elements in this way. The "dat_2" object will be "dat" without the first row. `nrow()` counts the rows of a 2D object. </span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># You can remove (or substitute!) elements in this way. The "dat_2" object will be "dat" without the first row. `nrow()` counts the rows of a 2D object. </span></span>
 <span id="cb47-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat_2 <span class="ot">&lt;-</span> dat[<span class="sc">-</span><span class="dv">1</span>,]</span>
-<span id="cb47-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(dat_2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb47-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(dat_2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 139</code></pre>
 </div>
@@ -997,8 +998,8 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <div class="fragment" data-fragment-index="1">
 <p>You can also select non-adjacent elements:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># You refer to non-adjacent columns/rows through the `c()` function. This selects element 1,4,6 of column 6 of the `dat` object</span></span>
-<span id="cb49-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">6</span>) ,<span class="dv">6</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># You refer to non-adjacent columns/rows through the `c()` function. This selects element 1,4,6 of column 6 of the `dat` object</span></span>
+<span id="cb49-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat[<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">6</span>) ,<span class="dv">6</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 0.695 0.724 0.706</code></pre>
 </div>
@@ -1007,9 +1008,9 @@ OneDrive is really annoying on Windows and puts itself before my Desktop (😤).
 <div class="fragment" data-fragment-index="2">
 <p>…and the 1D case follows a similar logic:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># To subset 1D elements, you simply do this. Here, I get the 5th element of the `x` object</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># To subset 1D elements, you simply do this. Here, I get the 5th element of the `x` object</span></span>
 <span id="cb51-2"><a href="" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">5</span>, <span class="dv">10</span>, <span class="dv">23</span>)</span>
-<span id="cb51-3"><a href="" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb51-3"><a href="" aria-hidden="true" tabindex="-1"></a>x[<span class="dv">5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 23</code></pre>
 </div>
@@ -1110,7 +1111,7 @@ Reporting With Quarto!
 </center>
 <p>First, you need to install the <code>rmarkdown</code> package <span class="citation" data-cites="allaire2024">(<a href="#/references" role="doc-biblioref" onclick="">Allaire et al., 2024</a>)</span>.</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rmarkdown"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rmarkdown"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><a href="https://rmarkdown.rstudio.com" target="_blank">R Markdown</a> used to be the main way (and may still be) of creating reports in R. However, the RStudio folks have decided to <a href="https://quarto.org/docs/faq/rmarkdown.html" target="_blank">move to quarto</a>, and it will likely become more popular than R Markdown in the near future.</p>
 </div>
@@ -1177,18 +1178,18 @@ Reporting With Quarto!
 <div class="column" style="width:50%;">
 <div class="fragment" data-fragment-index="1">
 <p>default YAML header:</p>
-<div class="sourceCode" id="cb54"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb54-1"><a href=""></a><span class="pp">---</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb54"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb54-1"><a href=""></a><span class="pp">---</span></span>
 <span id="cb54-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Untitled"</span></span>
 <span id="cb54-3"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> pdf</span></span>
 <span id="cb54-4"><a href=""></a><span class="fu">editor</span><span class="kw">:</span><span class="at"> visual</span></span>
-<span id="cb54-5"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb54-5"><a href=""></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Add author to YAML header and change title:</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb55-1"><a href=""></a><span class="pp">---</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb55"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb55-1"><a href=""></a><span class="pp">---</span></span>
 <span id="cb55-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Example"</span></span>
 <span id="cb55-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> Your name</span></span>
 <span id="cb55-4"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> pdf</span></span>
 <span id="cb55-5"><a href=""></a><span class="fu">editor</span><span class="kw">:</span><span class="at"> visual</span></span>
-<span id="cb55-6"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb55-6"><a href=""></a><span class="pp">---</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:50%;">
 <p><br></p>
@@ -1225,9 +1226,9 @@ Reporting With Quarto!
 <div class="fragment" data-fragment-index="4">
 <p>Code chunks are anything that is enclosed between <code>```{r}</code> and <code>```</code></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb56-1"><a href=""></a><span class="in">```{r}</span></span>
-<span id="cb56-2"><a href=""></a><span class="in">1+1</span></span>
-<span id="cb56-3"><a href=""></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb56-1"><a href=""></a><span class="in">```{r}</span></span>
+<span id="cb56-2"><a href=""></a><span class="dv">1</span><span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb56-3"><a href=""></a><span class="in">```</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
 </div>
@@ -1235,7 +1236,7 @@ Reporting With Quarto!
 <p>You can create a new code chunk with <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>I</kbd> (Windows) or <kbd>Cmd</kbd> + <kbd>Option</kbd> + <kbd>I</kbd> (Mac).</p>
 </div>
 <div class="fragment" data-fragment-index="5">
-<p>Code chunks can be run in many ways, one of them being the green arrow at their to right.</p>
+<p>Code chunks can be run in many ways, one of them being the green arrow at their top right.</p>
 </div>
 <div class="fragment" data-fragment-index="6">
 <p>You can also modify how the chunks behave when rendered with <a href="https://rpubs.com/drgregmartin/1266667" target="_blank">chunk options</a> (e.g., your advisor does not know R, so you can hide the code and just show the output).</p>
@@ -1468,7 +1469,7 @@ Becker, J., Chan, C., Schoch, D., Chan, G. C., Leeper, T. J., Gandrud, C., MacDo
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -1571,190 +1572,173 @@ Becker, J., Chan, C., Schoch, D., Chan, G. C., Leeper, T. J., Gandrud, C., MacDo
     
 
     <script id="quarto-html-after-body" type="application/javascript">
-    window.document.addEventListener("DOMContentLoaded", function (event) {
-      const toggleBodyColorMode = (bsSheetEl) => {
-        const mode = bsSheetEl.getAttribute("data-mode");
-        const bodyEl = window.document.querySelector("body");
-        if (mode === "dark") {
-          bodyEl.classList.add("quarto-dark");
-          bodyEl.classList.remove("quarto-light");
-        } else {
-          bodyEl.classList.add("quarto-light");
-          bodyEl.classList.remove("quarto-dark");
-        }
-      }
-      const toggleBodyColorPrimary = () => {
-        const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-        if (bsSheetEl) {
-          toggleBodyColorMode(bsSheetEl);
-        }
-      }
-      toggleBodyColorPrimary();  
-      const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
-      tabsets.forEach(function(tabset) {
-        const tabby = new Tabby('#' + tabset.id);
-      });
-      const isCodeAnnotation = (el) => {
-        for (const clz of el.classList) {
-          if (clz.startsWith('code-annotation-')) {                     
-            return true;
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
           }
+          return false;
         }
-        return false;
-      }
-      const onCopySuccess = function(e) {
-        // button target
-        const button = e.trigger;
-        // don't keep focus
-        button.blur();
-        // flash "checked"
-        button.classList.add('code-copy-button-checked');
-        var currentTitle = button.getAttribute("title");
-        button.setAttribute("title", "Copied!");
-        let tooltip;
-        if (window.bootstrap) {
-          button.setAttribute("data-bs-toggle", "tooltip");
-          button.setAttribute("data-bs-placement", "left");
-          button.setAttribute("data-bs-title", "Copied!");
-          tooltip = new bootstrap.Tooltip(button, 
-            { trigger: "manual", 
-              customClass: "code-copy-button-tooltip",
-              offset: [0, -8]});
-          tooltip.show();    
-        }
-        setTimeout(function() {
-          if (tooltip) {
-            tooltip.hide();
-            button.removeAttribute("data-bs-title");
-            button.removeAttribute("data-bs-toggle");
-            button.removeAttribute("data-bs-placement");
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
           }
-          button.setAttribute("title", currentTitle);
-          button.classList.remove('code-copy-button-checked');
-        }, 1000);
-        // clear code selection
-        e.clearSelection();
-      }
-      const getTextToCopy = function(trigger) {
-          const codeEl = trigger.previousElementSibling.cloneNode(true);
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
           for (const childEl of codeEl.children) {
             if (isCodeAnnotation(childEl)) {
               childEl.remove();
             }
           }
           return codeEl.innerText;
-      }
-      const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-        text: getTextToCopy
-      });
-      clipboard.on('success', onCopySuccess);
-      if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-        const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-          text: getTextToCopy,
-          container: window.document.getElementById('quarto-embedded-source-code-modal')
-        });
-        clipboardModal.on('success', onCopySuccess);
-      }
-        var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-        var mailtoRegex = new RegExp(/^mailto:/);
-          var filterRegex = new RegExp('/' + window.location.host + '/');
-        var isInternal = (href) => {
-            return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
         }
-        // Inspect non-navigation links and adorn them if external
-     	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-        for (var i=0; i<links.length; i++) {
-          const link = links[i];
-          if (!isInternal(link.href)) {
-            // undo the damage that might have been done by quarto-nav.js in the case of
-            // links that we want to consider external
-            if (link.dataset.originalHref !== undefined) {
-              link.href = link.dataset.originalHref;
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
             }
           }
-        }
-      function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-        const config = {
-          allowHTML: true,
-          maxWidth: 500,
-          delay: 100,
-          arrow: false,
-          appendTo: function(el) {
-              return el.closest('section.slide') || el.parentElement;
-          },
-          interactive: true,
-          interactiveBorder: 10,
-          theme: 'light-border',
-          placement: 'bottom-start',
-        };
-        if (contentFn) {
-          config.content = contentFn;
-        }
-        if (onTriggerFn) {
-          config.onTrigger = onTriggerFn;
-        }
-        if (onUntriggerFn) {
-          config.onUntrigger = onUntriggerFn;
-        }
-          config['offset'] = [0,0];
-          config['maxWidth'] = 700;
-        window.tippy(el, config); 
-      }
-      const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-      for (var i=0; i<noterefs.length; i++) {
-        const ref = noterefs[i];
-        tippyHover(ref, function() {
-          // use id or data attribute instead here
-          let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-          try { href = new URL(href).hash; } catch {}
-          const id = href.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note) {
-            return note.innerHTML;
-          } else {
-            return "";
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
           }
-        });
-      }
-      const findCites = (el) => {
-        const parentEl = el.parentElement;
-        if (parentEl) {
-          const cites = parentEl.dataset.cites;
-          if (cites) {
-            return {
-              el,
-              cites: cites.split(' ')
-            };
-          } else {
-            return findCites(el.parentElement)
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
           }
-        } else {
-          return undefined;
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
         }
-      };
-      var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-      for (var i=0; i<bibliorefs.length; i++) {
-        const ref = bibliorefs[i];
-        const citeInfo = findCites(ref);
-        if (citeInfo) {
-          tippyHover(citeInfo.el, function() {
-            var popup = window.document.createElement('div');
-            citeInfo.cites.forEach(function(cite) {
-              var citeDiv = window.document.createElement('div');
-              citeDiv.classList.add('hanging-indent');
-              citeDiv.classList.add('csl-entry');
-              var biblioDiv = window.document.getElementById('ref-' + cite);
-              if (biblioDiv) {
-                citeDiv.innerHTML = biblioDiv.innerHTML;
-              }
-              popup.appendChild(citeDiv);
-            });
-            return popup.innerHTML;
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
           });
         }
-      }
-    });
-    </script>
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
     
 
 </body></html>

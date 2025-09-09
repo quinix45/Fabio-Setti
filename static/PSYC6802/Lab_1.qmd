@@ -1399,7 +1399,7 @@ You can create a new code chunk with <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>I</
 
 
 ::: {.fragment fragment-index=5}
-Code chunks can be run in many ways, one of them being the green arrow at their to right.
+Code chunks can be run in many ways, one of them being the green arrow at their top right.
 :::
 
 ::: {.fragment fragment-index=6}

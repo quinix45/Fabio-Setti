@@ -38,9 +38,9 @@ build: local
 #| code-summary: "Install Packages Code"
 #| classes: code-125
 
-
 # run for packages that you have not installed yet
 # install.packages("tidyverse")
+
 install.packages("pwr")
 ```
 
@@ -51,9 +51,8 @@ install.packages("pwr")
 #| warning: false
 #| classes: code-150
 
-library(effectsize)
-library(car)
 library(tidyverse)
+library(pwr)
 # I am setting a theme for all the plots
 theme_set(theme_classic(base_size = 16, 
                         base_family = 'serif'))
@@ -91,12 +90,11 @@ dat <- rio::import("https://fabio-setti.netlify.app/data/Cuisine_rating.csv")
 reactable::reactable(dat,
                      style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
                      pagination = FALSE, highlight = TRUE, height = 300)
+
 ```
 
 :::
 ::::
-
-
 
 ## References 
 
