@@ -635,7 +635,7 @@ The classical $\chi^2$ test generally works best for contingency tables. However
 
 ## Small Expected Frequencies
 
-Some smart math people have worked out that if any of the expected frequencies are too small ($E_i \leq 5$, not the case of the example), the the type I error rate (more on this in Lab 4) of the $\chi^2$ test is not accurate. In this case you should apply some *adjustments* to your $\chi^2$ statistic. Both of these are fine:
+Some smart math people have worked out that if any of the expected frequencies are too small ($E_i \leq 5$, not the case of the example), the the type I error rate (more on this in Lab 5) of the $\chi^2$ test is not accurate. In this case you should apply some *adjustments* to your $\chi^2$ statistic. Both of these are fine:
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -680,6 +680,7 @@ chi_unadj <- chisq.test(tabl, correct = FALSE)$statistic
 ```
 
 ```{r}
+#| classes: code-125
 chi_unadj 
 ```
 
@@ -763,7 +764,7 @@ Fisher's exact test is based on the [hypergeometric distribution](https://www.br
 
 ## Odds and Probability
 
-Odds and probabilities are two different ways of describing the likelihood of an event occurring. Let's say that team A and team B are playing a Basketball game and we think know that team A wind 80\% of the times. Let's define $\pi = .8$ as the probability of team A winning. Then, the the **odds** of team A winning are:
+Odds and probabilities are two different ways of describing the likelihood of an event occurring. Let's say that team A and team B are playing a Basketball game and we know that team A wins 80\% of the times. Let's define $\pi = .8$ as the probability of team A winning. Then, the the **odds** of team A winning are:
 
 
 ::: {.fragment fragment-index=1}

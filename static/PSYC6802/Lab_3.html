@@ -674,7 +674,7 @@ Here are two popular effect sizes for <span class="math inline">\(\chi^2\)</span
 </section>
 <section id="small-expected-frequencies" class="slide level2">
 <h2>Small Expected Frequencies</h2>
-<p>Some smart math people have worked out that if any of the expected frequencies are too small (<span class="math inline">\(E_i \leq 5\)</span>, not the case of the example), the the type I error rate (more on this in Lab 4) of the <span class="math inline">\(\chi^2\)</span> test is not accurate. In this case you should apply some <em>adjustments</em> to your <span class="math inline">\(\chi^2\)</span> statistic. Both of these are fine:</p>
+<p>Some smart math people have worked out that if any of the expected frequencies are too small (<span class="math inline">\(E_i \leq 5\)</span>, not the case of the example), the the type I error rate (more on this in Lab 5) of the <span class="math inline">\(\chi^2\)</span> test is not accurate. In this case you should apply some <em>adjustments</em> to your <span class="math inline">\(\chi^2\)</span> statistic. Both of these are fine:</p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="fragment" data-fragment-index="1">
@@ -704,7 +704,7 @@ Here are two popular effect sizes for <span class="math inline">\(\chi^2\)</span
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># get unadjusted chi-square (it will be very similar to the adjusted one because our expected proportions are really large)</span></span>
 <span id="cb34-2"><a href="" aria-hidden="true" tabindex="-1"></a>chi_unadj <span class="ot">&lt;-</span> <span class="fu">chisq.test</span>(tabl, <span class="at">correct =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>statistic</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div class="cell">
+<div class="cell code-125">
 <div class="cell-output cell-output-stdout">
 <pre><code>X-squared 
  410.9175 </code></pre>
@@ -781,7 +781,7 @@ odds ratio
 </section>
 <section id="odds-and-probability" class="slide level2">
 <h2>Odds and Probability</h2>
-<p>Odds and probabilities are two different ways of describing the likelihood of an event occurring. Let’s say that team A and team B are playing a Basketball game and we think know that team A wind 80% of the times. Let’s define <span class="math inline">\(\pi = .8\)</span> as the probability of team A winning. Then, the the <strong>odds</strong> of team A winning are:</p>
+<p>Odds and probabilities are two different ways of describing the likelihood of an event occurring. Let’s say that team A and team B are playing a Basketball game and we know that team A wins 80% of the times. Let’s define <span class="math inline">\(\pi = .8\)</span> as the probability of team A winning. Then, the the <strong>odds</strong> of team A winning are:</p>
 <div class="fragment" data-fragment-index="1">
 <p><span class="math display">\[\mathrm{odds} = \frac{\pi}{1 - \pi} = \frac{.8}{1 - .8} = 4 \]</span></p>
 </div>
