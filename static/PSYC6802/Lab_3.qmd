@@ -59,7 +59,7 @@ library(tidyverse)
 ::: {.panel-tabset}
 ### `epitools`
 
-The `epitools` package [@aragon2020] includes many functions that help with calculating odds ratios and risk ratios. These are common statistics that are used to summarize the information in contingency tables.
+The `epitools` package [@aragon_etal_2020] includes many functions that help with calculating odds ratios and risk ratios. These are common statistics that are used to summarize the information in contingency tables.
 
 :::
 :::
@@ -103,6 +103,9 @@ We will mostly be looking at categorical variables today, so it's a good point t
 ::: {.column width="50%"}
 
 
+
+::: {.fragment fragment-index=1}
+
 <div style="font-size: 26px"> Given a character or integer vector with some repeating values, we can turn the vector into a factor with the `factor()` function: </div>
 
 ```{r}
@@ -129,20 +132,29 @@ table(flights$Delay)
 ```
 
 :::
+
+:::
 ::: {.column width="50%"}
 
 </br>
+
+::: {.fragment fragment-index=2}
 
 A `factor` variable is more or less the same as assigning value labels in SPSS.
 
 <ul style="font-size: 26px">  
 
 <li>  `levels =`: here you define the levels of you factors (the name of each group).  </li>
-<li>  `labels =`: here you can label the corresponding groups. Now `control` and `treatment` will show up as `ctrl` and `trt`.  </li>
+<li>  `labels =`: here you can label the corresponding groups. Now `0` and `1` will show up as `On Time` and `Delay`.  </li>
 
-</ul>
+</ul> 
 
-<div style="font-size: 22px"> We will see later that factor variables help when dealing with analyses involving categorical variables (mostly regressions and ANOVAs). </div>
+::: 
+
+::: {.fragment fragment-index=3}
+<div style="font-size: 24px"> We will see later that factor variables help when dealing with analyses involving categorical variables (mostly regressions and ANOVAs). </div>
+
+:::
 
 :::
 ::::
@@ -155,8 +167,12 @@ The $\chi^2$ ($\chi$ reads "ki") test of goodness of fit refers to a test used t
 :::: {.columns}
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=1}
 I flipped my coin 200 times and I got 110 heads and 90 tails:
+:::
 
+
+::: {.fragment fragment-index=3}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -169,8 +185,11 @@ chisq.test(flips)
 ```
 
 :::
+
+:::
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=2}
 
 The null and alternative hypotheses are:
 
@@ -183,21 +202,42 @@ The null and alternative hypotheses are:
 
 </ul>
 
+:::
+
+
+::: {.fragment fragment-index=3}
 The `chisq.test()` function takes in either a vector or table of counts and runs a $\chi^2$ test.
+:::
 
 :::
 ::::
 
 </br>
 
+
+::: {.fragment fragment-index=4}
 Thus, at $\alpha = .05$, there wasn't enough evidence to reject the $H_0$, $\chi^2(1) = 2$, $p = .16$. 
+:::
+
+
 
 ## &#x3C7;<sup>2</sup> Test by Hand
 
-Sometimes I like to run these analyses "by hand" to check that I am doing the right thing. In the lecture you have seen that the formula to calculate the $\chi^2$ statistic is given by:
 
+::: {.fragment fragment-index=1}
+Sometimes I like to run these analyses "by hand" to check that I am doing the right thing. In the lecture you have seen that the formula to calculate the $\chi^2$ statistic is given by:
+:::
+
+
+::: {.fragment fragment-index=2}
 $$\chi^2 = \sum_i \frac{(O_i - E_i)^2}{E_i}$$
+
+
 Where $O_i$ is the observed proportion of a category and $E_i$ is the expected proportion of that category. Since we have 200 flips, *if the coin is fair*, we expect both tails and head to happen 100 times each ($E_i = 100$ in both cases), so:
+
+:::
+
+::: {.fragment fragment-index=3}
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -227,7 +267,11 @@ pchisq(2, df = 1, lower.tail = FALSE)
 :::
 ::::
 
+:::
+
+::: {.fragment fragment-index=4}
 Of course you would always use the `chisq.test()` function in practice, but I want to briefly touch on the intuition behind the $\chi^2$ formula. 
+:::
 
 ## Intuition Behind the &#x3C7;<sup>2</sup> Statistic
 
@@ -236,24 +280,32 @@ Unfortunately many statistics formulas seem to come out of nowhere 🤷 $\chi^2 
 :::: {.columns}
 ::: {.column width="30%"}
 
+::: {.fragment fragment-index=1}
 - $\sum_i$: This sign says "sum all the *i* things". If you recall, this sign was also in the mean and the SD formula. In 99% of the cases, the $\sum$ sign is a tell that the formula is trying to summarize some information.
+:::
 
 :::
 ::: {.column width="40%"}
 
+
+::: {.fragment fragment-index=2}
 - $(O_i - E_i)^2$: The numerator is usually where the important stuff happens. Here, the numerator calculates *how different the observed count is from what we expected*. The $^2$ makes everything positive so that differences don't cancel out when you "sum all the *i* things" (the SD formula does the same!). 
+:::
 
 :::
 ::: {.column width="30%"}
-- $E_i$: In most formulas the denominator makes sure the numerator is adjusted before been summed. In the case of the $\chi^2$, it adjusts for how often you expect to see each value. 
 
+::: {.fragment fragment-index=3}
+- $E_i$: In most formulas the denominator makes sure the numerator is adjusted before been summed. In the case of the $\chi^2$, it adjusts for how often you expect to see each value. 
+:::
 
 :::
 
 ::::
 
+::: {.fragment fragment-index=14}
 So, the $\chi^2$ formula *summarizes how different your observed data is compared to what you would expect to see*. The more unexpected your observed frequencies, the larger the $\chi^2$ statistic will be. 
-
+:::
 
 ## &#x3C7;<sup>2</sup> Test of Independence
 
@@ -262,6 +314,8 @@ So, the $\chi^2$ formula *summarizes how different your observed data is compare
 
 :::: {.columns}
 ::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
 
  I create a new `data.frame` that only includes *Delta* and *AA*:
  
@@ -288,10 +342,12 @@ tabl <- table(AA_vs_DL$Airline, AA_vs_DL$Delay)
 tabl
 ```
 
+:::
 
 :::
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=2}
 The null and alternative hypotheses are:
 
 
@@ -313,11 +369,13 @@ chisq.test(tabl)
 ```
 
 :::
+:::
 ::::
 
 
+::: {.fragment fragment-index=3}
 We reject $H_0$, $\chi^2 (1) =  410.66$, $p < .001$, meaning that there is some association between airline and delay. 
-
+:::
 
 ## Easily Find Expected Frequencies
 
@@ -338,8 +396,9 @@ Even in the case of a table the formula to calculate the $\chi^2$ statistic is s
 :::: {.columns}
 ::: {.column width="40%"}
 
+::: {.fragment fragment-index=1}
 
-You do not have to do this by hand. You can do the following:
+We'll need expected frequencies later. We can extract them like so:
 
 ```{r}
 #| eval: true
@@ -351,9 +410,13 @@ chi_test <- chisq.test(tabl)
 chi_test$expected
 ```
 
+:::
 
 :::
 ::: {.column width="60%"}
+
+
+::: {.fragment fragment-index=2}
 
 This works because the `chisq.test()` function actually saves a lot of information when you save it as an object.
 
@@ -366,8 +429,10 @@ This works because the `chisq.test()` function actually saves a lot of informati
 
 names(chi_test)
 ```
-The same is true for many of the functions that we will see later in teh course. 
 
+The same is true for many of the functions that we will see later in the course. 
+
+:::
 
 :::
 ::::
@@ -377,8 +442,12 @@ The same is true for many of the functions that we will see later in teh course.
 
 You may find the *some association* part from two slides ago a bit vague...and you'd be right! All the $\chi^2$ test we just ran tells us is that there is *some association somewhere* in out table. In our case it is easy to figure out which airline has a higher proportion of delays, but it becomes much harder when the number of rows and columns increases 🧐 
 
+::: {.fragment fragment-index=1}
 Once again the $\chi^2$ formula summarize how different $O_i$s are from $E_i$s, how different the data is from what we would expect if $H_0$ is true. The idea is that, based on [probability theory](https://en.wikipedia.org/wiki/Independence_(probability_theory)){target="_blank"}:
-  
+::: 
+
+
+::: {.fragment fragment-index=2}
 <div style="height:30px;"></div>
 
 <center>
@@ -387,24 +456,35 @@ Once again the $\chi^2$ formula summarize how different $O_i$s are from $E_i$s, 
 
 </center>
 
-  <div style="height:30px;"></div>
+<div style="height:30px;"></div>
 
-Thus, it would be *really unlikely* to see a table of observed frequencies that is different that the expected if $H_0$ is true and that is no association. Notice that this is $H_1$ from two slides ago and is the only thing that you are testing when running a  $\chi^2$ test 🤔
+:::
 
+::: {.fragment fragment-index=3}
+Thus, it would be *really unlikely* to see a table of observed frequencies that is different that the expected if $H_0$ is true and there is no association. Notice that this is $H_1$ from two slides ago and is the only thing that you are testing when running a  $\chi^2$ test 🤔
+
+:::
 
 
 ## Effect Sizes For &#x3C7;<sup>2</sup> Tests
 
 <div style="font-size: 26px"> Ok, so, we know that there is some association between airlines and delays ($\chi^2 (1) =  410.66$, $p < .001$), but we really do not know how *practically meaningful* the strength of the association is (many statistically significant results are often practically meaningless 🫠). This is where [effect sizes](https://www.scribbr.com/statistics/effect-size){target="_blank"} come into the picture. Effect sizes are meant to be measures of *practical significance*, and they often have little relation with *statistical significance*. </div>
 
+
+::: {.fragment fragment-index=1}
+
 <div style="height:30px;"></div>
 
-<center> There are two popular effect sizes for $\chi^2$ tests </center>
+<center>  <p style='font-size: 28px'> Here are two popular effect sizes for $\chi^2$ tests </p>  </center>
 
 <div style="height:40px;"></div>
 
+:::
+
 :::: {.columns}
 ::: {.column width="50%"}
+
+::: {.fragment fragment-index=2}
 
 <center> **$W$ Coefficient** </center>
 
@@ -419,9 +499,13 @@ $W = \sqrt{\frac{\chi^2}{Total}}$
 # sum(tabl) sums all the values in the table, thus giving the total
 sqrt(410.66/sum(tabl))
 ```
+
+:::
 :::
 
 ::: {.column width="50%"}
+
+::: {.fragment fragment-index=3}
 
 <center> **Cramer's $V$** </center>
 
@@ -437,6 +521,7 @@ $V = \sqrt{\frac{\chi^2}{Total \times (k - 1)}}$, where $k$ is either the row or
 sqrt(410.66/(sum(tabl)*(2 - 1)))
 ```
 
+:::
 
 :::
 ::::
@@ -445,10 +530,16 @@ sqrt(410.66/(sum(tabl)*(2 - 1)))
 
 We got a $W = .06$. How big (or small) is that effect size? The correct answer is that it depends. The determination usually involves some cost-benefit trade off which depends on the field that you are in.
 
-Now, everyone will reference effect sizes "guidelines" from @cohen1988, who went through many popular effect sizes metrics and suggested some thresholds for what is a *small*, *medium*, and *large* effect size. 
+::: {.fragment fragment-index=1}
+Everyone will reference effect sizes "guidelines" from @cohen_1988, who went through many popular effect sizes metrics and suggested some thresholds for what is a *small*, *medium*, and *large* effect size. 
+:::
+
 
 :::: {.columns}
 ::: {.column width="50%"}
+
+
+::: {.fragment fragment-index=2}
 
 According to Cohen's guidelines for $W$ :
 
@@ -465,7 +556,11 @@ According to Cohen's guidelines for $W$ :
 So, our effect size of $W = .06$ is **small**, meaning that the *degree* of association between airlines and delay is small (i.e., although one airline has more delays, it's not by that much).
 
 :::
+
+:::
 ::: {.column width="50%"}
+
+::: {.fragment fragment-index=3}
 
 :::{.callout-note}
 
@@ -474,7 +569,7 @@ So, our effect size of $W = .06$ is **small**, meaning that the *degree* of asso
 The main argument for providing guidelines is that it helps applied researchers to make decisions. The idea is reasonable, but in my experience this sometimes turns into *"I don't really understand it, so tell me what to do based on these numbers in my output"*. The most obvious case is $p < .05$, which is probably the main cause of the [replication crisis](https://www.americanscientist.org/article/the-statistical-crisis-in-science){target="_blank"}. Unfortunately, we teach to follow these "guidelines", and this course will be no different (I am not happy about it 😔). When doing statistics in the real world, always stop and ask yourself <u>*why*</u> you are doing something or making a certain decision. If your answer is "because someone else said so", then you still do not know the <u>*why*</u>, which is the most important thing.
  
 :::
-
+:::
 :::
 ::::
 
@@ -489,7 +584,7 @@ Where $\ln()$ is the [natural logarithm](https://www.youtube.com/watch?v=daUlTsn
 :::: {.columns}
 ::: {.column width="50%"}
 
-
+::: {.fragment fragment-index=1}
 
 ```{r}
 #| eval: true
@@ -508,9 +603,14 @@ like_chi <- 2*sum(tabl*log(tabl/chi_test$expected))
 #| classes: code-125
 like_chi
 ```
+
+:::
 :::
 
 ::: {.column width="50%"}
+
+
+::: {.fragment fragment-index=1}
 
 We get a really similar $\chi^2$ value and therefore a really similar *p*-value:
 
@@ -524,11 +624,14 @@ We get a really similar $\chi^2$ value and therefore a really similar *p*-value:
 pchisq(like_chi, df = 1, lower.tail = FALSE) 
 ```
 
-
+:::
 :::
 ::::
 
+
+::: {.fragment fragment-index=2}
 The classical $\chi^2$ test generally works best for contingency tables. However, the likelihood ratio test is more general and will come up again because it can be used to compare different statistical models.
+:::
 
 ## Small Expected Frequencies
 
@@ -536,6 +639,8 @@ Some smart math people have worked out that if any of the expected frequencies a
 
 :::: {.columns}
 ::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
 
 <center> **Yates Correction** </center>
 
@@ -554,7 +659,11 @@ chisq.test(tabl)
 This is good because there is no "disadvantage" to applying this correction, so it may as well be the default.
 
 :::
+
+:::
 ::: {.column width="50%"}
+
+::: {.fragment fragment-index=2}
 
 <center> **E. Pearson Adjustment** </center>
 
@@ -582,9 +691,10 @@ chi_unadj
 
 chi_unadj*(sum(tabl)/(sum(tabl) - 1))
 ```
+
 The adjustment makes almost no difference because of the really large $N$. 
 
-
+:::
 
 :::
 ::::
@@ -596,8 +706,11 @@ When you have small expected frequencies, **Fisher's exact test** is probably a 
 :::: {.columns}
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=1}
 Fisher's exact test works by checking whether the **odds ratio** (see next slides) of the table is significantly different from 1. 
+:::
 
+::: {.fragment fragment-index=2}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -606,9 +719,13 @@ Fisher's exact test works by checking whether the **odds ratio** (see next slide
 
 fisher.test(tabl)
 ```
+
 :::
+:::
+
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=1}
 The null and alternative hypotheses are:
 
 <ul style="font-size: 26px">  
@@ -619,20 +736,22 @@ The null and alternative hypotheses are:
 
 </ul>
 
-The odds ratio is significantly different from 1, odds = 1.29, $p < .001$, 95\% CI[1.26, 1.32]
+:::
 
+::: {.fragment fragment-index=2}
+The odds ratio is significantly different from 1, odds = 1.29, $p < .001$, 95\% CI[1.26, 1.32]
+:::
+
+::: {.fragment fragment-index=3}
 
 :::{.callout-note}
 ### Fun Fact
 
 Fisher's exact test is based on the [hypergeometric distribution](https://www.britannica.com/topic/hypergeometric-distribution){target="_blank"}. The fun fact is that the hypergeometric distribution is the probability distribution that is used to determine the probability of drawing certain hands in card games. Incidentally, the hypergeometric distribution is used a lot in [Texas Hold'em Poker](https://dlsun.github.io/probability/hypergeometric.html){target="_blank"}, and any other competitive card game really.
  
-
-
-
 :::
 
-
+:::
 
 :::
 
@@ -646,11 +765,19 @@ Fisher's exact test is based on the [hypergeometric distribution](https://www.br
 
 Odds and probabilities are two different ways of describing the likelihood of an event occurring. Let's say that team A and team B are playing a Basketball game and we think know that team A wind 80\% of the times. Let's define $\pi = .8$ as the probability of team A winning. Then, the the **odds** of team A winning are:
 
+
+::: {.fragment fragment-index=1}
 $$\mathrm{odds} = \frac{\pi}{1 - \pi} = \frac{.8}{1 - .8} = 4 $$ 
-
+:::
+::: {.fragment fragment-index=2}
 This is what you would normally hear as "team A has 4 to 1 odds of beating team B". It is important to note that given any odds, we can recover the **probability** $\pi$:
+:::
 
+::: {.fragment fragment-index=3}
 $$\pi = \frac{\mathrm{odds}}{\mathrm{odds} + 1} = \frac{4}{4 + 1} = .8$$
+:::
+
+::: {.fragment fragment-index=4}
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -664,7 +791,7 @@ $$\pi = \frac{\mathrm{odds}}{\mathrm{odds} + 1} = \frac{4}{4 + 1} = .8$$
 
 :::
 ::::
-
+:::
 
 ## Odds Ratios
 
@@ -679,12 +806,13 @@ In the case of our airplane example, we can look at the odds of both Delta and A
 #| eval: true
 #| echo: false
 #| code-line-numbers: false
-#| classes: code-125
+#| classes: code-150
 
 tabl
 ```
 </center>
 
+::: {.fragment fragment-index=1}
 
 The "success" in this case is the flight being delayed, so it goes on top in the numerator.
 
@@ -708,20 +836,26 @@ tabl[1,2]/tabl[1,1]
 tabl[2,2]/tabl[2,1]
 ```
 **Note:** if you wanted the odds of flights being on time, you would flip the fractions above.
+:::
 
 :::
 
 ::: {.column width="50%"}
+
+::: {.fragment fragment-index=2}
 We see that Delta is more likely to have delays as it's odds are higher than AA. But by how much? We can calculate an **odds ratio**:
 
 $$\mathrm{odds_{ratio}} = \frac{\mathrm{odds_{DL}}}{\mathrm{odds_{AA}}} = \frac{.82}{.63} = 1.3$$
 
+:::
+::: {.fragment fragment-index=3}
 **Interpretation:** The odds of Delta flights being delayed are 1.3 larger than the odds of AA flights being delayed.
 
   <div style="height:30px;"></div>
 
 So, an odds ratio is quite literally the ratio of two odds 😀 
 
+:::
 :::
 ::::
 
@@ -738,13 +872,13 @@ In epidemiology language, **Risk** is the exact same as probability. We can get 
 #| eval: true
 #| echo: false
 #| code-line-numbers: false
-#| classes: code-125
+#| classes: code-150
 
 tabl
 ```
 </center>
 
-
+::: {.fragment fragment-index=1}
 Because risk is probability, now we use the sum of the row in the denominator. Delays are still treated as "successes":
 
 ```{r}
@@ -767,16 +901,24 @@ tabl[1,2]/sum(tabl[1,])
 tabl[2,2]/sum(tabl[2,])
 ```
 :::
+:::
+
 ::: {.column width="50%"}
 
+
+::: {.fragment fragment-index=2}
 How much more likely are Delta flights to be delayed? The **relative risk** of a Delta flights being delayed compared to AA flights answers this question:
 
 $$\mathrm{risk_{rel}} = \frac{\mathrm{risk_{DL}}}{\mathrm{risk_{AA}}} = \frac{.45}{.39} = 1.15$$
 
 **Interpretation:** Delta flights are 1.15 more likely to be delayed compared to AA flights. 
 
+:::
 
+
+::: {.fragment fragment-index=3}
 So *odds* and *risk* (probability) have different interpretations. Be careful when you use them or read about them.
+:::
 
 :::
 ::::
@@ -802,11 +944,18 @@ epitools::oddsratio.fisher(tabl)
 :::
 ::: {.column width="50%"}
 
+
+::: {.fragment fragment-index=1}
 The function prints a bunch of stuff. The first thing to note is that the odds ratio is under `$measure` in the second row `DL 1.290446`, which is the same thing we got by hand. The first row is 1 because the function is dividing the odds of AA being late to the odds of every row ($\frac{\mathrm{odds_{AA}}}{\mathrm{odds_{AA}}} = 1$). 
+:::
 
+::: {.fragment fragment-index=2}
 More importantly, under `$measure` you can also find the 95\% CI for each of the odds ratios. 
+:::
 
+::: {.fragment fragment-index=3}
 Finally, under `$p.value` you can find significance tests based on three different tests criteria (which will almost always agree in practice). In all cases, $p < .001$.
+:::
 
 :::
 ::::
@@ -833,15 +982,17 @@ epitools::riskratio.wald(tabl)
 
 The output is the same, so we find the risk ratio and the confidence interval under `$measure`. Once again, go the same risk ratio by hand (with some rounding error). 
 
+::: {.fragment fragment-index=1}
 The `epitools` package has other functions to calculate odds ratios and relative risk, which only differ a bit in how the 95% CI is computed (very similar in practice). 
+:::
 
+::: {.fragment fragment-index=2}
 :::{.callout-note}
 ### e-N?
 
 In R output you will often see some `e-N`. On the left we see `e-91` in the *p*-values. This is computer notation to represent small numbers. So, `1.134e-3` means `0.001134`. Then, `e-91` means zero with 90 zeros after the decimal point (pretty small number). This is good because you do not want to see 90 zeros in your output. 
-
 :::
-
+:::
 
 :::
 ::::
@@ -849,7 +1000,7 @@ In R output you will often see some `e-N`. On the left we see `e-91` in the *p*-
 
 ## Calculate Different Odds and Risk
 
-By default, the `epitools` functions take the odds or risk of the *first row*, and treat the *second column* as the *success*. Then, they divide every other row by the odds/risk of the first row. (you can have more than 2 rows, but you always need two columns)
+By default, the `epitools` functions take the odds or risk of the *first row*, and treat the *second column* as the *success*. Then, they divide every other row by the odds/risk of the first row. (you can have more than 2 rows, but you always need two columns exactly)
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -868,11 +1019,17 @@ epitools::oddsratio.fisher(tabl, rev = "rows")
 :::
 ::: {.column width="50%"}
 
+::: {.fragment fragment-index=1}
 You can change the order of the table columns and rows by using the `rev =` argument. Here I invert the *rows*. You can confirm that by comparing the table under `$data` from this slide to the previous slides.  
+:::
 
+::: {.fragment fragment-index=2}
 The idea is that, because you know how the functions calculate odds/risk ratios, you give it a table such that it calculates what you want. Here `.77` is  $\frac{\mathrm{odds_{AA}}}{\mathrm{odds_{DL}}}$. 
+:::
 
+::: {.fragment fragment-index=3}
 How do I know all of this? The function help menu `?oddsratio.fisher`! (the `risk` version of these function work exactly the same)
+:::
 
 :::
 ::::
@@ -886,7 +1043,7 @@ Categorical data comes up a lot in applied research, and we definitely do not ta
 
   <div style="height:30px;"></div>
 
-If you are dealing with lots of categorical data, I *highly recommend* you try to get a hold of *Categorical Data Analysis* by @agresti2018. This book is quite comprehensive, includes R code examples, and explains many important concepts very clearly!
+If you are dealing with lots of categorical data, I *highly recommend* you try to get a hold of *Categorical Data Analysis* by @agresti_2018. This book is quite comprehensive, includes R code examples, and explains many important concepts very clearly!
 
 <div style="height:30px;"></div>
 
