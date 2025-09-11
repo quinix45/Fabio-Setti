@@ -31,30 +31,26 @@ build: local
 :::: {.columns}
 ::: {.column width="50%"}
 
-```{r}
-#| code-fold: true
-#| eval: false
-#| echo: true
-#| code-line-numbers: false
-#| code-summary: "Install Packages Code"
-#| classes: code-125
 
+::: {.cell .code-125}
 
+```{.r .cell-code  code-fold="true" code-summary="Install Packages Code" code-line-numbers="false"}
 # run for packages that you have not installed yet
 # install.packages("tidyverse")
 install.packages("epitools")
 ```
+:::
 
-```{r}
-#| eval: true
-#| echo: true
-#| code-line-numbers: false
-#| warning: false
-#| classes: code-125
 
+
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 library(epitools)
 library(tidyverse)
 ```
+:::
+
 
 ::: {.panel-tabset}
 ### `epitools`
@@ -70,27 +66,43 @@ The `epitools` package [@aragon_etal_2020] includes many functions that help wit
 
 Today we'll look at some flight delays:
  
-```{r}
-#| eval: true
-#| echo: true 
-#| message: false
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # rio::import() calls the import() function from the rio package without needing to load the package
 flights <- rio::import("https://fabio-setti.netlify.app/data/Airlines.csv")
 ```
+:::
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
-#| class-output: hscroll
 
+
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # this dataset is quite big!
 str(flights)
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+``` hscroll
+'data.frame':	539383 obs. of  9 variables:
+ $ id         : int  1 2 3 4 5 6 7 8 9 10 ...
+ $ Airline    : chr  "CO" "US" "AA" "AA" ...
+ $ Flight     : int  269 1558 2400 2466 108 1094 1768 2722 2606 2538 ...
+ $ AirportFrom: chr  "SFO" "PHX" "LAX" "SFO" ...
+ $ AirportTo  : chr  "IAH" "CLT" "DFW" "DFW" ...
+ $ DayOfWeek  : int  3 3 3 3 3 3 3 3 3 3 ...
+ $ Time       : int  15 15 20 20 30 30 30 30 35 40 ...
+ $ Length     : int  205 222 165 195 202 181 220 228 216 200 ...
+ $ Delay      : int  1 1 1 1 0 1 0 0 1 1 ...
+```
+
+
+:::
+:::
+
 
 :::
 ::::
@@ -108,28 +120,39 @@ We will mostly be looking at categorical variables today, so it's a good point t
 
 <div style="font-size: 26px"> Given a character or integer vector with some repeating values, we can turn the vector into a factor with the `factor()` function: </div>
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # here I redefine the `Delay` column. You could also create a new column if you wanted to
 flights$Delay <- factor(flights$Delay,
                         levels = c(0, 1),
                         labels = c("On Time", "Delay"))
 ```
+:::
+
 
 So, we define the values as 0 = *On Time* and 1 = *Delay*:
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 table(flights$Delay)
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+
+On Time   Delay 
+ 299119  240264 
+```
+
+
+:::
+:::
+
 
 :::
 
@@ -173,16 +196,29 @@ I flipped my coin 200 times and I got 110 heads and 90 tails:
 
 
 ::: {.fragment fragment-index=3}
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 flips <- c(110, 90)
 
 chisq.test(flips)
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+
+	Chi-squared test for given probabilities
+
+data:  flips
+X-squared = 2, df = 1, p-value = 0.1573
+```
+
+
+:::
+:::
+
 
 :::
 
@@ -242,28 +278,46 @@ Where $O_i$ is the observed proportion of a category and $E_i$ is the expected p
 :::: {.columns}
 ::: {.column width="50%"}
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # this is the formula above written in R (scary math can be done pretty quickly in R)
 sum(((flips - 100)^2)/100)
 ```
 
+::: {.cell-output .cell-output-stdout}
+
+```
+[1] 2
+```
+
+
+:::
+:::
+
+
 :::
 ::: {.column width="50%"}
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # this gives the p-value (DFs in this case is always going to be the number of categories - 1)
 pchisq(2, df = 1, lower.tail = FALSE)
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+[1] 0.1572992
+```
+
+
+:::
+:::
+
 :::
 ::::
 
@@ -319,28 +373,39 @@ So, the $\chi^2$ formula *summarizes how different your observed data is compare
 
  I create a new `data.frame` that only includes *Delta* and *AA*:
  
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 AA_vs_DL <- flights %>%
               filter(Airline %in% c("AA", "DL"))
-
 ```
+:::
+
 
 And then I create a table:
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 tabl <- table(AA_vs_DL$Airline, AA_vs_DL$Delay)
 tabl
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+    
+     On Time Delay
+  AA   27920 17736
+  DL   33488 27452
+```
+
+
+:::
+:::
+
 
 :::
 
@@ -359,14 +424,27 @@ The null and alternative hypotheses are:
 
 </ul>
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 chisq.test(tabl)
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  tabl
+X-squared = 410.66, df = 1, p-value < 2.2e-16
+```
+
+
+:::
+:::
+
 
 :::
 :::
@@ -400,15 +478,27 @@ Even in the case of a table the formula to calculate the $\chi^2$ statistic is s
 
 We'll need expected frequencies later. We can extract them like so:
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 chi_test <- chisq.test(tabl)
 chi_test$expected
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+    
+      On Time    Delay
+  AA 26301.58 19354.42
+  DL 35106.42 25833.58
+```
+
+
+:::
+:::
+
 
 :::
 
@@ -420,15 +510,24 @@ chi_test$expected
 
 This works because the `chisq.test()` function actually saves a lot of information when you save it as an object.
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
-#| class-output: hscroll
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 names(chi_test)
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+``` hscroll
+[1] "statistic" "parameter" "p.value"   "method"    "data.name" "observed" 
+[7] "expected"  "residuals" "stdres"   
+```
+
+
+:::
+:::
+
 
 The same is true for many of the functions that we will see later in the course. 
 
@@ -490,15 +589,24 @@ Thus, it would be *really unlikely* to see a table of observed frequencies that 
 
 $W = \sqrt{\frac{\chi^2}{Total}}$
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # sum(tabl) sums all the values in the table, thus giving the total
 sqrt(410.66/sum(tabl))
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+[1] 0.06206843
+```
+
+
+:::
+:::
+
 
 :::
 :::
@@ -511,15 +619,24 @@ sqrt(410.66/sum(tabl))
 
 $V = \sqrt{\frac{\chi^2}{Total \times (k - 1)}}$, where $k$ is either the row or column with the smallest number of categories. 
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # When both columns and rows have 2 categories, W and V are equivalent
 sqrt(410.66/(sum(tabl)*(2 - 1)))
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+[1] 0.06206843
+```
+
+
+:::
+:::
+
 
 :::
 
@@ -586,23 +703,28 @@ Where $\ln()$ is the [natural logarithm](https://www.youtube.com/watch?v=daUlTsn
 
 ::: {.fragment fragment-index=1}
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # NOTE: It may be worth spending some time understanding why this line of code works 
 like_chi <- 2*sum(tabl*log(tabl/chi_test$expected))
 ```
+:::
 
-```{r}
-#| eval: true
-#| echo: false 
-#| code-line-numbers: false
-#| classes: code-125
-like_chi
+
+
+::: {.cell .code-125}
+::: {.cell-output .cell-output-stdout}
+
 ```
+[1] 411.9941
+```
+
+
+:::
+:::
+
 
 :::
 :::
@@ -614,15 +736,24 @@ like_chi
 
 We get a really similar $\chi^2$ value and therefore a really similar *p*-value:
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # DF are (Nrows - 1)*(Ncols - 1) = (2 - 1)*(2 - 1) = 1
 pchisq(like_chi, df = 1, lower.tail = FALSE) 
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+[1] 1.349157e-91
+```
+
+
+:::
+:::
+
 
 :::
 :::
@@ -646,15 +777,27 @@ Some smart math people have worked out that if any of the expected frequencies a
 
 The `chisq.test()` function applies this correction by default. You can see it in the output:
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
-#| class-output: hscroll
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 chisq.test(tabl)
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+``` hscroll
+
+	Pearson's Chi-squared test with Yates' continuity correction
+
+data:  tabl
+X-squared = 410.66, df = 1, p-value < 2.2e-16
+```
+
+
+:::
+:::
+
 
 This is good because there is no "disadvantage" to applying this correction, so it may as well be the default.
 
@@ -669,28 +812,48 @@ This is good because there is no "disadvantage" to applying this correction, so 
 
 $\chi^2_{adj} = \chi^2 \times \frac{N}{N -1}$, where $N$ is the sample size. 
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # get unadjusted chi-square (it will be very similar to the adjusted one because our expected proportions are really large)
 chi_unadj <- chisq.test(tabl, correct = FALSE)$statistic
 ```
+:::
 
-```{r}
-chi_unadj 
+
+
+::: {.cell}
+::: {.cell-output .cell-output-stdout}
+
+```
+X-squared 
+ 410.9175 
 ```
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+:::
+:::
+
+
+
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 chi_unadj*(sum(tabl)/(sum(tabl) - 1))
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+X-squared 
+ 410.9214 
+```
+
+
+:::
+:::
+
 
 The adjustment makes almost no difference because of the really large $N$. 
 
@@ -711,14 +874,33 @@ Fisher's exact test works by checking whether the **odds ratio** (see next slide
 :::
 
 ::: {.fragment fragment-index=2}
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 fisher.test(tabl)
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+
+	Fisher's Exact Test for Count Data
+
+data:  tabl
+p-value < 2.2e-16
+alternative hypothesis: true odds ratio is not equal to 1
+95 percent confidence interval:
+ 1.258956 1.322845
+sample estimates:
+odds ratio 
+  1.290446 
+```
+
+
+:::
+:::
+
 
 :::
 :::
@@ -802,39 +984,64 @@ In the case of our airplane example, we can look at the odds of both Delta and A
 
 <center>
 
-```{r}
-#| eval: true
-#| echo: false
-#| code-line-numbers: false
-#| classes: code-150
 
-tabl
+::: {.cell .code-150}
+::: {.cell-output .cell-output-stdout}
+
 ```
+    
+     On Time Delay
+  AA   27920 17736
+  DL   33488 27452
+```
+
+
+:::
+:::
+
 </center>
 
 ::: {.fragment fragment-index=1}
 
 The "success" in this case is the flight being delayed, so it goes on top in the numerator.
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # odds for AA 
 tabl[1,2]/tabl[1,1]
 ```
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
+::: {.cell-output .cell-output-stdout}
 
+```
+[1] 0.6352436
+```
+
+
+:::
+:::
+
+
+
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # odds for Delta
 tabl[2,2]/tabl[2,1]
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+[1] 0.8197563
+```
+
+
+:::
+:::
+
 **Note:** if you wanted the odds of flights being on time, you would flip the fractions above.
 :::
 
@@ -868,38 +1075,63 @@ In epidemiology language, **Risk** is the exact same as probability. We can get 
 
 <center>
 
-```{r}
-#| eval: true
-#| echo: false
-#| code-line-numbers: false
-#| classes: code-150
 
-tabl
+::: {.cell .code-150}
+::: {.cell-output .cell-output-stdout}
+
 ```
+    
+     On Time Delay
+  AA   27920 17736
+  DL   33488 27452
+```
+
+
+:::
+:::
+
 </center>
 
 ::: {.fragment fragment-index=1}
 Because risk is probability, now we use the sum of the row in the denominator. Delays are still treated as "successes":
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # risk for AA 
 tabl[1,2]/sum(tabl[1,])
 ```
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
+::: {.cell-output .cell-output-stdout}
 
+```
+[1] 0.3884703
+```
+
+
+:::
+:::
+
+
+
+::: {.cell .code-125}
+
+```{.r .cell-code  code-line-numbers="false"}
 # risk for Delta
 tabl[2,2]/sum(tabl[2,])
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+[1] 0.4504759
+```
+
+
+:::
+:::
+
 :::
 :::
 
@@ -930,15 +1162,46 @@ In practice, you probably want to use the `epitootls` package to calculate odds 
 :::: {.columns}
 ::: {.column width="50%"}
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
 
+```{.r .cell-code  code-line-numbers="false"}
 epitools::oddsratio.fisher(tabl)
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+$data
+       
+        On Time Delay  Total
+  AA      27920 17736  45656
+  DL      33488 27452  60940
+  Total   61408 45188 106596
+
+$measure
+    odds ratio with 95% C.I.
+     estimate    lower    upper
+  AA 1.000000       NA       NA
+  DL 1.290446 1.258956 1.322845
+
+$p.value
+    two-sided
+     midp.exact fisher.exact   chi.square
+  AA         NA           NA           NA
+  DL          0 1.502078e-91 2.314218e-91
+
+$correction
+[1] FALSE
+
+attr(,"method")
+[1] "Conditional MLE & exact CI from 'fisher.test'"
+```
+
+
+:::
+:::
+
 
 
 :::
@@ -967,15 +1230,46 @@ The `epitootls` package also has functions that calculates relative risk (also c
 :::: {.columns}
 ::: {.column width="50%"}
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
-#| max-height: 150px
 
+::: {.cell .code-125 max-height='150px'}
+
+```{.r .cell-code  code-line-numbers="false"}
 epitools::riskratio.wald(tabl)
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+$data
+       
+        On Time Delay  Total
+  AA      27920 17736  45656
+  DL      33488 27452  60940
+  Total   61408 45188 106596
+
+$measure
+    risk ratio with 95% C.I.
+     estimate    lower    upper
+  AA 1.000000       NA       NA
+  DL 1.159615 1.142957 1.176515
+
+$p.value
+    two-sided
+     midp.exact fisher.exact   chi.square
+  AA         NA           NA           NA
+  DL          0 1.502078e-91 2.314218e-91
+
+$correction
+[1] FALSE
+
+attr(,"method")
+[1] "Unconditional MLE & normal approximation (Wald) CI"
+```
+
+
+:::
+:::
+
 
 :::
 ::: {.column width="50%"}
@@ -1005,15 +1299,46 @@ By default, the `epitools` functions take the odds or risk of the *first row*, a
 :::: {.columns}
 ::: {.column width="50%"}
 
-```{r}
-#| eval: true
-#| echo: true 
-#| code-line-numbers: false
-#| classes: code-125
 
+::: {.cell .code-125}
 
+```{.r .cell-code  code-line-numbers="false"}
 epitools::oddsratio.fisher(tabl, rev = "rows")
 ```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+$data
+       
+        On Time Delay  Total
+  DL      33488 27452  60940
+  AA      27920 17736  45656
+  Total   61408 45188 106596
+
+$measure
+    odds ratio with 95% C.I.
+      estimate     lower     upper
+  DL 1.0000000        NA        NA
+  AA 0.7749256 0.7559463 0.7943092
+
+$p.value
+    two-sided
+     midp.exact fisher.exact   chi.square
+  DL         NA           NA           NA
+  AA          0 1.502078e-91 2.314218e-91
+
+$correction
+[1] FALSE
+
+attr(,"method")
+[1] "Conditional MLE & exact CI from 'fisher.test'"
+```
+
+
+:::
+:::
+
 
 
 :::
@@ -1065,6 +1390,7 @@ If you are dealing with lots of categorical data, I *highly recommend* you try t
 ## References 
 
 <div id="refs"> </div>
+
 
 
 
