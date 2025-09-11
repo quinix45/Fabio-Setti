@@ -821,7 +821,7 @@ The one thing that I will say is that, fundamentally, *statistics* try to explai
 :::
 
 :::{.fragment fragment-index=6} 
-So, statistical models (yes, the *t*-test is a statistical model), are a simplified explanations of reality that expect to see certain patterns in the data. Checking assumptions involves evaluating how different the osberved data is from what your model would expect.
+So, statistical models (yes, the *t*-test is a statistical model), are a simplified explanations of reality that expect to see certain patterns in the data. Checking assumptions involves evaluating how different the observed data is from what your model would expect.
 :::
 
 ## Normality of Groups: Descriptives
@@ -858,7 +858,7 @@ dat %>%
 
 </br>
 
- <p style='font-size: 30px'> Judging by the skewnwss and kurtosis alone, I would not be very concenred about the non normality of the data.   </p>
+ <p style='font-size: 30px'> Judging by the skewness and kurtosis alone, I would not be very concerned about the non normality of the data.   </p>
 
 
 </br>
@@ -942,7 +942,7 @@ ggplot(dat,
 ```
 
 ::: {.fragment fragment-index=1}
-Here it is even more apparent that the distribution of the two groups does not resamble a normal distribution. 
+Here it is even more apparent that the distribution of the two groups does not resemble a normal distribution. 
 
 The two graphical methods reveal issues that descriptive statistics alone do not quite pick up on.
 :::
@@ -1067,7 +1067,7 @@ Once again, no outliers. We will talk about other outlier detection methods late
 
 ## Wilcoxon Signed-Rank Test
 
-What we saw on the previous slides is that the `Overall_Rating` variable really does not seem normally distributed in any of the two groups. In these cases, it is more prodent to run **non-parametric tests**. 
+What we saw on the previous slides is that the `Overall_Rating` variable really does not seem normally distributed in any of the two groups. In these cases, it is more prudent to run **non-parametric tests**. 
 
 :::{.fragment fragment-index=1}
 Non-parametric tests usually require less assumptions and their results are more robust when there are some assumption violations. The trade-off (if you like *p*-values) is that they are always *less powerful* (see Lab 5) and make it harder to reject $H_0$. In the case of the *t*-test, one non-parametric alternative is the [Wilcoxon Signed-Rank Test](https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test){target='_blank'}.

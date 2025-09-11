@@ -62,10 +62,9 @@ theme_set(theme_classic(base_size = 16,
 
 ::: {.panel-tabset}
 
-### `effectsize`
+### `pwr`
 
-The `effectsize` package [@ben-shachar2025] provides functions that compute effect sizes for a wide variety of effect sizes that are commonly used in statistical analyses. 
-
+The `pwr` package [@champely_etal_2020] includes functions to conduct power analysis for some statistical analyses and experimental designs. Click [here](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html){target='_blank'} for examples on all the types of power calculations that the package allows for.
 :::
 
 :::
@@ -74,8 +73,8 @@ The `effectsize` package [@ben-shachar2025] provides functions that compute effe
 
 <center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
 
-Today we will work with the [Cuisine_rating.csv](https://www.kaggle.com/datasets/surajjha101/cuisine-rating){target='_blank'} data, which is a collection of ratings of different restaurants by 200 customers:
- 
+We won't look at data too much today, but let's load the data from last lab, which will come up for *retrospective* power analysis.
+
 ```{r}
 #| eval: true
 #| echo: true 
