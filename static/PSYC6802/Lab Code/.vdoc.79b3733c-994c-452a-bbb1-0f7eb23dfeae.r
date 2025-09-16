@@ -1,0 +1,17 @@
+#
+#
+#
+#
+install.packages("pwr")
+#
+#
+#
+library(pwr)
+#
+#
+#
+#
+#
+#
+#
+#

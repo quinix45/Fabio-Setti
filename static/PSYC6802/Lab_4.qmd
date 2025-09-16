@@ -485,7 +485,7 @@ Some notes about the code:
 
 
 ::: {.fragment fragment-index=2}
-So, the average food rating is significantly different from 3 at $\alpha = .05$, $t(199) = 2.2, p = .02, 95\% \mathrm{CI}[3.03; 3.42]$.
+So, the average food rating is significantly different from 3 at $\alpha = .05$, $t(199) = 2.2$, $p = .02$, $95\% \mathrm{CI}[3.03; 3.42]$.
 :::
 
 ::: {.fragment fragment-index=3}
@@ -516,7 +516,7 @@ For the case of our sample, *d* is
 ```
 
 <center>  
-According to @cohen1988:
+According to @cohen_1988:
 
 <ul style="font-size: 24px">  
 

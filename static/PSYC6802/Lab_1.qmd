@@ -218,7 +218,8 @@ The RStudio interface is divided into **4 panes**:
 
 :::{.fragment .fade-in fragment-index="3"}
 :::{.callout-note}
-## \*More about the "Console"
+
+### More about the "Console"
 <p style="font-size:14px"> You can actually write and run code directly in the console, but you cannot save your code (which you should always do!). When you run your code from the Source pane, RStudio sends it to the console to be interpreted. All computer code is just plain text; what you need to run code of a certain computer language is to have something that interprets it and runs it. The R console is what interprets and runs your code (Hence why you need to have R on your computer to use R in RStudio) </p>
 :::
 :::
@@ -228,7 +229,6 @@ The RStudio interface is divided into **4 panes**:
 
 
 ## Creating an R Script
-
 
 :::: {.columns}
 ::: {.column width="50%"}

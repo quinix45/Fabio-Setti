@@ -147,7 +147,7 @@ This Lab introduces one-sample, paired-samples, and independent-samples *t*-test
 
 <h3> 5. Power </h3>
 
-Coming soon!
+This lab introduces power analysis with the [`pwr`](https://cran.r-project.org/web/packages/pwr/index.html) package. The types of power analyses discussed in this lab are mostly for basic statistical analyses such as &#967;<sup>2</sup> tests, and *t*-tests. The appendix also includes power analyses examples for *F*-tests, correlation, and regression.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_5.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
