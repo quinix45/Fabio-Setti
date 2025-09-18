@@ -64,7 +64,7 @@ theme_set(theme_classic(base_size = 16,
 
 ### `effectsize`
 
-The `effectsize` package [@ben-shachar2025] provides functions that compute effect sizes for a wide variety of effect sizes that are commonly used in statistical analyses. 
+The `effectsize` package [@ben-shachar_etal_2025] provides functions that compute effect sizes for a wide variety of effect sizes that are commonly used in statistical analyses. 
 
 :::
 
@@ -107,7 +107,7 @@ In general, *t*-tests are used to test whether some number is significantly diff
 
 <li> **One-sample *t*-test:** This test is used to test whether a statistic is significantly different from some value. This is actually the most common type of *t*-test, and in later labs, we will see that this is the *t*-test used to test the significance of *regression coefficients*. </li>
 
-<li> **Paired-samples *t*-test:** This test is used to to check mean difference between *2 dependent samples*. We will soon see that this test is equivalent to a one-sample *t*-test. </li>
+<li> **Paired-samples *t*-test:** This test is used to check mean difference between *2 dependent samples*. We will soon see that this test is equivalent to a one-sample *t*-test. </li>
 
 <li> **independent-samples *t*-test:** This test is used to test mean differences between *2 independent samples*. </li>
 
@@ -175,7 +175,7 @@ The $SE$ is the standard deviation of the **sampling distribution** (makes no se
 :::
 
 ::: {.fragment fragment-index=4}
- <p style='font-size: 26px'> Let's say that you collect some data and then calculate some mean, $\bar{x}$. And then, let's say that in some imaginary reality you are able to re-collect the data in the exact same way an infinite number of times. Each time you collect the data you calculate $\bar{x}$ in the same way, eventually ending up with a *distribution of* $\bar{x}$s. </p>
+ <p style='font-size: 26px'> Let's say that you collect some data and then calculate some mean, $\bar{x}$. And then, let's say that in some imaginary reality you are able to re-collect the data in the exact same way an infinite number of times. Each time you collect the data you calculate $\bar{x}$ in the same way, eventually ending up with a *distribution of* $\bar{x}_s$. </p>
 :::
 
 ::: {.fragment fragment-index=5}
