@@ -765,7 +765,7 @@ A **package** is simply a collection of functions that other users make for ever
 :::
 
 ::: {.fragment fragment-index=2}
-Let's install a package that makes opening data in R very smooth, the `rio` package [@becker2024]:
+Let's install a package that makes opening data in R very smooth, the `rio` package [@becker_etal_2024]:
 
 ```{r}
 #| eval: false
@@ -1204,7 +1204,7 @@ Before we can create PDFs with quarto, there are <u>**2 important steps**</u> th
 ::: {.fragment fragment-index=1}
 <center> **Step 1:** </center>
 
-First, you need to install the `rmarkdown` package [@allaire2024]. 
+First, you need to install the `rmarkdown` package [@allaire_etal_2024]. 
 
 ```{r}
 #| eval: false

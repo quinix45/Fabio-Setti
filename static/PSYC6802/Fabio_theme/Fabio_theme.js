@@ -123,12 +123,11 @@ function onClassChange(element, callback) {
 
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Function to automatically apply the .image classes to all <img> elements
+  // Function to automatically apply the .image class to .cell-output divs
   function applyImageClass() {
-      const images = document.querySelectorAll('div img');
-      images.forEach(img => {
-          img.classList.add('image');
-          //img.classList.add('draggable');
+      const elements = document.querySelectorAll('img, .cell-output');
+      elements.forEach(el => {
+          el.classList.add('image');
       });
   }
 
@@ -200,16 +199,12 @@ document.addEventListener('DOMContentLoaded', function() {
               }
           });
       });
-  }
+  };
 
-  // Function to check if any zoom class is applied
-  function hasZoomClass(img) {
-      return zoomClasses.some(zoomClass => img.classList.contains(zoomClass));
-  }
 
   // Event listener for image clicks
   document.querySelectorAll('.image').forEach(img => {
-      img.addEventListener('click', function(e) {
+      img.addEventListener('dblclick', function(e) {
           e.preventDefault();
           currentImage = e.target;
 
@@ -222,16 +217,23 @@ document.addEventListener('DOMContentLoaded', function() {
           contextMenu.style.top = `${e.pageY}px`;
       });
 
-      // Event listener for right-click (context menu) to handle zoom class removal
-      img.addEventListener('contextmenu', function(e) {
-          if (hasZoomClass(img)) {
-              e.preventDefault(); // Prevent the default context menu if zoom classes are present
-              zoomClasses.forEach(zoomClass => {
-                  img.classList.remove(zoomClass);
-              });
-          }
-      });
+    
   });
+
+// remove code output zoom
+
+document.addEventListener('contextmenu', function(e) {
+    const el = e.target;
+
+    // Check if the clicked element has any zoom class
+    const hasZoom = zoomClasses.some(cls => el.classList.contains(cls));
+    if (hasZoom) {
+        e.preventDefault(); // Prevent default context menu
+        zoomClasses.forEach(cls => el.classList.remove(cls));
+    }
+});
+
+
 
   // Hide the context menu when clicking outside
   document.addEventListener('click', function(e) {
@@ -416,10 +418,10 @@ setTimeout(function() {
 }, 500); // half a second
 
 
-// crearte hiden search box on document load
+// Create hidden search box on document load
 
 
-// pull up search menu when clicking on search icon
+// Pull up search menu when clicking on search icon
 
 document.addEventListener('DOMContentLoaded', function () {
   // Create the span element
@@ -638,7 +640,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// fullscreen 
+// full screen 
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -660,7 +662,7 @@ document.addEventListener('DOMContentLoaded', function () {
   svg.style.cursor = 'pointer';
   svg.style.verticalAlign = 'top';
 
-  // Toggle fullscreen on click
+  // Toggle full screen on click
   svg.addEventListener('click', function () {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();

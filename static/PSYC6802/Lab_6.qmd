@@ -12,6 +12,7 @@ format:
       footer: "PSYC 6802 - Lab 6: Correlation/Regression"
       width: 1280
       height: 720
+      fig-format: svg
       chalkboard: true
       slide-number: c/t 
       theme: Fabio_theme/Fabio_theme.scss
@@ -25,7 +26,1436 @@ editor: source
 build: local
 ---
 
+## Today's Packages and Data 🤗
 
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-125
+
+
+# run for packages that you have not installed yet
+# install.packages("tidyverse")
+install.packages("psych")
+install.packages("carData")
+```
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(psych)
+library(carData)
+library(tidyverse)
+# I am setting a theme for all the plots
+theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
+                        base_family = 'serif'))
+```
+
+</br>
+
+::: {.panel-tabset}
+
+### `psych`
+
+The `psych` package [@revelle_2024]  includes MANY functions that help with data exploration and running analyses typically done in the social sciences. It is particluarly useful for exploratory factor analyses. 
+
+### `carData`
+
+The `carData` package [@fox_etal_2022] contains many datasets. Most of these datasets are used in the book titled *an R Companion to Applied Regression*.
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+Today we will work with the `prestige` dataset. This dataset contains the perceived prestige and other variables related to 102 professions in Canada in 1971.
+ 
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat <- carData::Prestige
+```
+
+```{r}
+library(labelled)
+library(FabioFun)
+
+dat_labs <- rio::import("https://fabio-setti.netlify.app/data/prestige.sav")
+labels <- as.character(var_label(dat_labs))
+
+labels <- labels[-1]
+
+
+labels_react <- reactbl_col.desc(names = colnames(dat),
+                                 desc =  labels,
+                                 style = "cursor: pointer; text-decoration: none;",
+                                 info_color = "#7a0b80")
+
+reactable::reactable(dat,
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = ".9rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300, columns = labels_react)
+```
+
+:::
+::::
+
+
+## Association Between Variables
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+When look at scatterplots, we can intuitively spot *associations between two variables*. 
+
+
+::: {.fragment fragment-index=1}
+
+If we plot `eduaction` and `prestige`, we can tell that there is some sort of **trend**; as the values of one variable increase, the values of the other variable also increase. 
+:::
+
+
+::: {.fragment fragment-index=2}
+
+<center style="font-size:32px"> In simple terms, both correlation and regression provide some *numerical summaries* of these trends/associations. 
+</center>
+
+:::
+
+
+
+:::
+::: {.column width = '70%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| out-width: "100%"
+#| code-line-numbers: false
+#| classes: code-125
+
+
+ggplot(data = dat,
+        aes(x = education, y = prestige)) +
+          geom_point()
+```
+
+
+:::
+::::
+
+
+## Covariance
+
+The most basic measure of association between two continuous cariables is the **covariance**. The *sign* of the covaraince describes the *direction* of the relation between two variables:
+
+
+:::: {.panel-tabset}
+
+### Positive Covariance
+
+:::: {.columns}
+::: {.column width = '50%'}
+```{r}
+#| eval: true
+#| echo: true 
+#| out-width: "100%"
+#| code-line-numbers: false
+#| classes: code-125
+
+
+ggplot(data = dat,
+        aes(x = education, y = prestige)) +
+          geom_point()
+```
+
+
+:::
+::: {.column width = '50%'}
+
+We can use `cov()` to calculate the covariance between `education` and `prestige`:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cov(dat$education, dat$prestige)
+```
+
+
+The covariance is positive so we know that as one variable increases or decreases, so does the other variable. In this case, the higher the average years of `education` of individuals in a profession, the higher the perceived `prestige` of that profession.
+
+
+:::
+::::
+
+### Negative Covaraince
+
+:::: {.columns}
+::: {.column width = '50%'}
+```{r}
+#| eval: true
+#| echo: true 
+#| out-width: "100%"
+#| code-line-numbers: false
+#| classes: code-125
+
+
+ggplot(data = dat,
+        aes(x = women, y = income)) +
+          geom_point()
+```
+
+
+:::
+::: {.column width = '50%'}
+
+If we calculate the covariance between `women` and `income`:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cov(dat$women, dat$income)
+```
+
+
+We see that the covariance is negative. meaning that, in 1971, the more women were in a certain profession, the less was the average income for that profession.
+
+:::
+::::
+
+::::
+
+
+
+## When Comparisons are meaningless
+
+
+
+On the previous slide we say that the first covariance was around $39.9$ and the second covariance was around $-59411.38$. Does this mean that the second relationship is much stronger than the first one? Absolutely not. The values of covariances cannot be compared when variables are measured on *different scales*. The formula for the covariance is:
+
+::: {.fragment fragment-index=1}
+$$S_{xy} = \frac{\sum (x_i - \bar{x}) \times (y_i - \bar{y})}{n - 1}$$
+
+:::
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+The raw covariance values are meaningless because the `income` variable is measured on a scale that is much larger than either `education` or `prestige`.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# Range of 3 variables. apply() functions apply the same function to multiple columns/rows of a matrix
+apply(dat[,1:3], 2, range)
+```
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=3}
+
+If you look at the formula for $S_{xy}$, when `income` is involved, you can expect the result to be quite large. 
+
+
+Asking which covariance is larger is essentially the same as asking whether 84 degrees Fahrenheit is larger than 30 degrees Celsius. 
+
+:::
+
+
+::: {.fragment fragment-index=4}
+Actually what would you do to answer the question in the line above? 🤔
+:::
+
+
+:::
+::::
+
+
+## Changing Variable Scales: Standardization
+
+
+::: {.fragment fragment-index=1}
+
+To compare measurements on different scales (Fahrenheit VS Celsius), we need to *transform* one of them, such that they are on the *same scale*. We have briefly talked about *Z-scores* in [Lab 4](https://fabio-setti.netlify.app/psyc6802/lab_4#/outliers-standardized-units){target='_blank'}. Turning variables into Z-scores is known as **standardizing** and it is just a convenient way of rescaling variables such that they are all on the same scale. For any variable $X$:
+
+$$z_i = \frac{x_i - \bar{x}}{S_x}$$
+
+:::
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+we can standardize variables with the `scale()` function:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# here I am adding the standardized variable to the dataset
+dat$education_std <- scale(dat$education)[,1]
+```
+
+**NOTE:** remember to always add the `[,1]` when using the `scale()` function. Try running `scale(dat$education)` and look at the output.
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=3}
+
+Any standardized variable will have mean = 0 and sd (or variance) = 1:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+mean(dat$education_std)
+sd(dat$education_std)
+```
+
+:::
+
+:::
+::::
+
+
+## The Steps Graphically
+
+The important point is that standardizing does not change the shape of the distribution of a variable, it just moves it and resizes it. let's look at what happens step by step when we standardize `education`:
+
+:::: {.panel-tabset}
+
+### Original Distribution
+
+:::: {.columns}
+::: {.column width = '70%'}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat, aes(x = education)) +
+  geom_density(aes(color = "Raw")) +
+  xlim(c(-10, 20)) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_color_manual(
+    values = c("Raw" = "blue"),
+    name = "",
+    labels = c( "Raw" = expression(x[i]))) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y  = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.y  = element_blank())
+```
+
+
+:::
+::: {.column width = '30%'}
+
+The blue density is the original `education` variable and it represents the average years of education for each of the 102 occupations in the data.
+
+This is the $x_i$ part of the formula
+
+$$z_i = \frac{x_i - \bar{x}}{S_x}$$
+
+
+:::
+::::
+
+
+### Subtract the Mean
+
+:::: {.columns}
+::: {.column width = '70%'}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat, aes(x = education)) +
+  geom_density(aes(color = "Raw")) +
+  geom_density(aes(x = education - mean(dat$education), color = "Centered")) +
+  xlim(c(-10, 20)) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_color_manual(
+    values = c("Raw" = "blue",
+               "Centered" = "red"),
+    name = "",
+    labels = c(
+      "Raw" = expression(x[i]),
+      "Centered" = expression(x[i] - bar(x)))) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y  = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.y  = element_blank())
+
+```
+
+
+:::
+::: {.column width = '30%'}
+
+The red density is the `education` variable after we subtract its mean from all the values. So the red density represents the the $x_i - \bar{x}$ part of $z_i = \frac{x_i - \bar{x}}{S_x}$. 
+
+
+This is known as **mean centering**, and it comes up in moderation anlyses to get easier interpretations. 
+
+:::
+::::
+
+
+
+
+### Divide By the SD
+
+
+:::: {.columns}
+::: {.column width = '65%'}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat, aes(x = education)) +
+  geom_density(aes(color = "Raw")) +
+  geom_density(aes(x = education - mean(dat$education), color = "Centered")) +
+  geom_density(aes(x = (education - mean(dat$education)) / sd(dat$education),
+                   color = "Standardized")) +
+  xlim(c(-10, 20)) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_color_manual(
+    values = c("Raw" = "blue",
+               "Centered" = "red",
+               "Standardized" = "purple"),
+    name = "",
+    labels = c(
+      "Raw" = expression(x[i]),
+      "Centered" = expression(x[i] - bar(x)),
+      "Standardized" = expression((x[i] - bar(x)) / S[x])
+    )
+  ) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y  = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.y  = element_blank())
+```
+
+
+:::
+::: {.column width = '35%'}
+
+The purple density is $z_i = \frac{x_i - \bar{x}}{S_x}$. Dividing by the SD "squishes" the distribution, but the shape does not change! The important implication is that standardizing *does not change the relation* between variables. 
+
+
+<p style='font-size: 22px'> Note that there is nothing special about mean = 0 and SD = 1. You could add any value and that will become the new mean. Having a mean of 0 and an SD of 1 usually makes things easier. </p>
+
+
+
+:::
+::::
+
+::::
+
+
+## Covariance With standardized Variables?
+
+Let's standardize the variables from before, compute the covariance again and see what happens:
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat$education_std <- scale(dat$education)[,1]
+dat$prestige_std <- scale(dat$prestige)[,1]
+dat$women_std <- scale(dat$women)[,1]
+dat$income_std <- scale(dat$income)[,1]
+```
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+
+With the original variables we got:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cov(dat$education, dat$prestige)
+cov(dat$women, dat$income)
+```
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=2}
+With the standardized variables, we get:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cov(dat$education_std, dat$prestige_std)
+cov(dat$women_std, dat$income_std)
+```
+
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=3}
+While originally the covariance between `women` and `income` had a much larger number, once the variables are standardized, the relation between `education` and `prestige` has the larger number. 
+:::
+
+
+::: {.fragment fragment-index=4}
+The numbers in the right column are the **correlation coefficient** between the variables and are definitely what we should look at when determining how strong a relation is.
+:::
+
+
+## It was the Correlation all Along
+
+You don't hear about covariance very often because it is not interpretable, as its value depend on the scale of the original variables. The **correlation**, denoted with $r$, is the <u>standardized covariance</u> and has the benefit of always being between -1 and 1. 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+
+we can compute the correlation between two variables with the `cor()` function:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# We use the original variables because they are standardized within the correlation formula. The steps from before were only intended to demonstrate the equivalence between correaltion and covariance
+cor(dat$education, dat$prestige)
+cor(dat$women, dat$income)
+```
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+- $r = 0$: a correlation of 0 exactly means that there is *no linear association* between two variables.
+
+- $r > 0$: a correlation above 0 means that there is a *positive linear association* between two variables.  
+
+- $r < 0$: a correlation below 0 means that there is a *negative linear association* between two variables. 
+
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=3}
+So, there is a strong positive relation between `education` need for a certain occupation and the perceived `prestige` of that occupation. 
+:::
+
+::: {.fragment fragment-index=4}
+Likewise, there is a fairly noticeable negative relation between the average `income` by profession and the percentage of women practicing that profession.
+:::
+
+## Significance Test for Correlation
+
+The `cor()` function does not provide any *p*-value. We need to use the `corTest()` function from the `psych` package for that. Here is the example for the correaltion between `education` and `prestige`:
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+psych::corTest(dat$education, dat$prestige)
+```
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+Lots of text! But if we take a closer look it should be fairly straightforward:
+
+- The correlation, $r = .85$, is below the `Correlation matrix` line.
+
+- The sample size, $n = 102$, is also returned.
+
+- The *p*-value is the last number displayed. Here it's so small that the function just rounds to 0, so, $p < .001$.
+
+:::
+
+:::
+::::
+
+</br>
+
+::: {.fragment fragment-index=3}
+
+The last line of the output tells us that if we want the 95\% CI for the correlation coefficient, we can get that by adding the `short=FALSE` argument to the `corTest()` function.
+
+:::
+
+## Correlation matrices
+
+Correlation matrices are  square tables that summarize the correlation between a set of variables. 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+Here is the correlation matrix among the first 4 variables in the the data:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cor(dat[,1:4])
+```
+
+Each cell is the correlation between the variables in the row and column. Notice that the matrix is *symmetric*, meaning that the values in the top and bottom triangle are the same. This is because $\mathrm{cor(x, y)} = \mathrm{cor(y, x)}$. 
+
+Why would the diagonal be all 1s?
+
+:::
+
+
+:::
+
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=2}
+
+You can get the equivalent with the `corTest()` function, but I suggest you do this:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cor_mat <- corTest(dat[,1:4])
+cor_mat$r
+```
+
+
+Notice how we are extracrting the `r` element from the `cor_mat` object that we created. The `r` element is the correlation matrix, but there's much more information inside `cor_mat`. 
+
+:::
+
+:::
+::::
+
+## Contents of `cor.test()`
+
+When reporting results you will usually need to also report the significance tests (see this slide N for APA style resources) and other information. Let's look at the names of the elements inside `cor_mat`:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+names(cor_mat)
+```
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+The `ci` element gives a neater output and also the CIs and *p*-values!
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+round(cor_mat$ci, digits = 3)
+```
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+the `t` element are the *t*-statistics associated with all the correlations:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+round(cor_mat$t, digits = 2)
+```
+
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=3}
+To find out what all the elements are, look under the **value** section of the `corTest()` help menu.
+:::
+
+## Point-Bisedrial Correlation {visibility="hidden"}
+
+Correlation should only be used to measure the association between continuous variables. What to do if one variable is dichotomous and the other is continuous? We can use the **point-biserial correlation**. 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+We need a *dichotomous* variable (i.e., only two categories). For the sake of the example, let's filter the data such that we only have `bc` and `wc` for the `type` variable
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# wc and bc stand for blue collar and white collar
+dat_filt <- dat %>% 
+             filter(type %in% c("wc", "bc"))
+
+table(dat_filt$type)
+```
+
+So now we are only left with blue collar and white collar jobs.
+
+:::
+::: {.column width = '50%'}
+
+What is the relation between `type` and `income`? We can use the `biserial()` function from the `psych` package to calculate the point-biserial correlation:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+psych::biserial(dat_filt$income, 
+                dat_filt$type)
+```
+
+Surprisingly, there isn's that much of a relation between job type and income (although we are comparing only white collar and blue collar jobs)
+
+:::
+::::
+
+
+## Linear Regression
+
+Onto what is probably the most important analysis in statistics, **linear regression**. On slide 2 we showed the scatterplot between `education` and `prestige`, and saw a noticeable trend.
+
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+A *regression line* capture the linear trend between two variables.
+
+More importantly, the regression line has a very simple mathematical form, 
+
+$$y = b_0 + b_1 \times x$$
+
+In the case of this graph, we would write: 
+
+$$\mathrm{prestige} = b_0 + b_1 \times \mathrm{education}$$
+
+
+meaning that we think that perceived occupation `prestige` is *predicted* by the `education` required for that occupation.
+
+:::
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+ggplot(data = dat,
+        aes(x = education, y = prestige)) +
+          geom_point() +
+           geom_smooth(method = "lm")
+```
+
+:::
+::::
+
+## Running a Regression in `R`
+
+We can run a regression in `R` by using the `lm()` function (stand for *linear model*). Let's run a regression with `education` predicting `prestige`:
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg <- lm(prestige ~ education, dat = dat)
+summary(reg)
+```
+
+:::
+::: {.column width = '45%'}
+
+we use the `summary()` function to get a summary of the results of an `lm` object. A quick overview of the output:
+
+<ul style='font-size: 26px'>
+
+<li> `call:` this is just the function formula. </li>
+
+<li> `Residuals:` this gives a quick summary of the distribution of the *residuals*. (more on residuals later) </li>
+
+<li> `coefficients:` this is where you find the regression coefficients along with their significance test. </li>
+
+<li> The last part contains the $R^2$, which is a measure of how good the regression predicts the $y$ variable. </li>
+
+</ul>
+
+
+:::
+::::
+
+
+## The Coefficients
+
+The syntax for `lm()` is the same that we used for the independent samples *t*-test. `prestige ~ education` is saying "predict `prestige` with `education`". The we have to specify the data where the variables come from with `data =`. 
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg <- lm(prestige ~ education, dat = dat)
+summary(reg)
+```
+
+:::
+::: {.column width = '45%'}
+
+our regression coffiecents are $b_0$ and $b_1$.
+
+<ul style='font-size: 24px'>
+
+<li> $b_0 = -10.73$, the *intercept*:  The *expected value* of `prestige` when `education` is 0. You may notice that that `prestige` cannot ever be below 0, so this should be impossible in practice (see next slide). </li>
+
+<li> $b_1 = 5.36$, the *slope*: The *expected change* in `prestige` per 1-unit increase in `education`.  </li>
+
+</ul>
+
+The regression equation is 
+
+$$\mathrm{prestige} = -10.73 + 5.36 \times \mathrm{education}$$
+
+:::
+::::
+
+## Regression Coefficients: Intercept
+
+The intercept, $b_0$, is the "expected value of the $y$ variable when $x$ is 0". In our case, $b_0 = -10.73$. This number makes no sense for two reasons: *(1)* `prestige` cannot be negative, and *(2)* `education` cannot be 0. What is going on? 🤨
+
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+The intercept is mathematically where the regression line hits the $y$-axis. If the the 0 value for $x$ is out of range, than the intercept will generally be meaningless.
+
+This is not an "issue" and it's only a consequence of the *scale* of our variables. We will see what happens once we standardize our variables.
+
+In practice, you do not care much about the intercept, as it does not carry any information about the relation between the $x$ and $y$ variables.
+
+:::
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+
+ggplot(data = dat,
+        aes(x = education, y = prestige)) +
+          geom_point() +
+            geom_abline(intercept =  as.numeric(reg$coefficients[1]), 
+                        slope =  as.numeric(reg$coefficients[2], 
+                        fill = "#7a0b80"))+
+             geom_vline(xintercept = 0, lty = 2) +
+             geom_segment(y = as.numeric(reg$coefficients[1]), x = 0,
+                          yend = as.numeric(reg$coefficients[1]), xend = -10, lty = 3) +
+            annotate("text", x = -3, y = 0, label = "the dot is the \n intercept") +
+            geom_point(aes(x = 0, y = as.numeric(reg$coefficients[1]), col = "red", size = 3), show.legend = FALSE) +
+             xlim(c(-5, 20)) +
+             ylim(c(-30, 90))
+
+```
+
+:::
+::::
+
+## Regression Coefficients: Slope
+
+The slope, $b_1$, is the "expected change in the $y$ variable for each 1-unit change in the $x$ variable". In our case, $b_1 = 5.36$. This sounds much harder than it is in practice. Given the equation
+$$\mathrm{prestige} = -10.73 + 5.36 \times \mathrm{education}$$
+
+We can plug in some values for `education` and get the *predicted value* for `prestige`. 
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+- if $\mathrm{education} = 1$, then $\mathrm{prestige} = -10.73 + 5.36 \times 1 = -5.37$
+
+
+- if $\mathrm{education} = 2$, then $\mathrm{prestige} = -10.73 + 5.36 \times 2 = -0.01$
+
+
+- if $\mathrm{education} = 10$, then $\mathrm{prestige} = -10.73 + 5.36 \times 10 = 42.87$
+
+:::
+
+
+::: {.column width = '50%'}
+
+the "1-unit change" part comes from the $5.36 \times \mathrm{education}$ term in the regression equation. 
+
+As you change `education` by 1, `prestige` changes by $5.36$ times that. If you change `education` by 2-units, then `prestige` changes by $10.72$.
+:::
+::::
+
+Note that the *sign* of the slope tells you whether two variables are positively or negatively related. As we already saw with the correlation, `prestige` and `education` are positively related.
+
+
+## More Slopes Examples
+
+It follows that the sign of the slope determines whether the line trends up (positive slope) or down (negative slope). Here are some examples:
+
+
+:::: {.panel-tabset}
+
+### Positive Relation
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "plot Code"
+
+ggplot(data = dat,
+        aes(x = education, y = prestige)) +
+          geom_point() +
+          geom_smooth(method = "lm", se = FALSE)
+```
+
+
+:::
+::: {.column width = '30%'}
+
+Correlation:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+cor(dat$prestige, dat$education)
+```
+
+
+
+
+Slope:
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+lm(prestige ~ education, data = dat)$coef[2]
+```
+
+
+:::
+::::
+
+### No/Small Relation
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "plot Code"
+
+ggplot(data = dat,
+        aes(x = women, y = education)) +
+          geom_point() +
+          geom_smooth(method = "lm", se = FALSE)
+```
+
+:::
+::: {.column width = '30%'}
+
+Correlation:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cor(dat$women, dat$education)
+```
+
+
+Slope:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+lm(education ~ women, data = dat)$coef[2]
+```
+
+:::
+::::
+
+
+### Negative Relation
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "plot Code"
+
+ggplot(data = dat,
+        aes(x = women, y = income)) +
+          geom_point() +
+          geom_smooth(method = "lm", se = FALSE)
+```
+
+
+
+:::
+::: {.column width = '30%'}
+
+Correlation:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cor(dat$women, dat$income)
+```
+
+
+Slope:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+lm(income ~ women, dat)$coef[2]
+```
+
+
+
+:::
+::::
+
+::::
+
+
+## Regression With stndardized Variables
+
+Let's look at what happens when we run a regression with the same variables, but standardized. What is the same and what is different? 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg <- lm(prestige ~ education, dat = dat)
+summary(reg)
+```
+
+
+:::
+::: {.column width = '50%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_std <- lm(prestige_std ~ education_std, dat = dat)
+summary(reg_std)
+```
+
+:::
+::::
+
+## A Graphical Comparison
+
+
+Before we look at the difference more closely, the two regressions on the previous slide are <u>equivalent</u>. As you can see, the two plots are indistingushable, save for the names and values of the *x* and *y* axes.
+
+<br>
+
+:::: {.columns}
+::: {.column width = '50%'}
+<center style="padding-bottom:12px;"> **Scatterplot for standardized variables** </center>
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "plot Code"
+
+ggplot(data = dat,
+        aes(x = education, y = prestige)) +
+          geom_point() +
+          geom_smooth(method = "lm", se = FALSE)
+```
+
+:::
+
+::: {.column width = '50%'}
+
+<center style="padding-bottom:12px;"> **Scatterplot for original variables** </center>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "plot Code"
+
+ggplot(data = dat,
+        aes(x = education_std, y = prestige_std)) +
+          geom_point() +
+          geom_smooth(method = "lm", se = FALSE)
+```
+
+:::
+::::
+
+
+## Standardized Coefficients: Intercept
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+Whenever we standardize all the variables in a regression, the intercept will always be 0.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+round(reg_std$coef[1], 3)
+```
+
+This is because standardizing has the effect of centering the data, and the regression line, at the 0 point. 
+
+
+This is apparent in the graph on the right, where the regression line hits the *y*-axis at 0 exactly.
+
+:::
+::: {.column width = '70%'}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| out-width: "110%"
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(data = dat,
+        aes(x = education_std, y = prestige_std)) +
+          geom_point() +
+          geom_hline(yintercept = 0, lty = 3) +
+          geom_vline(xintercept = 0, lty = 3) +
+          geom_smooth(method = "lm", se = FALSE)
+```
+
+:::
+::::
+
+
+## Standardized Coefficients: Slope
+
+In the case of a regression with two variables, the standardized regression slope <u>is the correlation coefficient</u>. As a reminder, here are the unstandardized regression coefficient, standardized regression coefficient, and correlation between `prestige` and `education`:
+
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+Unstandardized regression:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-115
+
+round(summary(reg)$coefficients, 2)
+```
+
+:::
+
+::: {.column width = '40%'}
+
+Standardized regression:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-115
+
+round(summary(reg_std)$coefficients, 2)
+```
+
+:::
+
+::: {.column width = '20%'}
+
+Correlation:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+round(cor_mat$r[4,1], 2)
+
+# t-statistic for correlation
+round(cor_mat$t[4,1], 2)
+```
+
+:::
+::::
+
+
+
+Notice that the standardized regression coefficient and and the correlation are both $0.85$. The unstandardized regression coefficient is different although 
+
+
+Additionally, I made sure to print the $t$-values associated with the 3 statistics above. I want to emphasize that the $t$-values are the exact same in all 3 cases 🤔
+
+
+
+## If the $t$-statistic is the same...
+
+To refer back to hypothesis testing, we use test statistics like the $t$-statistic to test hypotheses. In the case of regression and correlation, the $t$-statistic is always used to ask this question:
+
+<center style:"font-size: 30px;"> <u>Is the relation between two variables significantly different from 0?</u> </center>
+
+Then, if the $t$-statistics are the exact same, it means that we are asking the same exact question. In other words, unstandardized, standardized regression coefficients, and correlations are one and the same. 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+<center> 
+
+The *true temperature* does not change whether we measure it in Fahrenheit or Celsius; similarly, the true relation between two variables does not depend on the numbers we choose to represent those variables. 🧘
+
+</center>
+
+
+It may not click now, but *why* this point is very important will become clearer when we start talking about multiple regression.
+
+
+:::
+::: {.column width = '50%'}
+
+
+<center> 
+![](Additional%20files/images/relation-between-celsius-and-fahrenheit.png){width=70%}
+</center>
+
+:::
+::::
+ 
+## Let's Talk Residuals 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+At a conference in the Summer of 2025 I met this gentleman on the right 👉
+
+He talked A LOT about how checking residuals is probably the most important thing to do when you run regression models (even more important than checking regression coefficients!). He is probably right 🤷
+
+A **residual** is the distance between the regression line and a data point. Points with large residuals are not predicted well by a regression, whereas points with small residuals are predicted quite well.
+
+
+<center> Residuals are important because they let us know how well, or, in most cases, *how poorly* our regression describes the data.  </center>
+
+:::
+::: {.column width = '50%'}
+
+![[Dan Schley](https://www.rsm.nl/people/dan-schley/#publications){target='_blank'}, Associate Professor at Erasmus University, Rotterdam, NL](Additional%20files/images/Dan.jpg){width=60%}
+
+
+![The red lines are the residuals, probably Dan's favorite food](Additional%20files/images/residuals.png){width=70%}
+
+
+:::
+::::
+
+
+
+
+
+
+
+
+## Some APA Style Resources
+
+No one likes spending time on APA style, and I certainly don't care much for it. Here are some resources for APA style reporting:
+
+
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+:::
+::: {.column width = '50%'}
+
+
+:::
+::::
 
 
 ## References 

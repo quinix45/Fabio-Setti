@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="Lab_6_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Lab_6_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Lab_6_files/libs/quarto-html/popper.min.js"></script>
+<script src="Lab_6_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Lab_6_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Lab_6_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Lab_6_files/libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.24">
+
+  <meta name="author" content="Fabio Setti">
+  <title>Lab 6: Correlation/Regression</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="Lab_6_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Lab_6_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="Lab_6_files/libs/revealjs/dist/theme/quarto-c71bddcdc0f876fc515a112d049ed6b8.css">
+  <link href="Lab_6_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Lab_6_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Lab_6_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Lab_6_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="Lab_6_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="Lab_6_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="Lab_6_files/libs/core-js-2.5.3/shim.min.js"></script>
+
+  <script src="Lab_6_files/libs/react-18.2.0/react.min.js"></script>
+
+  <script src="Lab_6_files/libs/react-18.2.0/react-dom.min.js"></script>
+
+  <script src="Lab_6_files/libs/reactwidget-2.0.0/react-tools.js"></script>
+
+  <script src="Lab_6_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+
+  <link href="Lab_6_files/libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+
+  <script src="Lab_6_files/libs/reactable-binding-0.4.4/reactable.js"></script>
+
+  <script src="Fabio_theme/Fabio_theme.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-transition="zoom" data-visibility="uncounted" class="quarto-title-block center">
+  <h1 class="title">Lab 6: Correlation/Regression</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Fabio Setti 
+</div>
+        <p class="quarto-title-affiliation">
+            PSYC 6802 - Introduction to Psychology Statistics
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="todays-packages-and-data" class="slide level2">
+<h2>Today’s Packages and Data 🤗</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Install Packages Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># run for packages that you have not installed yet</span></span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("tidyverse")</span></span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"psych"</span>)</span>
+<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"carData"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell code-150">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(carData)</span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># I am setting a theme for all the plots</span></span>
+<span id="cb2-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_classic</span>(<span class="at">base_size =</span> <span class="dv">16</span>, <span class="at">accent =</span> <span class="st">"#7a0b80"</span>,</span>
+<span id="cb2-6"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="at">base_family =</span> <span class="st">'serif'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><br></p>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1"><code>psych</code></a></li><li><a href="#tabset-1-2"><code>carData</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<p>The <code>psych</code> package <span class="citation" data-cites="revelle_2024">(<a href="#/references" role="doc-biblioref" onclick="">Revelle, 2024</a>)</span> includes MANY functions that help with data exploration and running analyses typically done in the social sciences. It is particluarly useful for exploratory factor analyses.</p>
+</div>
+<div id="tabset-1-2">
+<p>The <code>carData</code> package <span class="citation" data-cites="fox_etal_2022">(<a href="#/references" role="doc-biblioref" onclick="">Fox et al., 2022</a>)</span> contains many datasets. Most of these datasets are used in the book titled <em>an R Companion to Applied Regression</em>.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<center style="padding-bottom: 21px;">
+<span class="data-title">Data</span>
+</center>
+<p>Today we will work with the <code>prestige</code> dataset. This dataset contains the perceived prestige and other variables related to 102 professions in Canada in 1971.</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> carData<span class="sc">::</span>Prestige</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-0257c4723d6f29c04d2b" class="reactable html-widget" style="width:auto;height:300px;"></div>
+<script type="application/json" data-for="htmlwidget-0257c4723d6f29c04d2b">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["gov.administrators","general.managers","accountants","purchasing.officers","chemists","physicists","biologists","architects","civil.engineers","mining.engineers","surveyors","draughtsmen","computer.programers","economists","psychologists","social.workers","lawyers","librarians","vocational.counsellors","ministers","university.teachers","primary.school.teachers","secondary.school.teachers","physicians","veterinarians","osteopaths.chiropractors","nurses","nursing.aides","physio.therapsts","pharmacists","medical.technicians","commercial.artists","radio.tv.announcers","athletes","secretaries","typists","bookkeepers","tellers.cashiers","computer.operators","shipping.clerks","file.clerks","receptionsts","mail.carriers","postal.clerks","telephone.operators","collectors","claim.adjustors","travel.clerks","office.clerks","sales.supervisors","commercial.travellers","sales.clerks","newsboys","service.station.attendant","insurance.agents","real.estate.salesmen","buyers","firefighters","policemen","cooks","bartenders","funeral.directors","babysitters","launderers","janitors","elevator.operators","farmers","farm.workers","rotary.well.drillers","bakers","slaughterers.1","slaughterers.2","canners","textile.weavers","textile.labourers","tool.die.makers","machinists","sheet.metal.workers","welders","auto.workers","aircraft.workers","electronic.workers","radio.tv.repairmen","sewing.mach.operators","auto.repairmen","aircraft.repairmen","railway.sectionmen","electrical.linemen","electricians","construction.foremen","carpenters","masons","house.painters","plumbers","construction.labourers","pilots","train.engineers","bus.drivers","taxi.drivers","longshoremen","typesetters","bookbinders"],"education":[13.11,12.26,12.77,11.42,14.62,15.64,15.09,15.44,14.52,14.64,12.39,12.3,13.83,14.44,14.36,14.21,15.77,14.15,15.22,14.5,15.97,13.62,15.08,15.96,15.94,14.71,12.46,9.45,13.62,15.21,12.79,11.09,12.71,11.44,11.59,11.49,11.32,10.64,11.36,9.17,12.09,11.04,9.22,10.07,10.51,11.2,11.13,11.43,11,9.84,11.13,10.05,9.62,9.93,11.6,11.09,11.03,9.47,10.93,7.74,8.5,10.57,9.46,7.33,7.11,7.58,6.84,8.6,8.88,7.54,7.64,7.64,7.42,6.69,6.74,10.09,8.81,8.4,7.92,8.43,8.78,8.76,10.29,6.38,8.1,10.1,6.67,9.05,9.93,8.24,6.92,6.6,7.81,8.33,7.52,12.27,8.49,7.58,7.93,8.37,10,8.55],"income":[12351,25879,9271,8865,8403,11030,8258,14163,11377,11023,5902,7059,8425,8049,7405,6336,19263,6112,9593,4686,12480,5648,8034,25308,14558,17498,4614,3485,5092,10432,5180,6197,7562,8206,4036,3148,4348,2448,4330,4761,3016,2901,5511,3739,3161,4741,5052,6259,4075,7482,8780,2594,918,2370,8131,6992,7956,8895,8891,3116,3930,7869,611,3000,3472,3582,3643,1656,6860,4199,5134,5134,1890,4443,3485,8043,6686,6565,6477,5811,6573,3942,5449,2847,5795,7716,4696,8316,7147,8880,5299,5959,4549,6928,3910,14032,8845,5562,4224,4753,6462,3617],"women":[11.16,4.02,15.7,9.11,11.68,5.13,25.65,2.69,1.03,0.94,1.91,7.83,15.33,57.31,48.28,54.77,5.13,77.1,34.89,4.14,19.59,83.78,46.8,10.56,4.32,6.91,96.12,76.14,82.66,24.71,76.04,21.03,11.15,8.13,97.51,95.97,68.24,91.76,75.92,11.37,83.19,92.86,7.62,52.27,96.14,47.06,56.1,39.17,63.23,17.04,3.16,67.82,7,3.69,13.09,24.44,23.88,0,1.65,52,15.51,6.01,96.53,69.31,33.57,30.08,3.6,27.75,0,33.3,17.26,17.26,72.24,31.36,39.48,1.5,4.28,2.3,5.17,13.62,5.78,74.54,2.92,90.67,0.81,0.78,0,1.34,0.99,0.65,0.56,0.52,2.46,0.61,1.09,0.58,0,9.47,3.59,0,13.58,70.87],"prestige":[68.8,69.1,63.4,56.8,73.5,77.6,72.6,78.1,73.1,68.8,62,60,53.8,62.2,74.9,55.1,82.3,58.1,58.3,72.8,84.6,59.6,66.1,87.2,66.7,68.4,64.7,34.9,72.1,69.3,67.5,57.2,57.6,54.1,46,41.9,49.4,42.3,47.7,30.9,32.7,38.7,36.1,37.2,38.1,29.4,51.1,35.7,35.6,41.5,40.2,26.5,14.8,23.3,47.3,47.1,51.1,43.5,51.6,29.7,20.2,54.9,25.9,20.8,17.3,20.1,44.1,21.5,35.3,38.9,25.2,34.8,23.2,33.3,28.8,42.5,44.2,35.9,41.8,35.9,43.7,50.8,37.2,28.2,38.1,50.3,27.3,40.9,50.2,51.1,38.9,36.2,29.9,42.9,26.5,66.1,48.9,35.9,25.1,26.1,42.2,35.2],"census":[1113,1130,1171,1175,2111,2113,2133,2141,2143,2153,2161,2163,2183,2311,2315,2331,2343,2351,2391,2511,2711,2731,2733,3111,3115,3117,3131,3135,3137,3151,3156,3314,3337,3373,4111,4113,4131,4133,4143,4153,4161,4171,4172,4173,4175,4191,4192,4193,4197,5130,5133,5137,5143,5145,5171,5172,5191,6111,6112,6121,6123,6141,6147,6162,6191,6193,7112,7182,7711,8213,8215,8215,8221,8267,8278,8311,8313,8333,8335,8513,8515,8534,8537,8563,8581,8582,8715,8731,8733,8780,8781,8782,8785,8791,8798,9111,9131,9171,9173,9313,9511,9517],"type":["prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","prof","bc","prof","prof","wc","prof","wc",null,"wc","wc","wc","wc","wc","wc","wc","wc","wc","wc","wc","wc","wc","wc","wc","wc","wc","wc",null,"bc","wc","wc","wc","bc","bc","bc","bc","bc",null,"bc","bc","bc",null,"bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","bc","prof","bc","bc","bc","bc","bc","bc"]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"education","name":"education","type":"numeric","header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Average education of occupational incumbents, years, in 1971"},"children":["education",{"name":"span","attribs":{"title":"Average education of occupational incumbents, years, in 1971","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"income","name":"income","type":"numeric","header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Average income of incumbents, dollars, in 1971"},"children":["income",{"name":"span","attribs":{"title":"Average income of incumbents, dollars, in 1971","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"women","name":"women","type":"numeric","header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Percentage of incumbents who are women"},"children":["women",{"name":"span","attribs":{"title":"Percentage of incumbents who are women","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"prestige","name":"prestige","type":"numeric","header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Pineo-Porter prestige score for occupation, from a social survey conducted in the mid-1960s"},"children":["prestige",{"name":"span","attribs":{"title":"Pineo-Porter prestige score for occupation, from a social survey conducted in the mid-1960s","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"census","name":"census","type":"numeric","header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Canadian Census occupational code"},"children":["census",{"name":"span","attribs":{"title":"Canadian Census occupational code","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"type","name":"type","type":"factor","header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Type of occupation. A factor with levels (note: out of order): bc, Blue Collar; prof, Professional,Managerial, and Technical; wc, White Collar"},"children":["type",{"name":"span","attribs":{"title":"Type of occupation. A factor with levels (note: out of order): bc, Blue Collar; prof, Professional,Managerial, and Technical; wc, White Collar","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":".9rem"},"height":"300px","dataKey":"ab2fafeb28e6a16ad84a228ee5bd2be0"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div></div>
+</section>
+<section id="association-between-variables" class="slide level2">
+<h2>Association Between Variables</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p>When look at scatterplots, we can intuitively spot <em>associations between two variables</em>.</p>
+<div class="fragment" data-fragment-index="1">
+<p>If we plot <code>eduaction</code> and <code>prestige</code>, we can tell that there is some sort of <strong>trend</strong>; as the values of one variable increase, the values of the other variable also increase.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<center style="font-size:32px">
+In simple terms, both correlation and regression provide some <em>numerical summaries</em> of these trends/associations.
+</center>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat,</span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> education, <span class="at">y =</span> prestige)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-5-1.svg" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="covariance" class="slide level2">
+<h2>Covariance</h2>
+<p>The most basic measure of association between two continuous cariables is the <strong>covariance</strong>. The <em>sign</em> of the covaraince describes the <em>direction</em> of the relation between two variables:</p>
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Positive Covariance</a></li><li><a href="#tabset-2-2">Negative Covaraince</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat,</span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> education, <span class="at">y =</span> prestige)) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-6-1.svg" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>We can use <code>cov()</code> to calculate the covariance between <code>education</code> and <code>prestige</code>:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(dat<span class="sc">$</span>education, dat<span class="sc">$</span>prestige)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 39.90856</code></pre>
+</div>
+</div>
+<p>The covariance is positive so we know that as one variable increases or decreases, so does the other variable. In this case, the higher the average years of <code>education</code> of individuals in a profession, the higher the perceived <code>prestige</code> of that profession.</p>
+</div></div>
+</div>
+<div id="tabset-2-2">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat,</span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> women, <span class="at">y =</span> income)) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-8-1.svg" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>If we calculate the covariance between <code>women</code> and <code>income</code>:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(dat<span class="sc">$</span>women, dat<span class="sc">$</span>income)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -59411.38</code></pre>
+</div>
+</div>
+<p>We see that the covariance is negative. meaning that, in 1971, the more women were in a certain profession, the less was the average income for that profession.</p>
+</div></div>
+</div>
+</div>
+</div>
+</section>
+<section id="when-comparisons-are-meaningless" class="slide level2">
+<h2>When Comparisons are meaningless</h2>
+<p>On the previous slide we say that the first covariance was around <span class="math inline">\(39.9\)</span> and the second covariance was around <span class="math inline">\(-59411.38\)</span>. Does this mean that the second relationship is much stronger than the first one? Absolutely not. The values of covariances cannot be compared when variables are measured on <em>different scales</em>. The formula for the covariance is:</p>
+<div class="fragment" data-fragment-index="1">
+<p><span class="math display">\[S_{xy} = \frac{\sum (x_i - \bar{x}) \times (y_i - \bar{y})}{n - 1}\]</span></p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<p>The raw covariance values are meaningless because the <code>income</code> variable is measured on a scale that is much larger than either <code>education</code> or <code>prestige</code>.</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># Range of 3 variables. apply() functions apply the same function to multiple columns/rows of a matrix</span></span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(dat[,<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], <span class="dv">2</span>, range)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     education income women
+[1,]      6.38    611  0.00
+[2,]     15.97  25879 97.51</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
+<p>If you look at the formula for <span class="math inline">\(S_{xy}\)</span>, when <code>income</code> is involved, you can expect the result to be quite large.</p>
+<p>Asking which covariance is larger is essentially the same as asking whether 84 degrees Fahrenheit is larger than 30 degrees Celsius.</p>
+</div>
+<div class="fragment" data-fragment-index="4">
+<p>Actually what would you do to answer the question in the line above? 🤔</p>
+</div>
+</div></div>
+</section>
+<section id="changing-variable-scales-standardization" class="slide level2">
+<h2>Changing Variable Scales: Standardization</h2>
+<div class="fragment" data-fragment-index="1">
+<p>To compare measurements on different scales (Fahrenheit VS Celsius), we need to <em>transform</em> one of them, such that they are on the <em>same scale</em>. We have briefly talked about <em>Z-scores</em> in <a href="https://fabio-setti.netlify.app/psyc6802/lab_4#/outliers-standardized-units" target="_blank">Lab 4</a>. Turning variables into Z-scores is known as <strong>standardizing</strong> and it is just a convenient way of rescaling variables such that they are all on the same scale. For any variable <span class="math inline">\(X\)</span>:</p>
+<p><span class="math display">\[z_i = \frac{x_i - \bar{x}}{S_x}\]</span></p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<p>we can standardize variables with the <code>scale()</code> function:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># here I am adding the standardized variable to the dataset</span></span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>education_std <span class="ot">&lt;-</span> <span class="fu">scale</span>(dat<span class="sc">$</span>education)[,<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><strong>NOTE:</strong> remember to always add the <code>[,1]</code> when using the <code>scale()</code> function. Try running <code>scale(dat$education)</code> and look at the output.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
+<p>Any standardized variable will have mean = 0 and sd (or variance) = 1:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(dat<span class="sc">$</span>education_std)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -8.441045e-17</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(dat<span class="sc">$</span>education_std)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="the-steps-graphically" class="slide level2">
+<h2>The Steps Graphically</h2>
+<p>The important point is that standardizing does not change the shape of the distribution of a variable, it just moves it and resizes it. let’s look at what happens step by step when we standardize <code>education</code>:</p>
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Original Distribution</a></li><li><a href="#tabset-3-2">Subtract the Mean</a></li><li><a href="#tabset-3-3">Divide By the SD</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> education)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="st">"Raw"</span>)) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb18-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb18-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb18-6"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Raw"</span> <span class="ot">=</span> <span class="st">"blue"</span>),</span>
+<span id="cb18-7"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">""</span>,</span>
+<span id="cb18-8"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>( <span class="st">"Raw"</span> <span class="ot">=</span> <span class="fu">expression</span>(x[i]))) <span class="sc">+</span></span>
+<span id="cb18-9"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb18-10"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-11"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y  =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-12"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb18-13"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y  =</span> <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-13-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<p>The blue density is the original <code>education</code> variable and it represents the average years of education for each of the 102 occupations in the data.</p>
+<p>This is the <span class="math inline">\(x_i\)</span> part of the formula</p>
+<p><span class="math display">\[z_i = \frac{x_i - \bar{x}}{S_x}\]</span></p>
+</div></div>
+</div>
+<div id="tabset-3-2">
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> education)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="st">"Raw"</span>)) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> education <span class="sc">-</span> <span class="fu">mean</span>(dat<span class="sc">$</span>education), <span class="at">color =</span> <span class="st">"Centered"</span>)) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb19-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb19-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb19-7"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Raw"</span> <span class="ot">=</span> <span class="st">"blue"</span>,</span>
+<span id="cb19-8"><a href="" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Centered"</span> <span class="ot">=</span> <span class="st">"red"</span>),</span>
+<span id="cb19-9"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">""</span>,</span>
+<span id="cb19-10"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(</span>
+<span id="cb19-11"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Raw"</span> <span class="ot">=</span> <span class="fu">expression</span>(x[i]),</span>
+<span id="cb19-12"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Centered"</span> <span class="ot">=</span> <span class="fu">expression</span>(x[i] <span class="sc">-</span> <span class="fu">bar</span>(x)))) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb19-14"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-15"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y  =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-16"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb19-17"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y  =</span> <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-14-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<p>The red density is the <code>education</code> variable after we subtract its mean from all the values. So the red density represents the the <span class="math inline">\(x_i - \bar{x}\)</span> part of <span class="math inline">\(z_i = \frac{x_i - \bar{x}}{S_x}\)</span>.</p>
+<p>This is known as <strong>mean centering</strong>, and it comes up in moderation anlyses to get easier interpretations.</p>
+</div></div>
+</div>
+<div id="tabset-3-3">
+<div class="columns">
+<div class="column" style="width:65%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> education)) <span class="sc">+</span></span>
+<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">color =</span> <span class="st">"Raw"</span>)) <span class="sc">+</span></span>
+<span id="cb20-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> education <span class="sc">-</span> <span class="fu">mean</span>(dat<span class="sc">$</span>education), <span class="at">color =</span> <span class="st">"Centered"</span>)) <span class="sc">+</span></span>
+<span id="cb20-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">x =</span> (education <span class="sc">-</span> <span class="fu">mean</span>(dat<span class="sc">$</span>education)) <span class="sc">/</span> <span class="fu">sd</span>(dat<span class="sc">$</span>education),</span>
+<span id="cb20-5"><a href="" aria-hidden="true" tabindex="-1"></a>                   <span class="at">color =</span> <span class="st">"Standardized"</span>)) <span class="sc">+</span></span>
+<span id="cb20-6"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">10</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb20-7"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">expand =</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb20-8"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb20-9"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"Raw"</span> <span class="ot">=</span> <span class="st">"blue"</span>,</span>
+<span id="cb20-10"><a href="" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Centered"</span> <span class="ot">=</span> <span class="st">"red"</span>,</span>
+<span id="cb20-11"><a href="" aria-hidden="true" tabindex="-1"></a>               <span class="st">"Standardized"</span> <span class="ot">=</span> <span class="st">"purple"</span>),</span>
+<span id="cb20-12"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">""</span>,</span>
+<span id="cb20-13"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">labels =</span> <span class="fu">c</span>(</span>
+<span id="cb20-14"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Raw"</span> <span class="ot">=</span> <span class="fu">expression</span>(x[i]),</span>
+<span id="cb20-15"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Centered"</span> <span class="ot">=</span> <span class="fu">expression</span>(x[i] <span class="sc">-</span> <span class="fu">bar</span>(x)),</span>
+<span id="cb20-16"><a href="" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Standardized"</span> <span class="ot">=</span> <span class="fu">expression</span>((x[i] <span class="sc">-</span> <span class="fu">bar</span>(x)) <span class="sc">/</span> S[x])</span>
+<span id="cb20-17"><a href="" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-18"><a href="" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-19"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb20-20"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb20-21"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text.y  =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb20-22"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb20-23"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.line.y  =</span> <span class="fu">element_blank</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-15-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:35%;">
+<p>The purple density is <span class="math inline">\(z_i = \frac{x_i - \bar{x}}{S_x}\)</span>. Dividing by the SD “squishes” the distribution, but the shape does not change! The important implication is that standardizing <em>does not change the relation</em> between variables.</p>
+<p style="font-size: 22px">
+Note that there is nothing special about mean = 0 and SD = 1. You could add any value and that will become the new mean. Having a mean of 0 and an SD of 1 usually makes things easier.
+</p>
+</div></div>
+</div>
+</div>
+</div>
+</section>
+<section id="covariance-with-standardized-variables" class="slide level2">
+<h2>Covariance With standardized Variables?</h2>
+<p>Let’s standardize the variables from before, compute the covariance again and see what happens:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>education_std <span class="ot">&lt;-</span> <span class="fu">scale</span>(dat<span class="sc">$</span>education)[,<span class="dv">1</span>]</span>
+<span id="cb21-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>prestige_std <span class="ot">&lt;-</span> <span class="fu">scale</span>(dat<span class="sc">$</span>prestige)[,<span class="dv">1</span>]</span>
+<span id="cb21-3"><a href="" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>women_std <span class="ot">&lt;-</span> <span class="fu">scale</span>(dat<span class="sc">$</span>women)[,<span class="dv">1</span>]</span>
+<span id="cb21-4"><a href="" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>income_std <span class="ot">&lt;-</span> <span class="fu">scale</span>(dat<span class="sc">$</span>income)[,<span class="dv">1</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<p>With the original variables we got:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(dat<span class="sc">$</span>education, dat<span class="sc">$</span>prestige)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 39.90856</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(dat<span class="sc">$</span>women, dat<span class="sc">$</span>income)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -59411.38</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<p>With the standardized variables, we get:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(dat<span class="sc">$</span>education_std, dat<span class="sc">$</span>prestige_std)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8501769</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(dat<span class="sc">$</span>women_std, dat<span class="sc">$</span>income_std)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.4410593</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="3">
+<p>While originally the covariance between <code>women</code> and <code>income</code> had a much larger number, once the variables are standardized, the relation between <code>education</code> and <code>prestige</code> has the larger number.</p>
+</div>
+<div class="fragment" data-fragment-index="4">
+<p>The numbers in the right column are the <strong>correlation coefficient</strong> between the variables and are definitely what we should look at when determining how strong a relation is.</p>
+</div>
+</section>
+<section id="it-was-the-correlation-all-along" class="slide level2">
+<h2>It was the Correlation all Along</h2>
+<p>You don’t hear about covariance very often because it is not interpretable, as its value depend on the scale of the original variables. The <strong>correlation</strong>, denoted with <span class="math inline">\(r\)</span>, is the <u>standardized covariance</u> and has the benefit of always being between -1 and 1.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<p>we can compute the correlation between two variables with the <code>cor()</code> function:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># We use the original variables because they are standardized within the correlation formula. The steps from before were only intended to demonstrate the equivalence between correaltion and covariance</span></span>
+<span id="cb30-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dat<span class="sc">$</span>education, dat<span class="sc">$</span>prestige)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8501769</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dat<span class="sc">$</span>women, dat<span class="sc">$</span>income)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.4410593</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li><p><span class="math inline">\(r = 0\)</span>: a correlation of 0 exactly means that there is <em>no linear association</em> between two variables.</p></li>
+<li><p><span class="math inline">\(r &gt; 0\)</span>: a correlation above 0 means that there is a <em>positive linear association</em> between two variables.</p></li>
+<li><p><span class="math inline">\(r &lt; 0\)</span>: a correlation below 0 means that there is a <em>negative linear association</em> between two variables.</p></li>
+</ul>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="3">
+<p>So, there is a strong positive relation between <code>education</code> need for a certain occupation and the perceived <code>prestige</code> of that occupation.</p>
+</div>
+<div class="fragment" data-fragment-index="4">
+<p>Likewise, there is a fairly noticeable negative relation between the average <code>income</code> by profession and the percentage of women practicing that profession.</p>
+</div>
+</section>
+<section id="significance-test-for-correlation" class="slide level2">
+<h2>Significance Test for Correlation</h2>
+<p>The <code>cor()</code> function does not provide any <em>p</em>-value. We need to use the <code>corTest()</code> function from the <code>psych</code> package for that. Here is the example for the correaltion between <code>education</code> and <code>prestige</code>:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a>psych<span class="sc">::</span><span class="fu">corTest</span>(dat<span class="sc">$</span>education, dat<span class="sc">$</span>prestige)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Call:psych::corTest(x = dat$education, y = dat$prestige)
+Correlation matrix 
+[1] 0.85
+Sample Size 
+[1] 102
+These are the unadjusted probability values.
+  The probability values  adjusted for multiple tests are in the p.adj object. 
+[1] 0
+
+ To see confidence intervals of the correlations, print with the short=FALSE option</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<p>Lots of text! But if we take a closer look it should be fairly straightforward:</p>
+<ul>
+<li><p>The correlation, <span class="math inline">\(r = .85\)</span>, is below the <code>Correlation matrix</code> line.</p></li>
+<li><p>The sample size, <span class="math inline">\(n = 102\)</span>, is also returned.</p></li>
+<li><p>The <em>p</em>-value is the last number displayed. Here it’s so small that the function just rounds to 0, so, <span class="math inline">\(p &lt; .001\)</span>.</p></li>
+</ul>
+</div>
+</div></div>
+<p><br></p>
+<div class="fragment" data-fragment-index="3">
+<p>The last line of the output tells us that if we want the 95% CI for the correlation coefficient, we can get that by adding the <code>short=FALSE</code> argument to the <code>corTest()</code> function.</p>
+</div>
+</section>
+<section id="correlation-matrices" class="slide level2">
+<h2>Correlation matrices</h2>
+<p>Correlation matrices are square tables that summarize the correlation between a set of variables.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<p>Here is the correlation matrix among the first 4 variables in the the data:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dat[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           education     income       women   prestige
+education 1.00000000  0.5775802  0.06185286  0.8501769
+income    0.57758023  1.0000000 -0.44105927  0.7149057
+women     0.06185286 -0.4410593  1.00000000 -0.1183342
+prestige  0.85017689  0.7149057 -0.11833419  1.0000000</code></pre>
+</div>
+</div>
+<p>Each cell is the correlation between the variables in the row and column. Notice that the matrix is <em>symmetric</em>, meaning that the values in the top and bottom triangle are the same. This is because <span class="math inline">\(\mathrm{cor(x, y)} = \mathrm{cor(y, x)}\)</span>.</p>
+<p>Why would the diagonal be all 1s?</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<p>You can get the equivalent with the <code>corTest()</code> function, but I suggest you do this:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a>cor_mat <span class="ot">&lt;-</span> <span class="fu">corTest</span>(dat[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span>
+<span id="cb38-2"><a href="" aria-hidden="true" tabindex="-1"></a>cor_mat<span class="sc">$</span>r</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           education     income       women   prestige
+education 1.00000000  0.5775802  0.06185286  0.8501769
+income    0.57758023  1.0000000 -0.44105927  0.7149057
+women     0.06185286 -0.4410593  1.00000000 -0.1183342
+prestige  0.85017689  0.7149057 -0.11833419  1.0000000</code></pre>
+</div>
+</div>
+<p>Notice how we are extracrting the <code>r</code> element from the <code>cor_mat</code> object that we created. The <code>r</code> element is the correlation matrix, but there’s much more information inside <code>cor_mat</code>.</p>
+</div>
+</div></div>
+</section>
+<section id="contents-of-cor.test" class="slide level2">
+<h2>Contents of <code>cor.test()</code></h2>
+<p>When reporting results you will usually need to also report the significance tests (see this slide N for APA style resources) and other information. Let’s look at the names of the elements inside <code>cor_mat</code>:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(cor_mat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "r"      "n"      "t"      "p"      "p.adj"  "se"     "sef"    "adjust"
+ [9] "sym"    "ci"     "ci2"    "ci.adj" "stars"  "Call"  </code></pre>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<p>The <code>ci</code> element gives a neater output and also the CIs and <em>p</em>-values!</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(cor_mat<span class="sc">$</span>ci, <span class="at">digits =</span> <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             lower      r  upper     p
+edctn-incom  0.432  0.578  0.694 0.000
+edctn-women -0.134  0.062  0.253 0.537
+edctn-prstg  0.786  0.850  0.896 0.000
+incom-women -0.585 -0.441 -0.270 0.000
+incom-prstg  0.604  0.715  0.798 0.000
+women-prstg -0.306 -0.118  0.078 0.236</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<p>the <code>t</code> element are the <em>t</em>-statistics associated with all the correlations:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(cor_mat<span class="sc">$</span>t, <span class="at">digits =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          education income women prestige
+education       Inf   7.08  0.62    16.15
+income         7.08    Inf -4.91    10.22
+women          0.62  -4.91   Inf    -1.19
+prestige      16.15  10.22 -1.19      Inf</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="3">
+<p>To find out what all the elements are, look under the <strong>value</strong> section of the <code>corTest()</code> help menu.</p>
+</div>
+</section>
+
+<section id="linear-regression" class="slide level2">
+<h2>Linear Regression</h2>
+<p>Onto what is probably the most important analysis in statistics, <strong>linear regression</strong>. On slide 2 we showed the scatterplot between <code>education</code> and <code>prestige</code>, and saw a noticeable trend.</p>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>A <em>regression line</em> capture the linear trend between two variables.</p>
+<p>More importantly, the regression line has a very simple mathematical form,</p>
+<p><span class="math display">\[y = b_0 + b_1 \times x\]</span></p>
+<p>In the case of this graph, we would write:</p>
+<p><span class="math display">\[\mathrm{prestige} = b_0 + b_1 \times \mathrm{education}\]</span></p>
+<p>meaning that we think that perceived occupation <code>prestige</code> is <em>predicted</em> by the <code>education</code> required for that occupation.</p>
+</div><div class="column" style="width:60%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat,</span>
+<span id="cb50-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> education, <span class="at">y =</span> prestige)) <span class="sc">+</span></span>
+<span id="cb50-3"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb50-4"><a href="" aria-hidden="true" tabindex="-1"></a>           <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-28-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="running-a-regression-in-r" class="slide level2">
+<h2>Running a Regression in <code>R</code></h2>
+<p>We can run a regression in <code>R</code> by using the <code>lm()</code> function (stand for <em>linear model</em>). Let’s run a regression with <code>education</code> predicting <code>prestige</code>:</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(prestige <span class="sc">~</span> education, <span class="at">dat =</span> dat)</span>
+<span id="cb51-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = prestige ~ education, data = dat)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-26.0397  -6.5228   0.6611   6.7430  18.1636 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  -10.732      3.677  -2.919  0.00434 ** 
+education      5.361      0.332  16.148  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 9.103 on 100 degrees of freedom
+Multiple R-squared:  0.7228,    Adjusted R-squared:   0.72 
+F-statistic: 260.8 on 1 and 100 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<p>we use the <code>summary()</code> function to get a summary of the results of an <code>lm</code> object. A quick overview of the output:</p>
+<ul style="font-size: 26px">
+<li>
+<code>call:</code> this is just the function formula.
+</li>
+<li>
+<code>Residuals:</code> this gives a quick summary of the distribution of the <em>residuals</em>. (more on residuals later)
+</li>
+<li>
+<code>coefficients:</code> this is where you find the regression coefficients along with their significance test.
+</li>
+<li>
+The last part contains the <span class="math inline">\(R^2\)</span>, which is a measure of how good the regression predicts the <span class="math inline">\(y\)</span> variable.
+</li>
+</ul>
+</div></div>
+</section>
+<section id="the-coefficients" class="slide level2">
+<h2>The Coefficients</h2>
+<p>The syntax for <code>lm()</code> is the same that we used for the independent samples <em>t</em>-test. <code>prestige ~ education</code> is saying “predict <code>prestige</code> with <code>education</code>”. The we have to specify the data where the variables come from with <code>data =</code>.</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(prestige <span class="sc">~</span> education, <span class="at">dat =</span> dat)</span>
+<span id="cb53-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = prestige ~ education, data = dat)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-26.0397  -6.5228   0.6611   6.7430  18.1636 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  -10.732      3.677  -2.919  0.00434 ** 
+education      5.361      0.332  16.148  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 9.103 on 100 degrees of freedom
+Multiple R-squared:  0.7228,    Adjusted R-squared:   0.72 
+F-statistic: 260.8 on 1 and 100 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<p>our regression coffiecents are <span class="math inline">\(b_0\)</span> and <span class="math inline">\(b_1\)</span>.</p>
+<ul style="font-size: 24px">
+<li>
+<span class="math inline">\(b_0 = -10.73\)</span>, the <em>intercept</em>: The <em>expected value</em> of <code>prestige</code> when <code>education</code> is 0. You may notice that that <code>prestige</code> cannot ever be below 0, so this should be impossible in practice (see next slide).
+</li>
+<li>
+<span class="math inline">\(b_1 = 5.36\)</span>, the <em>slope</em>: The <em>expected change</em> in <code>prestige</code> per 1-unit increase in <code>education</code>.
+</li>
+</ul>
+<p>The regression equation is</p>
+<p><span class="math display">\[\mathrm{prestige} = -10.73 + 5.36 \times \mathrm{education}\]</span></p>
+</div></div>
+</section>
+<section id="regression-coefficients-intercept" class="slide level2">
+<h2>Regression Coefficients: Intercept</h2>
+<p>The intercept, <span class="math inline">\(b_0\)</span>, is the “expected value of the <span class="math inline">\(y\)</span> variable when <span class="math inline">\(x\)</span> is 0”. In our case, <span class="math inline">\(b_0 = -10.73\)</span>. This number makes no sense for two reasons: <em>(1)</em> <code>prestige</code> cannot be negative, and <em>(2)</em> <code>education</code> cannot be 0. What is going on? 🤨</p>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>The intercept is mathematically where the regression line hits the <span class="math inline">\(y\)</span>-axis. If the the 0 value for <span class="math inline">\(x\)</span> is out of range, than the intercept will generally be meaningless.</p>
+<p>This is not an “issue” and it’s only a consequence of the <em>scale</em> of our variables. We will see what happens once we standardize our variables.</p>
+<p>In practice, you do not care much about the intercept, as it does not carry any information about the relation between the <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> variables.</p>
+</div><div class="column" style="width:60%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat,</span>
+<span id="cb55-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> education, <span class="at">y =</span> prestige)) <span class="sc">+</span></span>
+<span id="cb55-3"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb55-4"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_abline</span>(<span class="at">intercept =</span>  <span class="fu">as.numeric</span>(reg<span class="sc">$</span>coefficients[<span class="dv">1</span>]), </span>
+<span id="cb55-5"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="at">slope =</span>  <span class="fu">as.numeric</span>(reg<span class="sc">$</span>coefficients[<span class="dv">2</span>], </span>
+<span id="cb55-6"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="at">fill =</span> <span class="st">"#7a0b80"</span>))<span class="sc">+</span></span>
+<span id="cb55-7"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb55-8"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="fu">geom_segment</span>(<span class="at">y =</span> <span class="fu">as.numeric</span>(reg<span class="sc">$</span>coefficients[<span class="dv">1</span>]), <span class="at">x =</span> <span class="dv">0</span>,</span>
+<span id="cb55-9"><a href="" aria-hidden="true" tabindex="-1"></a>                          <span class="at">yend =</span> <span class="fu">as.numeric</span>(reg<span class="sc">$</span>coefficients[<span class="dv">1</span>]), <span class="at">xend =</span> <span class="sc">-</span><span class="dv">10</span>, <span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb55-10"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="fu">annotate</span>(<span class="st">"text"</span>, <span class="at">x =</span> <span class="sc">-</span><span class="dv">3</span>, <span class="at">y =</span> <span class="dv">0</span>, <span class="at">label =</span> <span class="st">"the dot is the </span><span class="sc">\n</span><span class="st"> intercept"</span>) <span class="sc">+</span></span>
+<span id="cb55-11"><a href="" aria-hidden="true" tabindex="-1"></a>            <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="dv">0</span>, <span class="at">y =</span> <span class="fu">as.numeric</span>(reg<span class="sc">$</span>coefficients[<span class="dv">1</span>]), <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">size =</span> <span class="dv">3</span>), <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb55-12"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="fu">xlim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">20</span>)) <span class="sc">+</span></span>
+<span id="cb55-13"><a href="" aria-hidden="true" tabindex="-1"></a>             <span class="fu">ylim</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="dv">30</span>, <span class="dv">90</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-31-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="regression-coefficients-slope" class="slide level2">
+<h2>Regression Coefficients: Slope</h2>
+<p>The slope, <span class="math inline">\(b_1\)</span>, is the “expected change in the <span class="math inline">\(y\)</span> variable for each 1-unit change in the <span class="math inline">\(x\)</span> variable”. In our case, <span class="math inline">\(b_1 = 5.36\)</span>. This sounds much harder than it is in practice. Given the equation <span class="math display">\[\mathrm{prestige} = -10.73 + 5.36 \times \mathrm{education}\]</span></p>
+<p>We can plug in some values for <code>education</code> and get the <em>predicted value</em> for <code>prestige</code>.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul>
+<li><p>if <span class="math inline">\(\mathrm{education} = 1\)</span>, then <span class="math inline">\(\mathrm{prestige} = -10.73 + 5.36 \times 1 = -5.37\)</span></p></li>
+<li><p>if <span class="math inline">\(\mathrm{education} = 2\)</span>, then <span class="math inline">\(\mathrm{prestige} = -10.73 + 5.36 \times 2 = -0.01\)</span></p></li>
+<li><p>if <span class="math inline">\(\mathrm{education} = 10\)</span>, then <span class="math inline">\(\mathrm{prestige} = -10.73 + 5.36 \times 10 = 42.87\)</span></p></li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p>the “1-unit change” part comes from the <span class="math inline">\(5.36 \times \mathrm{education}\)</span> term in the regression equation.</p>
+<p>As you change <code>education</code> by 1, <code>prestige</code> changes by <span class="math inline">\(5.36\)</span> times that. If you change <code>education</code> by 2-units, then <code>prestige</code> changes by <span class="math inline">\(10.72\)</span>.</p>
+</div></div>
+<p>Note that the <em>sign</em> of the slope tells you whether two variables are positively or negatively related. As we already saw with the correlation, <code>prestige</code> and <code>education</code> are positively related.</p>
+</section>
+<section id="more-slopes-examples" class="slide level2">
+<h2>More Slopes Examples</h2>
+<p>It follows that the sign of the slope determines whether the line trends up (positive slope) or down (negative slope). Here are some examples:</p>
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Positive Relation</a></li><li><a href="#tabset-4-2">No/Small Relation</a></li><li><a href="#tabset-4-3">Negative Relation</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat,</span>
+<span id="cb56-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> education, <span class="at">y =</span> prestige)) <span class="sc">+</span></span>
+<span id="cb56-3"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb56-4"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-32-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<p>Correlation:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dat<span class="sc">$</span>prestige, dat<span class="sc">$</span>education)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8501769</code></pre>
+</div>
+</div>
+<p>Slope:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(prestige <span class="sc">~</span> education, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>education 
+ 5.360878 </code></pre>
+</div>
+</div>
+</div></div>
+</div>
+<div id="tabset-4-2">
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat,</span>
+<span id="cb61-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> women, <span class="at">y =</span> education)) <span class="sc">+</span></span>
+<span id="cb61-3"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb61-4"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-35-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<p>Correlation:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dat<span class="sc">$</span>women, dat<span class="sc">$</span>education)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.06185286</code></pre>
+</div>
+</div>
+<p>Slope:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(education <span class="sc">~</span> women, <span class="at">data =</span> dat)<span class="sc">$</span>coef[<span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      women 
+0.005319541 </code></pre>
+</div>
+</div>
+</div></div>
+</div>
+<div id="tabset-4-3">
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat,</span>
+<span id="cb66-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> women, <span class="at">y =</span> income)) <span class="sc">+</span></span>
+<span id="cb66-3"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb66-4"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-38-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<p>Correlation:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dat<span class="sc">$</span>women, dat<span class="sc">$</span>income)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.4410593</code></pre>
+</div>
+</div>
+<p>Slope:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(income <span class="sc">~</span> women, dat)<span class="sc">$</span>coef[<span class="dv">2</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    women 
+-59.02939 </code></pre>
+</div>
+</div>
+</div></div>
+</div>
+</div>
+</div>
+</section>
+<section id="regression-with-stndardized-variables" class="slide level2">
+<h2>Regression With stndardized Variables</h2>
+<p>Let’s look at what happens when we run a regression with the same variables, but standardized. What is the same and what is different?</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(prestige <span class="sc">~</span> education, <span class="at">dat =</span> dat)</span>
+<span id="cb71-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = prestige ~ education, data = dat)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-26.0397  -6.5228   0.6611   6.7430  18.1636 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  -10.732      3.677  -2.919  0.00434 ** 
+education      5.361      0.332  16.148  &lt; 2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 9.103 on 100 degrees of freedom
+Multiple R-squared:  0.7228,    Adjusted R-squared:   0.72 
+F-statistic: 260.8 on 1 and 100 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb73"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb73-1"><a href="" aria-hidden="true" tabindex="-1"></a>reg_std <span class="ot">&lt;-</span> <span class="fu">lm</span>(prestige_std <span class="sc">~</span> education_std, <span class="at">dat =</span> dat)</span>
+<span id="cb73-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(reg_std)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = prestige_std ~ education_std, data = dat)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.51354 -0.37914  0.03843  0.39193  1.05575 
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   9.897e-17  5.239e-02    0.00        1    
+education_std 8.502e-01  5.265e-02   16.15   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.5291 on 100 degrees of freedom
+Multiple R-squared:  0.7228,    Adjusted R-squared:   0.72 
+F-statistic: 260.8 on 1 and 100 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="a-graphical-comparison" class="slide level2">
+<h2>A Graphical Comparison</h2>
+<p>Before we look at the difference more closely, the two regressions on the previous slide are <u>equivalent</u>. As you can see, the two plots are indistingushable, save for the names and values of the <em>x</em> and <em>y</em> axes.</p>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center style="padding-bottom:12px;">
+<strong>Scatterplot for standardized variables</strong>
+</center>
+<div class="cell code-125">
+<details class="code-fold">
+<summary>plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb75"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb75-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat,</span>
+<span id="cb75-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> education, <span class="at">y =</span> prestige)) <span class="sc">+</span></span>
+<span id="cb75-3"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb75-4"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-43-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<center style="padding-bottom:12px;">
+<strong>Scatterplot for original variables</strong>
+</center>
+<div class="cell code-125">
+<details class="code-fold">
+<summary>plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat,</span>
+<span id="cb76-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> education_std, <span class="at">y =</span> prestige_std)) <span class="sc">+</span></span>
+<span id="cb76-3"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb76-4"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-44-1.svg"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="standardized-coefficients-intercept" class="slide level2">
+<h2>Standardized Coefficients: Intercept</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p>Whenever we standardize all the variables in a regression, the intercept will always be 0.</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb77"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb77-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(reg_std<span class="sc">$</span>coef[<span class="dv">1</span>], <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>(Intercept) 
+          0 </code></pre>
+</div>
+</div>
+<p>This is because standardizing has the effect of centering the data, and the regression line, at the 0 point.</p>
+<p>This is apparent in the graph on the right, where the regression line hits the <em>y</em>-axis at 0 exactly.</p>
+</div><div class="column" style="width:70%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb79"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb79-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> dat,</span>
+<span id="cb79-2"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="at">x =</span> education_std, <span class="at">y =</span> prestige_std)) <span class="sc">+</span></span>
+<span id="cb79-3"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb79-4"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb79-5"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>, <span class="at">lty =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb79-6"><a href="" aria-hidden="true" tabindex="-1"></a>          <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_6_files/figure-revealjs/unnamed-chunk-46-1.svg" style="width:110.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="standardized-coefficients-slope" class="slide level2">
+<h2>Standardized Coefficients: Slope</h2>
+<p>In the case of a regression with two variables, the standardized regression slope <u>is the correlation coefficient</u>. As a reminder, here are the unstandardized regression coefficient, standardized regression coefficient, and correlation between <code>prestige</code> and <code>education</code>:</p>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p>Unstandardized regression:</p>
+<div class="cell code-115">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">summary</span>(reg)<span class="sc">$</span>coefficients, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)   -10.73       3.68   -2.92        0
+education       5.36       0.33   16.15        0</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:40%;">
+<p>Standardized regression:</p>
+<div class="cell code-115">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="fu">summary</span>(reg_std)<span class="sc">$</span>coefficients, <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>              Estimate Std. Error t value Pr(&gt;|t|)
+(Intercept)       0.00       0.05    0.00        1
+education_std     0.85       0.05   16.15        0</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:20%;">
+<p>Correlation:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(cor_mat<span class="sc">$</span>r[<span class="dv">4</span>,<span class="dv">1</span>], <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.85</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># t-statistic for correlation</span></span>
+<span id="cb86-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(cor_mat<span class="sc">$</span>t[<span class="dv">4</span>,<span class="dv">1</span>], <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 16.15</code></pre>
+</div>
+</div>
+</div></div>
+<p>Notice that the standardized regression coefficient and and the correlation are both <span class="math inline">\(0.85\)</span>. The unstandardized regression coefficient is different although</p>
+<p>Additionally, I made sure to print the <span class="math inline">\(t\)</span>-values associated with the 3 statistics above. I want to emphasize that the <span class="math inline">\(t\)</span>-values are the exact same in all 3 cases 🤔</p>
+</section>
+<section id="if-the-t-statistic-is-the-same" class="slide level2">
+<h2>If the <span class="math inline">\(t\)</span>-statistic is the same…</h2>
+<p>To refer back to hypothesis testing, we use test statistics like the <span class="math inline">\(t\)</span>-statistic to test hypotheses. In the case of regression and correlation, the <span class="math inline">\(t\)</span>-statistic is always used to ask this question:</p>
+<center style:"font-size:="" 30px;"=""> <u>Is the relation between two variables significantly different from 0?</u> </center>
+<p>Then, if the <span class="math inline">\(t\)</span>-statistics are the exact same, it means that we are asking the same exact question. In other words, unstandardized, standardized regression coefficients, and correlations are one and the same.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<p>The <em>true temperature</em> does not change whether we measure it in Fahrenheit or Celsius; similarly, the true relation between two variables does not depend on the numbers we choose to represent those variables. 🧘</p>
+</center>
+<p>It may not click now, but <em>why</em> this point is very important will become clearer when we start talking about multiple regression.</p>
+</div><div class="column" style="width:50%;">
+<center>
+<img data-src="Additional%20files/images/relation-between-celsius-and-fahrenheit.png" style="width:70.0%">
+</center>
+</div></div>
+</section>
+<section id="lets-talk-residuals" class="slide level2">
+<h2>Let’s Talk Residuals</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>At a conference in the Summer of 2025 I met this gentleman on the right 👉</p>
+<p>He talked A LOT about how checking residuals is probably the most important thing to do when you run regression models (even more important than checking regression coefficients!). He is probably right 🤷</p>
+<p>A <strong>residual</strong> is the distance between the regression line and a data point. Points with large residuals are not predicted well by a regression, whereas points with small residuals are predicted quite well.</p>
+<center>
+Residuals are important because they let us know how well, or, in most cases, <em>how poorly</em> our regression describes the data.
+</center>
+</div><div class="column" style="width:50%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="Additional%20files/images/Dan.jpg" style="width:60.0%"></p>
+<figcaption><a href="https://www.rsm.nl/people/dan-schley/#publications" target="_blank">Dan Schley</a>, Associate Professor at Erasmus University, Rotterdam, NL</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="Additional%20files/images/residuals.png" style="width:70.0%"></p>
+<figcaption>The red lines are the residuals, probably Dan’s favorite food</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="some-apa-style-resources" class="slide level2">
+<h2>Some APA Style Resources</h2>
+<p>No one likes spending time on APA style, and I certainly don’t care much for it. Here are some resources for APA style reporting:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+
+</div><div class="column" style="width:50%;">
+
+</div></div>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-fox_etal_2022" class="csl-entry" role="listitem">
+Fox, J., Weisberg, S., &amp; Price, B. (2022). <em><span class="nocase">carData</span>: <span>Companion</span> to <span>Applied Regression Data Sets</span></em> (Version 3.0-5) [Computer software]. <a href="https://cran.r-project.org/web/packages/carData/index.html">https://cran.r-project.org/web/packages/carData/index.html</a>
+</div>
+<div id="ref-revelle_2024" class="csl-entry" role="listitem">
+Revelle, W. (2024). <em><span class="nocase">psychTools</span>: <span>Tools</span> to <span>Accompany</span> the ’psych’ <span>Package</span> for <span>Psychological Research</span></em> (Version 2.4.3) [Computer software]. <a href="https://cran.r-project.org/web/packages/psychTools/index.html">https://cran.r-project.org/web/packages/psychTools/index.html</a>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>PSYC 6802 - Lab 6: Correlation/Regression</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="Lab_6_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="Lab_6_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Lab_6_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Lab_6_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Lab_6_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Lab_6_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="Lab_6_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="Lab_6_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Lab_6_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Lab_6_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Lab_6_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

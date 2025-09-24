@@ -18,13 +18,13 @@ $presentation-h2-font-size: 2.4em !default;
 // default theme color
 $theme-color: #7a0b80;
 
+
 // info callout color
 $callout-color-note: $theme-color;
 
 //#1c74d8
 
-//best?: #53b0a8
-// good: #c45674, lighter: #f54278
+// good? Maybe to light: #53b0a8, #c45674, lighter: #f54278
 
 //#3f5c4d
 // #a82857
@@ -44,11 +44,8 @@ $body-color: black;
 // default link color
 $link-color: $theme-color;
 
-//defualt selection color 
+//default selection color 
 $selection-bg: lighten($theme-color, 15%);
-
-
-
 
 
 // callouts
@@ -121,8 +118,6 @@ $selection-bg: lighten($theme-color, 15%);
 
 }
 
-
-
 .reveal .footer > * {
   transform: skew(25deg) !important;
 }
@@ -132,10 +127,6 @@ $selection-bg: lighten($theme-color, 15%);
 }
 
 // search bar elements
-
-//.searchinput{
-//   width: 540px !important;
-//}
 
 .search-button{
    background-color: $body-bg;
@@ -147,8 +138,6 @@ $selection-bg: lighten($theme-color, 15%);
   font-size: .8rem;
   font-weight: 800;
 }
-
-
 
 // slide number
 
@@ -336,7 +325,7 @@ kbd {
   right: 0;
 }
 
-// Zoome menu
+// Zoom menu
 
 /* Basic styles for the context menu */
 .custom-menu {
@@ -381,6 +370,7 @@ kbd {
 }
 
 // callouts?
+
 
 
 // code summary
@@ -599,3 +589,4 @@ details summary {
   z-index: 99999;
 }
 
+// tooltip
