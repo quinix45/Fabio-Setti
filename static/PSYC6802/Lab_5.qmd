@@ -413,7 +413,7 @@ pwr.t2n.test(n1 = 82, n2 = 117,
 ```
 
 
- <p style='font-size: 22px'>  Only $21\%$ power. It means that it was fairly unlikely for us to reject $H_0$ given the observed effect size and sample size. </p>
+ <p style='font-size: 22px'>  Only $18\%$ power. It means that it was fairly unlikely for us to reject $H_0$ given the observed effect size and sample size. </p>
 
 :::
 
