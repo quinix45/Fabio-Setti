@@ -67,11 +67,11 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
 
 ### `psych`
 
-The `psych` package [@revelle_2024]  includes MANY functions that help with data exploration and running analyses typically done in the social sciences. It is particluarly useful for exploratory factor analyses. 
+The `psych` package [@Revelle_2024]  includes MANY functions that help with data exploration and running analyses typically done in the social sciences. It is particluarly useful for exploratory factor analyses. 
 
 ### `carData`
 
-The `carData` package [@fox_etal_2022] contains many datasets. Most of these datasets are used in the book titled *an R Companion to Applied Regression*.
+The `carData` package [@Fox_etal_2022] contains many datasets. Most of these datasets are used in the book titled *an R Companion to Applied Regression*.
 
 :::
 
@@ -114,7 +114,6 @@ reactable::reactable(dat,
 
 :::
 ::::
-
 
 ## Association Between Variables
 
@@ -273,7 +272,7 @@ The raw covariance values are meaningless because the `income` variable is measu
 #| classes: code-125
 
 # Range of 3 variables. apply() functions apply the same function to multiple columns/rows of a matrix
-apply(dat[,1:3], 2, range)
+apply(dat[,1:4], 2, range)
 ```
 
 :::
@@ -760,6 +759,7 @@ round(cor_mat$ci, digits = 3)
 ::: {.column width = '50%'}
 
 ::: {.fragment fragment-index=2}
+
 the `t` element are the *t*-statistics associated with all the correlations:
 
 ```{r}
@@ -833,7 +833,13 @@ Onto what is probably the most important analysis in statistics, **linear regres
 :::: {.columns}
 ::: {.column width = '40%'}
 
-A *regression line* capture the linear trend between two variables.
+::: {.fragment fragment-index=1}
+
+A *regression line* captures the linear trend between two variables.
+
+:::
+
+::: {.fragment fragment-index=2}
 
 More importantly, the regression line has a very simple mathematical form, 
 
@@ -847,7 +853,13 @@ $$\mathrm{prestige} = b_0 + b_1 \times \mathrm{education}$$
 meaning that we think that perceived occupation `prestige` is *predicted* by the `education` required for that occupation.
 
 :::
+
+
+:::
 ::: {.column width = '60%'}
+
+
+::: {.fragment fragment-index=1}
 
 ```{r}
 #| eval: true
@@ -861,11 +873,64 @@ ggplot(data = dat,
 ```
 
 :::
+
+:::
 ::::
+
+## Regression Lingo
+
+There are many terms to refer to the same components of the standanrd regression equation:
+
+$$y = b_0 + b_1 \times x $$
+
+Here I will briefly define each component and give some synonyms. 
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+- $y$: *dependent variable (DV)*, outcome variable, criterion variable.
+
+In regression, $y$ is the variable that you are trying to predict. If $x$ predicts $y$, that means the two variables are related.
+
+:::
+
+
+::: {.fragment fragment-index=2}
+
+- $b_0$: *Intercept*, bias (I have heard this one in the machine learning field).
+
+The intercept is the predicted mean value of $y$ when $x = 0$. 
+:::
+
+:::
+
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=3}
+- $b_1$: *slope*, regression coefficient, regression weight.
+
+The slope captures the direction and strength of the relation between $x$ and $y$. Mathematically, the slope tells us how much we expect $y$ to increase for each 1-unit increase in $x$. 
+
+:::
+
+::: {.fragment fragment-index=4}
+
+- $x$: *independent variable (IV)*, predictor variable.
+
+In regression, the $x$ variable is the variable that we use to predict $y$. The idea is that, if $x$ and $y$ are related, then knowing $x$ should help us predict $y$.
+
+:::
+
+:::
+::::
+
 
 ## Running a Regression in `R`
 
-We can run a regression in `R` by using the `lm()` function (stand for *linear model*). Let's run a regression with `education` predicting `prestige`:
+We can run a regression in `R` by using the `lm()` function (`lm()` stands for *linear model*). Let's run a regression with `education` predicting `prestige`:
 
 :::: {.columns}
 ::: {.column width = '55%'}
@@ -887,13 +952,30 @@ we use the `summary()` function to get a summary of the results of an `lm` objec
 
 <ul style='font-size: 26px'>
 
+
+::: {.fragment fragment-index=1}
+
 <li> `call:` this is just the function formula. </li>
+
+:::
+
+::: {.fragment fragment-index=2}
 
 <li> `Residuals:` this gives a quick summary of the distribution of the *residuals*. (more on residuals later) </li>
 
+:::
+
+::: {.fragment fragment-index=3}
+
 <li> `coefficients:` this is where you find the regression coefficients along with their significance test. </li>
 
+:::
+
+::: {.fragment fragment-index=4}
+
 <li> The last part contains the $R^2$, which is a measure of how good the regression predicts the $y$ variable. </li>
+
+:::
 
 </ul>
 
@@ -926,15 +1008,27 @@ our regression coffiecents are $b_0$ and $b_1$.
 
 <ul style='font-size: 24px'>
 
+::: {.fragment fragment-index=1}
+
 <li> $b_0 = -10.73$, the *intercept*:  The *expected value* of `prestige` when `education` is 0. You may notice that that `prestige` cannot ever be below 0, so this should be impossible in practice (see next slide). </li>
+
+:::
+
+::: {.fragment fragment-index=2}
 
 <li> $b_1 = 5.36$, the *slope*: The *expected change* in `prestige` per 1-unit increase in `education`.  </li>
 
+:::
+
 </ul>
+
+::: {.fragment fragment-index=3}
 
 The regression equation is 
 
 $$\mathrm{prestige} = -10.73 + 5.36 \times \mathrm{education}$$
+
+:::
 
 :::
 ::::
@@ -947,14 +1041,24 @@ The intercept, $b_0$, is the "expected value of the $y$ variable when $x$ is 0".
 :::: {.columns}
 ::: {.column width = '40%'}
 
-The intercept is mathematically where the regression line hits the $y$-axis. If the the 0 value for $x$ is out of range, than the intercept will generally be meaningless.
 
+::: {.fragment fragment-index=1}
+The intercept is mathematically where the regression line hits the $y$-axis. If the the 0 value for $x$ is out of range, than the intercept will generally be meaningless.
+:::
+
+
+::: {.fragment fragment-index=2}
 This is not an "issue" and it's only a consequence of the *scale* of our variables. We will see what happens once we standardize our variables.
+
 
 In practice, you do not care much about the intercept, as it does not carry any information about the relation between the $x$ and $y$ variables.
 
 :::
+
+:::
 ::: {.column width = '60%'}
+
+::: {.fragment fragment-index=1}
 
 ```{r}
 #| eval: true
@@ -982,6 +1086,7 @@ ggplot(data = dat,
 ```
 
 :::
+:::
 ::::
 
 ## Regression Coefficients: Slope
@@ -995,6 +1100,8 @@ We can plug in some values for `education` and get the *predicted value* for `pr
 :::: {.columns}
 ::: {.column width = '50%'}
 
+::: {.fragment fragment-index=1}
+
 - if $\mathrm{education} = 1$, then $\mathrm{prestige} = -10.73 + 5.36 \times 1 = -5.37$
 
 
@@ -1005,17 +1112,27 @@ We can plug in some values for `education` and get the *predicted value* for `pr
 
 :::
 
+:::
+
 
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
 
 the "1-unit change" part comes from the $5.36 \times \mathrm{education}$ term in the regression equation. 
 
 As you change `education` by 1, `prestige` changes by $5.36$ times that. If you change `education` by 2-units, then `prestige` changes by $10.72$.
+
+:::
+
 :::
 ::::
 
+::: {.fragment fragment-index=3}
+
 Note that the *sign* of the slope tells you whether two variables are positively or negatively related. As we already saw with the correlation, `prestige` and `education` are positively related.
 
+:::
 
 ## More Slopes Examples
 
@@ -1181,7 +1298,7 @@ lm(income ~ women, dat)$coef[2]
 ::::
 
 
-## Regression With stndardized Variables
+## Regression With standardized Variables
 
 Let's look at what happens when we run a regression with the same variables, but standardized. What is the same and what is different? 
 
@@ -1265,7 +1382,6 @@ ggplot(data = dat,
 :::
 ::::
 
-
 ## Standardized Coefficients: Intercept
 
 :::: {.columns}
@@ -1282,13 +1398,18 @@ Whenever we standardize all the variables in a regression, the intercept will al
 round(reg_std$coef[1], 3)
 ```
 
+
+::: {.fragment fragment-index=1}
 This is because standardizing has the effect of centering the data, and the regression line, at the 0 point. 
 
-
 This is apparent in the graph on the right, where the regression line hits the *y*-axis at 0 exactly.
+:::
+
 
 :::
 ::: {.column width = '70%'}
+
+::: {.fragment fragment-index=1}
 ```{r}
 #| eval: true
 #| echo: true 
@@ -1307,6 +1428,8 @@ ggplot(data = dat,
 ```
 
 :::
+
+:::
 ::::
 
 
@@ -1314,6 +1437,7 @@ ggplot(data = dat,
 
 In the case of a regression with two variables, the standardized regression slope <u>is the correlation coefficient</u>. As a reminder, here are the unstandardized regression coefficient, standardized regression coefficient, and correlation between `prestige` and `education`:
 
+::: {.fragment fragment-index=1}
 
 :::: {.columns}
 ::: {.column width = '40%'}
@@ -1364,23 +1488,36 @@ round(cor_mat$t[4,1], 2)
 
 :::
 ::::
+:::
 
 
+::: {.fragment fragment-index=2}
+Notice that the standardized regression coefficient and and the correlation are both $0.85$. The unstandardized slope is different given that it's on the original scale of the variables.
+:::
 
-Notice that the standardized regression coefficient and and the correlation are both $0.85$. The unstandardized regression coefficient is different although 
 
-
+::: {.fragment fragment-index=3}
 Additionally, I made sure to print the $t$-values associated with the 3 statistics above. I want to emphasize that the $t$-values are the exact same in all 3 cases 🤔
-
+:::
 
 
 ## If the $t$-statistic is the same...
 
 To refer back to hypothesis testing, we use test statistics like the $t$-statistic to test hypotheses. In the case of regression and correlation, the $t$-statistic is always used to ask this question:
 
+
+::: {.fragment fragment-index=1}
+
 <center style:"font-size: 30px;"> <u>Is the relation between two variables significantly different from 0?</u> </center>
 
-Then, if the $t$-statistics are the exact same, it means that we are asking the same exact question. In other words, unstandardized, standardized regression coefficients, and correlations are one and the same. 
+:::
+
+::: {.fragment fragment-index=2}
+Then, if the $t$-statistics are the exact same, it means that we are asking the same exact question. In other words, unstandardized, standardized regression coefficients, and correlations are the same. 
+:::
+
+
+::: {.fragment fragment-index=3}
 
 :::: {.columns}
 ::: {.column width = '50%'}
@@ -1392,7 +1529,7 @@ The *true temperature* does not change whether we measure it in Fahrenheit or Ce
 </center>
 
 
-It may not click now, but *why* this point is very important will become clearer when we start talking about multiple regression.
+It may not click now, but *why* this point is very important will becomes much clearer when will interpret the magnitude of slopes in some later labs.
 
 
 :::
@@ -1406,27 +1543,306 @@ It may not click now, but *why* this point is very important will become clearer
 :::
 ::::
  
+:::
+
 ## Let's Talk Residuals 
 
 :::: {.columns}
 ::: {.column width = '50%'}
 
+
+::: {.fragment fragment-index=1}
 At a conference in the Summer of 2025 I met this gentleman on the right 👉
+:::
 
+::: {.fragment fragment-index=2}
 He talked A LOT about how checking residuals is probably the most important thing to do when you run regression models (even more important than checking regression coefficients!). He is probably right 🤷
+:::
 
+::: {.fragment fragment-index=3}
 A **residual** is the distance between the regression line and a data point. Points with large residuals are not predicted well by a regression, whereas points with small residuals are predicted quite well.
+:::
 
+::: {.fragment fragment-index=4}
 
 <center> Residuals are important because they let us know how well, or, in most cases, *how poorly* our regression describes the data.  </center>
 
 :::
+
+:::
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
 
 ![[Dan Schley](https://www.rsm.nl/people/dan-schley/#publications){target='_blank'}, Associate Professor at Erasmus University, Rotterdam, NL](Additional%20files/images/Dan.jpg){width=60%}
 
+:::
+
+::: {.fragment fragment-index=3}
 
 ![The red lines are the residuals, probably Dan's favorite food](Additional%20files/images/residuals.png){width=70%}
+
+:::
+
+:::
+::::
+
+
+## The One Regression Assumption
+
+Mathematically, the regression line represents the mean of the $y$ variable **after** finding out about $x$. Importantly, the residuals are expected to be normally distributed around the regression line at each point of $x$.
+
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+
+::: {.fragment fragment-index=1}
+
+There are many complicated terms relating to regression assumptions, but the only real regression assumption is 
+
+:::
+
+
+::: {.fragment fragment-index=2}
+
+<center> <u> that the dots are distributed in the way shown on the right around the regression line </u> </center>
+
+:::
+
+</br>
+
+::: {.fragment fragment-index=3}
+
+You *never* get something like this in reality. Let's look at some examples.
+
+:::
+:::
+
+
+::: {.column width = '70%'}
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+# Generate idealized data
+
+set.seed(7757)
+
+# generate X values
+education <- rep(seq(min(dat$education), max(dat$education), by =.1), 150)
+
+# the code below generates data according to the regression model
+
+intercept <- coef(reg)[1]
+slope <- coef(reg)[2]
+residual_var <- sigma(reg)
+
+ideal_data <- rnorm(length(education), mean = intercept + education*slope, sd = sigma(reg))
+
+# plot the idealized data
+
+ggplot(mapping =  aes(x = education, y = ideal_data)) +  
+  geom_point(alpha = .2)+
+  ggtitle("The Data Regression Expects") +
+  ylab("prestige") +
+  xlab("education") +
+      geom_smooth(method = "lm", se = FALSE)
+```
+
+:::
+
+:::
+::::
+
+
+## Residuals of `prestige ~ education`
+
+Given a regression line, every datapoint will have a residual, which represents the distance of the point from the regression line. For any object created with `lm()` residuals are saved under `$residuals`. 
+
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg <- lm(prestige ~ education, data = dat)
+dat$resid_prestige <- reg$residuals
+```
+
+
+We want to check that that the residuals are normally distributed around their mean, which is always $0$, for all values of the $x$ variable:
+
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, aes(x = education, y = resid_prestige)) +
+        geom_point() +
+        geom_hline(yintercept = 0) +
+        geom_smooth(method = "loess", se = FALSE)
+```
+
+:::
+
+:::
+
+::: {.column width = '60%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+
+ggplot(dat, aes(x = education, y = resid_prestige)) +
+        geom_point() +
+        geom_hline(yintercept = 0) +
+        geom_smooth(method = "loess", se = FALSE)
+
+
+```
+
+
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=2}
+
+The `loess` line helps with checking for non-normality. Here, I would say that the residuals are fairly normally distributed around 0 across the range of $x$ ✅
+
+:::
+
+## Residuals of `income ~ women`
+
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+reg2 <- lm(income ~ women, data = dat)
+dat$resid_income <- reg2$residuals
+```
+
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, aes(x = women, y = resid_income)) +
+        geom_point() +
+        geom_hline(yintercept = 0) +
+        geom_smooth(method = "loess", se = FALSE)
+
+```
+
+::: {.fragment fragment-index=1}
+
+Here, you should notice that although the residuals are fairly normally distributed for profession with $10\%$ to $100\%$ women, the residuals are really strange for professions with $0\%$ women.
+
+:::
+
+
+:::
+
+::: {.column width = '60%'}
+
+</br>
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+ggplot(dat, aes(x = women, y = resid_income)) +
+        geom_point() +
+        geom_hline(yintercept = 0) +
+        geom_smooth(method = "loess", se = FALSE)
+
+```
+
+:::
+::::
+
+<p style='font-size: 30px'>  So, the regression does well enough from the 10 to 100 range of $x$ ✅, but does not do a good job at all at describing `income` for jobs where there are no `women` ❌ Also notice that the loess line does not help much in detecting this anomaly. </p>
+
+
+
+## Normality of residuals: QQplots
+
+Residual plots like the ones on the previous slides are the most informative way of checking that your regression model describes the data reasonably well. Checking the normality is the also good for assumption checks, but can sometimes hide important nuances.
+
+:::: {.panel-tabset}
+
+### QQplot for `prestige ~ education` Residuals
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, 
+       aes(sample = resid_prestige)) + 
+       stat_qq() + 
+       stat_qq_line()
+
+```
+
+Again, I would say this is alright overall.
+
+
+:::
+::: {.column width = '70%'}
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, 
+       aes(sample = resid_prestige)) + 
+       stat_qq() + 
+       stat_qq_line()
+
+```
 
 
 :::
@@ -1434,29 +1850,530 @@ A **residual** is the distance between the regression line and a data point. Poi
 
 
 
+### QQplot for `income ~ women` Residuals
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, 
+       aes(sample = resid_income)) + 
+       stat_qq() + 
+       stat_qq_line()
+
+```
+
+Clearly some strangeness going on for professions with high income.
+
+:::
+
+
+::: {.column width = '70%'}
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, 
+       aes(sample = resid_income)) + 
+       stat_qq() + 
+       stat_qq_line()
+
+```
+
+
+:::
+::::
+
+::::
+
+
+## Normality of residuals: Density
+
+Once again, I find density plots more intuitive than QQplots, although they both convey the same type of information.
+
+:::: {.panel-tabset}
+
+### QQplot for `prestige ~ education` Residuals
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, 
+       aes(x = resid_prestige)) + 
+        geom_density()
+
+```
+
+
+:::
+::: {.column width = '70%'}
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, 
+       aes(x = resid_prestige)) + 
+        geom_density()
+
+```
+
+
+:::
+::::
 
 
 
+### QQplot for `income ~ women` Residuals
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, 
+       aes(x = resid_income)) + 
+        geom_density()
+
+```
+
+Where there is a very clear right tail.
+
+:::
 
 
-## Some APA Style Resources
-
-No one likes spending time on APA style, and I certainly don't care much for it. Here are some resources for APA style reporting:
+::: {.column width = '70%'}
 
 
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, 
+       aes(x = resid_income)) + 
+        geom_density()
+
+```
+
+
+:::
+::::
+
+::::
+
+
+
+## Implications on Generalizability
+
+The main reason why we collect data and run statistical analyses is to (hopefully) *generalize the results to some population*.
 
 
 :::: {.columns}
 ::: {.column width = '50%'}
 
+::: {.fragment fragment-index=1}
+
+<center> The regression coefficients, mainly the slope, is what we want to generalize to the population. </center>
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg2)
+```
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+<center> The residuals tell us whether it is reasonable to try to generalize our results. </center>
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, aes(x = women, y = resid_income)) +
+        geom_point() +
+        geom_hline(yintercept = 0) +
+        geom_smooth(method = "loess", se = FALSE) +
+        ggforce::geom_ellipse(aes(x0 = 7, y0 = 13500, a = 10, b = 5000, angle = 0), color="red")
+```
+
+:::
+
+:::
+::::
+
+
+
+::: {.fragment fragment-index=3}
+
+<center> Running regressions and checking residuals are two steps of the same process. </center>
+
+:::
+
+## Variance Explained: $R^2$
+
+The most common effect size used to evaluate how well a regression overall "fits" the data is $R^2$, which is often called *variance explained*. It ranges between 0 and 1, with 1 meaning perfect predictions.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+<ul style='font-size: 28px'>
+
+<li> $R^2$ for `prestige ~ education`  </li>
+
+</ul>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg)$r.squared
+```
+
+
+<ul style='font-size: 28px'>
+
+<li> $R^2$ for `income ~ women` </li>
+
+</ul>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg2)$r.squared
+```
+
 
 :::
 ::: {.column width = '50%'}
 
 
+::: {.fragment fragment-index=1}
+
+in the case of a regression with only one predictor, $R^2$ equals the correlation between $y$ and $x$ squared:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cor(dat$prestige, dat$education)^2
+```
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cor(dat$income, dat$women)^2
+```
+
+:::
+
 :::
 ::::
 
+::: {.fragment fragment-index=2}
+
+So, `education` explained $72\%$ of the varaince in `presrtige`, while `women` explained $19\%$ of the varaince in `income`.  For any `lm` object, the $R^2$ along fit its significance test is also at the end of the `summary()` output.  
+
+The term "variance explained" does not make much intuitive sense; let's try to understand where it comes from! 
+
+:::
+
+
+## Why "Variance explained"? 🤔
+
+*Variance* is the <u> part of a variable that is not predictable </u>, or rather, that we cannot predict given the information that we have. Let's look at the case of the `prestige ~ education` regression:
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+Let's say that the only information we have is the `prestige` column, our $y$ variable. Then, a friend says that they are going to take some value from the `prestige` column at random.
+
+Our job is to pick a number that will be as close as possible to any random value from `prestige`. What is our *best possible guess*?
+
+:::
+
+::: {.fragment fragment-index=2}
+As math would have it, the best guess is **mean** of `prestige`:
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+mean(dat$prestige)
+```
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat,  
+       aes(x = prestige -  mean(prestige), y = 0)) +
+       geom_point(shape = 1, 
+                  size=6.5) +
+  annotate("text", y = 0.008, x = 0, label = "These would be the residuals of Prestige, \n if our best guess is the mean", size = 7.5) +
+  annotate("text", y = - 0.008, x = 0, label = "The variance of these residuals is the exact same as \nthe varaince of the original prestige variable", size = 7.5) +
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.line.y =  element_blank()) +
+          ylim(c(-.01, .01)) +
+          xlab("Residuals of Prestige")
+
+```
+
+:::
+
+:::
+::::
+
+
+## Reducing Variance
+
+Now let's say that we play the same game, but this time, before our friend tells us the value of `prestige` that they picked at random, they tell us the `education` value associated with it, and let us adjust our guess accordingly.
+
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+Having learned linear regression, if we know a value of $x$, we can improve our guess of $y$!
+
+
+The blue dots represent our residuals for the regression `prestige ~ education`. After finding out about `education`, we reduced the variance in the residuals by:
+
+$$1 - \frac{82.87}{295.99} = .72$$
+
+This is the $R^2$ for the `prestige ~ education` regression. `education` *explained* $72\%$ of the variance in `prestige`.
+
+:::
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat,  
+       aes(x = prestige -  mean(prestige), y = 0)) +
+       geom_point(shape = 1, 
+                  size=6.5) +
+  annotate("text", y = 0.015, x = 0, label = paste("The Original residuals had a \n varaince of", round(var(dat$prestige), 2)), size = 7.5)+
+  geom_point(aes(x = dat$resid_prestige, y = - .03), shape = 1, 
+                  size=6.5, col = "blue") + 
+    annotate("text", y = -0.015, x = 0, label = paste("After finding out about education, \n the varaince of the residuals becomes", round(sum(dat$resid_prestige^2)/100, 2)), size = 7.5, col = "blue")+
+  theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.line.y =  element_blank()) +
+          ylim(c(-.04, .02)) +
+          xlab("Residuals of Prestige")
+
+```
+
+
+:::
+::::
+
+:::
+
+## Another visualization
+
+Here is a visualization of our *best possible line* before and after finding out about `education`. The concept is the same as before, but visulized in a slightly different way:
+
+
+:::: {.panel-tabset}
+
+### With `prestige` only
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+
+The lines is the mean of `prestige` and is our best guess. You can run a regression with a single variable actually:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_one_var <- lm(prestige ~ 1, data = dat)
+coef(reg_one_var)
+```
+
+The intercept, which is all you get, is the mean of the one variable:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+mean(dat$prestige)
+```
+
+
+
+:::
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+# fit a linear model
+fit <- lm(prestige ~ 1, data = dat)
+
+# add fitted values to the data
+dat$resid_line <- predict(fit)
+
+ggplot(data = dat, aes(x = education, y = prestige)) +
+  geom_point() +
+  geom_hline(yintercept =  mean(dat$prestige)) +
+  geom_segment(aes(xend = education, 
+                   yend = resid_line),
+               linetype = "dotted", color = "red")
+
+```
+
+:::
+::::
+
+
+
+### With `prestige ~ education`
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+Now that we know about `education` we can improve our prediction greatly by finding the regression line.
+
+You should see that all the red dotted lines are much shorter on average. That means that the *variance of the residuals is much smaller*. Once again, this is the *varaince explained*.
+
+:::
+::: {.column width = '70%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+
+library(ggplot2)
+
+# fit a linear model
+fit <- lm(prestige ~ education, data = dat)
+
+# add fitted values to the data
+dat$resid_line <- predict(fit)
+
+ggplot(data = dat, aes(x = education, y = prestige)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  geom_segment(aes(xend = education, 
+                   yend = resid_line),
+               linetype = "dotted", color = "red")
+
+
+```
+
+
+:::
+::::
+
+
+
+
+::::
+
+
+## Some APA Style Resources
+
+ <p style='font-size: 34px'>  APA style is something I don't really want to spend time on. I trust that given some templates you can figure out how to report results in APA style. Here are some resources:  </p>
+
+
+ <p style='font-size: 34px'>  [<i class="fa fa-external-link-alt"></i>](https://owl.purdue.edu/owl/research_and_citation/apa_style/apa_formatting_and_style_guide/statistics_in_apa.html){target='_blank'}  Some guidelines about text formatting when reporting statistics.  </p>
+
+ <p style='font-size: 34px'>  [<i class="fa fa-external-link-alt"></i>](https://about.illinoisstate.edu/mshesso-test2/reporting-statistics-in-apa-style){target='_blank'} Some quick examples about most of the statistical analyses in this course.This is APA 6<sup>th</sup> edition, but close enough still. </p>
+
+
+<p style='font-size: 34px'>  [<i class="fa fa-external-link-alt"></i>](https://psych.uw.edu/storage/writing_center/stats.pdf){target='_blank'} Some ANOVA focused example APA style reports for miscellaneous analyses.  </p>
+
+<p style='font-size: 34px'>  [<i class="fa fa-external-link-alt"></i>](https://nursing.ucalgary.ca/sites/default/files/teams/3/ExamplesusingAPAFormat.pdf){target='_blank'} Some APA style examples for regression-like analyses.  </p>
+
+</br>
+ 
+ <p style='font-size: 34px'>  Some of these may differ slightly, but any of them is fine in my book. </p>
 
 ## References 
 
