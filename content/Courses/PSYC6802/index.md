@@ -92,7 +92,7 @@ This Lab introduces the R programming language and RStudio. This Lab also covers
 
 <h3> 2. Descriptive Statistics, Data Manipulation, and Plotting </h3>
 
-This Lab goes over some basic descriptive statistics, data manipulation with  [`dplyr`](https://dplyr.tidyverse.org), and plotting with [`ggplot2`](https://ggplot2.tidyverse.org/index.html). 
+This Lab goes over some basic descriptive statistics, data manipulation with [`dplyr`](https://dplyr.tidyverse.org), and plotting with [`ggplot2`](https://ggplot2.tidyverse.org/index.html). 
 
 <span class="post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_2.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
@@ -171,9 +171,9 @@ This lab introduces power analysis with the [`pwr`](https://cran.r-project.org/w
 
 
 
-<h3> 6. Correlation/Regression </h3>
+<h3> 6. Correlation and Regression </h3>
 
-Coming soon!
+This Lab introduce both correlation and regression. The lab also gives examples of unstandardized and standardized regression results and talks about the differences and similarities between the two. The exploration of residuals as an integral part of regression analysis is emphasized. Finally, The lab introduces <i>R</i><sup>2</sup> as an effect size for regression and provides graphical illustrations of the idea of <i>variance explained</i>.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_6.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

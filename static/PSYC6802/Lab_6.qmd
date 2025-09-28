@@ -1,5 +1,5 @@
 ---
-title: "Lab 6: Correlation/Regression"
+title: "Lab 6: Correlation and Regression"
 author: "Fabio Setti"
 institute: "PSYC 6802 - Introduction to Psychology Statistics"
 bibliography: Additional files/references.bib
@@ -9,7 +9,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "PSYC 6802 - Lab 6: Correlation/Regression"
+      footer: "PSYC 6802 - Lab 6: Correlation and Regression"
       width: 1280
       height: 720
       fig-format: svg
