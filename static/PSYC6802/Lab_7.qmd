@@ -60,7 +60,7 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
                         base_family = 'serif'))
 ```
 
-</br>
+
 
 ::: {.panel-tabset}
 
@@ -79,7 +79,7 @@ The `carData` package [@Fox_etal_2022] contains many datasets. Most of these dat
 ::: {.column width = '50%'}
 <center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
 
-Today we will work with the `prestige` dataset. This dataset contains the perceived prestige and other variables related to 102 professions in Canada in 1971.
+Today we will work with some data from NYC public schools. Namley, we will focus on the average SAT scores by school across the different boroughs. 
  
 ```{r}
 #| eval: true
@@ -92,28 +92,27 @@ dat <- rio::import("https://fabio-setti.netlify.app/data/NYC_SAT_data.csv")
 ```
 
 ```{r}
-library(labelled)
-library(FabioFun)
+# library(FabioFun)
 
-dat_labs <- rio::import("https://fabio-setti.netlify.app/data/prestige.sav")
-labels <- as.character(var_label(dat_labs))
+# labels <- c()
 
-labels <- labels[-1]
-
-
-labels_react <- reactbl_col.desc(names = colnames(dat),
-                                 desc =  labels,
-                                 style = "cursor: pointer; text-decoration: none;",
-                                 info_color = "#7a0b80")
+# labels_react <- reactbl_col.desc(names = colnames(dat),
+#                                  desc =  labels,
+#                                  style = "cursor: pointer; text-decoration: none;",
+#                                  info_color = "#7a0b80")
 
 reactable::reactable(dat,
                      style = list(fontFamily = "Work Sans, sans-serif", fontSize = ".9rem"),
-                     pagination = FALSE, highlight = TRUE, height = 300, columns = labels_react)
+                     pagination = FALSE, highlight = TRUE, height = 300)
 ```
 
 :::
 ::::
 
+
+## What Does ANOVA do?
+
+ANOVA stands for analysis of variance. The 
 
 
 

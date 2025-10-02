@@ -1766,11 +1766,9 @@ ggplot(dat, aes(x = women, y = resid_income)) +
 
 ```
 
-::: {.fragment fragment-index=1}
+
 
 Here, you should notice that although the residuals are fairly normally distributed for profession with $10\%$ to $100\%$ women, the residuals are really strange for professions with $0\%$ women.
-
-:::
 
 
 :::
@@ -1796,8 +1794,12 @@ ggplot(dat, aes(x = women, y = resid_income)) +
 :::
 ::::
 
+
+::: {.fragment fragment-index=1}
+
 <p style='font-size: 30px'>  So, the regression does well enough from the 10 to 100 range of $x$ ✅, but does not do a good job at all at describing `income` for jobs where there are no `women` ❌ Also notice that the loess line does not help much in detecting this anomaly. </p>
 
+:::
 
 
 ## Normality of residuals: QQplots
