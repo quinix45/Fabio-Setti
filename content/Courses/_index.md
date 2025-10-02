@@ -1,7 +1,7 @@
 ---
 title: Courses
 description: |
-  Materials for courses that I currently teach of have taught in the past
+  Materials for courses that I currently teach or that I have taught in the past 
 show_post_thumbnail: true
 show_post_date: true
 

@@ -25,6 +25,95 @@ editor: source
 build: local
 ---
 
+## Today's Packages and Data 🤗
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-125
+
+
+# run for packages that you have not installed yet
+# install.packages("tidyverse")
+install.packages("psych")
+install.packages("carData")
+```
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(psych)
+library(carData)
+library(tidyverse)
+# I am setting a theme for all the plots
+theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
+                        base_family = 'serif'))
+```
+
+</br>
+
+::: {.panel-tabset}
+
+### `psych`
+
+The `psych` package [@Revelle_2024]  includes MANY functions that help with data exploration and running analyses typically done in the social sciences. It is particluarly useful for exploratory factor analyses. 
+
+### `carData`
+
+The `carData` package [@Fox_etal_2022] contains many datasets. Most of these datasets are used in the book titled *an R Companion to Applied Regression*.
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+Today we will work with the `prestige` dataset. This dataset contains the perceived prestige and other variables related to 102 professions in Canada in 1971.
+ 
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat <- carData::Prestige
+```
+
+```{r}
+library(labelled)
+library(FabioFun)
+
+dat_labs <- rio::import("https://fabio-setti.netlify.app/data/prestige.sav")
+labels <- as.character(var_label(dat_labs))
+
+labels <- labels[-1]
+
+
+labels_react <- reactbl_col.desc(names = colnames(dat),
+                                 desc =  labels,
+                                 style = "cursor: pointer; text-decoration: none;",
+                                 info_color = "#7a0b80")
+
+reactable::reactable(dat,
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = ".9rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300, columns = labels_react)
+```
+
+:::
+::::
+
 
 
 
