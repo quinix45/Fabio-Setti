@@ -88,7 +88,7 @@ Today we will work with the `prestige` dataset. This dataset contains the percei
 #| code-line-numbers: false
 #| classes: code-125
 
-dat <- carData::Prestige
+dat <- rio::import("https://fabio-setti.netlify.app/data/NYC_SAT_data.csv")
 ```
 
 ```{r}
