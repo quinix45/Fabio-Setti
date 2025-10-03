@@ -251,7 +251,7 @@ We see that the covariance is negative. meaning that, in 1971, the more women we
 
 
 
-On the previous slide we say that the first covariance was around $39.9$ and the second covariance was around $-59411.38$. Does this mean that the second relationship is much stronger than the first one? Absolutely not. The values of covariances cannot be compared when variables are measured on *different scales*. The formula for the covariance is:
+On the previous slide we saw that the first covariance was around $39.9$ and the second covariance was around $-59411.38$. Does this mean that the second relationship is much stronger than the first one? Absolutely not. The values of covariances cannot be compared when variables are measured on *different scales*. The formula for the covariance is:
 
 ::: {.fragment fragment-index=1}
 $$S_{xy} = \frac{\sum (x_i - \bar{x}) \times (y_i - \bar{y})}{n - 1}$$
@@ -2117,7 +2117,7 @@ cor(dat$income, dat$women)^2
 
 ::: {.fragment fragment-index=2}
 
-So, `education` explained $72\%$ of the varaince in `presrtige`, while `women` explained $19\%$ of the varaince in `income`.  For any `lm` object, the $R^2$ along fit its significance test is also at the end of the `summary()` output.  
+So, `education` explained $72\%$ of the variance in `presrtige`, while `women` explained $19\%$ of the varaince in `income`.  For any `lm` object, the $R^2$ along fit its significance test is also at the end of the `summary()` output.  
 
 The term "variance explained" does not make much intuitive sense; let's try to understand where it comes from! 
 
@@ -2171,7 +2171,7 @@ ggplot(dat,
        geom_point(shape = 1, 
                   size=6.5) +
   annotate("text", y = 0.008, x = 0, label = "These would be the residuals of Prestige, \n if our best guess is the mean", size = 7.5) +
-  annotate("text", y = - 0.008, x = 0, label = "The variance of these residuals is the exact same as \nthe varaince of the original prestige variable", size = 7.5) +
+  annotate("text", y = - 0.008, x = 0, label = "The variance of these residuals is the exact same as \nthe variance of the original prestige variable", size = 7.5) +
   theme(axis.title.y=element_blank(),
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank(),
@@ -2222,10 +2222,10 @@ ggplot(dat,
        aes(x = prestige -  mean(prestige), y = 0)) +
        geom_point(shape = 1, 
                   size=6.5) +
-  annotate("text", y = 0.015, x = 0, label = paste("The Original residuals had a \n varaince of", round(var(dat$prestige), 2)), size = 7.5)+
+  annotate("text", y = 0.015, x = 0, label = paste("The Original residuals had a \n variance of", round(var(dat$prestige), 2)), size = 7.5)+
   geom_point(aes(x = dat$resid_prestige, y = - .03), shape = 1, 
                   size=6.5, col = "blue") + 
-    annotate("text", y = -0.015, x = 0, label = paste("After finding out about education, \n the varaince of the residuals becomes", round(sum(dat$resid_prestige^2)/100, 2)), size = 7.5, col = "blue")+
+    annotate("text", y = -0.015, x = 0, label = paste("After finding out about education, \n the variance of the residuals becomes", round(sum(dat$resid_prestige^2)/100, 2)), size = 7.5, col = "blue")+
   theme(axis.title.y=element_blank(),
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank(),
@@ -2243,7 +2243,7 @@ ggplot(dat,
 
 ## Another visualization
 
-Here is a visualization of our *best possible line* before and after finding out about `education`. The concept is the same as before, but visulized in a slightly different way:
+Here is a visualization of our *best possible line* before and after finding out about `education`. The concept is the same as before, but visualized in a slightly different way:
 
 
 :::: {.panel-tabset}
@@ -2317,7 +2317,7 @@ ggplot(data = dat, aes(x = education, y = prestige)) +
 
 Now that we know about `education` we can improve our prediction greatly by finding the regression line.
 
-You should see that all the red dotted lines are much shorter on average. That means that the *variance of the residuals is much smaller*. Once again, this is the *varaince explained*.
+You should see that all the red dotted lines are much shorter on average. That means that the *variance of the residuals is much smaller*. Once again, this is the *variance explained*.
 
 :::
 ::: {.column width = '70%'}

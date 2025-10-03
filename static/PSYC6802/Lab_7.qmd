@@ -118,7 +118,10 @@ ANOVA stands for *analysis of variance*. The whole idea of ANOVA goes back to th
 :::: {.columns}
 ::: {.column width = '30%'}
 
-We have our dependent variable, 
+We have our dependent variable, `SAT_Math`, which is the average SAT math score across all New York public schools. (kinda skewed!)
+
+As we talked about in the lab 6 [text](https://fabio-setti.netlify.app/psyc6802/lab_6#/why-variance-explained){target='_blank'}, if we were trying to predict `SAT_Math` for any NYC public school and this plot on the right is all the information we have, our best guess would be the *mean* of `SAT_Math`. 
+
 
 :::
 ::: {.column width = '70%'}
@@ -131,14 +134,11 @@ We have our dependent variable,
 #| code-fold: true
 #| code-summary: "Plot Code"
 
-ggplot(dat, aes(x = Average_Score_(SAT_Math))) +
-  geom_density(aes(color = "Raw")) +
-  xlim(c(-10, 20)) +
-  scale_y_continuous(expand = c(0,0)) +
-  scale_color_manual(
-    values = c("Raw" = "blue"),
-    name = "",
-    labels = c( "Raw" = expression(x[i]))) +
+ggplot(dat, aes(x = SAT_Math)) +
+  geom_density() +
+  geom_vline(xintercept = mean(dat$SAT_Math, na.rm = TRUE), lty = 3) +
+  annotate("text", x = 510, y = 0.007, label = paste(mean(dat$SAT_Math, na.rm = TRUE), ", the mean of \n the SAT_Math variable"), size = 7) +
+    scale_y_continuous(expand = c(0,0))  +
   theme(
     axis.title.y = element_blank(),
     axis.text.y  = element_blank(),
