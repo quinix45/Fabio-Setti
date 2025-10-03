@@ -1,4 +1,4 @@
-School_ID,School_Name,Borough,Building_Code,Street_Address,City,State,Zip_Code,Latitude,Longitude,Phone_Number,Start_Time,End_Time,Student_Enrollment,Percent_White,Percent_Black,Percent_Hispanic,Percent_Asian,Average_Score_(SAT_Math),Average_Score_(SAT_Reading),Average_Score_(SAT_Writing),Percent_Tested
+School_ID,School_Name,Borough,Building_Code,Street_Address,City,State,Zip_Code,Latitude,Longitude,Phone_Number,Start_Time,End_Time,Student_Enrollment,Percent_White,Percent_Black,Percent_Hispanic,Percent_Asian,SAT_Math,SAT_Reading,SAT_Writing,Percent_Tested
 02M260,Clinton School Writers and Artists,Manhattan,M933,425 West 33rd Street,Manhattan,NY,10001,40.75321,-73.99786,212-695-9114,"","",,"","","","",,,,""
 06M211,Inwood Early College for Health and Information Technologies,Manhattan,M052,650 Academy Street,Manhattan,NY,10002,40.86605,-73.92486,718-935-3660,8:30 AM,3:00 PM,87,3.4%,21.8%,67.8%,4.6%,,,,""
 01M539,"New Explorations into Science, Technology and Math High School",Manhattan,M022,111 Columbia Street,Manhattan,NY,10002,40.71873,-73.97943,212-677-5190,8:15 AM,4:00 PM,1735,28.6%,13.3%,18.0%,38.5%,657,601,601,91.0%

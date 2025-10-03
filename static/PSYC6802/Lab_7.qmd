@@ -101,8 +101,8 @@ dat <- rio::import("https://fabio-setti.netlify.app/data/NYC_SAT_data.csv")
 #                                  style = "cursor: pointer; text-decoration: none;",
 #                                  info_color = "#7a0b80")
 
-reactable::reactable(dat,
-                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = ".9rem"),
+reactable::reactable(dat[1:200,],
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = ".7rem"),
                      pagination = FALSE, highlight = TRUE, height = 300)
 ```
 
@@ -110,9 +110,50 @@ reactable::reactable(dat,
 ::::
 
 
-## What Does ANOVA do?
+## Starting from the Top
 
-ANOVA stands for analysis of variance. The 
+ANOVA stands for *analysis of variance*. The whole idea of ANOVA goes back to the idea of *variance explained* that we discussed in [lab 6](https://fabio-setti.netlify.app/psyc6802/lab_6#/variance-explained-r2){target='_blank'}. 
+
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+We have our dependent variable, 
+
+:::
+::: {.column width = '70%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat, aes(x = Average_Score_(SAT_Math))) +
+  geom_density(aes(color = "Raw")) +
+  xlim(c(-10, 20)) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_color_manual(
+    values = c("Raw" = "blue"),
+    name = "",
+    labels = c( "Raw" = expression(x[i]))) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y  = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.y  = element_blank())
+```
+
+
+:::
+::::
+
+
+
+
+
 
 
 
