@@ -27,6 +27,11 @@ build: local
 
 
 
+## Types of Squares
+
+Something annoying about ANOVAs is that there are multiple "ways" of calculating sums of squares. If for some reason you end up running ANOVAs a bunch, maybe [look more into it](https://stats.stackexchange.com/questions/20452/how-to-interpret-type-i-type-ii-and-type-iii-anova-and-manova){target='_blank'}. We will use Type III sum of squares and call it a day. 
+
+
 ## References 
 
 <div id="refs"> </div>

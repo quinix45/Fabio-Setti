@@ -1,0 +1,339 @@
+
+## Today's Packages and Data 🤗
+
+
+
+```{r}
+install.packages("emmeans")
+```
+
+
+
+```{r}
+library(tidyverse)
+library(emmeans)
+# I am setting a theme for all the plots
+theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
+                        base_family = 'serif'))
+```
+
+
+
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/NYC_SAT_data.csv")
+```
+
+
+
+## Starting from the Top
+
+
+
+```{r}
+ggplot(dat, aes(x = SAT_Math)) +
+  geom_density() +
+  geom_vline(xintercept = mean(dat$SAT_Math, na.rm = TRUE), lty = 3) +
+  annotate("text", x = 510, y = 0.007, label = paste(mean(dat$SAT_Math, na.rm = TRUE), ", the mean of \n the SAT_Math variable"), size = 7) +
+    scale_y_continuous(expand = c(0,0))  +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y  = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.y  = element_blank())
+```
+
+
+## Residual Variance with only one Mean
+
+
+
+```{r}
+var(dat$SAT_Math, na.rm = TRUE)
+```
+
+
+```{r}
+dat$mono_incr <- 1:nrow(dat)
+
+ggplot(dat, aes(x = mono_incr, y = SAT_Math)) +
+  geom_point() +
+  geom_hline(yintercept = mean(dat$SAT_Math, na.rm = TRUE), col = "#7a0b80") +
+  # geom_segment(y = 0, yend = dat$SAT_Math - mean(dat$SAT_Math, na.rm = TRUE), lty = 3, col = "red") +
+    theme(
+    axis.title.x = element_blank(),
+    axis.text.x  = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x  = element_blank())
+```
+
+
+## Multiple Means
+
+
+
+```{r}
+dat %>% 
+  group_by(Borough) %>% 
+   summarise(mean = mean(SAT_Math, na.rm = TRUE))
+```
+
+
+
+
+```{r}
+
+sum_mean <- dat %>% 
+  group_by(Borough) %>% 
+   summarise(mean = mean(SAT_Math, na.rm = TRUE))
+
+ggplot(dat, aes(x = mono_incr, y = SAT_Math, color = Borough)) +
+  geom_point() +
+  # queens
+  geom_hline(yintercept = as.numeric(sum_mean[4,2]), col = "#7a0b80") +
+  # Brooklyn
+  geom_hline(yintercept = as.numeric(sum_mean[2,2]), col = "#d95f02") +
+  # Bronx
+  geom_hline(yintercept = as.numeric(sum_mean[1,2]), col = "#1b9e77") +
+  # Manhattan
+  geom_hline(yintercept = as.numeric(sum_mean[3,2]), col = "#7570b3") +
+  # queens
+  geom_hline(yintercept = as.numeric(sum_mean[5,2]), col = "red") +
+  scale_color_manual(values = c(
+    "#1b9e77", # green
+    "#d95f02", # orange
+    "#7570b3", # purple
+    "#7a0b80", # dark purple
+    "red"  # olive/green
+  )) +
+  theme(
+    axis.title.x = element_blank(),
+    axis.text.x  = element_blank(),
+    axis.ticks.x = element_blank(),
+    axis.line.x  = element_blank()
+  )
+
+```
+
+
+
+## Residual variance Now
+
+
+
+```{r}
+# I'll filter out missing values on SAT_Math for simplicity
+dat <- dat %>% filter(!is.na(SAT_Math)) %>% 
+  group_by(Borough) %>% 
+   mutate(SAT_Math_Borough = mean(SAT_Math)) %>% 
+    ungroup()
+
+# residual variance if we use the means of the boroughs
+var(dat$SAT_Math - dat$SAT_Math_Borough)
+```
+
+
+```{r}
+reg <- lm(SAT_Math ~ Borough, data = dat)
+summary(reg)$r.square
+```
+
+
+## Turning `Borough` into a factor
+
+
+```{r}
+dat$Borough <- factor(dat$Borough)
+
+levels(dat$Borough)
+
+
+table(dat$Borough)
+```
+
+
+## ANOVA in `R`
+
+
+```{r}
+reg <- lm(SAT_Math ~ Borough, data = dat)
+anova(reg)
+```
+
+## Equivalence with R<sup>2</sup>
+
+```{r}
+anova(reg)
+```
+
+
+```{r}
+summary(reg)
+```
+
+
+## Effect Sizes for ANOVA: $\eta^2$
+
+
+```{r}
+effectsize::eta_squared(reg)
+```
+
+
+```{r}
+round(summary(reg)$r.squared, 2)
+```
+
+
+## Effect Sizes for ANOVA: $\omega^2$
+
+
+```{r}
+effectsize::omega_squared(reg)
+```
+
+
+
+```{r}
+round(summary(reg)$adj.r.squared, 2)
+```
+
+## Multiple Comparisons (Post Hoc Tests)
+
+
+```{r}
+# this is ALWAYS the first step
+em_res <- emmeans(reg, specs = "Borough")
+```
+
+
+```{r}
+# 'estimate' column is the mean difference (notice the P value adjustment message)
+pairs(em_res)
+```
+
+## Cohen's $d$ for Mean differences
+
+```{r}
+emmeans::eff_size(em_res,
+         sigma = sigma(reg),
+         edf = df.residual(reg))
+```
+
+## Contrasts: Bronx VS Other Boroughs
+
+
+```{r}
+levels(dat$Borough)
+```
+
+
+```{r}
+# must always sum to 0 
+cont_Bronx <- c(4, -1, -1, -1, -1)
+
+cont_Bronx*sum_mean$mean
+
+sum(cont_Bronx*sum_mean$mean)
+```
+
+
+## Significance of Contrast
+
+
+```{r}
+# the 'Bronx_VS_Others ='  is just the name of the contrast, you can change it to whatever you want.
+emmeans::contrast(em_res, 
+         method = list(Bronx_VS_Others = cont_Bronx))
+```
+
+
+
+```{r}
+# exact same t-value, so exactly the same as above
+emmeans::contrast(em_res, 
+         method = list(Same_as_before = c(-200, 50, 50, 50, 50)))
+```
+
+
+## More Contrast Examples
+
+
+```{r}
+SI_vs_M_Q <- c(0, 0, 0.5, 0.5, -1)
+
+M_vs_Bk_Q <- c(0, -1, 2, -1, 0)
+
+
+emmeans::contrast(em_res, 
+         method = list(cont_1 = SI_vs_M_Q,
+                       cont_2 = M_vs_Bk_Q))
+```
+
+
+## Type I error Rate Adjustments
+
+
+
+```{r}
+# previous contrasts
+emmeans::contrast(em_res, 
+         method = list(Bronx_VS_Others = cont_Bronx,
+                       cont_1 = SI_vs_M_Q,
+                       cont_2 = M_vs_Bk_Q),
+          adjust = "bonferroni")
+```
+
+
+## Assumptions: Residuals Once again?
+
+```{r}
+ggplot(dat, aes(x = SAT_Math)) +
+  geom_density()+
+   facet_wrap(~Borough, scales = "free")
+```
+
+
+
+## Normality Assumption: Violin Plots
+
+
+```{r}
+ggplot(dat, aes(y = SAT_Math, 
+                x = Borough, 
+                fill = Borough)) +
+  geom_violin() +
+  # this will create a boxplot inside the violins
+  geom_boxplot(width = 0.1)
+```
+
+
+## Weighted Least Squares
+
+
+```{r}
+# we can use gropup_by to create a new variable that represents the weights
+dat <- dat %>% 
+        group_by(Borough) %>%
+          mutate(WLS_weights = 1 / var(SAT_Math))
+```
+
+
+
+```{r}
+reg_w <- lm(SAT_Math ~ Borough, weights = WLS_weights,  data = dat)
+anova(reg_w)
+```
+
+
+
+## White's Adjustment
+
+```{r}
+car::Anova(reg, white.adjust = TRUE)
+```
+
+
+
+```{r}
+anova(reg_w)
+```

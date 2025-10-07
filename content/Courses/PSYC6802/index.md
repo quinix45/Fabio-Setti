@@ -194,7 +194,7 @@ This Lab introduce both correlation and regression. The lab also gives examples 
 
 <h3> 7. One-Way ANOVA </h3>
 
-Coming soon!
+This lab introduces one-way ANOVA. The lab also shows how to calculate ANOVA effect sizes such as &eta;<sup>2</sup> and &omega;<sup>2</sup>, along with post HOC comparisons and some basic contrasts. The lab frames ANOVA in terms of additional variance explained in the DV by using group means and provides more details on sums of squares in the appendix. 
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_7.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
