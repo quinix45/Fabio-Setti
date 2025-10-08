@@ -76,7 +76,7 @@ The `emmeans` package [@Lenth_etal_2025] is a great package for exploring the re
 ::: {.column width = '50%'}
 <center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
 
-Today we will work with some data from NYC public schools. Namley, we will focus on the average SAT scores by school across the different boroughs. 
+Today we will work with some data from NYC public schools. Namely, we will focus on the average SAT scores by school across the different boroughs. 
  
 ```{r}
 #| eval: true

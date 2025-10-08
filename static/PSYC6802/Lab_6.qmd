@@ -723,7 +723,7 @@ Notice how we are extracrting the `r` element from the `cor_mat` object that we 
 :::
 ::::
 
-## Contents of `cor.test()`
+## Contents of `CorTest()`
 
 When reporting results you will usually need to also report the significance tests (see this slide N for APA style resources) and other information. Let's look at the names of the elements inside `cor_mat`:
 
