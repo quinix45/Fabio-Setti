@@ -42,7 +42,6 @@ build: local
 
 
 # run for packages that you have not installed yet
-# install.packages("tidyverse")
 install.packages("emmeans")
 ```
 
@@ -76,7 +75,7 @@ The `emmeans` package [@Lenth_etal_2025] is a great package for exploring the re
 ::: {.column width = '50%'}
 <center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
 
-Today we will work with some data from NYC public schools. Namely, we will focus on the average SAT scores by school across the different boroughs. 
+Today we will work with some data from [NYC public schools](https://www.kaggle.com/datasets/nycopendata/high-schools/data){target='_blank'}. Namely, we will focus on the average SAT scores by school across the different boroughs. 
  
 ```{r}
 #| eval: true
@@ -138,7 +137,6 @@ In undergrad courses, you may have learned that ANOVA is used when your DV is co
 ## Starting from the Top
 
 
-
 ANOVA stands for *analysis of variance*. The whole idea of ANOVA goes back to the idea of *variance explained* that we discussed in [lab 6](https://fabio-setti.netlify.app/psyc6802/lab_6#/variance-explained-r2){target='_blank'}. 
 
 
@@ -154,7 +152,7 @@ We have our dependent variable, `SAT_Math`, which is the average SAT math score 
 
 ::: {.fragment fragment-index=2}
 
-As we talked about in the lab 6 [text](https://fabio-setti.netlify.app/psyc6802/lab_6#/why-variance-explained){target='_blank'}, if we were trying to predict `SAT_Math` for any NYC public school and this plot on the right is all the information we have, our best guess would be the *mean* of `SAT_Math`. 
+As we talked about in the [Lab 6](https://fabio-setti.netlify.app/psyc6802/lab_6#/why-variance-explained){target='_blank'}, if we were trying to predict `SAT_Math` for any NYC public school and this plot on the right is all the information we have, our best guess would be the *mean* of `SAT_Math`. 
 :::
 
 :::
@@ -333,7 +331,7 @@ ggplot(dat, aes(x = mono_incr, y = SAT_Math, color = Borough)) +
 :::: {.columns}
 ::: {.column width = '50%'}
 
-If instead of the mean of `SAT_Math` alone we use the mean of `SAT_Math` by each `Borough` our prediction, we cen reduce the residual variance:
+If instead of the mean of `SAT_Math` alone we use the mean of `SAT_Math` by each `Borough` for our prediction, we cen reduce the residual variance:
 
 ```{r}
 #| eval: true
@@ -387,7 +385,7 @@ summary(reg)$r.square
 
 ::: {.fragment fragment-index=2}
 
-This all to say that after we use the means SAT math score of each borough, our predictions improve by roughly $12.6\%$. In the case of ANOVA, checking improvement in predictions is *equivalent* to testing whether there are mean differences. If there are no meaningful mean differences, predictions will not improve.
+This all to say that after we use the means SAT math score of each borough, our predictions improve by roughly $12.6\%$. In the case of ANOVA, checking improvement in predictions is *equivalent* to testing whether there are mean differences. Why? If there are no meaningful mean differences, predictions will not improve.
 
 :::
 
@@ -396,7 +394,7 @@ This all to say that after we use the means SAT math score of each borough, our 
 As I hinted at in [Lab 3](https://fabio-setti.netlify.app/psyc6802/lab_3#/factor-variables){target='_blank'}, when working with categorical variables, it is good practice to turn them into factors. Let's turn `Borough` into a `factor` variable before we do anything else:
 
 :::: {.columns}
-::: {.column width = '50%'}
+::: {.column width = '45%'}
 
 ```{r}
 #| eval: true
@@ -406,8 +404,6 @@ As I hinted at in [Lab 3](https://fabio-setti.netlify.app/psyc6802/lab_3#/factor
 
 dat$Borough <- factor(dat$Borough)
 ```
-
-</br>
 
 Here I skipped the `levels =` and `labels =` arguments because the `Borough` column was already labeled. By default, `factor` will order the levels alphabetically. `levels()` will show the order of the factors.
 
@@ -424,7 +420,7 @@ levels(dat$Borough)
 Knowing the order of the factors will be needed to set up *contrasts* later.
 
 :::
-::: {.column width = '50%'}
+::: {.column width = '55%'}
 
 ::: {.fragment fragment-index=1}
 
@@ -436,7 +432,8 @@ An here are the number of schools in each Borough that we have in our data:
 #| code-line-numbers: false
 #| classes: code-125
 
-table(dat$Borough)
+t(dat %>% group_by(Borough) %>% 
+   summarise(count = n()))
 ```
 
 
@@ -1108,7 +1105,7 @@ So, we get A LOT of information about the group distributions in a single plot. 
 ::: {.column width = '30%'}
 
 
-normal ANOVAs also assume that the variance is equal across groups. Just like the *t*-test, the assumption of equal variances never holds in practice.
+normal ANOVAs also assume that the variance is equal across groups. Just like the *t*-test, the assumption of equal variances rarely holds in practice.
 
 We can see that the desnities have different shapes, suggesting differences in group variances. We can also look at the range of the histograms and see that the height of the rectagnle is different across groups.
 
