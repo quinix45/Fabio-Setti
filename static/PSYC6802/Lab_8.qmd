@@ -74,6 +74,9 @@ The `emmeans` package [@Lenth_etal_2025] is a great package for exploring the re
 ::: {.column width = '50%'}
 <center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
 
+
+I got the data from [text](https://people.hsc.edu/faculty-staff/blins/classes/spring17/math222){target='_blank'}
+
 Today we will work with some data from [NYC public schools](https://www.kaggle.com/datasets/nycopendata/high-schools/data){target='_blank'}. Namely, we will focus on the average SAT scores by school across the different boroughs. 
  
 ```{r}
@@ -83,7 +86,20 @@ Today we will work with some data from [NYC public schools](https://www.kaggle.c
 #| code-line-numbers: false
 #| classes: code-125
 
-dat <- rio::import("https://fabio-setti.netlify.app/data/teams.sav")
+dat <- rio::import("http://people.hsc.edu/faculty-staff/blins/classes/spring17/math222/data/majors.csv")
+
+
+reg <- lm(`Review Rating` ~ `Discount Applied`, dat)
+
+dat <- dat %>% 
+  select(sex, maj, satm, satv, gpa)
+
+
+colnames(dat) <- c("Gender", "Major", "SAT_math", "SAT_verbal", "GPA")
+
+
+rio::export(dat, "/home/fsetti/Dropbox/Work/Github repos/Fabio-Setti/static/data/major_gender_SAT.csv", format = "csv")
+
 ```
 
 ```{r}
