@@ -26,8 +26,87 @@ build: local
 ---
 
 
+## Today's Packages and Data 🤗
 
-## Types of Squares
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-125
+
+
+# run for packages that you have not installed yet
+install.packages("emmeans")
+```
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+
+library(tidyverse)
+library(emmeans)
+# I am setting a theme for all the plots
+theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
+                        base_family = 'serif'))
+```
+
+
+
+::: {.panel-tabset}
+
+### `emmeans`
+
+The `emmeans` package [@Lenth_etal_2025] is a great package for exploring the results of many linear, generalized linear, and mixed models. it also helps compute mean contrasts, trends, and comparisons of slopes. I discover some new functionality every time I look at this package!
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+Today we will work with some data from [NYC public schools](https://www.kaggle.com/datasets/nycopendata/high-schools/data){target='_blank'}. Namely, we will focus on the average SAT scores by school across the different boroughs. 
+ 
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/teams.sav")
+```
+
+```{r}
+# library(FabioFun)
+
+# labels <- c()
+
+# labels_react <- reactbl_col.desc(names = colnames(dat),
+#                                  desc =  labels,
+#                                  style = "cursor: pointer; text-decoration: none;",
+#                                  info_color = "#7a0b80")
+
+reactable::reactable(dat[1:200,],
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = ".7rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300)
+```
+
+:::
+::::
+
+
+
+## Types of Squares 
 
 Something annoying about ANOVAs is that there are multiple "ways" of calculating sums of squares. If for some reason you end up running ANOVAs a bunch, maybe [look more into it](https://stats.stackexchange.com/questions/20452/how-to-interpret-type-i-type-ii-and-type-iii-anova-and-manova){target='_blank'}. We will use Type III sum of squares and call it a day. 
 
