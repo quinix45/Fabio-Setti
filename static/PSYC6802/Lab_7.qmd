@@ -113,6 +113,8 @@ In undergrad courses, you may have learned that ANOVA is used when your DV is co
 <center style="font-size:34px;"> one-way ANOVA is used to test whether there are *any* mean differences in a DV across levels of a categorical IV. </center>
 
 
+
+
 :::: {.columns}
 ::: {.column width = '50%'}
 
@@ -544,7 +546,7 @@ $\eta^2$ ($\eta$ is greek letter *eta*) is the simplest effect size measure for 
 :::: {.columns}
 ::: {.column width = '65%'}
 
-To calculate $\eta^2$ we use the `eta_saqaured()` function from the `effectsize()` package:
+To calculate $\eta^2$ we use the `eta_squared()` function from the `effectsize()` package:
 
 ```{r}
 #| eval: true

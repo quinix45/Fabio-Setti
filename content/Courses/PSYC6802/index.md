@@ -216,7 +216,7 @@ This lab introduces one-way ANOVA. The lab also shows how to calculate ANOVA eff
 
 <h3> 8. Factorial ANOVA </h3>
 
-Coming soon!
+This Lab introduces factorial ANOVA in the context of two categorical IVs. Interaction effects, the idea of simple main effects are discussed, and partial effect sizes. The Lab also touches upon the choice of different types of sums of squares.  
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_8.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

@@ -41,7 +41,7 @@ build: local
 
 
 # run for packages that you have not installed yet
-install.packages("emmeans")
+install.packages("ggeffects")
 ```
 
 ```{r}
@@ -54,6 +54,7 @@ install.packages("emmeans")
 
 library(tidyverse)
 library(emmeans)
+library(ggeffects)
 # I am setting a theme for all the plots
 theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
                         base_family = 'serif'))
@@ -63,10 +64,9 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
 
 ::: {.panel-tabset}
 
-### `emmeans`
+### `ggeffects`
 
-The `emmeans` package [@Lenth_etal_2025] is a great package for exploring the results of many linear, generalized linear, and mixed models. it also helps compute mean contrasts, trends, and comparisons of slopes. I discover some new functionality every time I look at this package!
-
+The `ggeffects` package [@Ludecke_etal_2025b] helps summarize marginal effects (usually predicted group means) of statistical model such as computing model predictions and plotting results. 
 :::
 
 :::
@@ -75,9 +75,7 @@ The `emmeans` package [@Lenth_etal_2025] is a great package for exploring the re
 <center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
 
 
-I got the data from [text](https://people.hsc.edu/faculty-staff/blins/classes/spring17/math222){target='_blank'}
-
-Today we will work with some data from [NYC public schools](https://www.kaggle.com/datasets/nycopendata/high-schools/data){target='_blank'}. Namely, we will focus on the average SAT scores by school across the different boroughs. 
+This is some data about SAT scores and undegraduate GPA for second year college student. I got the data from [here](https://people.hsc.edu/faculty-staff/blins/classes/spring17/math222){target='_blank'}. 
  
 ```{r}
 #| eval: true
@@ -86,45 +84,905 @@ Today we will work with some data from [NYC public schools](https://www.kaggle.c
 #| code-line-numbers: false
 #| classes: code-125
 
-dat <- rio::import("http://people.hsc.edu/faculty-staff/blins/classes/spring17/math222/data/majors.csv")
-
-
-reg <- lm(`Review Rating` ~ `Discount Applied`, dat)
-
-dat <- dat %>% 
-  select(sex, maj, satm, satv, gpa)
-
-
-colnames(dat) <- c("Gender", "Major", "SAT_math", "SAT_verbal", "GPA")
-
-
-rio::export(dat, "/home/fsetti/Dropbox/Work/Github repos/Fabio-Setti/static/data/major_gender_SAT.csv", format = "csv")
-
+dat <- rio::import("https://fabio-setti.netlify.app/data/major_gender_SAT.csv")
 ```
 
 ```{r}
-# library(FabioFun)
+library(FabioFun)
 
-# labels <- c()
 
-# labels_react <- reactbl_col.desc(names = colnames(dat),
-#                                  desc =  labels,
-#                                  style = "cursor: pointer; text-decoration: none;",
-#                                  info_color = "#7a0b80")
+labels <- c("Gender (F = Female, M = Male)",
+            "Major (CS = Computer Science, EO = Engineering and other science majors,  O = Other)",
+            "SAT Math Score",
+            "SAT Verbal score",
+            "College GPA")
+
+labels_react <- reactbl_col.desc(names = colnames(dat),
+                                 desc =  labels,
+                                 style = "cursor: pointer; text-decoration: none;",
+                                 info_color = "#7a0b80")
 
 reactable::reactable(dat[1:200,],
-                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = ".7rem"),
-                     pagination = FALSE, highlight = TRUE, height = 300)
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300, columns = labels_react)
+```
+
+:::
+::::
+
+## Turn Variables into Factors
+
+For this lab we are going to look at how both `Major` and `Gender` impact `SAT_math`. Because `Major` and `Gender` are both categorical variables, we turn them into factors first.
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+For `Gender` we only have males and females.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+dat$Gender <- factor(dat$Gender,
+                     levels = c("F", "M"),
+                     labels = c("Female", "Male"))
+
+```
+
+
+For `Major` the data is categorized as `CS = Computer science`, then `EO = Engineering and other science majors`, and  `O = Other`.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+dat$Major <- factor(dat$Major,
+              levels = c("CS", "EO", "O"),
+              labels = c("Comp_Sci", "Engineering_OS", "Other"))
+
+```
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+When running factorial ANOVAs, you should *always* check group size for a reason that we will talk about later. Because we will look at `Gender` and `Major` at the same time, we cross-tabulate the number of people at each of their level:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# count how many people in each group
+table(dat$Gender, dat$Major)
+```
+
+We have 6 groups, and this is a *balanced design*, meaning that all groups have equal sizes. 
+
+:::
+
+:::
+::::
+
+
+## Multiple One-way ANOVAs?
+
+If we are interested in the effect of both `Gender` and `Major` on `SAT_math`. Couldn't we just run two separate one-way ANOVAs? If we do that we get the following results:
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# this is equivalent to a t-test btw
+reg_gender <- lm(SAT_math ~ Gender, dat)
+anova(reg_gender)
+```
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_major <- lm(SAT_math ~ Major, dat)
+anova(reg_major)
+```
+
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=3}
+
+ <p style='font-size: 32px'>  So, we get that there are differences in mean `SAT_math` across both `Gender` and `Major`. This is all fine and good, but what are some things that we may be missing if we approach our research question in this way? 🤔 </p>
+
+:::
+
+
+## Interactions Between Independent Variables
+
+In our case, the main thing that we might miss is the **interaction** between `Gender` and `Major`. The idea of an interaction is that *the effect of one independent variable may depend on the effect of another independent variable*. Something that may be more familiar is the idea of [intersectionality](https://en.wikipedia.org/wiki/Intersectionality){target='_blank'}, which in statistics is exactly expressed as an interaction effect. 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+We can use the `*` sign to specify interactions between variables. in our case, we would run
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_2way <- lm(SAT_math ~ Gender*Major, dat)
+anova(reg_2way)
+```
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+Notice the `SAT_math ~ Gender*Major`. This is to tell the `lm()` function that we want 2 independent variables *and* that we want an interaction between the two variables. The order of the IVs in the `lm()` formula is irrelevant. 
+
+:::
+
+::: {.fragment fragment-index=2}
+
+when running factorial ANOVAs, the *first thing* you look at is the interaction effect, the `Gender:Major` line. Everything that follows depends on whether the interaction effect is significant or not. If it is not significant, you can just report the main effects as shown on the left. Here, however, it is significant. 
+
+:::
+
+:::
+::::
+
+
+## A Graphical intuition
+
+Why should you always look at the interaction effect first? The *main effects* (first two rows in ANOVA table) of `Gender` and `Major` were also significant after all. This graphical example should help explain why:
+
+
+:::: {.panel-tabset}
+
+### Means by `Gender`
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+conclusion based on this plot:
+
+- Females tend to have higher `SAT_math` scores than males.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat %>% 
+  group_by(Gender) %>% 
+  summarise(Mean_Gender = mean(SAT_math))
+```
+
+
+
+:::
+::: {.column width = '60%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot code"
+
+ggplot(dat, 
+      aes(y = SAT_math, x = Gender, fill = Gender)) +
+          geom_violin() +
+  geom_boxplot(width = 0.1)
 ```
 
 :::
 ::::
 
 
+### Means by `Major`
 
-## Types of Squares 
+:::: {.columns}
+::: {.column width = '40%'}
 
-Something annoying about ANOVAs is that there are multiple "ways" of calculating sums of squares. If for some reason you end up running ANOVAs a bunch, maybe [look more into it](https://stats.stackexchange.com/questions/20452/how-to-interpret-type-i-type-ii-and-type-iii-anova-and-manova){target='_blank'}. We will use Type III sum of squares and call it a day. 
+- Other majors tend to have lower `SAT_math` scores compared to both computer science majors and engineering and other science majors.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat %>% 
+  group_by(Major) %>% 
+  summarise(Mean_Major = mean(SAT_math))
+```
+
+:::
+::: {.column width = '60%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot code"
+
+ggplot(dat, 
+      aes(y = SAT_math, x = Major, fill = Major)) +
+          geom_violin() +
+  geom_boxplot(width = 0.1)
+```
+
+:::
+::::
+
+
+### All at Once?
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+- Females still seems to do better than males on average, *however*, that is not true for engineering and other science majors ❗
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat %>% group_by(Gender, Major) %>% summarise(Mean_Both = mean(SAT_math)) %>% arrange(desc(Mean_Both))
+```
+
+
+
+
+:::
+::: {.column width = '60%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot code"
+
+ggplot(dat, aes(x = Major, y = SAT_math, fill = Gender)) +
+  geom_violin(trim = FALSE, position = position_dodge(width = 0.8)) +
+  geom_boxplot(width = 0.1, position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Major",
+    y = "SAT Math Score",
+    fill = "Gender"
+  )
+
+```
+
+
+:::
+::::
+
+:::
+
+## Interaction Effects
+
+So, on the last slides we saw that females tended to have higher `SAT_math` scores, but that pattern was reversed for engineering and other science majors (the interaction effect!), where males tended to have higher `SAT_math` scores. Then, the interpretation of the main effect of `female` on `SAT_math` would be misleading, as it does not generalize to all majors 🧐 
+
+
+
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+
+::: {.fragment fragment-index=1}
+
+A common way of visualizing interaction effects is looking at interaction plots like the one on the right (I will show the code for it soon). The dots represent the means of `Gender` by `Major`. In general, if an interaction effect exists you will see some lines on the plot *cross each other*.
+
+You can see that the line where the trend is reversed is the line for engineering and other science majors and thus the reason for the significant interaction effect.
+
+:::
+
+:::
+::: {.column width = '60%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+ggeff <- ggeffects::ggpredict(reg_2way, terms = c("Gender", "Major"))
+
+plot(ggeff, connect_lines = TRUE)
+
+```
+
+:::
+
+:::
+::::
+
+## The `ggeffects` Package: Group Means
+
+The `ggeffects` package provides useful functions for generating group means based on your analysis. We'll quickly use it to get group means and plot them, but it has more sophisticated uses.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggeff <- ggpredict(reg_2way, 
+                   terms = c("Gender", "Major"))
+ggeff
+```
+
+:::
+
+
+:::
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+
+<p style='font-size: 32px'> The idea of the `ggeffects` package is similar to `emmeans`, where we first modify an `lm()` object and then apply other functions to it. first, we  use the `ggpredict()` function. </p>
+
+:::
+
+::: {.fragment fragment-index=2}
+
+<p style='font-size: 32px'>
+We first supply the `lm()` object, `reg_2way` in our case, and then specify the groups with the `terms =` argument.
+</p>
+
+<p style='font-size: 30px'>
+Here, I print the `ggeff` element that I just created. When I do so, it shows the group means (under the *predicted* column) and the $95 \%$ CIs in a pretty clean format ✨
+</p>
+
+:::
+
+:::
+::::
+
+
+
+## The `ggeffects` Package: Interaction Plot
+
+We can also plot the group means along their $95 \%$ CIs. This is the most common way you will see results of factorial ANOVAs visualized.
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+plot(ggeff, 
+     connect_lines = TRUE)
+
+```
+
+this is the `plot()` function from base `R`. For this to work, you need to make sure that the first argument (`ggeff` here) is an object created with the `ggpredict()` function.
+
+:::
+::: {.column width = '70%'}
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+plot(ggeff, connect_lines = TRUE)
+
+```
+
+
+:::
+::::
+
+
+## Main Effects?
+
+We just saw how the interaction effects makes the interpretation of the results a bit trickier, because the mean differences in `SAT_math` across `Gender` changed depending on the levels of `Major`. However, how can we make conclusions about the effect of `Gender` and the effect of `Major` on `SAT_math`?
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+The reulst that we got for our factorial ANOVA were:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+anova(reg_2way)
+```
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+
+The first two lines are the **main effects** of `Gender` and `Major`, and they are both significant. Is that not enough to say that `Gender` and `Major` affect `SAT_math`? Yes and no.
+
+:::
+
+
+::: {.fragment fragment-index=2}
+
+In general, the main effect from the ANOVA table tells us that both `Gender` and `Major` have an effect on `SAT_math`, but, for either variable, we do not know whether that effect exists at all levels of the other factor. 
+
+
+This is what we saw previously, where there were we saw that the patterns of mean differences in `SAT_math` by `Gender` was not consistent across level of `Major`.
+
+:::
+
+:::
+::::
+
+## Simple Main Effects!
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+To appropriately investigate the effects of `Gender` and `Major`, we need to be more precise, and here is where **simple main effects** come in. We can look at effect of `Gender` on `SAT_math`, but we will do it at *every level of `Major`* 💡 <u> This is equivalent to running a one-way ANOVA for one IV, at each level of another IV. </u> We'll need the `emmeans` package.
+
+
+
+::: {.fragment fragment-index=2}
+
+A one-way ANOVA is *equivalent* to a *t*-test when there are only two groups! So here we see that there are significant differences in `SAT_math` means by `Gender` for both computer science majors and other majors, but not for engineering and other science majors. 
+
+
+We already figure this out some slides ago by plotting the means, but here we confirm our intuition.
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+em_res <- emmeans(reg_2way, 
+                  specs = c("Gender", "Major"))
+```
+
+We pass `em_res` to  `joint_tests()` function and specify the variable by which we want to look at differences:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+joint_tests(em_res, by = "Major")
+```
+
+:::
+
+:::
+::::
+
+
+## Simple Main Effects: Other way around
+
+If we are interested in the effect of `Major` by `Gender`, all we need to do is use the `joint_tests()` function, but change the `by =` argument.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+joint_tests(em_res, by = "Gender")
+```
+
+
+In both cases, the results are significant, meaning that the effect of `Major` on `SAT_math` is consistent across levels of `Gender`. However, we can see that there seem to be large mean differences in males compared to females.
+
+
+
+
+
+::: {.fragment fragment-index=1}
+
+<center> 
+ <p style='font-size: 32px'>  These are important nuances that we miss without looking at simple main effects! </p>
+ </center>
+
+:::
+:::
+
+::: {.column width = '50%'}
+
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# just printing the means by gender
+ggpredict(reg_2way, terms = c( "Major","Gender"))
+
+```
+
+
+:::
+::::
+
+## Post-Hoc Tests
+
+Just as we did with one-way ANOVA, we can run post-hoc tests to see where the mean difference are. we still use the `pairs()` function, but we have to specify the level to test mean differences by.
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+::: {.fragment fragment-index=1}
+
+By `Gender`:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+pairs(em_res, by = "Gender", adjust = "tukey")
+
+```
+
+:::
+
+:::
+::: {.column width = '45%'}
+
+::: {.fragment fragment-index=2}
+
+By `Major`:
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+pairs(em_res, by = "Major", adjust = "tukey")
+```
+
+:::
+
+:::
+::::
+
+## ...And the cohen's $d$s
+
+Similarly, you can get the cohen's *d* the same way we did in [Lab 7](https://fabio-setti.netlify.app/psyc6802/lab_7#/cohens-d-for-mean-differences){target='_blank'}. Since we are doing every possible difference across 6 means, we get 15 mean comparisons:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+emmeans::eff_size(em_res,
+         sigma = sigma(reg_2way),
+         edf = df.residual(reg_2way))
+
+```
+
+
+
+## Effect Sizes For Factorial ANOVA
+
+The interpretation of $\eta^2$ and $\omega^2$ as variance explained in the outcome is still valid in factorial ANOVA. However, the calculation of effect sizes is a bit more nuanced with factorial designs, because we now have **3 components**, the main effect of `Gender`, the main effect of `Major`, and the `interaction` effect. 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+effectsize::eta_squared(reg_2way)
+```
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+effectsize::omega_squared(reg_2way)
+```
+
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=3}
+
+These are called *partial* $\eta^2$ and $\omega^2$. They quantify how much variance in the outcome is *uniquely* explained by each component separately. For example, `Major` uniquely explains $9\%$ of the variance in `SAT_math`. The idea of *uniquely explained variance* is tied to the notion [statistical control](https://www.servicescape.com/blog/a-practical-guide-to-statistical-control-in-research){target='_blank'}, which we will discuss in more detail when looking at multiple regression.
+
+:::
+
+
+## Sums of Squares and Unbalanced Data
+
+
+Now it's where things get a bit annoying for "reasons" 😞, but essentially, there are 3 different ways of calculating sums of squares, called type I, II, and III. This becomes a concern when you are working with an *unbalanced design*, meaning that your groups have unequal sample sizes (almost always the case). 
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+::: {.fragment fragment-index=1}
+
+As a reminder, we currently have a balanced design:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+table(dat$Gender, dat$Major)
+```
+
+
+When all group sizes are equal, the type of sums of squares makes no difference. I am going to randomly take out some rows form the data to make the groups unequal. To show what happens when we use different sums of squares.
+
+:::
+
+:::
+::: {.column width = '60%'}
+
+::: {.fragment fragment-index=2}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+set.seed(1731)
+del <- sample(1:nrow(dat), 70)
+dat_unbalanced <- dat[-del,]
+
+table(dat_unbalanced$Gender, dat_unbalanced$Major)
+```
+
+And now we have a different number of students in each group. 
+
+::: {.callout-note}
+### `set.seed()`
+
+the `set.seed(n)` function sets a "random state". This guarantees that even if you are generating some random numbers, other people will be able to replicate it (⁉️). Here I take out rows at random, but you will get the same outcome as long as we use the same seed. 
+:::
+
+:::
+
+:::
+::::
+
+
+## Results Comparison: Type II Sums of Squares
+
+`R` will use type I sums of square "by default", which is generally not good when you are looking at interaction effects. 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+**Type I** sum of squares:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_unb <- lm(SAT_math ~ Gender*Major,
+              dat_unbalanced)
+anova(reg_unb)
+```
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+For **Type II** sum of squares we can use the `Anova()` function from `car`:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+car::Anova(reg_unb, type = 2)
+```
+
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=3}
+Although the results are "the same" here, this is the case where you can see a lot of differences in practice! 
+:::
+
+## ATTENTION: Type III Sums of Squares
+
+The type III sums of squares takes a bit of extra work to set up, namely, *you must* run the `options(contrasts = c("contr.sum","contr.poly"))`  and rerun the regression:
+
+
+:::: {.columns}
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+options(contrasts = c("contr.sum","contr.poly"))
+
+reg_unb <- lm(SAT_math ~ Gender*Major,
+              dat_unbalanced)
+
+car::Anova(reg_unb, type = 3)
+```
+
+:::
+::: {.column width = '40%'}
+
+
+Where you should ignore the `(Intercept)` line. 
+
+Regardless of type of sums of square, the interaction effect has the exact same *p*-value, but the main effects can vary greatly. 
+
+
+::: {.fragment fragment-index=1}
+
+Why all this counterintuitive stuff? Well, ANOVA is a regression, and regressions want numeric variables. There are many ways to trick regression into thinking that categorical variables are numbers (see [here](https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%2010#/title-slide){target='_blank'}), and the way in which is done will influence ANOVA results.
+
+:::
+
+
+:::
+::::
+
+## Type I, II, or III? 
+
+The distinction between sums of squares is very important because they test *different hypotheses*. I am restating the [great explanation given on this page](https://stats.stackexchange.com/questions/20452/how-to-interpret-type-i-type-ii-and-type-iii-anova-and-manova){target='_blank'}, but if we have a DV $Y$ and two IVs $A$ and $B$:
+
+
+:::: {.columns}
+::: {.column width = '53%'}
+
+::: {.fragment fragment-index=1}
+
+- **Type I:** This is used to test additional variance explained as you add predictors *sequentially*. So, first we look at the effect of $A$ by itself, then the effect of $B$ accounting for $A$, and then the effect of the interaction $A \times B$, accounting for both $A$ and $B$. (not good in most cases)
+:::
+
+::: {.fragment fragment-index=2}
+- **Type II:** here we test the effect of $A$ accounting for $B$, the effect of $B$ accounting for $A$, and the effect of $A \times B$ accounting for both $A$ and $B$.
+:::
+
+::: {.fragment fragment-index=3}
+- **Type III:** here we test the effect of $A$ accounting for both $B$ and $A \times B$, the effect of $B$ accounting for both $A$ and $A \times B$, and the effect of $A \times B$ accounting for both $A$ and $B$.
+
+:::
+
+:::
+::: {.column width = '47%'}
+
+
+::: {.fragment fragment-index=4}
+
+The *accounting for* part is once again the idea of [statistical control](https://www.servicescape.com/blog/a-practical-guide-to-statistical-control-in-research){target='_blank'}. So, the hypotheses that these sums of squares use are *qualitatively different*. If you run ANOVAs with unequal groups, you should make sure you understand these differences.
+
+:::
+
+::: {.fragment fragment-index=5}
+
+SPSS and SAS use type III sum of square by default, while in `R` you will more often see Type II sum of square (the default of the `car` package). There is a lot of debate in regards to which of the two is more appropriate, and you should justify your choice between either (software default is not a good justification!).
+
+:::
+
+:::
+::::
+
 
 
 ## References 
