@@ -582,7 +582,7 @@ This is what we saw previously, where there were we saw that the patterns of mea
 ::: {.column width = '50%'}
 
 
-To appropriately investigate the effects of `Gender` and `Major`, we need to be more precise, and here is where **simple main effects** come in. We can look at effect of `Gender` on `SAT_math`, but we will do it at *every level of `Major`* 💡 <u> This is equivalent to running a one-way ANOVA for one IV, at each level of another IV. </u> We'll need the `emmeans` package.
+*When an interaction effect is present*, to appropriately investigate the effects of `Gender` and `Major`, we need to be more precise, and here is where **simple main effects** come in. We can look at effect of `Gender` on `SAT_math`, but we will do it at *every level of `Major`* 💡 <u> This is equivalent to running a one-way ANOVA for one IV, at each level of another IV. </u> We'll need the `emmeans` package.
 
 
 
@@ -812,7 +812,7 @@ table(dat$Gender, dat$Major)
 ```
 
 
-When all group sizes are equal, the type of sums of squares makes no difference. I am going to randomly take out some rows form the data to make the groups unequal. To show what happens when we use different sums of squares.
+When all group sizes are equal, the type of sums of squares makes no difference. I am going to randomly take out some rows form the data to make the groups unequal to show what happens when we use different sums of squares.
 
 :::
 
@@ -852,7 +852,7 @@ the `set.seed(n)` function sets a "random state". This guarantees that even if y
 
 ## Results Comparison: Type II Sums of Squares
 
-`R` will use type I sums of square "by default", which is generally not good when you are looking at interaction effects. 
+`R` will use type I sum of squares "by default", which is generally not good when you are looking at interaction effects. 
 
 :::: {.columns}
 ::: {.column width = '50%'}
