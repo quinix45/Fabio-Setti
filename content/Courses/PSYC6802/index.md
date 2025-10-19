@@ -240,7 +240,7 @@ This Lab introduces factorial ANOVA in the context of two categorical IVs. Inter
 
 <h3> 9. Multiple Regression I </h3> 
 
-Coming soon!
+This Lab introduces multiple regression, as well as regression with categorical predictors. Residual plots, added variable plots, interpretation of regression coefficients and R<sup>2</sup> in the context of multiple regression are discussed. The Lab includes an interactive 3D visualization of the regression plane, as well as code to automatically generate an APA style table for regression results. 
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_9.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

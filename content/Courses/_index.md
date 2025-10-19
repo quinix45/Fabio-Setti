@@ -5,5 +5,5 @@ description: |
 show_post_thumbnail: true
 show_post_date: true
 
-layout: list # list, list-sidebar list-grid
+layout: list-grid
 ---

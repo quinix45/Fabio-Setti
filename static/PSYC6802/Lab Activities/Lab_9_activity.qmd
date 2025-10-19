@@ -1,0 +1,137 @@
+---
+title: 'Lab 9 Activity'
+format:
+ pdf:
+  mainfont: Times New Roman
+  sansfont: Times New Roman
+  monofont: Courier New
+  mathfont: Times New Roman
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+editor: source
+---
+
+
+For this lab activity we will be working with the `Ginzberg` dataset. This is data from 82 patients hospitalized for depression. run the following code to load the data as `dat`.
+
+```{r}
+dat <- carData::Ginzberg
+```
+
+We will focus on the first 3 variables, `simplicity`, `fatalism`, `depression`. Here is a description of the columns in the data:
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+
+library(tidyverse)
+
+info <- tibble(Variable = names(dat),
+               Description = c("Measures subject's need to see the world in black and white", 
+                               "Fatalism scale", 
+                               "Beck depression inventory", 
+                               "Adjusted Simplicity: Simplicity adjusted (by regression) for other variables thought to influence depression",
+                               "Adjusted Fatalism", 
+                               "Adjusted Depression"))
+library(kableExtra)
+
+kable(info) %>% 
+  column_spec(column = 2, width = "5in") %>% 
+  column_spec(column = 1, bold = T) %>% 
+  row_spec(0, bold = T)
+```
+
+
+**1.** Run two individual regressions with `simplicity` and `fatalism` individually predicting `depression`. For both regression report the slope of the predictor and the $R^2$ values. Do you think that these variables are good predictors of depression?
+
+```{r}
+#| echo: false
+#| eval: false
+
+reg_simpl <- lm(depression ~ simplicity,dat )
+reg_fata <- lm(depression ~ fatalism,dat )
+
+
+coef(reg_simpl)[2]
+summary(reg_simpl)$r.square
+
+coef(reg_fata)[2]
+summary(reg_fata)$r.squared
+
+# both are strong predictors
+```
+
+**2.** Now run a multiple regression with both `simplicity` and `fatalism` predicting `depression`. Report the slopes of the two variables and the $R^2$ now. You should see that the $R^2$ has improved, but not by that much; how can this be the case?
+
+```{r}
+#| echo: false
+#| eval: false
+
+reg_multi <- lm(depression ~ simplicity + fatalism,dat )
+
+summary(reg_multi)
+
+# the R^2 does not change much because the two variables are correlated with each other and share a lot of the same information.
+```
+
+
+**3.** Produce residuals plots for both predictors. Do you think that the assumption of normality of the residuals is met?
+
+```{r}
+#| echo: false
+#| eval: false
+
+car::residualPlots(reg_multi, test = FALSE, fitted = FALSE)
+
+# this is probably ok. There is however an outlier a higher levels of simplicity. Still, should not affect the results too much
+```
+
+
+**4.** Visualize the effect of the two IVs on the `depression` by creating two added variable plots. 
+
+```{r}
+#| echo: false
+#| eval: false
+
+car::avPlots(reg_multi)
+```
+
+
+- Then, create a 3D scatterplot of the 3 variables with a regression plane. You can use the following code to create a 3D plot of your data:
+
+```{r}
+#| echo: true
+#| eval: false
+
+library(FabioFun)
+nice_3D_plot(y = dat$depression,
+             x1 = dat$simplicity,
+             x2 = dat$fatalism,
+             axis_names = c("Depression", 
+                            "Simplicity", 
+                            "Fatalism"),
+             reg_plane = TRUE)
+```
+
+
+Turns out that the added variable plots are a snapshot of the 3D plot taken such that only one of the edges of the plane is visible. Try to rotate the 3D plot manually and align the plane such that the 3D plot resembles each of the added variable plots (one at a time). Then take a picture of the plot by using the *camera* icon in the plot menu at the top right (it will take a snapshot of the plot and download it as an image). Either upload the two images along with your lab activity or include them in the PDF directly. (HINT: the added variable plots indicate the row number of some extreme points; if you hover over the dots in the 3D plot, the row number will also be displayed. Use this to orient yourself while rotating the 3D plot).
+
+**NOTE:** Do not leave the code for the 3D plot in your .qmd file before rendering it. PDFs do not work with interactive content, so the plot will not render and you will get an error.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
