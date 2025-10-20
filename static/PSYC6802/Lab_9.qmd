@@ -213,14 +213,14 @@ ggpairs(dat[,c(3, 7,9)])
 
 ::: {.fragment fragment-index=2}
 
-Running the regressions separately misses the point that our two predictors are correlated, meaning that they share information. Ideally, we would like to know how `Freedom` and `Corruption` *uniquely* predict `Happiness`.
+Separate regressions miss the points that our predictors share information!
 
 :::
 
 ## Multiple Independent Variables
 
 :::: {.columns}
-::: {.column width = '55%'}
+::: {.column width = '52%'}
 
 ```{r}
 #| eval: true
@@ -233,21 +233,21 @@ summary(reg_multi)
 ```
 
 :::
-::: {.column width = '45%'}
+::: {.column width = '48%'}
 
 We can include both predictors in our regression by adding variables in the `lm()` function like so `lm(DV ~ IV1 + IV2 + ..., dat)`. for now I will note two things:
 
 
 ::: {.fragment fragment-index=1}
-- Both slopes have changed and are not as large as they were in the individual regressions. The regression equations is now:
+1. Both slopes have changed and are not as large as they were in the individual regressions. The regression equations is now:
 
- <p style='font-size: 24px'>   $$\mathrm{Happiness} = 5.09 + 4.03 \times \mathrm{Freedom} - 2.44 \times \mathrm{Corruption}$$  </p>
+ <p style='font-size: 20px'>   $$\mathrm{Happiness} = 5.09 + 4.03 \times \mathrm{Freedom} - 2.44 \times \mathrm{Corruption}$$ </p>
 
 :::
 
 
 ::: {.fragment fragment-index=2}
-- The $R^2$ is roughly $.48$, which is lower than the sum of the $R^2$ from the two individual regressions from before ($.41 + .2 = .
+2. The $R^2$ is roughly $.48$, which is lower than the sum of the $R^2$ from the two individual regressions from before ($.41 + .2 = .
 61$).
 :::
 
@@ -255,7 +255,9 @@ We can include both predictors in our regression by adding variables in the `lm(
 ::::
 
 ::: {.fragment fragment-index=3}
-What is going on here? 🤔 There are main ways of explaining what is happening, but a graphical illustration may provide some intuition!
+
+What is going on here? 🤔 a graphical illustration may provide some intuition!
+
 :::
 
 ## Individual regression plots
@@ -567,7 +569,7 @@ Now that we have looked at our results graphically for a while, let's interpret 
 ::::
 
 ::: {.fragment fragment-index=5}
-Instead of "controlling for", you may also hear "accounting for" or "holding constant". They are all the same thing. The idea is that we are looking at the unique effect of each IV by controlling for all the other IV. 
+**Note:** Instead of "controlling for", you may also hear "accounting for" or "holding constant". They are all the same thing. 
 :::
 
 
@@ -961,14 +963,10 @@ dat_coef <- data.frame(c("Intercept", "Asia", "Eastern Europe", "Western Europe"
                         as.numeric(round(coef(reg_cat), 2)))
 colnames(dat_coef) <- c("Coefficient", "Value")
 dat_coef
-
-
-
 ```
 
 
-
-The slopes represent the change in mean `Happiness` for each region from the reference group! The significance test for the slopes tests whether there is a significant difference between the mean of the reference point and a specific region (multiple *t*-tests!).
+The slopes represent the change in mean `Happiness` for each region from the reference group! 
 
 :::
 
@@ -1079,10 +1077,11 @@ For "1-unit increase" in `Western Europe`, the mean of `Happiness` goes from the
 
 ## The Moral of the Story
 
+
 So, dummy coding is one way of tricking regression into treating categorical variables as continuous. <u> Dummy ccoding is a type of contrast </u>, and as we have seen in [Lab 7](https://fabio-setti.netlify.app/psyc6802/lab_7#/significance-of-contrast){target='_blank'}, the numbers that we choose for contrasts can be whatever we like as long as they proportionally represent the comparison we are interested in.
 
 :::: {.columns}
-::: {.column width = '40%'}
+::: {.column width = '50%'}
 
 ::: {.fragment fragment-index=1}
 
@@ -1106,7 +1105,7 @@ However, this is impractical! Our coefficients are now interpreted as $\frac{1}{
 :::
 
 :::
-::: {.column width = '60%'}
+::: {.column width = '50%'}
 
 ::: {.fragment fragment-index=2}
 
@@ -1114,7 +1113,8 @@ However, this is impractical! Our coefficients are now interpreted as $\frac{1}{
 #| eval: true
 #| echo: true 
 #| code-line-numbers: false
-#| classes: code-125
+#| classes: height-125
+
 
 reg_cat <- lm(Happiness_score ~ Region, dat_filt)
 summary(reg_cat)
