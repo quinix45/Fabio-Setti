@@ -43,7 +43,6 @@ build: local
 install.packages("GGally")
 install.packages("devtools")
 devtools::install_github("quinix45/FabioFun")
-
 ```
 
 ```{r}
@@ -76,7 +75,7 @@ As you may have guessed, this is my package 🫣 I use it both to save some func
 
 ### `flextable`
 
-The
+The `flextable` package [@Gohel_etal_2024] allows to create highly customizable tables. The function that I use to create APA style Word tables makes heavy use of this package.
 
 :::
 
@@ -751,7 +750,7 @@ flextable::save_as_docx(reg_tab, path = "table.docx")
 ```
 
 
-Feel free to use this instead of making regression tables manually.
+Feel free to use this instead of creating regression tables manually.
 
 :::
 

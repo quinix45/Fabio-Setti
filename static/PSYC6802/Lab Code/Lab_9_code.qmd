@@ -186,15 +186,14 @@ reg_tab <- regression_flextable(reg_std,
                                 var_names = c("Freedom", "Corruption"), 
                                 intercept = FALSE)
 reg_tab
-```
 
-
-```{r}
 # save to Word document (will be saved to current working directory)
 
 # unccoment to save 
 # flextable::save_as_docx(reg_tab, path = "table.docx")
 ```
+
+
 
 ## Categorical Variables 
 
