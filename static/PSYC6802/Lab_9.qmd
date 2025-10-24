@@ -560,7 +560,7 @@ Now that we have looked at our results graphically for a while, let's interpret 
 
 - **Slope of `corruption`**: the expected change in `Happiness` for 1-unit increase in `Corruption`, controlling for `Freedom`.
 
-- The $R^2$ is the variance in `Happiness` joiontly explained by `Corruption` and `Freedom`.
+- The $R^2$ is the variance in `Happiness` jointly explained by `Corruption` and `Freedom`.
 
 :::
 
@@ -702,7 +702,7 @@ Now that the variables have been standardized, when can interpret the slopes as 
 
 - When controlling for `Corruption`, 1 SD increase in `Freedom` will result in a $0.55$ SD units *increase* in `Happiness`.
 
-- When controlling for `Freedom`, 1 SD increase in `Corruption` will result in a $0.26$ SD units *decrease* in `Corruption`.
+- When controlling for `Freedom`, 1 SD increase in `Corruption` will result in a $0.26$ SD units *decrease* in `Happiness`.
 
 :::
 ::::
@@ -1022,7 +1022,7 @@ ylab("Mean Region Happiness")
 
 ## Why Does this work?
 
-I thin it is worthwhile to dive a bit more into *why* dummy coding works. The regression from two slides ago implied the following regression equation:
+I think it is worthwhile to dive a bit more into *why* dummy coding works. The regression from two slides ago implied the following regression equation:
 
 $$\mathrm{Happiness} = 4.40 + 1.09 \times \mathrm{Asia} + 1.55 \times \mathrm{Eastern Europe} +  2.35 \times \mathrm{Western Europe}$$
 

@@ -189,7 +189,7 @@ reg_tab
 
 # save to Word document (will be saved to current working directory)
 
-# unccoment to save 
+# uncomment to save 
 # flextable::save_as_docx(reg_tab, path = "table.docx")
 ```
 
