@@ -67,7 +67,7 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
 
 ### `GGally`
 
-The GGally package [@Schloerke_etal_2024] builds upon `ggplot2` and includes many functions for creating complex plots. We will be using it to create scatterplot matrices.
+The `GGally` package [@Schloerke_etal_2024] builds upon `ggplot2` and includes many functions for creating complex plots. We will be using it to create scatterplot matrices.
 
 ### `FabioFun`
 
@@ -1011,14 +1011,11 @@ annotate("text", x = 3.2,  y = 5.3, label = paste("+", round(coef(reg_cat)[3], 2
 annotate("text", x = 4.2,  y = 5.3, label = paste("+", round(coef(reg_cat)[4], 2))) +
 ylim(c(4, 6.9)) +
 ylab("Mean Region Happiness")
-
 ```
 
 :::
-
 :::
 ::::
-
 
 ## Why Does this work?
 
