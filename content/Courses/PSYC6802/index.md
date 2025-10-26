@@ -261,7 +261,7 @@ This Lab introduces multiple regression, as well as regression with categorical 
 
 <h3> 10. Multiple Regression II </h3> 
 
-Coming soon!
+This Lab introduces partial and semi-partial correlations. Additionally, the Lab details different regression diagnostics and ways to check whether some individuals data-points may have a strong influence on the regression results. Finally, the Lab introduces the issue of multicollinearity, its consequences, and a graphical representation of the phenomenon.  
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_10.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

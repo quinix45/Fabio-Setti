@@ -1,0 +1,163 @@
+---
+title: 'Lab 10 Activity'
+format:
+ pdf:
+  mainfont: Times New Roman
+  sansfont: Times New Roman
+  monofont: Courier New
+  mathfont: Times New Roman
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+editor: source
+---
+
+For this lab activity we will be working with the `MplsDemo` dataset. This is data about 84 neighborhoods of Minneapolis and the data comes from the [2015 American Community Survey](https://usa.ipums.org/usa/voliii/itemsACS(2015).shtml){target='_blank'}. Run the following code to load the data as `dat`.
+
+```{r}
+dat <- carData::MplsDemo
+```
+
+Here is a description of the columns in the data:
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+
+library(tidyverse)
+
+info <- tibble(Variable = names(dat),
+               Description = c("Name of the neighborhood", 
+                               "Total population", 
+                               "Fraction of the population estimated to be black", 
+                               "Fraction of the population estimated to be white",
+                               "Fraction of the population estimated to be foreign born", 
+                               "Estimated median household income",
+                               "Estimated fraction earning less than twice the poverty level",
+                               "Estimated fraction with a college degree"))
+library(kableExtra)
+
+kable(info) %>% 
+  column_spec(column = 2, width = "5in") %>% 
+  column_spec(column = 1, bold = T) %>% 
+  row_spec(0, bold = T)
+```
+
+
+\newpage
+
+
+**1.** For this question, we will practice calculating *partial* correlations and interpreting them. For each partial correlation, first calculate it "manually" using the appropriate regression residuals and then check your results with the `pcor()` function.
+
+
+- Calculate the Pearson correlation between `poverty` and `black`. Then calculate the partial correlation between `poverty` and `black` accounting for `collegeGrad`. What happens to the relationship between `poverty` and `black` *after* accounting for `collegeGrad`? What do you think this means in practice?
+
+```{r}
+#| echo: false
+#| eval: false
+
+cor(dat$poverty, dat$black)
+
+reg_black <- lm(black ~ collegeGrad, dat)
+reg_poverty <- lm(poverty ~ collegeGrad, dat)
+
+cor(reg_black$residuals, reg_poverty$residuals)
+
+pcor_black <- ppcor::pcor(dat[, c("black", "collegeGrad", "poverty")])
+pcor_black$estimate
+
+# after we account for college degrees, there is essentially no relationship between percentage of black people in the neighborhood and povery (collegeGrad is likely a confounder!)
+```
+
+- Calculate the Pearson correlation between `hhIncome` and `collegeGrad`. Then calculate the partial correlation between `hhIncome` and `collegeGrad` accounting for both `foreignBorn` *and* `population`. What happens to the relationship between `hhIncome` and `collegeGrad` *after* accounting for `foreignBorn` *and* `population`? 
+
+```{r}
+#| echo: false
+#| eval: false
+
+cor(dat$hhIncome, dat$collegeGrad)
+
+reg_income <- lm(hhIncome ~ foreignBorn + population, dat)
+reg_college <- lm(collegeGrad ~ foreignBorn + population, dat)
+
+cor(reg_income$residuals, reg_college$residuals)
+
+pcor_inc_coll <- ppcor::pcor(dat[, c("hhIncome", "collegeGrad", "population", "foreignBorn")])
+pcor_inc_coll$estimate
+
+# after we account for the two other variables, the relationship becaomes a bit weaker, but it is still relatively strong.
+```
+
+**2.** For this question, we will practice calculating *semi-partial* correlations and interpreting them. For each semi-partial correlation, first calculate it "manually" using the appropriate regression residuals and then check your results with the `spcor()` function.
+
+
+- Calculate the Pearson correlation between `hhIncome` and `white`. Then calculate the semi-partial correlation between `hhIncome` and `white` after accounting for `collegeGrad` for `hhIncome` only. What happens to the relationship between `hhIncome` and `white`? What does this imply about the usefulness of `white` as a predictor of `hhIncome` once we know about `collegeGrad`?
+
+```{r}
+#| echo: false
+#| eval: false
+
+cor(dat$hhIncome, dat$white)
+
+reg_inc <- lm(hhIncome ~ collegeGrad, dat)
+
+cor(reg_inc$residuals, dat$white)
+
+
+spcor_coll_whit <- ppcor::spcor(dat[, c("hhIncome", "collegeGrad", "white")])
+
+spcor_coll_whit$estimate
+
+# after we use college degrees to predict income, percentage of white residents per neighborhood gives us almost no additional poredictive power. 
+```
+
+
+**3.** Run a multiple regression with `collegeGrad`,  `white`,  `population`, and `foreignBorn` predicting `hhIncome`. We will look at some regression diagnostics, so remember to name the rows of the dataset with the `neighborhood` variable such that the neighborhood name shows up when printing diagnostics or creating plots.
+
+
+- Does this regression seem to do a good job at predicting `hhIncome`?
+
+```{r}
+#| echo: false
+#| eval: false
+
+rownames(dat) <- dat$neighborhood
+
+reg <- lm(hhIncome ~ collegeGrad + white + population + foreignBorn, dat)
+
+summary(reg)$r.squared
+
+
+# yes, the R^2 is fairly large, so it seems that there is good prediuctivity
+```
+
+- Use the `influencePlot()` function to create a plot of some regression diagnostics by neighborhood. are there any neighborhoods that stand out? (**NOTE:** the `influencePlot()` function will also print the 5 data points that are overall the most extreme; this does not necessarily mean that those points are problematic or warrant further attention.)
+
+```{r}
+#| echo: false
+#| eval: false
+
+car::influencePlot(reg)
+
+# `Como` seems a bit extreme. Also `Marcy Holmes`, `Steven's Square`, and `Prospect Park`
+```
+
+
+**4.** Calculate DFBETAS and *only show* the DFBETAS for the neighborhoods you identified as potentially extreme. Would the regression results change by that much if these points were removed? DO you think you should be concerned about these points? (**NOTE:** DFBETAS can be interpreted in standard deviation units)
+
+```{r}
+#| echo: false
+#| eval: false
+
+dfbetas <- dfbetas(reg)
+
+rows <- which(rownames(dfbetas) %in% c("Cedar Riverside", "Steven's Square - Loring Heights", "Prospect Park - East River Road", "Marcy Holmes ", "Como"))
+
+
+round(dfbetas[rows,], 2)
+
+# I may be ever so slightly concerned about `Prospect Park - East River Road` because the regression coefficient of collegeGrad will change by .5 SE units, but it is not that bad overall. All the other differences seem fairly small overall. Thus, I am not too concerned about these data points.
+
+```
+

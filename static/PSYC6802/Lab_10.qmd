@@ -49,8 +49,8 @@ install.packages("ppcor")
 #| warning: false
 #| classes: code-150
 
-# package 'devtools' must be installed first
 library(ppcor)
+library(tidyverse)
 # I am setting a theme for all the plots
 theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
                         base_family = 'serif'))
@@ -72,7 +72,7 @@ The `ppcor` package [@Kim_2015a] is is a pretty simple package with a small numb
 ::: {.column width = '50%'}
 <center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
 
-Today we will. 
+Today we will look at some data about US states. I chose this subset of variables from a larger dataset that you can find [here](https://github.com/quinix45/Fabio-Setti/blob/main/static/data/Lab_09_States.xlsx){target='_blank'}.
  
 ```{r}
 #| eval: true
@@ -81,18 +81,1287 @@ Today we will.
 #| code-line-numbers: false
 #| classes: code-125
 
-dat <- rio::import("https://fabio-setti.netlify.app/data/Lab_09_States.xlsx")
+dat <- rio::import("https://fabio-setti.netlify.app/data/States_subset.csv")
 ```
 
 ```{r}
+
+library(FabioFun)
+
+labels <- c("State Name",
+            "State Code",
+            "Number of Airports Per State",
+            "State Surface in Squared Miles",
+            "Number of Inhabitants",
+            "Percentage of Biden Votes in 2020",
+            "Percentage of Trump Votes in 2020",
+            "Percentage of Catholic Population",
+            "Percentage of Non-Religious Individuals")
+
+labels_react <- reactbl_col.desc(names = colnames(dat),
+                                 desc =  labels,
+                                 style = "cursor: pointer; text-decoration: none;",
+                                 info_color = "#7a0b80")
+
+
 reactable::reactable(dat,
-                     defaultColDef = colDef(minWidth = 170),
+                     defaultColDef = colDef(minWidth = 140),
                      style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
-                     pagination = FALSE, highlight = TRUE, height = 300)
+                     pagination = FALSE, highlight = TRUE, height = 300, columns = labels_react)
 ```
 
 :::
 ::::
+
+
+## Another Perspective on Residuals
+
+in [Lab](https://fabio-setti.netlify.app/psyc6802/lab_6#/why-variance-explained){target='_blank'} we have described variance as the part of a variable that is not predictable. Let's say that we run a regression with the state population, `Population`, predicting the number of airports in the state, `Nairports`.
+
+:::: {.columns}
+::: {.column width = '45%'}
+
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_pop <- lm(Nairports ~ Population, dat)
+
+```
+
+:::
+
+::: {.fragment fragment-index=2}
+
+And then we plot the original `Nairports` along with the residuals of `Nairports`. Crucially, the variance of the red density (residuals) is half that of the blue density (original variable):
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+var(dat$Nairports)
+var(reg_pop$residuals)
+```
+
+
+:::
+
+:::
+::: {.column width = '55%'}
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot code"
+
+
+ggplot(dat, aes(x = Nairports, color = "Raw")) +
+  geom_density() +
+  geom_density(aes(x = reg_pop$residuals + mean(dat$Nairports), color = "residuals"))+
+  xlim(c(-2, 25)) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_color_manual(
+    values = c("Raw" = "blue",
+               "residuals" = "red"),
+    name = "",
+    labels = c(
+      "Raw" = "Original Variable",
+      "residuals" = "Residuals")) +
+  theme(axis.title.y = element_blank(),
+        axis.text.y  = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.line.y  = element_blank(),
+      legend.position = c(0.95, 0.95), 
+  legend.justification = c("right", "top"))
+
+```
+
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=3}
+
+In a way, the residuals are the *unpredictable part of a DV left after regression*. That is, everything *that cannot be explained* by the IV.
+
+:::
+
+## Correlations With Residuals
+
+So if **Y** is our DV and **X** is our IV, the residuals of **Y** *given* **X** will be the part of **Y** that cannot be predicted by **X**, which we will call $Y_{.x}$. Let's say that in our case, $Y =$ `Nairports`, $X =$ `Population`, and $Z =$ `TotalSqMiles`.
+
+:::: {.columns}
+::: {.column width = '43%'}
+
+::: {.fragment fragment-index=1}
+
+<center>  <p style='font-size: 32px'> **Partial correlation** </p> </center>
+
+The partial correlation between two variables $Y$ and $Z$ accounting for $X$ is the correlation between $Y_{.x}$ and $Z_{.x}$, the residuals of $Y$ and $Z$ given $X$. 
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_YX <- lm(Nairports ~ Population, dat)
+reg_ZX <- lm(TotalSqMiles ~ Population, dat)
+
+cor(reg_YX$residuals, reg_ZX$residuals)
+```
+
+:::
+
+::: {.fragment fragment-index=2}
+
+This is the relation between `Nairports` and  `TotalSqMiles` after *partialling out* the part that is predicted by `population` from *both* variables. 
+
+:::
+
+
+:::
+::: {.column width = '57%'}
+
+::: {.fragment fragment-index=3}
+
+<center>  <p style='font-size: 32px'> **Semi-Partial correlation** </p> </center>
+
+The semi-partial correlation between two variables $Y$ and $Z$ accounting for $X$ is the correlation between $Y$ and $Z_{.x}$ *or* $Y_{.x}$ and $Z$. Because you partial out $X$ from only one of the two variables, there two possible semi-partial correlations!
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+# Y.x and Z
+cor(reg_YX$residuals, dat$TotalSqMiles)
+
+# Y and Z.x
+cor(dat$Nairports, reg_ZX$residuals)
+```
+
+:::
+
+::: {.fragment fragment-index=4}
+
+The "semi-" part comes from the fact that we partial out $X$ only from one variable involved in the correlation.
+
+:::
+
+:::
+::::
+
+
+## Some More intuition
+
+The partial and semi-partial correlation may seem to come a bit out of nowhere, but their idea is the exact same as multiple regression: we want to know the relation between two variables, *after controlling for some other variables*. We can see that the standardized slopes will be very close to the semi-partial correlation: 
+
+:::: {.columns}
+::: {.column width = '60%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# standardize our X, Y, Z variables
+dat$Nairports_std <- scale(dat$Nairports)[,1]
+dat$Population_std <- scale(dat$Population)[,1]
+dat$TotalSqMiles_std <- scale(dat$TotalSqMiles)[,1]
+
+reg_std <- lm(Nairports_std ~ Population_std + TotalSqMiles_std , dat)
+
+# here I am printing the intercept and slopes
+round(coef(reg_std), 3)
+```
+
+:::
+
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# Y and Z.x (Nairports correalted with the residual of TotalSqMiles after accounting for Population)
+cor(dat$Nairports, reg_ZX$residuals)
+```
+
+:::
+
+:::
+::: {.column width = '40%'}
+
+::: {.fragment fragment-index=2}
+
+Where the semi-partial correlation and the standardized regression coefficient of `TotalSqMiles` are *very* similar, but not quite the same (see [the 3<sup>rd</sup> post here](https://stats.stackexchange.com/questions/112891/is-there-a-difference-between-semipartial-correlation-and-regression-coefficient){target='_blank'}).
+
+:::
+
+</br>
+
+::: {.fragment fragment-index=3}
+
+In contrast, the partial correlation is just the *correlation between two residuals*. One good use of partial correlation is calculating the correlation between two variables, after accounting for some [Confounding variable](https://stats.stackexchange.com/questions/432866/famous-easy-to-understand-examples-of-a-confounding-variable-invalidating-a-stud){target='_blank'}.
+
+:::
+
+:::
+::::
+
+
+## Semi-partial Correlation as Effect Size
+
+Semi-partial correlations are also quite useful because they happen to be measures of effect size 😃
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+
+Let's say that we run a regression with `Population` predicting `Nairports` and look at the $R^2$:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_pop <-  lm(Nairports ~ Population, dat)
+summary(reg_pop)$r.squared
+```
+
+:::
+
+
+::: {.fragment fragment-index=2}
+
+Then, if we include `TotalSqMiles`, we get:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_both <-  lm(Nairports ~ Population + TotalSqMiles, dat)
+summary(reg_both)$r.squared
+```
+
+Yielding an increase in $R^2$ of roughly $.84 - .51 = .33$
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=3}
+
+Now, if we look at the semi-partial correlation between `Nairports` and the residuals of `TotalSqMiles` after accounting for `Population`:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+cor(dat$Nairports, reg_ZX$residuals)
+```
+
+:::
+
+::: {.fragment fragment-index=4}
+
+and when we square that we get...
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+cor(dat$Nairports, reg_ZX$residuals)^2
+```
+
+Which is exactly the $R^2$ increase that we get when we add `TotalSqMiles` to our regression! 
+
+:::
+
+:::
+::::
+
+
+## The `ppcor` Package
+
+
+Calculating these correlations by hand is good to understand what is happening, but in practice you would use the functions from the `ppcor` package:
+
+:::: {.columns}
+::: {.column width = '43%'}
+
+::: {.fragment fragment-index=1}
+
+<center>  <p style='font-size: 32px'> **Partial correlations** </p> </center>
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+pcor <- ppcor::pcor(dat[, c(3,4,5)])
+pcor$estimate
+```
+
+Here you get the correlation between any two variables, accounting for *all other variables* in the correlation matrix.
+
+:::
+
+:::
+::: {.column width = '57%'}
+
+::: {.fragment fragment-index=2}
+
+<center>  <p style='font-size: 32px'> **Semi-Partial correlations** </p> </center>
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+spcor <- ppcor::spcor(dat[, c(3,4,5)])
+spcor$estimate
+```
+
+Here, the correlation matrix is not symmetric because, as previously mentioned, two semi-partial correlations are possible. The variable that is untouched is the variable in the row, while the variable in the column is adjusted for the remaining variables.
+
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=3}
+
+You can extract additional information such as significance and tests statistics just as we did in [Lab 6](https://fabio-setti.netlify.app/psyc6802/lab_6#/contents-of-cortest){target='_blank'} with the `corTest()` function.
+
+:::
+
+## Pesky Data Points
+
+```{r}
+set.seed(28567)
+
+cor_mat <- rbind(c(1, 0.2),
+                 c(0.2, 1))
+
+sim_dat_50 <- data.frame(MASS::mvrnorm(n = 50, c(0, 0), Sigma = cor_mat, empirical = TRUE))
+colnames(sim_dat_50) <- c("Y", "X")
+
+```
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+Let's say that we have this regression, where we see a positive relation between `X` and `Y`:
+
+```{r}
+ggplot(sim_dat_50, aes(x =  X, y = Y)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F)  +
+  xlim(-4, 4) +
+  ylim(-4, 4)
+```
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+But then we find out that we forgot to include an observation. We include the new observation:
+
+```{r}
+sim_dat_50[51,] <-  c(4,-4, 0)
+
+
+ggplot(sim_dat_50, aes(y = Y, x = X)) +
+  geom_point() +
+  geom_smooth(method = "lm",se = FALSE) +
+  geom_point(aes(X[51], Y[51]), col="red", shape=1, size=7) +
+  xlim(-4, 4) +
+  ylim(-4, 4)
+```
+
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=3}
+
+The datapoint that we added is an outlier, and it influences the regression so much that it flips the relation between `X` and `Y` 😱 Ideally, we would want to catch such pesky data points, although in the real world, it is usually not possible to eye regression results and tell which observations have this oversized influence on our regression.
+
+:::
+
+## Regression Diagnostics
+
+When we are working with a lot of data and/or we have a lot of predictors, it is not possible to graphically establish what points may warrant more attention. **Regression diagnostics** are a set of statistics that aim at identifying data points that may influence your regression in certain ways. There are 3 types of regression diagnostics:
+
+
+:::: {.columns}
+::: {.column width="33%"}
+
+
+::: {.fragment fragment-index=1}
+<center> **Leverage** 
+
+<div style="font-size: 24px"> Leverage measures quantify how unusual a certain observation is given the full set of predictors. For example, if our predictors are *age* and whether a person is *pregnant*, it would not be unusual to separately see someone whose age is 55 and some pregnant individuals. However, it would be unusual to see someone who is *both* 55 and pregnant. Such an observation would have high leverage.  </div>
+
+</center>
+:::
+
+
+:::
+::: {.column width="33%"}
+
+
+::: {.fragment fragment-index=2}
+<center> 
+
+**Distance** 
+
+<div style="font-size: 24px"> Distance measures how far away the observed value of $Y$ is from the predicted value $\hat{Y}$. Residuals are a measure of distance. However, raw residuals, $Y - \hat{Y}$, are not the best way of measuring distance, so we will see more general measures later. Regardless, high distance mean that your regression is not predicting those data points well. </div>
+
+</center>
+:::
+
+
+:::
+::: {.column width="33%"}
+
+
+::: {.fragment fragment-index=3}
+<center> **Influence** 
+
+<div style="font-size: 24px"> In my opinion, the most important category of regression diagnostics. For each observation, influence measures tell you how much the values of your slopes would change *if* you removed that data point. The outlier in the last slide had strong influence, as it completely changed the slope when introduced. </div>
+
+</center>
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=4}
+You may see slightly different definitions for these 3 terms. I am getting these definitions/examples from chapter 16 of @Darlington_Hayes_2016. 
+:::
+
+
+## Quick Regression Diagnostics Summary
+
+<div style="font-size: 26px"> Here is a quick summary of the regression diagnostics that we will look at today. In general, influence measures are more useful, because, for each data point, they tell you *what would happen to your results if you deleted that  data point*. </div>
+
+
+:::: {.columns}
+::: {.column width="50%"}
+
+<ul style="font-size: 26px">  
+
+
+::: {.fragment fragment-index=1}
+<li> **Hat values:** measure how unusual an observation is compared to the average observation. (*leverage*) </li>
+:::
+
+
+::: {.fragment fragment-index=2}
+<li> **Studentized Residuals:** For each data point, it measures how large the residual is on a standardized scale (*distance*). </li>
+:::
+
+::: {.fragment fragment-index=3}
+<li> **DFFITS:** For each data point, it measures how large the change in the predictions, $\hat{Y}$, would be *if* that data point was removed *(influence*). </li>
+:::
+
+</ul>
+
+
+:::
+::: {.column width="50%"}
+
+<ul style="font-size: 24px">  
+
+::: {.fragment fragment-index=4}
+<li> **Cook’s *D*:** For each data point, it measures how large the change in the predictions, $\hat{Y}$, would be *if* that data point was removed. Very similar to DFFITS (*influence*). </li>
+:::
+
+::: {.fragment fragment-index=5}
+<li> **COVRATIO:** For each data point, it measures how large the average change in all the standard errors of the regression coefficients would be *if* that data point was removed (*influence*). </li>
+:::
+
+::: {.fragment fragment-index=6}
+<li> **DFBETAS:** For each data point, it measures how much *each individuals regression coefficient* would change *if* that data point was removed (*influence*). </li>
+:::
+
+</ul>
+
+:::
+::::
+
+
+
+::: {.fragment fragment-index=7}
+
+<div style="font-size: 26px"> **DFBETAS** (<img src="Additional files/images/pacha_meme.png" style="width:2%; vertical-align: -14px;">)  is my favorite measure because for each data point, it tells you how much each regression coefficient will change if that data point is removed. Other measures give some average, which, for most purposes, is not as informative in my opinion. 
+ </div>
+:::
+
+
+## Our Regression and a Quick Graphical Look
+
+Let's say that we want to predict `Nairports` based on `Population` and `TotalSqMiles`. We can run the regression and look at the added variable plots to get sense of how our regression looks:
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| classes: code-125
+
+
+#label the rows so that the avPlots() function shows the row names instead  of just numbers
+rownames(dat) <- dat$Abbreviation
+
+reg_full <- lm(Nairports ~ Population_std + TotalSqMiles, dat)
+car::avPlots(reg_full)
+```
+
+```{r}
+rownames(dat) <- dat$Abbreviation
+reg_full <- lm(Nairports ~ Population + TotalSqMiles, dat)
+```
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+::: {.fragment fragment-index=1}
+
+For each plot, the `avPlots()` function prints the two points with the largest residual and the 2 points with the largest leverage. Although, they are based on individual plots, not the full data.
+
+We can also see that our regression assumptions are probably violated, especially in the second plot, where Alaska is very far away from all the other points.
+
+:::
+
+:::
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+
+car::avPlots(reg_full)
+```
+
+:::
+::::
+
+
+## Leverage: Hat Values
+
+**Hat values** measure how unusual an observation is compared to the average observation. They are a measure of *leverage*, and the higher the values, the more unusual the observation given the set of predictors (the lowest possible value is $0$).
+
+:::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
+To compute hat values for all your observations we use the `hatvalues()` function. Here I only print the 5 largest values:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+hatvals <- hatvalues(reg_full)
+sort(hatvals, decreasing = TRUE)[1:5]
+```
+
+:::
+
+:::
+
+::: {.column width="50%"}
+
+
+::: {.fragment fragment-index=1}
+<center>
+
+Here are all the hat values:
+
+```{r}
+reactable::reactable(data.frame("State" = names(hatvalues(reg_full)),
+                                "Hat_Values" = round(as.numeric(hatvalues(reg_full)), 3)),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "0.975rem"),
+                     pagination = FALSE, highlight = TRUE, height = 250, width = 250)
+```
+
+</center>
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=2}
+
+Leverage is just a way of determining whether an observation is unusual, but it does not necessarily mean that the observation is problematic. I generally don't like guidelines of "how big is too big" for regression diagnostics because they don't generalize well to real world cases. Here, *Alaska*'s hat value is around twice as large as the second largest one, so somewhat big relative to all other data points.
+
+
+:::
+
+## Distance: Studentized Residuals
+
+**Studentized Residuals** measure how large each residual is on a standardized scale (a *t* scale really, but makes no difference in practice). This is a measure of *distance* from the regression line/plane. 
+
+:::: {.columns}
+::: {.column width="70%"}
+
+::: {.fragment fragment-index=1}
+To compute studentized residuals for all your observations you use the `rstudent()` function. Here I only print the 5 largest and smallest values:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+rstud <- rstudent(reg_full)
+# just printing some values
+round(c(sort(rstud,)[1:5], rev(sort(rstud, decreasing = TRUE)[1:5])), 2)
+```
+
+
+
+:::
+
+:::
+
+::: {.column width="30%"}
+
+::: {.fragment fragment-index=1}
+<center>
+
+Here are all the residuals:
+
+```{r}
+reactable::reactable(data.frame("State" = names(rstudent(reg_full)),
+                                "Residuals" = round(as.numeric(rstudent(reg_full)), 3)),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "0.975rem"),
+                     pagination = FALSE, highlight = TRUE, height = 250, width = 250)
+```
+
+</center>
+
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=2}
+We are talking about residuals, so they can be both positive (above the regression line) and negative (below the regression line). Because the residuals are on a standardize scale, around 0 is an average residual, where anything with an absolute value of 2 or more is somewhat high. So *california*, *Washington*, *Florida* and *Michigan* are not very well predicted.
+:::
+
+## Influence: DFFITS 
+
+**DFFITS** measure how large the change in the predictions, $\hat{Y}$, would be on average *if* that data point was removed. 
+
+:::: {.columns}
+::: {.column width="70%"}
+
+
+::: {.fragment fragment-index=1}
+
+To compute DFFITS for all your observations you use the `dffits()` function. Here I only print the 5 largest and smallest values:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dffits <- dffits(reg_full)
+round(c(sort(dffits)[1:5], rev(sort(dffits, decreasing = TRUE)[1:5])),2)
+```
+
+:::
+:::
+
+::: {.column width="30%"}
+
+<center>
+::: {.fragment fragment-index=1}
+
+Here are all the residuals:
+
+```{r}
+reactable::reactable(data.frame("State" = names(dffits(reg_full)),
+                                "DFFITS" = round(as.numeric(dffits(reg_full)), 3)),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "0.975rem"),
+                     pagination = FALSE, highlight = TRUE, height = 250, width = 250)
+```
+:::
+</center>
+
+:::
+::::
+::: {.fragment fragment-index=2}
+Predictions can change either positively or negatively, so we should look at extreme values both ways. You can think of DFFITS as a measure that summarizes how much the whole regression model changes when a data point is removed. Here, we can see that the DFFITS value for *California* is more than twice as large as the next largest DFFITS value!
+
+:::
+
+
+## Influence: Cook’s *D*
+
+**Cook’s *D* ** is very similar to DFFITS because it also summarizes the change in the predictions, $\hat{Y}$, given any data point *if* that data point was removed (influence). The differencer is that Cook's D is always positive, and large values imply larger influence.
+
+:::: {.columns}
+::: {.column width="70%"}
+
+::: {.fragment fragment-index=1}
+
+To compute Cook's distance for all your observations you use the `cooks.distance()` function. Here I only print the 5 largest values:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cookD <- cooks.distance(reg_full)
+sort(cookD, decreasing = TRUE)[1:5]
+```
+:::
+:::
+
+::: {.column width="30%"}
+
+::: {.fragment fragment-index=1}
+<center>
+
+Here are all the values:
+
+```{r}
+reactable::reactable(data.frame("State" = names(cooks.distance(reg_full)),
+                                "cookD" = round(as.numeric(cooks.distance(reg_full)), 3)),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "0.975rem"),
+                     pagination = FALSE, highlight = TRUE, height = 250, width = 250)
+```
+
+</center>
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=2}
+Data points with large DFFITS (in magnitude) will have large Cook's *D*, so the interpretation is similar; you can check that the largest absolute values on the previous slides all appear here. As mentioned above, the one notable difference is that Cook's distance is always positive, so may be easier to interpret from some.
+
+:::
+
+## Influence: COVRATIO
+
+**COVRATIO** measures how large the average change in all the *standard errors* of the regression coefficients would be *if* that data point was removed. 
+
+:::: {.columns}
+::: {.column width="70%"}
+
+::: {.fragment fragment-index=1}
+
+To compute hat values for all your observations you use the `covratio()` function. Here I only print the 5 largest and smallest values
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+covrat <- covratio(reg_full)
+round(c(sort(covrat)[1:5], rev(sort(covrat, decreasing = TRUE)[1:5])),2)
+```
+
+The interpretation of these values is a bit more nuanced than the other regression diagnostics 🤔
+
+:::
+:::
+
+::: {.column width="30%"}
+
+<center>
+
+::: {.fragment fragment-index=1}
+Here are all the values:
+
+```{r}
+reactable::reactable(data.frame("State" = names(covratio(reg_full)),
+                                "COVRATIO" = round(as.numeric(covratio(reg_full)), 3)),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "0.975rem"),
+                     pagination = FALSE, highlight = TRUE, height = 250, width = 250)
+```
+
+:::
+
+</center>
+
+:::
+::::
+
+
+::: {.fragment fragment-index=2}
+You may notice that COVRATIO values hover around 1. In fact, $\mathrm{COVRATIO} = 1$ means that removing the point has no impact whatsoever on the standard errors. On the other hand, $\mathrm{COVRATIO} < 1$ means that removing the point will make standard errors smaller, while $\mathrm{COVRATIO} > 1$ means that removing the point will make standard errors larger. 
+:::
+
+
+## Influence: DFBETAS 
+
+**DFBETAS** represent the change in *standard error units* (the `std.error` column in the regression summary) in the intercept and slopes if *if* that data point was removed.
+
+:::: {.columns}
+::: {.column width="50%"}
+
+To compute DFBETAS we use the `dfbetas()` function:
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dfbetas(reg_full)
+```
+
+
+```{r}
+reactable::reactable(data.frame(round(dfbetas(reg_full), 3)),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "0.975rem"),
+                     pagination = FALSE, highlight = TRUE, height = 350, width = 600)
+```
+
+:::
+
+::: {.column width="50%"}
+
+DFBETAS provide more information than the other measures. Removing a data point may have stronger influence on one of the slopes, but not as much influence on another slope or the intercept 🧐
+
+::: {.fragment fragment-index=1}
+You can click on the column names in the table on the left to order the table by each column and see the more extreme values for each column.
+:::
+
+::: {.fragment fragment-index=2}
+The change is in standard deviation units, so, for example, removing *California* reduces the slope of `Population` by $2.23$ standard errors (a lot!), but only reduces the slope of `TotalSqMiles` by $.17$. Other regression diagnostics do not provide this nuance!
+:::
+
+:::
+
+::::
+
+## Influence plot with `car`
+
+The `influencePlot()` function from the `car` package also offers a nice visualization for studentized residuals, hat values, and Cook's D at the same time
+
+:::: {.columns}
+::: {.column width="70%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+car::influencePlot(reg_full)
+```
+
+```{r}
+no_print <- car::influencePlot(reg_full)
+```
+
+
+:::
+::: {.column width="30%"}
+
+
+::: {.fragment fragment-index=1}
+
+So, compared to the other states, *California* and *Alaska* are quite high on some of these measures. If you think about it, they are both have "unusual" compared to other state in the *California* has by far the largest population and *Alaska* has by far the largest surface.
+
+:::
+
+::: {.fragment fragment-index=2}
+
+I also feel like the function is not very aptly named because only Cook's D is a measure of influence 🫣
+
+:::
+
+:::
+::::
+
+## Another Neat `car` Plot
+
+The `influenceIndexPlot()` function offers a visualization of a bunch of regression diagnostics. This helps visualizing what observations are extreme relative to other observations
+
+:::: {.columns}
+::: {.column width="70%"}
+
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+car::influenceIndexPlot(reg_full)
+
+```
+
+
+```{r}
+no_print <- car::influenceIndexPlot(reg_full)
+```
+
+:::
+::: {.column width="30%"}
+
+::: {.fragment fragment-index=1}
+In general, and especially with these measures, I like to look at how large they are *relative to all other observations*. If you have a data point that is 3 times as large as everything else, it probably warrants some attention.
+
+
+
+
+
+:::
+
+::: {.fragment fragment-index=2}
+
+<center> However, above all, <u> never remove outliers or influential observations unless you have a really good justification</u>. The problem is often with the model, not the data! </center>
+
+:::
+
+
+:::
+::::
+
+## Variance Inflation Factor
+
+Another important statistic that may as well be a regression diagnostic is the **variance inflation factor** (VIF), which can be calculated for all regression predictors. For a predictor $X$,
+
+::: {.fragment fragment-index=1}
+
+$$ VIF_x = \frac{1}{1 - R^2}$$
+
+
+where the $R^2$ represents the variance explained in the predictor $X$ by *all other predictors*. The higher the correlation between predictors, the higher VIFs are going to be. VIFs above 10 generally means that some of your predictors are very highly correlated
+
+:::
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+we can use the `vif()` function from the `car` package to calculate the VIFs for all of our predictors.
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+car::vif(reg_full)
+```
+
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=3}
+
+VIFs close to 1 mean that there isn't much correlation between the predictors. High VIF is not desirable because *(1)* it inflates standard errors of regression coefficients, and *(2)* it usually makes regression coefficients uninterpretable. Let's see an example...
+
+:::
+
+## Multiple Regression Weirdness
+
+ <p style='font-size: 32px'> We want to predict percentage of practicing catholics in each state, `PctCatholic`, based on voting patterns in the 2020 elections. </p>
+
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+::: {.fragment fragment-index=1}
+
+we have two variables in our data, `PctBiden2020` and `PctTrump2020`, which are the percentages of Biden and Trump voters in each state in 2020. Let's look at the regression slopes with the two predictors separately and then together:
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_biden <- lm(PctCatholic ~ PctBiden2020, dat)
+coef(reg_biden)
+```
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_trump <- lm(PctCatholic ~ PctTrump2020, dat)
+coef(reg_trump)
+```
+
+:::
+
+
+:::
+::: {.column width = '45%'}
+
+::: {.fragment fragment-index=2}
+
+Because we have learned that multiple regression is better then running separate regressions, let's run a regression with both of our predictors:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_both <- lm(PctCatholic ~ PctBiden2020 + PctTrump2020, dat)
+coef(reg_both)
+```
+
+</br>
+
+ <p style='font-size: 32px'> ...Do you notice anything strange about the regression with both predictors? 🤔  </p>
+
+
+:::
+
+:::
+::::
+
+## Multicollinearity and Regression Weirdness
+
+In the previous slide we found that the higher percentage of Biden voters was associated with a higher percentage of catholics, whereas the relation was reversed in the case of percentage of Trump voters. However, when we ran a multiple regression, both regression slopes were positive (a bit spooky if you ask me 😱). What is happening?
+
+:::: {.columns}
+::: {.column width = '45%'}
+
+::: {.fragment fragment-index=1}
+
+Well, because of the 2 party system in the US, `PctBiden2020` and `PctTrump2020` are almost perfectly negatively correlated:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cor(dat$PctBiden2020, dat$PctTrump2020)
+```
+
+Unsurprisingly, the VIFs are off the charts:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# with only two predictors, the VIF is going to be the exact same
+car::vif(reg_both)
+```
+
+:::
+
+:::
+::: {.column width = '55%'}
+
+::: {.fragment fragment-index=2}
+
+A case of highly correlated predictors is generally referred to as **multicollinearity**. In such cases, regression slopes are not to be trusted. Another clue that something is not right comes from comparing the $R^2$ from the individual and multiple regressions:
+
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg_biden)$r.squared
+summary(reg_trump)$r.squared
+summary(reg_both)$r.squared
+```
+
+
+:::
+
+::: {.column width = '25%'}
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg_biden)$r.squared
+summary(reg_trump)$r.squared
+summary(reg_both)$r.squared
+```
+
+:::
+::::
+
+
+Where all the $R^2$ values are almost identical. This means that in practice `PctBiden2020` and `PctTrump2020` are the same variable!
+
+:::
+
+:::
+::::
+
+
+
+## A Graphical representation
+
+To provide a sense what we are asking our regression to do when we have some highly correlated predictors, let's look at the 3D plot:
+
+::: {.fragment fragment-index=1}
+
+:::: {.panel-tabset}
+
+### Without Regression Plane
+
+:::: {.columns}
+::: {.column width = '35%'}
+
+If you move the plot around, you will notice that there is no *depth* to the cloud of points. That is, we are missing a dimension!
+
+
+This should really be a 2D plot. Once again, this happens because `PctBiden2020` and `PctTrump2020` are the same variable and we just have a 2D scatterplot, not a 3D one 🙃
+
+:::
+::: {.column width = '65%'}
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+FabioFun::nice_3D_plot(y = dat$PctCatholic,
+                       x1 = dat$PctBiden2020,
+                       x2 = dat$PctTrump2020,
+             dot_labels = dat$Abbreviation,
+             axis_names = c("Catholic %", 
+                            "Biden %", 
+                            "Trump %")) %>%  
+                    bslib::card(full_screen = TRUE)
+
+```
+
+:::
+::::
+
+### With Regression Plane
+
+:::: {.columns}
+::: {.column width = '35%'}
+
+You can imagine how the math may break down when we ask for a regression plane for this sort of data. 
+
+All we need is a line, and asking for a plane forces the plane to contort in really strange ways to fit the 2D data 🧐 This is why the regression slopes get really funky in these cases.
+
+
+:::
+::: {.column width = '65%'}
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+FabioFun::nice_3D_plot(y = dat$PctCatholic,
+                       x1 = dat$PctBiden2020,
+                       x2 = dat$PctTrump2020,
+             dot_labels = dat$Abbreviation,
+             axis_names = c("Catholic %", 
+                            "Biden %", 
+                            "Trump %"),
+             reg_plane = TRUE) %>%  
+                    bslib::card(full_screen = TRUE)
+
+```
+
+
+:::
+::::
+
+
+
+::::
+
+:::
+
 
 
 ## References 

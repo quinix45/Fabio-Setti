@@ -1,0 +1,319 @@
+
+
+## Today's Packages and Data 🤗 
+
+```{r}
+install.packages("ppcor")
+```
+
+
+
+```{r}
+
+library(ppcor)
+library(tidyverse)
+# I am setting a theme for all the plots
+theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
+                        base_family = 'serif'))
+```
+
+
+
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/States_subset.csv")
+```
+
+
+## Another Perspective on Residuals
+
+
+```{r}
+reg_pop <- lm(Nairports ~ Population, dat)
+```
+
+
+```{r}
+var(dat$Nairports)
+var(reg_pop$residuals)
+```
+
+
+```{r}
+ggplot(dat, aes(x = Nairports, color = "Raw")) +
+  geom_density() +
+  geom_density(aes(x = reg_pop$residuals + mean(dat$Nairports), color = "residuals"))+
+  xlim(c(-2, 25)) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_color_manual(
+    values = c("Raw" = "blue",
+               "residuals" = "red"),
+    name = "",
+    labels = c(
+      "Raw" = "Original Variable",
+      "residuals" = "Residuals")) +
+  theme(axis.title.y = element_blank(),
+        axis.text.y  = element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.line.y  = element_blank(),
+      legend.position = c(0.95, 0.95), 
+  legend.justification = c("right", "top"))
+```
+
+## Correlations With Residuals
+
+
+```{r}
+reg_YX <- lm(Nairports ~ Population, dat)
+reg_ZX <- lm(TotalSqMiles ~ Population, dat)
+
+cor(reg_YX$residuals, reg_ZX$residuals)
+```
+
+
+```{r}
+# Y.x and Z
+cor(reg_YX$residuals, dat$TotalSqMiles)
+
+# Y and Z.x
+cor(dat$Nairports, reg_ZX$residuals)
+```
+
+## Some More intuition
+
+
+```{r}
+# standardize our X, Y, Z variables
+dat$Nairports_std <- scale(dat$Nairports)[,1]
+dat$Population_std <- scale(dat$Population)[,1]
+dat$TotalSqMiles_std <- scale(dat$TotalSqMiles)[,1]
+
+reg_std <- lm(Nairports_std ~ Population_std + TotalSqMiles_std , dat)
+
+# here I am printing the intercept and slopes
+round(coef(reg_std), 3)
+```
+
+
+```{r}
+# Y and Z.x (Nairports correalted with the residual of TotalSqMiles after accounting for Population)
+cor(dat$Nairports, reg_ZX$residuals)
+```
+
+## Semi-partial Correlation as Effect Size
+
+```{r}
+reg_pop <-  lm(Nairports ~ Population, dat)
+summary(reg_pop)$r.squared
+```
+
+
+```{r}
+reg_both <-  lm(Nairports ~ Population + TotalSqMiles, dat)
+summary(reg_both)$r.squared
+```
+
+
+```{r}
+cor(dat$Nairports, reg_ZX$residuals)
+
+cor(dat$Nairports, reg_ZX$residuals)^2
+```
+
+
+## The `ppcor` Package
+
+
+```{r}
+pcor <- ppcor::pcor(dat[, c(3,4,5)])
+pcor$estimate
+```
+
+
+```{r}
+spcor <- ppcor::spcor(dat[, c(3,4,5)])
+spcor$estimate
+```
+
+## Pesky Data Points
+
+```{r}
+# this code is for generating the data in for the plots
+
+set.seed(28567)
+
+cor_mat <- rbind(c(1, 0.2),
+                 c(0.2, 1))
+
+sim_dat_50 <- data.frame(MASS::mvrnorm(n = 50, c(0, 0), Sigma = cor_mat, empirical = TRUE))
+colnames(sim_dat_50) <- c("Y", "X")
+```
+
+
+```{r}
+ggplot(sim_dat_50, aes(x =  X, y = Y)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = F)  +
+  xlim(-4, 4) +
+  ylim(-4, 4)
+```
+
+
+```{r}
+sim_dat_50[51,] <-  c(4,-4, 0)
+
+
+ggplot(sim_dat_50, aes(y = Y, x = X)) +
+  geom_point() +
+  geom_smooth(method = "lm",se = FALSE) +
+  geom_point(aes(X[51], Y[51]), col="red", shape=1, size=7) +
+  xlim(-4, 4) +
+  ylim(-4, 4)
+```
+
+
+## Our Regression and a Quick Graphical Look
+
+```{r}
+#label the rows so that the avPlots() function shows the row names instead  of just numbers
+rownames(dat) <- dat$Abbreviation
+
+reg_full <- lm(Nairports ~ Population_std + TotalSqMiles, dat)
+car::avPlots(reg_full)
+```
+
+
+## Leverage: Hat Values
+
+
+```{r}
+hatvals <- hatvalues(reg_full)
+sort(hatvals, decreasing = TRUE)[1:5]
+```
+
+## Distance: Studentized Residuals
+
+
+```{r}
+rstud <- rstudent(reg_full)
+# just printing some values
+round(c(sort(rstud,)[1:5], rev(sort(rstud, decreasing = TRUE)[1:5])), 2)
+```
+
+## Influence: DFFITS 
+
+
+```{r}
+dffits <- dffits(reg_full)
+round(c(sort(dffits)[1:5], rev(sort(dffits, decreasing = TRUE)[1:5])),2)
+```
+
+## Influence: Cook’s *D*
+
+
+```{r}
+cookD <- cooks.distance(reg_full)
+sort(cookD, decreasing = TRUE)[1:5]
+```
+
+## Influence: COVRATIO
+
+```{r}
+covrat <- covratio(reg_full)
+round(c(sort(covrat)[1:5], rev(sort(covrat, decreasing = TRUE)[1:5])),2)
+```
+
+## Influence: DFBETAS 
+
+```{r}
+dfbetas(reg_full)
+```
+
+## Influence plot with `car`
+
+```{r}
+car::influencePlot(reg_full)
+```
+
+
+## Another Neat `car` Plot
+
+```{r}
+car::influenceIndexPlot(reg_full)
+```
+
+## Variance Inflation Factor
+
+```{r}
+car::vif(reg_full)
+```
+
+## Multiple Regression Weirdness
+
+```{r}
+reg_biden <- lm(PctCatholic ~ PctBiden2020, dat)
+coef(reg_biden)
+```
+
+
+```{r}
+reg_trump <- lm(PctCatholic ~ PctTrump2020, dat)
+coef(reg_trump)
+```
+
+
+```{r}
+reg_both <- lm(PctCatholic ~ PctBiden2020 + PctTrump2020, dat)
+coef(reg_both)
+```
+
+## Multicollinearity and Regression Weirdness
+
+
+```{r}
+cor(dat$PctBiden2020, dat$PctTrump2020)
+
+# with only two predictors, the VIF is going to be the exact same
+car::vif(reg_both)
+```
+
+
+```{r}
+summary(reg_biden)$r.squared
+summary(reg_trump)$r.squared
+summary(reg_both)$r.squared
+```
+
+
+## A Graphical representation
+
+
+```{r}
+# devtools::install_github("quinix45/FabioFun")
+
+
+FabioFun::nice_3D_plot(y = dat$PctCatholic,
+                       x1 = dat$PctBiden2020,
+                       x2 = dat$PctTrump2020,
+             dot_labels = dat$Abbreviation,
+             axis_names = c("Catholic %", 
+                            "Biden %", 
+                            "Trump %")) %>%  
+                    bslib::card(full_screen = TRUE)
+
+```
+
+
+```{r}
+# devtools::install_github("quinix45/FabioFun")
+
+FabioFun::nice_3D_plot(y = dat$PctCatholic,
+                       x1 = dat$PctBiden2020,
+                       x2 = dat$PctTrump2020,
+             dot_labels = dat$Abbreviation,
+             axis_names = c("Catholic %", 
+                            "Biden %", 
+                            "Trump %"),
+             reg_plane = TRUE) %>%  
+                    bslib::card(full_screen = TRUE)
+
+```

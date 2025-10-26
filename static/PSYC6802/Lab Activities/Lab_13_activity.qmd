@@ -1,0 +1,29 @@
+---
+title: 'Lab 13 Activity'
+format:
+ pdf:
+  mainfont: Times New Roman
+  sansfont: Times New Roman
+  monofont: Courier New
+  mathfont: Times New Roman
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+editor: source
+---
+
+
+
+
+
+
+```{r}
+# a bit too onedimensional for an exercise
+
+dat <- carData::DavisThin
+
+check <- psych::fa(dat, nfactors=1, rotate="oblimin", fm="pa")
+
+print(check)
+
+```
