@@ -202,16 +202,16 @@ In a way, the residuals are the *unpredictable part of a DV left after regressio
 
 ## Correlations With Residuals
 
-So if **Y** is our DV and **X** is our IV, the residuals of **Y** *given* **X** will be the part of **Y** that cannot be predicted by **X**, which we will call $Y_{.x}$. Let's say that in our case, $Y =$ `Nairports`, $X =$ `Population`, and $Z =$ `TotalSqMiles`.
+If $Y$ is our DV and $X$ is our IV, the residuals of $Y$ *given* $X$ will be the part of $Y$ that cannot be predicted by $X$, which we will call $Y_{.x}$. Let's say that $Y =$ `Nairports`, $X =$ `Population`, and $Z =$ `TotalSqMiles`.
 
 :::: {.columns}
-::: {.column width = '43%'}
+::: {.column width = '40%'}
 
 ::: {.fragment fragment-index=1}
 
 <center>  <p style='font-size: 32px'> **Partial correlation** </p> </center>
 
-The partial correlation between two variables $Y$ and $Z$ accounting for $X$ is the correlation between $Y_{.x}$ and $Z_{.x}$, the residuals of $Y$ and $Z$ given $X$. 
+The partial correlation between two variables $Y$ and $Z$ accounting for $X$ is the correlation between $Y_{.x}$ and $Z_{.x}$. 
 
 
 ```{r}
@@ -222,7 +222,6 @@ The partial correlation between two variables $Y$ and $Z$ accounting for $X$ is 
 
 reg_YX <- lm(Nairports ~ Population, dat)
 reg_ZX <- lm(TotalSqMiles ~ Population, dat)
-
 cor(reg_YX$residuals, reg_ZX$residuals)
 ```
 
@@ -236,13 +235,19 @@ This is the relation between `Nairports` and  `TotalSqMiles` after *partialling 
 
 
 :::
-::: {.column width = '57%'}
+::: {.column width = '60%'}
 
 ::: {.fragment fragment-index=3}
 
 <center>  <p style='font-size: 32px'> **Semi-Partial correlation** </p> </center>
 
-The semi-partial correlation between two variables $Y$ and $Z$ accounting for $X$ is the correlation between $Y$ and $Z_{.x}$ *or* $Y_{.x}$ and $Z$. Because you partial out $X$ from only one of the two variables, there two possible semi-partial correlations!
+
+The semi-partial correlation between two variables $Y$ and $Z$ accounting for $X$ is the correlation between $Y$ and $Z_{.x}$ *or* $Y_{.x}$ and $Z$. Because you partial out $X$ from only one of the two variables, we have two possible semi-partial correlations!
+
+
+:::: {.columns}
+::: {.column width = '60%'}
+
 
 ```{r}
 #| eval: true
@@ -258,11 +263,15 @@ cor(reg_YX$residuals, dat$TotalSqMiles)
 cor(dat$Nairports, reg_ZX$residuals)
 ```
 
-:::
 
-::: {.fragment fragment-index=4}
+:::
+::: {.column width = '30%'}
 
 The "semi-" part comes from the fact that we partial out $X$ only from one variable involved in the correlation.
+
+
+:::
+::::
 
 :::
 
@@ -463,7 +472,7 @@ spcor <- ppcor::spcor(dat[, c(3,4,5)])
 spcor$estimate
 ```
 
-Here, the correlation matrix is not symmetric because, as previously mentioned, two semi-partial correlations are possible. The variable that is untouched is the variable in the row, while the variable in the column is adjusted for the remaining variables.
+Here, the correlation matrix is not symmetric because, two semi-partial correlations are possible. The variable that is untouched is the variable in the row, while the variable in the column is adjusted for the remaining variables.
 
 :::
 
@@ -540,7 +549,7 @@ The datapoint that we added is an outlier, and it influences the regression so m
 
 ## Regression Diagnostics
 
-When we are working with a lot of data and/or we have a lot of predictors, it is not possible to graphically establish what points may warrant more attention. **Regression diagnostics** are a set of statistics that aim at identifying data points that may influence your regression in certain ways. There are 3 types of regression diagnostics:
+When we are working with a lot of data and/or we have a lot of predictors, it is not possible to graphically establish what points may warrant more attention. **Regression diagnostics** are a set of statistics that aim at identifying data points that may influence your regression in certain ways. There are 3 types of regression diagnostics. You may see slightly different definitions for these 3 terms. I am getting these definitions/examples from chapter 16 of @Darlington_Hayes_2016: 
 
 
 :::: {.columns}
@@ -548,7 +557,9 @@ When we are working with a lot of data and/or we have a lot of predictors, it is
 
 
 ::: {.fragment fragment-index=1}
-<center> **Leverage** 
+<center> 
+
+**Leverage** 
 
 <div style="font-size: 24px"> Leverage measures quantify how unusual a certain observation is given the full set of predictors. For example, if our predictors are *age* and whether a person is *pregnant*, it would not be unusual to separately see someone whose age is 55 and some pregnant individuals. However, it would be unusual to see someone who is *both* 55 and pregnant. Such an observation would have high leverage.  </div>
 
@@ -576,7 +587,10 @@ When we are working with a lot of data and/or we have a lot of predictors, it is
 
 
 ::: {.fragment fragment-index=3}
-<center> **Influence** 
+
+<center> 
+
+**Influence** 
 
 <div style="font-size: 24px"> In my opinion, the most important category of regression diagnostics. For each observation, influence measures tell you how much the values of your slopes would change *if* you removed that data point. The outlier in the last slide had strong influence, as it completely changed the slope when introduced. </div>
 
@@ -587,7 +601,7 @@ When we are working with a lot of data and/or we have a lot of predictors, it is
 ::::
 
 ::: {.fragment fragment-index=4}
-You may see slightly different definitions for these 3 terms. I am getting these definitions/examples from chapter 16 of @Darlington_Hayes_2016. 
+
 :::
 
 
