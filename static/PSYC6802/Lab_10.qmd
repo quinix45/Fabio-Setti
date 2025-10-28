@@ -600,10 +600,6 @@ When we are working with a lot of data and/or we have a lot of predictors, it is
 :::
 ::::
 
-::: {.fragment fragment-index=4}
-
-:::
-
 
 ## Quick Regression Diagnostics Summary
 
@@ -814,7 +810,8 @@ reactable::reactable(data.frame("State" = names(rstudent(reg_full)),
 :::
 ::::
 
-::: {.fragment fragment-index=2}
+::: {.r-fit-text .fragment fragment-index=2}
+
 We are talking about residuals, so they can be both positive (above the regression line) and negative (below the regression line). Because the residuals are on a standardize scale, around 0 is an average residual, where anything with an absolute value of 2 or more is somewhat high. So *california*, *Washington*, *Florida* and *Michigan* are not very well predicted.
 :::
 
@@ -869,7 +866,7 @@ Predictions can change either positively or negatively, so we should look at ext
 
 ## Influence: Cook’s *D*
 
-**Cook’s *D* ** is very similar to DFFITS because it also summarizes the change in the predictions, $\hat{Y}$, given any data point *if* that data point was removed (influence). The differencer is that Cook's D is always positive, and large values imply larger influence.
+**Cook’s *D* ** is very similar to DFFITS because it also summarizes the change in the predictions, $\hat{Y}$, given any data point *if* that data point was removed (influence). The difference is that Cook's D is always positive, and large values imply larger influence.
 
 :::: {.columns}
 ::: {.column width="70%"}

@@ -18,10 +18,13 @@ $presentation-h2-font-size: 2.4em !default;
 // default theme color
 $theme-color: #1c74d8;
 
+
+// info callout color
+$callout-color-note: $theme-color;
+
 //#1c74d8
 
-//best?: #53b0a8
-// good: #c45674, lighter: #f54278
+// good? Maybe to light: #53b0a8, #c45674, lighter: #f54278
 
 //#3f5c4d
 // #a82857
@@ -41,16 +44,14 @@ $body-color: black;
 // default link color
 $link-color: $theme-color;
 
-//defualt selection color 
+//default selection color 
 $selection-bg: lighten($theme-color, 15%);
-
-
-
 
 
 // callouts
 
 /*-- scss:rules --*/
+
 
 // author
 
@@ -117,8 +118,6 @@ $selection-bg: lighten($theme-color, 15%);
 
 }
 
-
-
 .reveal .footer > * {
   transform: skew(25deg) !important;
 }
@@ -128,10 +127,6 @@ $selection-bg: lighten($theme-color, 15%);
 }
 
 // search bar elements
-
-//.searchinput{
-//   width: 540px !important;
-//}
 
 .search-button{
    background-color: $body-bg;
@@ -143,8 +138,6 @@ $selection-bg: lighten($theme-color, 15%);
   font-size: .8rem;
   font-weight: 800;
 }
-
-
 
 // slide number
 
@@ -167,7 +160,7 @@ figcaption {
   margin: auto;
   text-align: center;
   margin-top: -18px;
-  font-size: .5em !important;
+  font-size: .8em;
 }
 
 
@@ -204,8 +197,24 @@ figcaption {
   letter-spacing: 0.04em;
   text-transform: capitalize;
   text-shadow: none;
+  white-space: nowrap;
   z-index: 0 !important;
 }
+
+
+.reveal .slides h3 {
+  margin: 0 0 40px 0;
+  color: $theme-color;
+  font-family: "League Gothic", Impact, sans-serif;
+  line-height: 0.9em;
+  letter-spacing: 0.04em;
+  text-transform: capitalize;
+  text-shadow: none;
+  white-space: nowrap;
+  z-index: 0 !important;
+  font-size: 2.2em;
+}
+
 
 // title
 .reveal .slides h1 {
@@ -227,11 +236,23 @@ figcaption {
   font-size: 1.5em;
 }
 
-// Bold color
+
+// Shinylive wrapper and source code
+
+.reveal div.sourceCode {
+    margin: 6px !important;
+    overflow: auto;
+}
+
+div.shinylive-wrapper {
+    margin: 0em 0;
+    border-radius: 0px;
+}
+
+//Bold color
 b,
 strong {
-  color: $theme-color;
-}
+  color: $theme-color;}
 
 // bullet points
 
@@ -244,6 +265,12 @@ ol li::marker {
   color: $theme-color;
 }
 
+
+// Keyboard keys
+
+kbd {
+  font-size: .8em; /* Or another suitable value */
+}
 
 // classes to assign to SVGs added through JS
 
@@ -298,7 +325,7 @@ ol li::marker {
   right: 0;
 }
 
-// Zoome menu
+// Zoom menu
 
 /* Basic styles for the context menu */
 .custom-menu {
@@ -343,6 +370,7 @@ ol li::marker {
 }
 
 // callouts?
+
 
 
 // code summary
@@ -401,12 +429,16 @@ details summary {
   max-height: 150px;
 }
 
+.height-125{
+  height: 25px;
+}
+
 .height-150{
-  max-height: 150px
+  max-height: 150px;
 }
 
 .height-200{
-  height: 1200px
+  height: 200px;
 }
 
 .width-900{
@@ -561,3 +593,4 @@ details summary {
   z-index: 99999;
 }
 
+// tooltip
