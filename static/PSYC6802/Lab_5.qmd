@@ -58,7 +58,7 @@ library(pwr)
 
 ### `pwr`
 
-The `pwr` package [@champely_etal_2020] includes functions to conduct power analysis for some statistical analyses and experimental designs. Click [here](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html){target='_blank'} for examples on all the types of power calculations that the package allows for.
+The `pwr` package [@Champely_etal_2020] includes functions to conduct power analysis for some statistical analyses and experimental designs. Click [here](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html){target='_blank'} for examples on all the types of power calculations that the package allows for.
 :::
 
 :::
