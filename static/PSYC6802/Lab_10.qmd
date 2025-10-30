@@ -116,7 +116,7 @@ reactable::reactable(dat,
 
 ## Another Perspective on Residuals
 
-in [Lab](https://fabio-setti.netlify.app/psyc6802/lab_6#/why-variance-explained){target='_blank'} we have described variance as the part of a variable that is not predictable. Let's say that we run a regression with the state population, `Population`, predicting the number of airports in the state, `Nairports`.
+in [Lab 6](https://fabio-setti.netlify.app/psyc6802/lab_6#/why-variance-explained){target='_blank'} we have described variance as the part of a variable that is not predictable. Let's say that we run a regression with the state population, `Population`, predicting the number of airports in the state, `Nairports`.
 
 :::: {.columns}
 ::: {.column width = '45%'}
@@ -576,7 +576,7 @@ When we are working with a lot of data and/or we have a lot of predictors, it is
 
 **Distance** 
 
-<div style="font-size: 24px"> Distance measures how far away the observed value of $Y$ is from the predicted value $\hat{Y}$. Residuals are a measure of distance. However, raw residuals, $Y - \hat{Y}$, are not the best way of measuring distance, so we will see more general measures later. Regardless, high distance mean that your regression is not predicting those data points well. </div>
+<div style="font-size: 24px"> Distance measures how far away the observed value of $Y$ is from the predicted value $\hat{Y}$. Residuals are a measure of distance. However, raw residuals, $Y - \hat{Y}$, are not the best way of measuring distance, so we will see more general measures later. Regardless, high distance means that your regression is not predicting those data points well. </div>
 
 </center>
 :::

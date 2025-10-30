@@ -274,7 +274,7 @@ This Lab introduces partial and semi-partial correlations. Additionally, the Lab
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_10_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-10-31T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_10_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-01T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_10_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -296,7 +296,7 @@ Coming soon!
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_11_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-07T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_11_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-08T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_11_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
 <hr class="fancy"></hr>
@@ -315,7 +315,7 @@ Coming soon!
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_12_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-14T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_12_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-15T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_12_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -336,7 +336,7 @@ Coming soon!
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-21T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_13_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-22T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_13_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
 
@@ -357,6 +357,6 @@ Coming soon!
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-12-05T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_14_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-12-06T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_14_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr></hr>
