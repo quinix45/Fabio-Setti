@@ -709,17 +709,7 @@ car::avPlots(reg_full)
 :::
 ::::
 
-
-## Leverage: Hat Values
-
-**Hat values** measure how unusual an observation is compared to the average observation. They are a measure of *leverage*, and the higher the values, the more unusual the observation given the set of predictors (the lowest possible value is $0$).
-
-:::: {.columns}
-::: {.column width="50%"}
-
-::: {.fragment fragment-index=1}
-To compute hat values for all your observations we use the `hatvalues()` function. Here I only print the 5 largest values:
-
+What proportion of observations in the training data are correctly classified by the modelthat includes both predictors? What about for the test data? Use a .5 probability cutofffor classification.
 ```{r}
 #| eval: true
 #| echo: true 
@@ -921,7 +911,7 @@ Data points with large DFFITS (in magnitude) will have large Cook's *D*, so the 
 
 ::: {.fragment fragment-index=1}
 
-To compute hat values for all your observations you use the `covratio()` function. Here I only print the 5 largest and smallest values
+To compute COVRATIO values for all your observations you use the `covratio()` function. Here I only print the 5 largest and smallest values
 
 ```{r}
 #| eval: true
@@ -961,7 +951,9 @@ reactable::reactable(data.frame("State" = names(covratio(reg_full)),
 
 
 ::: {.fragment fragment-index=2}
+
 You may notice that COVRATIO values hover around 1. In fact, $\mathrm{COVRATIO} = 1$ means that removing the point has no impact whatsoever on the standard errors. On the other hand, $\mathrm{COVRATIO} < 1$ means that removing the point will make standard errors smaller, while $\mathrm{COVRATIO} > 1$ means that removing the point will make standard errors larger. 
+
 :::
 
 
@@ -997,11 +989,15 @@ reactable::reactable(data.frame(round(dfbetas(reg_full), 3)),
 DFBETAS provide more information than the other measures. Removing a data point may have stronger influence on one of the slopes, but not as much influence on another slope or the intercept 🧐
 
 ::: {.fragment fragment-index=1}
+
 You can click on the column names in the table on the left to order the table by each column and see the more extreme values for each column.
+
 :::
 
 ::: {.fragment fragment-index=2}
+
 The change is in standard deviation units, so, for example, removing *California* reduces the slope of `Population` by $2.23$ standard errors (a lot!), but only reduces the slope of `TotalSqMiles` by $.17$. Other regression diagnostics do not provide this nuance!
+
 :::
 
 :::
