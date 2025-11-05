@@ -60,7 +60,7 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
 
 ::: {.panel-tabset}
 
-### `ppcor`
+### `caret`
 
 The `caret` package [@Kuhn_etal_2024] is a package that focuses on streamlining the process of creating predictive models. It focuses on machine learning applications and we will use it to help us with logistic regression.
 
@@ -71,7 +71,7 @@ The `caret` package [@Kuhn_etal_2024] is a package that focuses on streamlining 
 ::: {.column width = '50%'}
 <center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
 
-Today we will look at the `Titanic dataset`. This dataset contains information about the passengers on the [Titanic](https://en.wikipedia.org/wiki/Titanic){target='_blank'}. 
+Today we will look at some recidivsm data in a criminal population. This dataset comes from @Rossi_etal_1980 and you can find out more information on the data [here](https://vincentarelbundock.github.io/Rdatasets/doc/carData/Rossi.html){target='_blank'}. 
  
 ```{r}
 #| eval: true
@@ -80,24 +80,23 @@ Today we will look at the `Titanic dataset`. This dataset contains information a
 #| code-line-numbers: false
 #| classes: code-125
 
-dat <- rio::import("https://fabio-setti.netlify.app/data/Titanic-Dataset.csv")
+dat <- rio::import("https://fabio-setti.netlify.app/data/Recidivism_data.csv")
 ```
 
 ```{r}
 library(FabioFun)
 
-labels <- c("Passenger ID",
-            "Weather Survived or not: 0 = No, 1 = Yes",
-            "Ticket class: 1 = 1st, 2 = 2nd, 3 = 3rd",
-            "Name of the Passenger",
-            "Gender",
-            "Age in Years",
-            "No. of siblings/spouses aboard the Titanic",
-            "No. of parents/children aboard the Titanic",
-            "Ticket number",
-            "Passenger fare",
-            "Cabin number",
-            "Port of Embarkation: C = Cherbourg, Q = Queenstown, S = Southampton")
+labels <- c("Individual Identification",
+            "Has the individual been arrested during the 1 year follow-up: 0 = No, 1 = Yes",
+            "Denote whether the inmate received financial aid after release",
+            "Age in years at the time of release",
+            "Denote whether the race of the individual is black or not",
+            "Denote whether the individual had full-time work experience before incarceration or not.",
+            "Denote whether the inmate was married at the time of release or not",
+            "Denote whether the inmate was released on parole or not",
+            "The number of convictions an inmate had prior to incarceration",
+            "Level of education: '3' = 9th degree or less; '4' = 10th or 11th degree; '5' = 12th degree or higher;",
+            "Denote whether the individual was working full time during the observed time interval")
 
 labels_react <- reactbl_col.desc(names = colnames(dat),
                                  desc =  labels,
@@ -105,8 +104,8 @@ labels_react <- reactbl_col.desc(names = colnames(dat),
                                  info_color = "#7a0b80")
 
 reactable::reactable(dat,
-                     defaultColDef = colDef(minWidth = 140),
-                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = ".8rem"),
+                     defaultColDef = colDef(minWidth = 80),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
                      pagination = FALSE, highlight = TRUE, height = 300, columns = labels_react)
 ```
 
@@ -115,9 +114,9 @@ reactable::reactable(dat,
 
 
 
-## Predicting Survival: Linear Regression?
+## Predicting Recidivism: Linear Regression?
 
-The `Survived` variable denoted whether a passenger survived the Titanic wreck. let's say that we think that whether someone survived or not may be related to how much they spent on their Titanic ticket, `Fare`. we *can* run linear regression and get some results:
+We think we can predict the `arrest` variable, whether an individual has been arrested within 1 year of being released from prison, by looking at the number of prior convictions, `prio`. We *can* run linear regression and get some results:
 
 :::: {.columns}
 ::: {.column width = '60%'}
@@ -128,7 +127,9 @@ The `Survived` variable denoted whether a passenger survived the Titanic wreck. 
 #| code-line-numbers: false
 #| classes: code-125
 
-lin_reg <- lm(Survived ~ Fare, dat)
+
+
+lin_reg <- lm(arrest ~ prio, dat)
 summary(lin_reg)
 
 ```
@@ -138,7 +139,7 @@ summary(lin_reg)
 
 ::: {.column width = '40%'}
 
-However, `Survived` is a binary variable, where only 2 outcome are possible (0 = *died*, 1 = *survived*). Here are the counts:
+However, `arrest` is a binary variable, where only 2 outcome are possible (0 = *not arrested*, 1 = *arrested*). Here are the counts:
 
 ```{r}
 #| eval: true
@@ -146,11 +147,9 @@ However, `Survived` is a binary variable, where only 2 outcome are possible (0 =
 #| code-line-numbers: false
 #| classes: code-125
 
-table(dat$Survived)
+table(dat$arrest)
 ```
 
-
-</br>
 
 
 <center> You can probably intuit that a linear regression is not appropriate for a binary DV, but looking at a plot will make many of the reasons clear. </center>
@@ -172,24 +171,747 @@ table(dat$Survived)
 #| echo: true 
 #| code-line-numbers: false
 #| classes: code-125
-#| code-fold: true
-#| code-summary: "Plot Code"
 
-ggplot(dat, aes(x = Fare, y = Survived)) +
+
+ggplot(dat, aes(x = prio, y = arrest)) +
   geom_point() +
-  geom_smooth(method = "glm",  method.args = list(family = "binomial"), se = FALSE)
+  geom_abline(aes(intercept = coef(lin_reg)[1], slope = coef(lin_reg)[2])) +
+  xlim(-4, 25) + ylim(-0.2, 1.2)
+
 ```
 
 
 :::
 ::: {.column width = '40%'}
 
+There are multiple things that should jump out to you 🧐
+
+- It does not take a statistics expert to guess that the residuals will not be normally distributed around the regression line.
+
+- More importantly, the regression line will eventually make predictions that are outside the possible range of `arrest` when `prio` as prio increases beyond a certain point. 
+
+The last point is very important. We want to force our regression to make predictions that are *always* between 0 and 1.
+
+:::
+::::
+
+## The Logistic Function
+
+In this case, one annoying features of linear regression is that its predictions can range from $- \infty$ to $+ \infty$ (not good ❌). What we really want is *the probability of an individual being arrested* given some other variables. Probabilities can only range between $0$ and $1$ (good ✅). 
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+There are functions that always give values between 0 and 1, one of them being the *logistic function*:
+
+$$y = \frac{e^x}{1 + e^x}$$
+
+As you can see the line approaches $0$ and $1$ when $x$ decreases/increases, but never becomes exactly 0 or 1. 
+
+The $e$ is [Euler's number](https://en.wikipedia.org/wiki/E_(mathematical_constant)){target='_blank'}, equals roughly $2.718$. We can get it in `R` by simply typing `exp(1)`
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+exp(1)
+```
+
+:::
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+
+
+ggplot() +
+  geom_function(
+    fun = plogis,
+    col = "#7a0b80") +
+  labs(x = "x",
+       y = expression(frac(e^x, 1 + e^x))) + 
+        xlim(-6, 6) 
+```
+
+
+:::
+::::
+
+## Logistic Regression
+
+now that we have our trusty logistic function we can run the exact same regression, but instead of the simple linear regression $y = \beta_0 + \beta_1 \times x$, we stick the regression formula inside the logistic function, thus getting the logistic regression formula:
+
+$$P(y = 1) = \frac{e^{\beta_0 + \beta_1 \times x}}{1 + e^{\beta_0 + \beta_1 \times x}}$$
+
+:::: {.columns}
+::: {.column width = '50%'}
+notice that we are predicting $P(y = 1)$, the probability that the DV = 1. In our case this is the probability of one of the individuals being arrested again within a year from release. 
+
+:::
+::: {.column width = '50%'}
+
+Another important point is that $\beta_0$ and $\beta_1$ are still the intercept and the slope respectively, but their interpretation is now different because the outcome is not just $y$, but $P(y = 1)$.
+
+:::
+::::
+
+::: {.callout-note}
+### Link functions
+
+The $y = \frac{e^x}{1 + e^x}$ is also knowns as a *link function*. The idea of link functions is that your normal regression makes predictions between  $- \infty$ to $+ \infty$, but you have data that cannot possible range between $- \infty$ to $+ \infty$. Link functions force the regression predictions within a certain range. Another example of a link function is the *Poisson link* used for  [Poisson regression](https://en.wikipedia.org/wiki/Poisson_regression){target='_blank'}, where you are looking at count data (e.g., predicting suicide attempts, which cannot be less than 0). 
+
+:::
+
+
+## Logistic Regression in `R`
+ 
+We use the `glm()` function (it stands for *generalized linear model*) to run a logistic regression in `R`. The syntax is almost identical to the `lm()` function.
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+log_reg <- glm(arrest ~ prio, dat, family = binomial)
+summary(log_reg)
+```
+
+:::
+::: {.column width = '45%'}
+
+The `family = "binomial"` argument is what tells the `glm()` function that we want a logistic regression. Other types of regressions are possible with the `glm()` function (e.g., Poisson regression). The logistic regression formula is:
+
+$$P(\mathrm{arrest} = 1) = \frac{e^{-1.39 + 0.12 \times \mathrm{Convictions}}}{1 + e^{-1.39 + 0.12 \times \mathrm{Convictions}}}$$
+
+
+<center> What do the values of the intercept, -1.39  ,and the slope, 0.12, mean 🤔 </center>
+
+:::
+::::
+
+## Odds again?? 😱
+
+If for some reason you remember our discussion on odds in [Lab 3](https://fabio-setti.netlify.app/psyc6802/lab_3#/odds-and-probability){target='_blank'} (ages ago by now), we looked at a formula to turn odds into probability. Let's contrast it with the logistic function:
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+<center> **Logistic Function**  </center>
+
+$$P = \frac{e^x}{1 + e^x}$$
+
+:::
+::: {.column width = '50%'}
+
+<center> **Odds to Probability** </center>
+
+$$P = \frac{\mathrm{odds}}{1 + \mathrm{odds}}$$ 
+
+:::
+::::
+
+Ahh, they are are the exact same thing💡 Importantly, $e^x = \mathrm{odds}$. So, in the previous slide, the $e^{0.96 - 0.08 \times \mathrm{age}}$ part gives *the odds of being arrested again given a certain age at release*. 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+so, the intercept, $e^{-1.39} = .24$  is the odds of being rearrested 1 year after release, *if* the person was released has 0 additional convictions. We can also get the probability, which is $\frac{e^{-1.39}}{1 + e^{-1.39}} = .2$.
+
+
+:::
+::: {.column width = '50%'}
+
+The slope, $0.12$, is the change in *log odds* (see next slide) per unit change in `prio` at release. In other words, the more convictions at release,  the higher the odds of being arrested again.
+
+
+:::
+::::
+
+
+## "Log" Odds
+
+The ever so slightly annoying thing is that you need to be a bit familiar with logarithms and exponents to interpret logistic regression. [Logarithms](https://en.wikipedia.org/wiki/Logarithm){target='_blank'} are the *inverse* of exponents. For example:
+
+:::: {.columns}
+::: {.column width = '45%'}
+
+if we have $e^3$, then the natural logarithm of that, $ln(e^3) = 3$. The logarithm gives you what is inside the exponent:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+exp(3)
+# the log() function is ln() in the formula above
+log(exp(3))
+```
+
+:::
+::: {.column width = '55%'}
+
+Similarly, we can get the result of $e^3$ by doing $e^{ln(e^3)}$:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+exp(log(exp(3)))
+```
+
+You can see that the exponent and the logarithm keep giving back their opposite if I keep alternating the `log()` and `exp()`:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+log(exp(log(exp(3))))
+```
+
+:::
+::::
+
+so if $e^x$ is the odds, then $ln(e^x) = x$ is the <u> *log of the odds* </u>, or *log odds* as it is most commonly called. This is why in our logistic regression $e^{-1.39 + 0.12 \times \mathrm{Convictions}}$, the slope $0.12$ is the change in *log odds* per unit increase in convictions, not the change in odds.
+
+## Plotting a Logistic Regression
+
+Depending on your data, the logistic regression line may look very similar or different compared to the linear regression line. In our case they look fairly similar:
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+ggplot(dat, aes(x = prio, y = arrest)) +
+  geom_point() +
+  geom_smooth(method = "glm", 
+              method.args = list(family = "binomial"), 
+              se = FALSE)
+```
+
+where you need to add the `method.args = list(family = "binomial")` part to the `geom_smooth()` function to tell `ggplot` that you want a logistic regression line.
+
+
+:::
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, aes(x = prio, y = arrest)) +
+  geom_point() +
+  geom_smooth(method = "glm", 
+              method.args = list(family = "binomial"), 
+              se = FALSE)
+
+
+```
+
+:::
+::::
+
+As you can see, the probability being arrested again ($y$-axis) increases with prior convictions. You can also see the line bending a bit, and although we don't see it here, this line will always be between 0 and 1.
+
+
+## Making Predictions
+
+We can use the `fitted()` function to get the predicted probability of being arrested again for each individual in our data. 
+
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+
+Here is print the predicted probability for the first 5 individuals:
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# NOTE: do not run this in your code, it will just print values. this is just for demonstration purposes
+fitted(log_reg)
+```
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+round(fitted(log_reg)[1:5], 2)
+```
+
+
+We use the `ifelse()` function, which does one of two things depending on the instructions that we give it:
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ifelse(fitted(log_reg) > 0.5, "P_Arrest", "P_NoArrest")
+```
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+ifelse(fitted(log_reg) > 0.5, "P_Arrest", "P_NoArrest")[1:5]
+```
+
+
+:::
+::: {.column width = '45%'}
+
+Logistic regression returns probabilities. But we don't want probabilities, we need actual predictions to eventually evaluate how well our logistic regression predicts the data.
+
+As our criterion to make prediction we say that if anyone has a predicted probability of being arrested above $0.5$, we predict that they will be arrested again. Otherwise, we predict that they will not. 
+
+Out of the first 5 individuals, only the third individual had a probaiblity of being arrested above $0.5$, so we predict that they will be arrested again.
+
+:::
+::::
+
+
+## Confusion Matrices and Accuracy
+
+The start of all metrics that evaluate logistic regression predictions are what is called a **confusion matrix**. Confusion matrices are nothing more than the cross-tabulation of the predicted and observed outcomes:
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# NOTE: now I add the prediction to the data for convenience
+dat$predictions1 <- ifelse(fitted(log_reg) > 0.5, "P_Arrest", "P_NoArrest")
+
+# the "confusion matrix"
+conf_mat <- table(dat$predictions1, dat$arrest)
+```
+
+
+:::
+::: {.column width = '50%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# NOTE: 0 is not arrested and 1 is arrested
+conf_mat
+```
+
+:::
+::::
+
+We can calculate the **classification accuracy** by computing the proportion of individuals that are correctly predicted to be arrested and not arrested. We correctly classify $74\%$ of the individuals.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+(conf_mat[2,1] + conf_mat[1,2])/sum(conf_mat)
+```
+
+
+
+
+
+## True/False Positives and Negatives
+
+You may have realized that something is a bit off about our logistic regression predictions. To understand why classification accuracy is not a great metric, we need to talk about true/false positives and negatives.
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+
+- **sensitivity:** the test's ability to correctly detect the disease in individuals who do have the disease.
+
+$$ \mathrm{sensitivity} = \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}$$
+
+
+- **specificity:** the test's ability to correctly categorize individuals as healthy if they do not have the disease.
+
+$$ \mathrm{specificity} = \frac{\mathrm{TN}}{\mathrm{TN} + \mathrm{FP}}$$
+
+:::
+::: {.column width = '45%'}
+
+<center> ![](Additional%20files/images/false_true_positive.png){width="70%"} </center>
+
+
+:::
+::::
+
+## Sensitivity/Specificity Trade-Off
+
+Without needing to look at anything else, we see a bit of an issue. The logistic regression predicts pretty well who will not be arrested, but does a really poor job at predicting those who will be arrested! 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+conf_mat
+```
+
+anyone could get similar sensitivity and accuracy by always predictiong "no arrest" and they would do almost as well as the logistic regression 🤡
+
+:::
+::: {.column width = '50%'}
+
+amazing specificity:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+conf_mat[2,1]/sum(conf_mat[,1])
+```
+
+
+But awful sensitivity:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+conf_mat[1,2]/sum(conf_mat[,2])
+```
+
+
+
+:::
+::::
+
+
+What is happening? The prediction almost always are "no arrest". Prior convictions do increase the likelihood of being arrested again, but the effect is likely small, and even at 9 prior convictions, the probability of being arrested again is still below 0.5. Only a handful of individuals in the data have more than 9 prior convictions.
+
+
+## Adding Predictors
+
+Our logistic regression is not doing very well. Can we add some predictors and see if we do any better? Let's say that we think that age at release, `age`, will also impact the probability of being arrested again.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+log_reg2 <- glm(arrest ~ prio + age, dat, family = binomial)
+summary(log_reg2)
+
+```
+
+:::
+::: {.column width = '50%'}
+
+we add an additional variable in the same way that we would with `lm()`. The idea is similar to multiple regression and the interpretations are similar:
+
+- $0.5$ the log-odds of being arrested again when both `age` and `prio` are 0.
+
+- $0.10$ the change in log-odds of being arrested for every additional conviction at release, accounting for `age`.
+
+- $- 0.8$ the change in log-odds of being arrested for every additional years of age at release, accounting for previous convictions.
+
+:::
+::::
+
+## Statistical Model Comparison
+
+We just added `age` as an additional predictor. We would like to know whether we now do a better job at predicting the DV `arrest`. In the case of logistic regrerssion we can use the [likelihood-ratio test](https://en.wikipedia.org/wiki/Likelihood-ratio_test){target='_blank'}(LRT) to test whether adding `age` produces a *significant* improvement in predictions. That is we compare the Logistic regression with only `prio` to the one with `prio + age`. 
+
+
+:::: {.columns}
+::: {.column width = '65%'}
+
+For reasons that are beyond human understanding, the `R` developers decided that you run the likelihood-ratio test with the `anova()` function.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+anova(log_reg,
+      log_reg2)
+```
+
+:::
+::: {.column width = '35%'}
+
+You include the two logistic regression objects that you want to compare. If the *p*-value is significant, it means that the model with more predictors is best (statistically).
+
+
+Note that this is something that we have touched on briefly in [Lab 3](https://fabio-setti.netlify.app/psyc6802/lab_3#/likelihood-ratio-test){target='_blank'}. Regardless, the LRT does not quantify how much adding `age` as a DV improves our predictions. 
+
+:::
+::::
+
+
+## Are we actually doing better now?
+
+How well are we actrually doing now that we have included `age` as a predictor? We can get predictions with the new logistic regression and look at the confusion matrix again.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat$predictions2 <- ifelse(fitted(log_reg2) > 0.5, 
+                           "P_Arrest", "P_NoArrest")
+conf_mat2 <- table(dat$predictions2, dat$arrest)
+conf_mat2
+```
+
+
+We are doing a tiny bit better, but still pretty poorly overall. Both `prio` and `age` are somewhat predictive of `arrest`, but we still do a bad job at identifying individuals who will be arrested again 😔
+
+:::
+::: {.column width = '50%'}
+
+accuracy:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+(conf_mat2[2,1] + conf_mat2[1,2])/sum(conf_mat2)
+```
+
+
+Specificity:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+conf_mat2[2,1]/sum(conf_mat2[,1])
+```
+
+Sensitivity:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+conf_mat2[1,2]/sum(conf_mat2[,2])
+```
+
+
+
+
+:::
+::::
+
+
+## Training and Test Partitions
+
+We are going to talk about something that is more common in the field of machine learning, where the most important goal is not understanding the true relation between variables, but to get the best possible predictions.
+
+The idea is that we are interested in seeing how well our model predicts data <u>*that it has not seen yet*</u>, not the data it has already seen 🧐 This is because we want the model to generalize well when it encounters new data!
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+To test how well our regression does when we try to predict new data, we can split our data into a *training* and *test* partition. the `caret` package has a function for it:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+set.seed(5435)
+
+# create k = 2 folds
+idx <- caret::createFolds(1:nrow(dat), k = 2)
+
+# split data into two datasets
+dat_train <- dat[idx$Fold1,]
+dat_test <- dat[idx$Fold2,]
+```
+
+
+
+:::
+::: {.column width = '50%'}
+
+`createFolds()` takes in a vector of numbers, which is `1:nrow(dat)` in this case, and randomly splits it into some sets `k =` (only 2 in this case). `createFolds()` will return a `list` containing the numbers assigned to each fold. 
+
+`1:nrow(dat)` will correspond to every row in our data, which will be randomly split in two folds. We can then [subset the data](https://fabio-setti.netlify.app/psyc6802/lab_1#/back-to-dimensions-subsetting){target='_blank'} by selecting the rows corresponding to the values in each fold.
 
 :::
 ::::
 
 
 
+## Predicting new Data
+
+Now we can run the same logistic regression on the training partition, `dat_train`, and check how well we can predict new data, `dat_test`. 
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+log_reg_train <- glm(arrest ~ prio + age, dat_train, family = binomial)
+
+```
+
+Then, we get the predictions on new data that the regression above has not been "trained on". To get predictions ffor new data in `R` we generally use the `predict()` function:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat_test$predictions_probs <- predict(log_reg_train, newdata = dat_test, type = "response")
+```
+
+Note that you must include the `type = "response"` argument such that the predictions are returned as probabilities. Then we can turn the probabilities into actual predictions as we did before.
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat_test$predictions <- ifelse(dat_test$predictions_probs > 0.5, "P_Arrest", "P_NoArrest")
+```
+
+Now we can test how well we do on the "test" data. (spoiler: if we did not do well on the full data, we will not do well when we split the data)
+
+## Performance on Test Data
+
+We go through the same process where we create the confusion matrix and calculate accuracy, sensitivity and specificity.
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+conf_mat_test <- table(dat_test$predictions, dat_test$arrest)
+conf_mat_test
+```
+
+
+And once again we are doing really poorly at predicting which individuals will be arrested. 
+
+Is our logistic regression model useless? Probably not great, but not useless. If you are a psychologist, at least you established that having more convictions increases chances of arrest, and being older decreases them. If you are interested in predictions alone, you are not very happy 🤷
+
+
+:::
+::: {.column width = '45%'}
+
+accuracy:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+(conf_mat_test[2,1] + conf_mat_test[1,2])/sum(conf_mat_test)
+```
+
+
+Specificity:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+conf_mat_test[2,1]/sum(conf_mat_test[,1])
+```
+
+Sensitivity:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+conf_mat_test[1,2]/sum(conf_mat_test[,2])
+```
+
+
+:::
+::::
 
 ## References 
 

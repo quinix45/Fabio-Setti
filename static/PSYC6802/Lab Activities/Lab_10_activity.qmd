@@ -154,7 +154,6 @@ dfbetas <- dfbetas(reg)
 
 rows <- which(rownames(dfbetas) %in% c("Cedar Riverside", "Steven's Square - Loring Heights", "Prospect Park - East River Road", "Marcy Holmes ", "Como"))
 
-
 round(dfbetas[rows,], 2)
 
 # I may be ever so slightly concerned about `Prospect Park - East River Road` because the regression coefficient of collegeGrad will change by .5 SE units, but it is not that bad overall. All the other differences seem fairly small overall. Thus, I am not too concerned about these data points.

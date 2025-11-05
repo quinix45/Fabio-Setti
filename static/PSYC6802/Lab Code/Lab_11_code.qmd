@@ -1,0 +1,256 @@
+
+## Today's Packages and Data 🤗 
+
+```{r}
+install.packages("caret")
+```
+
+
+
+```{r}
+library(caret)
+library(tidyverse)
+# I am setting a theme for all the plots
+theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
+                        base_family = 'serif'))
+```
+
+
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/Recidivism_data.csv")
+```
+
+
+## Predicting Recidivism: Linear Regression?
+
+
+
+```{r}
+lin_reg <- lm(arrest ~ prio, dat)
+summary(lin_reg)
+```
+
+
+```{r}
+table(dat$arrest)
+```
+
+
+## Plotting the regression
+
+
+```{r}
+ggplot(dat, aes(x = prio, y = arrest)) +
+  geom_point() +
+  geom_abline(aes(intercept = coef(lin_reg)[1], slope = coef(lin_reg)[2])) +
+  xlim(-4, 25) + ylim(-0.2, 1.2)
+```
+
+
+## The Logistic Function
+
+
+```{r}
+exp(1)
+```
+
+
+```{r}
+ggplot() +
+  geom_function(
+    fun = plogis,
+    col = "#7a0b80") +
+  labs(x = "x",
+       y = expression(frac(e^x, 1 + e^x))) + 
+        xlim(-6, 6) 
+```
+
+
+## Logistic Regression in `R`
+
+
+```{r}
+log_reg <- glm(arrest ~ prio, dat, family = binomial)
+summary(log_reg)
+```
+
+## "Log" Odds
+
+
+```{r}
+exp(3)
+# the log() function is ln() in the formula above
+log(exp(3))
+```
+
+
+
+```{r}
+exp(log(exp(3)))
+```
+
+
+```{r}
+log(exp(log(exp(3))))
+```
+
+
+## Plotting a Logistic Regression
+
+
+```{r}
+ggplot(dat, aes(x = prio, y = arrest)) +
+  geom_point() +
+  geom_smooth(method = "glm", 
+              method.args = list(family = "binomial"), 
+              se = FALSE)
+```
+
+## Making Predictions
+
+
+```{r}
+fitted(log_reg)
+```
+
+```{r}
+ifelse(fitted(log_reg) > 0.5, "P_Arrest", "P_NoArrest")
+```
+
+
+## Confusion Matrices and Accuracy
+
+
+```{r}
+# NOTE: now I add the prediction to the data for convenience
+dat$predictions1 <- ifelse(fitted(log_reg) > 0.5, "P_Arrest", "P_NoArrest")
+
+# the "confusion matrix"
+conf_mat <- table(dat$predictions1, dat$arrest)
+```
+
+
+```{r}
+# NOTE: 0 is not arrested and 1 is arrested
+conf_mat
+```
+
+
+```{r}
+(conf_mat[2,1] + conf_mat[1,2])/sum(conf_mat)
+```
+
+## Sensitivity/Specificity Trade-Off
+
+
+```{r}
+conf_mat
+```
+
+
+```{r}
+conf_mat[2,1]/sum(conf_mat[,1])
+```
+
+
+```{r}
+conf_mat[1,2]/sum(conf_mat[,2])
+```
+
+
+## Adding Predictors
+
+```{r}
+log_reg2 <- glm(arrest ~ prio + age, dat, family = binomial)
+summary(log_reg2)
+```
+
+
+## Statistical Model Comparison
+
+
+```{r}
+anova(log_reg,
+      log_reg2)
+```
+
+## Are we actually doing better now?
+
+
+```{r}
+dat$predictions2 <- ifelse(fitted(log_reg2) > 0.5, 
+                           "P_Arrest", "P_NoArrest")
+conf_mat2 <- table(dat$predictions2, dat$arrest)
+conf_mat2
+```
+
+
+```{r}
+(conf_mat2[2,1] + conf_mat2[1,2])/sum(conf_mat2)
+```
+
+
+```{r}
+conf_mat2[2,1]/sum(conf_mat2[,1])
+```
+
+
+```{r}
+conf_mat2[1,2]/sum(conf_mat2[,2])
+```
+
+
+## Training and Test Partitions
+
+
+```{r}
+
+set.seed(5435)
+
+# create k = 2 folds
+idx <- caret::createFolds(1:nrow(dat), k = 2)
+
+# split data into two datasets
+dat_train <- dat[idx$Fold1,]
+dat_test <- dat[idx$Fold2,]
+```
+
+## Predicting new Data
+
+
+```{r}
+log_reg_train <- glm(arrest ~ prio + age, dat_train, family = binomial)
+```
+
+
+```{r}
+dat_test$predictions_probs <- predict(log_reg_train, newdata = dat_test, type = "response")
+```
+
+
+```{r}
+dat_test$predictions <- ifelse(dat_test$predictions_probs > 0.5, "P_Arrest", "P_NoArrest")
+```
+
+## Performance on Test Data
+
+
+```{r}
+conf_mat_test <- table(dat_test$predictions, dat_test$arrest)
+conf_mat_test
+```
+
+
+```{r}
+(conf_mat_test[2,1] + conf_mat_test[1,2])/sum(conf_mat_test)
+```
+
+
+```{r}
+conf_mat_test[2,1]/sum(conf_mat_test[,1])
+```
+
+
+```{r}
+conf_mat_test[1,2]/sum(conf_mat_test[,2])
+```
