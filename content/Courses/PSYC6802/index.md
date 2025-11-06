@@ -283,7 +283,7 @@ This Lab introduces partial and semi-partial correlations. Additionally, the Lab
 
 <h3> 11. Logistic Regression </h3> 
 
-Coming soon!
+This Lab introduces logistic regression. Interpretation of logistic regression coefficients, likelihood ratio test for model comparison, as well as some basic metrics to evaluate logistic regression based on confusion matrices are discussed. The idea of splitting data into training and test partition to test model predictions on out-of-sample data is also discussed briefly. 
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_11.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

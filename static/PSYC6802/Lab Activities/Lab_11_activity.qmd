@@ -1,0 +1,191 @@
+---
+title: 'Lab 11 Activity'
+format:
+ pdf:
+  mainfont: Times New Roman
+  sansfont: Times New Roman
+  monofont: Courier New
+  mathfont: Times New Roman
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+editor: source
+---
+
+
+For this lab activity we will be working with the `MplsStops` dataset. This is a dataset about nearly all stops made by the Minneapolis Police Department for the year 2017. we will focus on the `citationIssued` variable, which indicates whether the stop resulted in a traffic violation report. Run the following code to load the data and delete rows with missing data:
+
+```{r}
+#| warning: false
+library(tidyverse)
+dat <- carData::MplsStops %>% 
+        drop_na()
+```
+
+
+\newpage
+
+Here is a description of the columns in the data:
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+
+library(tidyverse)
+
+info <- tibble(Variable = names(dat),
+               Description = c("Character vector of incident identifiers", 
+                               "A POSIXlt date variable giving the date and time of the stop", 
+                               "A factor with levels suspicious for suspicious vehicle or person stops and traffic for traffic stops",
+                               "A factor with levels mdc for data collected via in-vehicle computer, and other for data submitted by officers not in a vehicle, either on foot, bicycle or horseback. Several of the variables above were recorded only in-vehicle",
+                               "A factor with levels no yes indicating if a citation was issued",
+                               "A factor with levels no yes indicating if the stopped person was searched", 
+                               "A factor with levels no or yes indicating if a vehicle was searched",
+                               "A factor with levels white, black, east african, latino, native american, asian, other, unknown for the officer's assessment of race of the person stopped before speaking with the person stopped", 
+                               "A factor with levels white, black, east african, latino, native american, asian, other, unknown, officer's determination of race after the incident",
+                               "A factor with levels female, male, unknown, gender of person stopped",
+                               "Latitude of the location of the incident, somewhat rounded",
+                               "Longitude of the location of the incident, somewhat rounded",
+                               "Minneapolis Police Precinct number",
+                               "A factor with 84 levels giving the name of the Minneapolis neighborhood of the incident"))
+library(kableExtra)
+
+kable(info) %>% 
+  column_spec(column = 2, width = "5in") %>% 
+  column_spec(column = 1, bold = T) %>% 
+  row_spec(0, bold = T)
+```
+
+\newpage
+
+
+
+
+**1.** We will try to predict what factors impact whether a traffic violation citation will be issued if individuals get stopped. Out of all the individuals stopped, how many were issued a citation? What is the percentage?
+
+```{r}
+#| echo: false
+#| eval: false
+
+table(dat$citationIssued)
+
+#   NO   YES 
+# 15899  3211 
+
+
+(table(dat$citationIssued)/sum(table(dat$citationIssued)))*100
+
+#  NO    YES 
+# 83.2  16.80 
+```
+
+
+**2.** Run two logistic regressions, one using `personSearch` as a predictor of `citationIssued` and the other using both `personSearch` and `problem` as predictors of `citationIssued`. Conduct a likelihood ratio test to evaluate whether adding `problem` as a predictor significantly improves the logistic regression. Which regrresion is best according to the likelihood ratio test?
+
+```{r}
+#| echo: false
+#| eval: false
+
+
+log_reg_1 <- glm(citationIssued ~ personSearch, dat, family = "binomial")
+log_reg_2 <- glm(citationIssued ~ personSearch + problem, dat, family = "binomial")
+
+anova(log_reg_1, log_reg_2)
+
+# yes, significant improvement
+```
+
+
+**3.** Compare the predictions of the logistic regression with just `personSearch` as a predictor and the predictions of the regression with both `personSearch` and `problem` as predictors. 
+
+
+- What is the confusion matrix for the two regressions? 
+
+```{r}
+#| echo: false
+#| eval: false
+
+dat$preds1 <- ifelse(fitted(log_reg_1) > 0.5, "Yes", "No")
+dat$preds2 <- ifelse(fitted(log_reg_2) > 0.5, "Yes", "No")
+
+table(dat$citationIssued, dat$preds1)
+table(dat$citationIssued, dat$preds2)
+
+```
+
+
+- You may notice something "strange". Look at the predictions that the two regressions make; for both regressions, how many individuals are predicted to be given traffic violation citation?
+
+```{r}
+#| echo: false
+#| eval: false
+
+table(dat$preds1)
+table(dat$preds2)
+
+# 0 individuals in both
+```
+
+- Is there any point in comparing accuracy, sensitivity, and specificity of the two regressions?
+
+```{r}
+#| echo: false
+#| eval: false
+
+# no, because the two models make the exact same predictions. from a prediction standpoint, if we use the .5 cutoff, the two models are equal.
+```
+
+
+**4.** `personSearch` and `problem` are both factor variables with two levels; calculate the **predicted probability** of being issued a citation for a traffic violation given all the possible combinations of `personSearch` and `problem`. Make sure that you specify what combination of `personSearch` and `problem` the prediction is for. See some notes below for help on how to do this:
+
+- Because we have factor variables as predictors, `R` uses dummy coding. See [Slide 19 of Lab 9](https://fabio-setti.netlify.app/psyc6802/lab_9#/why-does-this-work){target='_blank'} if you are not sure on how to interpret the slopes of your logistic regression. The `contrasts()` function may help you to figure out how the variable is dummy coded. 
+
+- You can pass the logistic regression object to the `coef()` function to get the intercept and regression coefficients (so you don't have to use the `summary()` function and print unnecessary output).
+
+- **Important:** to turn predictions of a logistic regression into probabilities you need to use the logistic function 
+
+$$\frac{e^x}{1 + e^x}$$
+
+Where $x$ is the prediction of the logistic regression. The logistic function is `plogis()` in `R`. For example, if $x = 0$, then, the predicted probability is
+$$\frac{e^0}{1 + e^0} =  \frac{1}{1 + 1} = 0.5.$$
+
+Equivalently,
+
+```{r}
+# logistic function in R
+plogis(0)
+```
+
+
+
+
+```{r}
+#| echo: false
+#| eval: false
+
+
+# all predicted probabilities are below .5
+
+# traffic + YES search
+plogis(coef(log_reg_2)[1] + coef(log_reg_2)[2] + coef(log_reg_2)[3])
+
+# traffic + NO search
+plogis(coef(log_reg_2)[1] + coef(log_reg_2)[2] + coef(log_reg_2)[3]*0)
+
+# suspicious + YES search
+plogis(coef(log_reg_2)[1] + coef(log_reg_2)[2]*0 + coef(log_reg_2)[3])
+
+# suspicious + NO search
+plogis(coef(log_reg_2)[1] + coef(log_reg_2)[2]*0 + coef(log_reg_2)[3]*0)
+```
+
+**5.** You should have now calculated all the possible predictions that our logistic regression can make. Does this explain the results from question 3?
+
+```{r}
+#| echo: false
+#| eval: false
+
+# No matter the values of our variables, the predicted probability will always be below .5, hence the logistic regression always predicts that no citation for traffic violation will be issued.
+```
+

@@ -121,6 +121,9 @@ We think we can predict the `arrest` variable, whether an individual has been ar
 :::: {.columns}
 ::: {.column width = '60%'}
 
+
+::: {.fragment fragment-index=1}
+
 ```{r}
 #| eval: true
 #| echo: true 
@@ -134,10 +137,14 @@ summary(lin_reg)
 
 ```
 
+:::
+
 
 :::
 
 ::: {.column width = '40%'}
+
+::: {.fragment fragment-index=2}
 
 However, `arrest` is a binary variable, where only 2 outcome are possible (0 = *not arrested*, 1 = *arrested*). Here are the counts:
 
@@ -153,6 +160,8 @@ table(dat$arrest)
 
 
 <center> You can probably intuit that a linear regression is not appropriate for a binary DV, but looking at a plot will make many of the reasons clear. </center>
+
+:::
 
 
 :::
@@ -186,11 +195,23 @@ ggplot(dat, aes(x = prio, y = arrest)) +
 
 There are multiple things that should jump out to you 🧐
 
+::: {.fragment fragment-index=1}
+
 - It does not take a statistics expert to guess that the residuals will not be normally distributed around the regression line.
+
+:::
+
+::: {.fragment fragment-index=2}
 
 - More importantly, the regression line will eventually make predictions that are outside the possible range of `arrest` when `prio` as prio increases beyond a certain point. 
 
+:::
+
+::: {.fragment fragment-index=3}
+
 The last point is very important. We want to force our regression to make predictions that are *always* between 0 and 1.
+
+:::
 
 :::
 ::::
@@ -203,9 +224,16 @@ In this case, one annoying features of linear regression is that its predictions
 :::: {.columns}
 ::: {.column width = '50%'}
 
+::: {.fragment fragment-index=1}
+
 There are functions that always give values between 0 and 1, one of them being the *logistic function*:
 
 $$y = \frac{e^x}{1 + e^x}$$
+
+:::
+
+
+::: {.fragment fragment-index=2}
 
 As you can see the line approaches $0$ and $1$ when $x$ decreases/increases, but never becomes exactly 0 or 1. 
 
@@ -221,7 +249,11 @@ exp(1)
 ```
 
 :::
+
+:::
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
 
 ```{r}
 #| eval: true
@@ -242,27 +274,42 @@ ggplot() +
         xlim(-6, 6) 
 ```
 
+:::
 
 :::
 ::::
 
 ## Logistic Regression
 
-now that we have our trusty logistic function we can run the exact same regression, but instead of the simple linear regression $y = \beta_0 + \beta_1 \times x$, we stick the regression formula inside the logistic function, thus getting the logistic regression formula:
+Now that we have our trusty logistic function we can run the exact same regression, but instead of the simple linear regression $y = \beta_0 + \beta_1 \times x$, we stick the regression formula inside the logistic function, thus getting the logistic regression formula:
 
+::: {.fragment fragment-index=1}
 $$P(y = 1) = \frac{e^{\beta_0 + \beta_1 \times x}}{1 + e^{\beta_0 + \beta_1 \times x}}$$
+
+:::
 
 :::: {.columns}
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
 notice that we are predicting $P(y = 1)$, the probability that the DV = 1. In our case this is the probability of one of the individuals being arrested again within a year from release. 
 
 :::
+
+:::
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=3}
 
 Another important point is that $\beta_0$ and $\beta_1$ are still the intercept and the slope respectively, but their interpretation is now different because the outcome is not just $y$, but $P(y = 1)$.
 
 :::
+
+:::
 ::::
+
+::: {.fragment fragment-index=4}
 
 ::: {.callout-note}
 ### Link functions
@@ -270,7 +317,7 @@ Another important point is that $\beta_0$ and $\beta_1$ are still the intercept 
 The $y = \frac{e^x}{1 + e^x}$ is also knowns as a *link function*. The idea of link functions is that your normal regression makes predictions between  $- \infty$ to $+ \infty$, but you have data that cannot possible range between $- \infty$ to $+ \infty$. Link functions force the regression predictions within a certain range. Another example of a link function is the *Poisson link* used for  [Poisson regression](https://en.wikipedia.org/wiki/Poisson_regression){target='_blank'}, where you are looking at count data (e.g., predicting suicide attempts, which cannot be less than 0). 
 
 :::
-
+:::
 
 ## Logistic Regression in `R`
  
@@ -293,12 +340,20 @@ summary(log_reg)
 :::
 ::: {.column width = '45%'}
 
+
+::: {.fragment fragment-index=1}
+
 The `family = "binomial"` argument is what tells the `glm()` function that we want a logistic regression. Other types of regressions are possible with the `glm()` function (e.g., Poisson regression). The logistic regression formula is:
 
 $$P(\mathrm{arrest} = 1) = \frac{e^{-1.39 + 0.12 \times \mathrm{Convictions}}}{1 + e^{-1.39 + 0.12 \times \mathrm{Convictions}}}$$
 
+:::
+
+::: {.fragment fragment-index=2}
 
 <center> What do the values of the intercept, -1.39  ,and the slope, 0.12, mean 🤔 </center>
+
+:::
 
 :::
 ::::
@@ -311,37 +366,55 @@ If for some reason you remember our discussion on odds in [Lab 3](https://fabio-
 :::: {.columns}
 ::: {.column width = '50%'}
 
+::: {.fragment fragment-index=1}
+
 <center> **Logistic Function**  </center>
 
 $$P = \frac{e^x}{1 + e^x}$$
 
 :::
+
+:::
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
 
 <center> **Odds to Probability** </center>
 
 $$P = \frac{\mathrm{odds}}{1 + \mathrm{odds}}$$ 
 
 :::
+
+:::
 ::::
 
+
+::: {.fragment fragment-index=3}
+
 Ahh, they are are the exact same thing💡 Importantly, $e^x = \mathrm{odds}$. So, in the previous slide, the $e^{0.96 - 0.08 \times \mathrm{age}}$ part gives *the odds of being arrested again given a certain age at release*. 
+
+:::
 
 :::: {.columns}
 ::: {.column width = '50%'}
 
+::: {.fragment fragment-index=4}
+
 so, the intercept, $e^{-1.39} = .24$  is the odds of being rearrested 1 year after release, *if* the person was released has 0 additional convictions. We can also get the probability, which is $\frac{e^{-1.39}}{1 + e^{-1.39}} = .2$.
 
+:::
 
 :::
 ::: {.column width = '50%'}
 
+::: {.fragment fragment-index=5}
+
 The slope, $0.12$, is the change in *log odds* (see next slide) per unit change in `prio` at release. In other words, the more convictions at release,  the higher the odds of being arrested again.
 
+:::
 
 :::
 ::::
-
 
 ## "Log" Odds
 
@@ -349,6 +422,8 @@ The ever so slightly annoying thing is that you need to be a bit familiar with l
 
 :::: {.columns}
 ::: {.column width = '45%'}
+
+::: {.fragment fragment-index=1}
 
 if we have $e^3$, then the natural logarithm of that, $ln(e^3) = 3$. The logarithm gives you what is inside the exponent:
 
@@ -364,7 +439,11 @@ log(exp(3))
 ```
 
 :::
+
+:::
 ::: {.column width = '55%'}
+
+::: {.fragment fragment-index=2}
 
 Similarly, we can get the result of $e^3$ by doing $e^{ln(e^3)}$:
 
@@ -389,9 +468,15 @@ log(exp(log(exp(3))))
 ```
 
 :::
+
+:::
 ::::
 
+::: {.fragment fragment-index=3}
+
 so if $e^x$ is the odds, then $ln(e^x) = x$ is the <u> *log of the odds* </u>, or *log odds* as it is most commonly called. This is why in our logistic regression $e^{-1.39 + 0.12 \times \mathrm{Convictions}}$, the slope $0.12$ is the change in *log odds* per unit increase in convictions, not the change in odds.
+
+:::
 
 ## Plotting a Logistic Regression
 
@@ -399,6 +484,8 @@ Depending on your data, the logistic regression line may look very similar or di
 
 :::: {.columns}
 ::: {.column width = '40%'}
+
+
 
 ```{r}
 #| eval: false
@@ -438,8 +525,11 @@ ggplot(dat, aes(x = prio, y = arrest)) +
 :::
 ::::
 
+::: {.fragment fragment-index=1}
+
 As you can see, the probability being arrested again ($y$-axis) increases with prior convictions. You can also see the line bending a bit, and although we don't see it here, this line will always be between 0 and 1.
 
+:::
 
 ## Making Predictions
 
@@ -448,7 +538,6 @@ We can use the `fitted()` function to get the predicted probability of being arr
 
 :::: {.columns}
 ::: {.column width = '55%'}
-
 
 Here is print the predicted probability for the first 5 individuals:
 
@@ -462,6 +551,8 @@ Here is print the predicted probability for the first 5 individuals:
 fitted(log_reg)
 ```
 
+
+
 ```{r}
 #| eval: true
 #| echo: false 
@@ -471,6 +562,8 @@ fitted(log_reg)
 round(fitted(log_reg)[1:5], 2)
 ```
 
+
+::: {.fragment fragment-index=1}
 
 We use the `ifelse()` function, which does one of two things depending on the instructions that we give it:
 
@@ -492,26 +585,34 @@ ifelse(fitted(log_reg) > 0.5, "P_Arrest", "P_NoArrest")
 ifelse(fitted(log_reg) > 0.5, "P_Arrest", "P_NoArrest")[1:5]
 ```
 
+:::
+
 
 :::
 ::: {.column width = '45%'}
 
 Logistic regression returns probabilities. But we don't want probabilities, we need actual predictions to eventually evaluate how well our logistic regression predicts the data.
 
+::: {.fragment fragment-index=1}
+
 As our criterion to make prediction we say that if anyone has a predicted probability of being arrested above $0.5$, we predict that they will be arrested again. Otherwise, we predict that they will not. 
 
 Out of the first 5 individuals, only the third individual had a probaiblity of being arrested above $0.5$, so we predict that they will be arrested again.
 
 :::
-::::
 
+:::
+::::
 
 ## Confusion Matrices and Accuracy
 
 The start of all metrics that evaluate logistic regression predictions are what is called a **confusion matrix**. Confusion matrices are nothing more than the cross-tabulation of the predicted and observed outcomes:
 
 :::: {.columns}
+
 ::: {.column width = '50%'}
+
+
 
 ```{r}
 #| eval: true
@@ -530,7 +631,6 @@ conf_mat <- table(dat$predictions1, dat$arrest)
 :::
 ::: {.column width = '50%'}
 
-
 ```{r}
 #| eval: true
 #| echo: true 
@@ -544,19 +644,22 @@ conf_mat
 :::
 ::::
 
+
+::: {.fragment fragment-index=1}
+
 We can calculate the **classification accuracy** by computing the proportion of individuals that are correctly predicted to be arrested and not arrested. We correctly classify $74\%$ of the individuals.
 
 ```{r}
 #| eval: true
 #| echo: true 
 #| code-line-numbers: false
-#| classes: code-125
+#| classes: code-150
 
 (conf_mat[2,1] + conf_mat[1,2])/sum(conf_mat)
 ```
 
 
-
+:::
 
 
 ## True/False Positives and Negatives
@@ -566,21 +669,30 @@ You may have realized that something is a bit off about our logistic regression 
 :::: {.columns}
 ::: {.column width = '55%'}
 
+::: {.fragment fragment-index=2}
 
 - **sensitivity:** the test's ability to correctly detect the disease in individuals who do have the disease.
 
 $$ \mathrm{sensitivity} = \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}$$
 
+:::
+
+::: {.fragment fragment-index=3}
 
 - **specificity:** the test's ability to correctly categorize individuals as healthy if they do not have the disease.
 
 $$ \mathrm{specificity} = \frac{\mathrm{TN}}{\mathrm{TN} + \mathrm{FP}}$$
 
 :::
+
+:::
 ::: {.column width = '45%'}
+
+::: {.fragment fragment-index=1}
 
 <center> ![](Additional%20files/images/false_true_positive.png){width="70%"} </center>
 
+:::
 
 :::
 ::::
@@ -592,6 +704,8 @@ Without needing to look at anything else, we see a bit of an issue. The logistic
 :::: {.columns}
 ::: {.column width = '50%'}
 
+::: {.fragment fragment-index=1}
+
 ```{r}
 #| eval: true
 #| echo: true 
@@ -601,10 +715,18 @@ Without needing to look at anything else, we see a bit of an issue. The logistic
 conf_mat
 ```
 
+:::
+
+::: {.fragment fragment-index=3}
+
 anyone could get similar sensitivity and accuracy by always predictiong "no arrest" and they would do almost as well as the logistic regression 🤡
 
 :::
+
+:::
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
 
 amazing specificity:
 
@@ -629,13 +751,17 @@ But awful sensitivity:
 conf_mat[1,2]/sum(conf_mat[,2])
 ```
 
-
+:::
 
 :::
 ::::
 
 
+::: {.fragment fragment-index=4}
+
 What is happening? The prediction almost always are "no arrest". Prior convictions do increase the likelihood of being arrested again, but the effect is likely small, and even at 9 prior convictions, the probability of being arrested again is still below 0.5. Only a handful of individuals in the data have more than 9 prior convictions.
+
+:::
 
 
 ## Adding Predictors
@@ -661,11 +787,26 @@ summary(log_reg2)
 
 we add an additional variable in the same way that we would with `lm()`. The idea is similar to multiple regression and the interpretations are similar:
 
+
+::: {.fragment fragment-index=1}
+
 - $0.5$ the log-odds of being arrested again when both `age` and `prio` are 0.
+
+:::
+
+
+::: {.fragment fragment-index=2}
 
 - $0.10$ the change in log-odds of being arrested for every additional conviction at release, accounting for `age`.
 
+:::
+
+
+::: {.fragment fragment-index=3}
+
 - $- 0.8$ the change in log-odds of being arrested for every additional years of age at release, accounting for previous convictions.
+
+:::
 
 :::
 ::::
@@ -677,6 +818,8 @@ We just added `age` as an additional predictor. We would like to know whether we
 
 :::: {.columns}
 ::: {.column width = '65%'}
+
+::: {.fragment fragment-index=1}
 
 For reasons that are beyond human understanding, the `R` developers decided that you run the likelihood-ratio test with the `anova()` function.
 
@@ -691,12 +834,22 @@ anova(log_reg,
 ```
 
 :::
+
+:::
 ::: {.column width = '35%'}
+
+::: {.fragment fragment-index=1}
 
 You include the two logistic regression objects that you want to compare. If the *p*-value is significant, it means that the model with more predictors is best (statistically).
 
+:::
+
+
+::: {.fragment fragment-index=2}
 
 Note that this is something that we have touched on briefly in [Lab 3](https://fabio-setti.netlify.app/psyc6802/lab_3#/likelihood-ratio-test){target='_blank'}. Regardless, the LRT does not quantify how much adding `age` as a DV improves our predictions. 
+
+:::
 
 :::
 ::::
@@ -708,6 +861,8 @@ How well are we actrually doing now that we have included `age` as a predictor? 
 
 :::: {.columns}
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
 
 ```{r}
 #| eval: true
@@ -721,11 +876,19 @@ conf_mat2 <- table(dat$predictions2, dat$arrest)
 conf_mat2
 ```
 
+:::
+
+::: {.fragment fragment-index=3}
+
 
 We are doing a tiny bit better, but still pretty poorly overall. Both `prio` and `age` are somewhat predictive of `arrest`, but we still do a bad job at identifying individuals who will be arrested again 😔
 
 :::
+
+:::
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
 
 accuracy:
 
@@ -762,8 +925,7 @@ conf_mat2[1,2]/sum(conf_mat2[,2])
 ```
 
 
-
-
+:::
 :::
 ::::
 
@@ -772,11 +934,19 @@ conf_mat2[1,2]/sum(conf_mat2[,2])
 
 We are going to talk about something that is more common in the field of machine learning, where the most important goal is not understanding the true relation between variables, but to get the best possible predictions.
 
+
+::: {.fragment fragment-index=1}
+
 The idea is that we are interested in seeing how well our model predicts data <u>*that it has not seen yet*</u>, not the data it has already seen 🧐 This is because we want the model to generalize well when it encounters new data!
+
+:::
+
 
 
 :::: {.columns}
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
 
 To test how well our regression does when we try to predict new data, we can split our data into a *training* and *test* partition. the `caret` package has a function for it:
 
@@ -796,18 +966,26 @@ dat_train <- dat[idx$Fold1,]
 dat_test <- dat[idx$Fold2,]
 ```
 
-
+:::
 
 :::
 ::: {.column width = '50%'}
 
+
+::: {.fragment fragment-index=3}
+
 `createFolds()` takes in a vector of numbers, which is `1:nrow(dat)` in this case, and randomly splits it into some sets `k =` (only 2 in this case). `createFolds()` will return a `list` containing the numbers assigned to each fold. 
+
+:::
+
+::: {.fragment fragment-index=4}
 
 `1:nrow(dat)` will correspond to every row in our data, which will be randomly split in two folds. We can then [subset the data](https://fabio-setti.netlify.app/psyc6802/lab_1#/back-to-dimensions-subsetting){target='_blank'} by selecting the rows corresponding to the values in each fold.
 
 :::
-::::
 
+:::
+::::
 
 
 ## Predicting new Data
@@ -824,7 +1002,9 @@ log_reg_train <- glm(arrest ~ prio + age, dat_train, family = binomial)
 
 ```
 
-Then, we get the predictions on new data that the regression above has not been "trained on". To get predictions ffor new data in `R` we generally use the `predict()` function:
+::: {.fragment fragment-index=1}
+
+Then, we get the predictions on new data that the regression above has not been "trained on". To get predictions for new data in `R` we generally use the `predict()` function:
 
 ```{r}
 #| eval: true
@@ -834,6 +1014,10 @@ Then, we get the predictions on new data that the regression above has not been 
 
 dat_test$predictions_probs <- predict(log_reg_train, newdata = dat_test, type = "response")
 ```
+
+:::
+
+::: {.fragment fragment-index=2}
 
 Note that you must include the `type = "response"` argument such that the predictions are returned as probabilities. Then we can turn the probabilities into actual predictions as we did before.
 
@@ -849,12 +1033,15 @@ dat_test$predictions <- ifelse(dat_test$predictions_probs > 0.5, "P_Arrest", "P_
 
 Now we can test how well we do on the "test" data. (spoiler: if we did not do well on the full data, we will not do well when we split the data)
 
+:::
+
 ## Performance on Test Data
 
 We go through the same process where we create the confusion matrix and calculate accuracy, sensitivity and specificity.
 
 :::: {.columns}
 ::: {.column width = '55%'}
+
 
 ```{r}
 #| eval: true
@@ -869,8 +1056,11 @@ conf_mat_test
 
 And once again we are doing really poorly at predicting which individuals will be arrested. 
 
+::: {.fragment fragment-index=1}
+
 Is our logistic regression model useless? Probably not great, but not useless. If you are a psychologist, at least you established that having more convictions increases chances of arrest, and being older decreases them. If you are interested in predictions alone, you are not very happy 🤷
 
+:::
 
 :::
 ::: {.column width = '45%'}
