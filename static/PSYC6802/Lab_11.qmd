@@ -203,13 +203,14 @@ There are multiple things that should jump out to you 🧐
 
 ::: {.fragment fragment-index=2}
 
-- More importantly, the regression line will eventually make predictions that are outside the possible range of `arrest` when `prio` as prio increases beyond a certain point. 
+- More importantly, the regression line will eventually make predictions that are outside the possible range of `arrest` when `prio` increases beyond a certain point. 
 
 :::
 
 ::: {.fragment fragment-index=3}
 
-The last point is very important. We want to force our regression to make predictions that are *always* between 0 and 1.
+<center> The last point is very important. <u> We want to force our regression to make predictions that are *always* between 0 and 1. </u> </center>
+
 
 :::
 
@@ -351,7 +352,7 @@ $$P(\mathrm{arrest} = 1) = \frac{e^{-1.39 + 0.12 \times \mathrm{Convictions}}}{1
 
 ::: {.fragment fragment-index=2}
 
-<center> What do the values of the intercept, -1.39  ,and the slope, 0.12, mean 🤔 </center>
+<center> What do the values of the intercept, -1.39 , and the slope, 0.12, represent 🤔 </center>
 
 :::
 
@@ -391,7 +392,7 @@ $$P = \frac{\mathrm{odds}}{1 + \mathrm{odds}}$$
 
 ::: {.fragment fragment-index=3}
 
-Ahh, they are are the exact same thing💡 Importantly, $e^x = \mathrm{odds}$. So, in the previous slide, the $e^{0.96 - 0.08 \times \mathrm{age}}$ part gives *the odds of being arrested again given a certain age at release*. 
+Ahh, they are are the exact same thing💡 Importantly, $e^x = \mathrm{odds}$. So, in the previous slide, the $e^{0.96 + 0.12 \times \mathrm{Convictions}}$ part gives *the odds of being arrested again given a certain age at release*. 
 
 :::
 
@@ -704,7 +705,7 @@ Without needing to look at anything else, we see a bit of an issue. The logistic
 :::: {.columns}
 ::: {.column width = '50%'}
 
-::: {.fragment fragment-index=1}
+
 
 ```{r}
 #| eval: true
@@ -715,9 +716,8 @@ Without needing to look at anything else, we see a bit of an issue. The logistic
 conf_mat
 ```
 
-:::
 
-::: {.fragment fragment-index=3}
+::: {.fragment fragment-index=2}
 
 anyone could get similar sensitivity and accuracy by always predictiong "no arrest" and they would do almost as well as the logistic regression 🤡
 
@@ -726,7 +726,7 @@ anyone could get similar sensitivity and accuracy by always predictiong "no arre
 :::
 ::: {.column width = '50%'}
 
-::: {.fragment fragment-index=2}
+::: {.fragment fragment-index=1}
 
 amazing specificity:
 
@@ -757,7 +757,7 @@ conf_mat[1,2]/sum(conf_mat[,2])
 ::::
 
 
-::: {.fragment fragment-index=4}
+::: {.fragment fragment-index=3}
 
 What is happening? The prediction almost always are "no arrest". Prior convictions do increase the likelihood of being arrested again, but the effect is likely small, and even at 9 prior convictions, the probability of being arrested again is still below 0.5. Only a handful of individuals in the data have more than 9 prior convictions.
 
@@ -813,7 +813,7 @@ we add an additional variable in the same way that we would with `lm()`. The ide
 
 ## Statistical Model Comparison
 
-We just added `age` as an additional predictor. We would like to know whether we now do a better job at predicting the DV `arrest`. In the case of logistic regrerssion we can use the [likelihood-ratio test](https://en.wikipedia.org/wiki/Likelihood-ratio_test){target='_blank'}(LRT) to test whether adding `age` produces a *significant* improvement in predictions. That is we compare the Logistic regression with only `prio` to the one with `prio + age`. 
+We just added `age` as an additional predictor. We would like to know whether we now do a better job at predicting the DV `arrest`. In the case of logistic regrerssion we can use the [likelihood-ratio test](https://en.wikipedia.org/wiki/Likelihood-ratio_test){target='_blank'} (LRT) to test whether adding `age` produces a *significant* improvement in predictions. That is, we compare the Logistic regression with only `prio` to the one with `prio + age`. 
 
 
 :::: {.columns}
@@ -932,7 +932,7 @@ conf_mat2[1,2]/sum(conf_mat2[,2])
 
 ## Training and Test Partitions
 
-We are going to talk about something that is more common in the field of machine learning, where the most important goal is not understanding the true relation between variables, but to get the best possible predictions.
+We are going to talk about something that is more common in the field of machine learning, where the most important goal is not understanding the nature of the relation between variables, but to get the best possible predictions.
 
 
 ::: {.fragment fragment-index=1}
