@@ -1,0 +1,123 @@
+
+## Today's Packages and Data 🤗 
+
+
+```{r}
+install.packages("devtools")
+devtools::install_github("quinix45/FabioFun")
+install.packages("interactions")
+install.packages("lavaan")
+install.packages("semTools")
+```
+
+
+```{r}
+
+library(lavaan)
+library(interactions)
+library(semTools)
+library(tidyverse)
+```
+
+
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/Lab_12_attend.dta")
+```
+
+
+## Moderation in `R`
+
+```{r}
+reg_int <- lm(final ~ attend*priGPA, data = dat)
+summary(reg_int)
+```
+
+
+## Simple Slopes
+
+
+```{r}
+# NOTE: you need to specify which variable is the focal predictor (`pred =`) and which is the moderator (`modx =`)!
+sim_slopes <- interactions::sim_slopes(reg_int, 
+                                       modx = "priGPA",
+                                       pred = "attend")
+# rounding to 3 decimal places for nicer output
+round(sim_slopes$slopes,3)
+```
+
+
+## Plotting simple slopes
+
+
+```{r}
+interact_plot(reg_int, 
+              modx = "priGPA",
+              pred = "attend") 
+```
+
+## Mean-Centering
+
+
+```{r}
+# mean-center attend
+dat$attend_cnt <- dat$attend - mean(dat$attend)
+
+# mean-center priGPA
+dat$priGPA_cnt <- dat$priGPA - mean(dat$priGPA)
+```
+
+## Mean-centered Regression
+
+
+```{r}
+reg_int_cnt <- lm(final ~ attend_cnt*priGPA_cnt, data = dat)
+summary(reg_int_cnt)
+```
+
+## Running a regression in `lavaan`
+
+```{r}
+reg_lm <- lm(final ~ termgpa, dat)
+summary(reg_lm)
+```
+# NOTE: We pass the lavaan results to the monteCarloCI() function
+semTools::monteCarloCI(lv_med_res)
+```{r}
+mod_lv <-"final ~ termgpa"
+
+reg_lv <- lavaan::sem(mod_lv, dat)
+# NOTE: a function I made for neater lavaan output. If you just run summary(), a lot of extra things that we don't need will be printed
+FabioFun::lavaan_summary(reg_lv)
+```
+
+
+
+## A Mediation Model
+
+```{r}
+lv_2reg <-"termgpa ~ ACT
+           final ~ ACT + termgpa"
+lv_2reg_res <- sem(lv_2reg, dat)
+FabioFun::lavaan_summary(lv_2reg_res)
+```
+
+
+## Direct and Indirect Effects
+
+
+```{r}
+lv_med <-"termgpa ~ a*ACT
+           final ~ c_p*ACT + b*termgpa
+           indirect := a*b
+           total := c_p + a*b"
+
+lv_med_res <- sem(lv_med, dat)
+FabioFun::lavaan_summary(lv_med_res)           
+```
+
+## Confidence Intervals for Indirect Effects
+
+```{r}
+# NOTE: We pass the lavaan results to the monteCarloCI() function
+semTools::monteCarloCI(lv_med_res)
+```

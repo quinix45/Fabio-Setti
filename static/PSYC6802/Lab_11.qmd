@@ -130,11 +130,8 @@ We think we can predict the `arrest` variable, whether an individual has been ar
 #| code-line-numbers: false
 #| classes: code-125
 
-
-
 lin_reg <- lm(arrest ~ prio, dat)
 summary(lin_reg)
-
 ```
 
 :::
@@ -392,7 +389,7 @@ $$P = \frac{\mathrm{odds}}{1 + \mathrm{odds}}$$
 
 ::: {.fragment fragment-index=3}
 
-Ahh, they are are the exact same thing💡 Importantly, $e^x = \mathrm{odds}$. So, in the previous slide, the $e^{0.96 + 0.12 \times \mathrm{Convictions}}$ part gives *the odds of being arrested again given a certain age at release*. 
+Ahh, they are are the exact same thing💡 Importantly, $e^x = \mathrm{odds}$. So, in the previous slide, the $e^{-1.39 + 0.12 \times \mathrm{Convictions}}$ part gives *the odds of being arrested again given number of convictions at release*. 
 
 :::
 
@@ -401,7 +398,7 @@ Ahh, they are are the exact same thing💡 Importantly, $e^x = \mathrm{odds}$. S
 
 ::: {.fragment fragment-index=4}
 
-so, the intercept, $e^{-1.39} = .24$  is the odds of being rearrested 1 year after release, *if* the person was released has 0 additional convictions. We can also get the probability, which is $\frac{e^{-1.39}}{1 + e^{-1.39}} = .2$.
+so, the intercept, $e^{-1.39} = .25$  is the odds of being rearrested 1 year after release, *if* the person was released has 0 additional convictions. We can also get the probability, which is $\frac{e^{-1.39}}{1 + e^{-1.39}} = .2$.
 
 :::
 
@@ -410,7 +407,7 @@ so, the intercept, $e^{-1.39} = .24$  is the odds of being rearrested 1 year aft
 
 ::: {.fragment fragment-index=5}
 
-The slope, $0.12$, is the change in *log odds* (see next slide) per unit change in `prio` at release. In other words, the more convictions at release,  the higher the odds of being arrested again.
+The slope, $0.12$, is the change in *log odds* (see next slide) per unit change in `prio` at release. In other words, the more convictions at release, the higher the odds of being arrested again.
 
 :::
 
@@ -923,7 +920,6 @@ Sensitivity:
 
 conf_mat2[1,2]/sum(conf_mat2[,2])
 ```
-
 
 :::
 :::
