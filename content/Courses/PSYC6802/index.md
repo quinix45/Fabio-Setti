@@ -303,7 +303,7 @@ This Lab introduces logistic regression. Interpretation of logistic regression c
 
 <h3> 12. Third Variables </h3> 
 
-This lab briefly introduces moderation and mediation. In the case of moderation, the idea of simple slopes is introduced. In the case of mediation, an example of a simple mediation model in `lavaan` is shown. A more detailed treatment of both topics can be found in [PSYC 7804: Regression With Lab]https://fabio-setti.netlify.app/courses/psyc7804/). 
+This lab briefly introduces moderation and mediation. In the case of moderation, the idea of simple slopes is introduced. In the case of mediation, an example of a simple mediation model in `lavaan` is shown. A more detailed treatment of both topics can be found in [PSYC 7804: Regression With Lab](https://fabio-setti.netlify.app/courses/psyc7804/). 
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_12.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
