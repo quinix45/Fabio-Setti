@@ -81,7 +81,7 @@ The interactions package [@Long_2024] provides helpful functions to explore inte
 
 <center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
 
-Today we will use the `attend` dataset from the `wooldrige` package [@Shea_Brown_2024]. See [here](https://rdrr.io/cran/wooldridge/man/attend.html){target='_blank'} for more information about the data. 
+Today we will use the `attend` dataset from the `wooldridge` package [@Shea_Brown_2024]. See [here](https://rdrr.io/cran/wooldridge/man/attend.html){target='_blank'} for more information about the data. 
  
 ```{r}
 #| eval: true

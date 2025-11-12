@@ -1,0 +1,209 @@
+---
+title: 'Lab 12 Activity'
+format:
+ pdf:
+  mainfont: Times New Roman
+  sansfont: Times New Roman
+  monofont: Courier New
+  mathfont: Times New Roman
+header-includes:
+  - \usepackage{setspace, tikz}
+  - \onehalfspacing
+editor: source
+---
+
+
+
+For this lab activity, you will be using the `affairs` data from the `wooldridge` package. Run the following code to install the package and load the data as `dat`.
+
+```{r}
+#| warning: false
+#| eval: false
+
+install.packages("wooldridge")
+dat <- wooldridge::affairs[1:10]
+```
+
+The data contains the results of a survey given to 601 married individuals in 1978. Here is a description of the variables in the data:
+
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+
+library(tidyverse)
+dat <- wooldridge::affairs[1:10]
+
+info <- tibble(Variable = names(dat),
+               Description = c("Identifier", 
+                               "1 if male", 
+                               "Age in years",
+                               "years married",
+                               "1 if have kids",
+                               "5 = very relig., 4 = somewhat, 3 = slightly, 2 = not at all, 1 = anti", 
+                               "years schooling",
+                               "occupation, reverse Hollingshead scale. See https://fcon_1000.projects.nitrc.org/indi/enhanced/assessments/ses-child.html", 
+                               "5 = very hap marr, 4 = happier than avg, 3 = avg, 2 = smewht unhap, 1 = vry unhap",
+                               "number of affairs"))
+library(kableExtra)
+
+kable(info) %>% 
+  column_spec(column = 2, width = "5in") %>% 
+  column_spec(column = 1, bold = T) %>% 
+  row_spec(0, bold = T)
+```
+
+\newpage
+
+**1.** Run a moderation analysis where the dependent variable is `naffairs`, the number of affairs someone has, the focal predictor is `yrsmarr`, numbers of years of marriage, and the moderator is `ratemarr`, individual self report or marriage quality. 
+
+```{r}
+#| echo: false
+#| eval: false
+
+reg_int <- lm(naffairs ~ yrsmarr*ratemarr, dat)
+summary(reg_int)
+```
+
+- Is the interaction effect significantly different from 0? What is the interpretation of regression coefficient associated with the interaction effect given that `yrsmarr` is the focal predictor and `ratemarr` is the moderator?
+
+```{r}
+#| echo: false
+#| eval: false
+
+# Yes, it is significanct. The slope associated with the interaction effect -.04 is the expected change in the slope of yrsmarr per unit change in ratemarr
+```
+
+
+**2.** Wtire out the full regression equation and calculate some simple slopes. 
+
+
+```{r}
+#| echo: false
+#| eval: false
+
+# Y = 2.10588 + 0.25029*yrsmarr -0.34164*ratemarr -0.04414*yrsmarr*ratemarr
+```
+
+- What is the expected slope of `yrsmarr` when `ratemarr` equals 3?
+
+```{r}
+#| echo: false
+#| eval: false
+
+coef(reg_int)[2] + coef(reg_int)[4]*3
+```
+
+- What is the expected slope of `yrsmarr` when `ratemarr` equals 1?
+
+```{r}
+#| echo: false
+#| eval: false
+
+coef(reg_int)[2] + coef(reg_int)[4]*1
+```
+
+
+- What is the expected slope of `yrsmarr` when `ratemarr` is at its mean?
+
+```{r}
+#| echo: false
+#| eval: false
+
+coef(reg_int)[2] + coef(reg_int)[4]*mean(dat$yrsmarr)
+```
+
+
+**3.** Plot the simple slopes of `yrsmarr` at the mean and 1 SD above/below the mean of `ratemarr`. What happens to the relation between `yrsmarr` and `naffairs` as `ratemarr` changes?
+
+```{r}
+#| echo: false
+#| eval: false
+
+interactions::interact_plot(reg_int, pred = "yrsmarr", modx = "ratemarr")
+
+# as ratemarr decreases the predicted number of affairs per yrsmarr increases
+```
+
+
+**4.** Use `lavaan` to estimate the following mediation model. Make sure to calculate the indirect and total effect.
+
+\begin{tikzpicture}[scale=2.5]
+    \node (X) at (0,0) [draw, rectangle] {relig};
+    \node (M) at (2,.8) [draw, rectangle] {yrsmarr};
+    \node (Y) at (4,0) [draw, rectangle] {ratemarr};
+    
+    % Arrows
+    \draw[-stealth] (X) -- (M) node[midway, above] {a};
+    \draw[-stealth] (M) -- (Y) node[midway, above] {b};
+    \draw[-stealth] (X) -- (Y) node[midway, above] {c'};
+  
+\end{tikzpicture}
+
+
+
+```{r}
+#| echo: false
+#| eval: false
+
+lv_med <-"yrsmarr ~ a*relig
+           ratemarr ~ c_p*relig + b*yrsmarr
+           indirect := a*b
+           total := c_p + a*b"
+
+lav_mod_res <- lavaan::sem(lv_med, dat)
+```
+
+- Does `yrsmarr` mediate the relation between `relig` and `ratemarr`? Make sure to calculate the appropriate confidence interval
+
+
+```{r}
+#| echo: false
+#| eval: false
+
+FabioFun::lavaan_summary(lav_mod_res)
+
+semTools::monteCarloCI(lav_mod_res)
+
+# yes, it does because the confidence intervale of the indirect effect does not include 0.
+```
+
+**5.** Let's say that one of your colleagues is not happy with the previous model and says that you should *control* for education, `educ`. To do so, they tell you to run the following model:
+
+
+
+\begin{tikzpicture}[scale=2.5]
+    % Nodes
+    \node (X) at (0,0) [draw, rectangle] {relig};
+    \node (M) at (2,.8) [draw, rectangle] {yrsmarr};
+    \node (Y) at (4,0) [draw, rectangle] {ratemarr};
+    \node (C) at (2,-0.8) [draw, rectangle] {educ};
+
+    % Arrows
+    \draw[-stealth] (X) -- (M) node[midway, above] {a};
+    \draw[-stealth] (M) -- (Y) node[midway, above] {b};
+    \draw[-stealth] (X) -- (Y) node[midway, above] {c'};
+    
+    % Control variable paths
+    \draw[-stealth] (C) -- (M);
+    \draw[-stealth] (C) -- (Y);
+\end{tikzpicture}
+
+
+
+Estimate this model in `lavaan`. Is the indirect effect still significant after controlling for education?
+
+```{r}
+#| echo: false
+#| eval: false
+
+lv_med <-"yrsmarr ~ a*relig + educ
+           ratemarr ~ c_p*relig + b*yrsmarr + educ
+           indirect := a*b
+           total := c_p + a*b"
+
+# yes         
+lav_mod_res <- lavaan::sem(lv_med, dat)
+FabioFun::lavaan_summary(lav_mod_res)
+```
