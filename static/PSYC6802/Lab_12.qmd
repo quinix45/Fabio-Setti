@@ -146,7 +146,7 @@ $$
 
 ::: {.fragment fragment-index=2}
 
-For example, if we look at individuals how have $X_2 = 1$, we get the equation on the right. 
+For example, if we look at individuals who have $X_2 = 1$, we get the equation on the right. 
 
 Note that we get a unique regression equation for individuals who have $X_2 = 1$, where $(\beta_0 + \beta_2)$ is the intercept and $(\beta_1 + \beta_3)$ the slope.
 
@@ -393,7 +393,7 @@ $$
 Y = 30. 14 - 0.48X_1 - 2.21X_2 + 0.20 X_1 X_2
 $$
 
-Where $Y =$ `final`, $X_1 =$ `attend` and $X_2 =$ `priGPA` Currently, the interpretation of the slopes of $X_1$ and $X_2$ is not very useful because:
+Where $Y =$ `final`, $X_1 =$ `attend` and $X_2 =$ `priGPA`. Currently, the interpretation of the slopes of $X_1$ and $X_2$ is not very useful because:
 
 :::: {.columns}
 ::: {.column width = '50%'}
@@ -556,6 +556,7 @@ If we further hypothesize that an intermediate variable, $M$, exists such that $
 
 
 :::{.fragment fragment-index=2}
+
 ```{tikz}
 #| fig-ext: svg
 #| fig-width: 5
@@ -575,6 +576,7 @@ If we further hypothesize that an intermediate variable, $M$, exists such that $
   
   \end{tikzpicture}
 ```
+
 :::
 
 :::
@@ -674,7 +676,7 @@ FabioFun::lavaan_summary(reg_lv)
 
 ## A Mediation Model
 
-Let's say we believe that student `ACT` ($X$) score predicts grade on the `final` ($Y$). HOwever, we think that the relation between `ACT` and `final` is mediated by the GPA for that specific term, `termgpa` ($M$).
+Let's say we believe that student `ACT` ($X$) score predicts grade on the `final` ($Y$). However, we think that the relation between `ACT` and `final` is mediated by the GPA for that specific term, `termgpa` ($M$).
 
 
 
