@@ -709,7 +709,15 @@ car::avPlots(reg_full)
 :::
 ::::
 
-What proportion of observations in the training data are correctly classified by the modelthat includes both predictors? What about for the test data? Use a .5 probability cutofffor classification.
+## Leverage: Hat Values
+
+**Hat values** measure how unusual an observation is compared to the average observation. They are a measure of *leverage*, and the higher the values, the more unusual the observation given the set of predictors (the lowest possible value is $0$).
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+To compute hat values for all your observations we use the `hatvalues()` function. Here I only print the 5 largest values:
+
 ```{r}
 #| eval: true
 #| echo: true 
@@ -722,12 +730,10 @@ sort(hatvals, decreasing = TRUE)[1:5]
 
 :::
 
-:::
-
-::: {.column width="50%"}
-
+::: {.column width = '50%'}
 
 ::: {.fragment fragment-index=1}
+
 <center>
 
 Here are all the hat values:
@@ -740,10 +746,12 @@ reactable::reactable(data.frame("State" = names(hatvalues(reg_full)),
 ```
 
 </center>
+
 :::
 
 :::
 ::::
+
 
 ::: {.fragment fragment-index=2}
 
