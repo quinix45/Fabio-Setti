@@ -25,7 +25,477 @@ editor: source
 build: local
 ---
 
+## Today's Packages and Data 🤗 
 
+:::: {.columns}
+::: {.column width = '30%'}
+
+
+No new packages today!
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(psych)
+library(lavaan)
+library(tidyverse)
+```
+
+- We will be using the `pysch` package for **exploratory factor analysis (EFA)**.
+
+- We will be using the `lavaan` package for **confirmatory factor analysis (CFA)**.
+
+:::
+
+::: {.column width = '70%'}
+
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+Today we will be looking at some data from @Cox_etal_2008. As part of this study, the 200 participants completed the [Positive and Negative Affect Schedule scale (PANAS)](https://ogg.osu.edu/media/documents/MB%20Stream/PANAS.pdf){target='_blank'} which is what we will focus on. 
+
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/Lab_13_Cox.sav")
+```
+
+```{r}
+
+library(reactable)
+
+reactable::reactable(round(dat, 2),
+                     defaultColDef = colDef(minWidth = 100),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300)
+```
+
+:::
+::::
+
+
+
+## Some Preliminary Steps
+
+Because the PANAS has already been analyzed, there is no need to run EFA. Here, we are running this example assuming that we just came up with the items and want to know how many latent factors the items may tap into. 
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+We are only interested in the PANAS items, let's subset the data so that it only includes those items. The `paste0()` function is epecially useful in this case; for example:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+paste0("Panas", 1:3)
+```
+
+So if we want to select the columns named `Panas1` to `Panas20`, we simply run:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat_PANAS <- dat %>% 
+              dplyr::select(paste0("Panas", 1:20))
+```
+
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=2}
+
+If we plan on running both EFA and CFA, we should split our data randomly. The idea is that EFA serves as an exploratory analysis, while CFA serves to *confirm* your EFA findings on a a new dataset.
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+set.seed(878673)
+
+folds <- caret::createFolds(1:nrow(dat), k = 2)
+dat_EFA <- dat_PANAS[folds$Fold1, ]
+dat_CFA <- dat_PANAS[folds$Fold2, ]
+```
+
+Now we have two datasets, with 100 observations each. We will run EFA first and CFA later. The CFA will be informed by what we find in the EFA.
+
+:::
+
+:::
+::::
+
+
+
+## Determining Number of Factors
+
+Let's assume that we came up with some items, gave them to some people, and then want to know how many latent factors may be involved with those items. One way to determine the number of latent factors is using an *elbow plot*.
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width = '33%'}
+
+The `scree()` function from the `psych` package will create the elbow plot, also known as *scree plot*, for us.  
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# NOTE: you need to provide the function with the item responses only (no other variables)
+psych::scree(dat_EFA, pc = FALSE)
+```
+
+
+The general wisdom is that there are as many meaningful latent factors as dots before the "elbow". Here, I would say we definitely have 2 factors and *maybe* a third one (although unlikely).
+
+:::
+::: {.column width = '67%'}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+psych::scree(dat_EFA, pc = FALSE)
+```
+
+:::
+::::
+
+:::
+
+## Parallel Analysis
+
+Probably the most popular method for determining the number of meaningful latent factors is **parallel analysis**. 
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+we can use the `fa.parallel()` function from the `psych` package to conduct a parallel analysis.  If you are planmning on doing EFA, you need to specify `fa = "fa"` in the function.
+
+The function will print the parallel analysis scree plot, which you should notice is different from the previous one. 
+
+
+
+
+We "retain" as many factors as triangles above the red line, so <u>2 factors</u>. In general, this should be trusted more than the simple scree plot.
+
+:::
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+psych::fa.parallel(dat_EFA, fa = "fa")
+```
+
+:::
+::::
+
+:::
+
+## Exploratory Factor Analysis in `R`
+
+we use the `fa()` function form the `psych` package to run an EFA in `R`.
+
+:::: {.columns}
+::: {.column width = '45%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+efa_res <- fa(dat_EFA, nfactors = 2,
+              rotate = "oblimin", fm = "pa")
+print(efa_res$loadings, cutoff = .3)
+```
+
+
+:::
+::: {.column width = '55%'}
+
+
+::: {.fragment fragment-index=1}
+
+- `nfactors =`: here we specify the number of factors to extract. This number will depend on the results of the parallel analysis (or your theoretical knowledge).
+
+- `rotate =`: here you specify the type of rotation. `"oblimin"` is generally the suggested one.
+
+- `fm =`: here you specify the factor extraction method. `"pa"` stands for *parallel analysis*.
+
+:::
+
+::: {.fragment fragment-index=2}
+
+The `cutoff =` can be used inside the `print()` function the print the factor loadings but suppress the ones below a certain value. You can think of factor loadings as correlations between the item and the latent factor!
+
+:::
+
+
+:::
+::::
+
+## Do Our Results Align with theory?
+
+We can find the PANAS [here](https://ogg.osu.edu/media/documents/MB%20Stream/PANAS.pdf){target='_blank'}. On Page 2, some guidelines for scoring are given; do our EFA result align with the scoring guidelines?
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+<center> **Our EFA Results** </center>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| 
+print(efa_res$loadings, cutoff = .3)
+```
+
+
+:::
+::: {.column width = '60%'}
+
+<center> **Scoring Guidelines** </center>
+
+The guidelines tell us that:
+
+- **Positive affect (PA):** items 1, 3, 5, 9, 10, 12, 14, 16, 17, and 19. 
+
+- **Negative affect (NA):** items 2, 4, 6, 7, 8, 11, 13, 15, 18, and 20.
+
+::: {.fragment fragment-index=1}
+
+In our sample, PA1 has strong loadings for almost all the **negative affect** items, while PA2 has strong loadings for almost all the **positive affect** items. Thus, we can deduce that:
+
+:::
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+<center> PA1 = negative affect </center>
+
+:::
+::: {.column width = '40%'}
+
+<center> PA2 = positive affect </center>
+
+:::
+::::
+
+:::
+
+::: {.fragment fragment-index=1}
+
+Notably, item 3 does not seem to work super well *in our sample*.
+
+:::
+
+:::
+::::
+
+
+## Defining the CFA Model
+
+Once again, I am assuming that we are are working with a completely new scale and that we just run EFA on a part of the data. Now we need to *confirm* our findings on the rest of the data with CFA. 
+
+::: {.fragment fragment-index=1}
+
+We use `lavaan` to run the CFA. When with latent factors, we use the `=~` operator to define them:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+CFA_mod <- "
+Positive_aff =~ Panas1 + Panas3 + Panas5 + Panas9 + Panas10 + Panas12 + Panas14 + Panas16 + Panas17 + Panas19
+Negative_aff =~ Panas2 + Panas4 + Panas6 + Panas7 + Panas8 + Panas11 + Panas13 + Panas15 + Panas18 + Panas20
+" 
+```
+
+
+This is the CFA model that we will run in `lavaan`. Notice that, for each item, we specify a loading *only* for the factor that had the highest loadings in the EFA table (although I am oversimplifying the process).
+
+:::
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=2}
+
+With the model above we are making a clear theoretical statement: 
+
+*"items 1, 3, 5, 9, 10, 12, 14, 16, 17, and 19 *only measure* positive affect, while the other items *only measure* negative affect"*
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=3}
+
+CFA allows us to test how well the data conforms to our theoretical statement. If the data conforms to our theory, then we likely have a good theory. If the data does not support our theory, then we are likely missing something. 
+
+:::
+
+:::
+::::
+
+
+## Confirmatory Factor Analysis in `R`
+
+We can use the `sem()` function to run the CFA and `standardizedSolution()` to get some summaries:
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+CFA_res <- sem(model = CFA_mod, data = dat_CFA)
+standardizedSolution(CFA_res)
+```
+
+:::
+::: {.column width = '30%'}
+
+::: {.fragment fragment-index=1}
+
+- The rows with `=~ ` are the factor loadings and their value is under `est.std`. 
+
+:::
+
+
+::: {.fragment fragment-index=2}
+
+- The rows with `~~` are variances and covariances (explaining this requires a whole lecture in of itself, so can't provide much more context). The only thing that I will note is that the last row `Positive_aff ~~ Negative_aff` is the correlation between the two latent factors.
+
+:::
+
+:::
+::::
+
+## Assessing Model Fit
+
+As previously mentioned that big advantage of CFA is that it allows to test our model by allowing us to assess how well the model *fits* the data. There are MANY measures *model fit indices*, but we will limit ourselves to the most popular ones:
+
+:::: {.columns}
+::: {.column width = '45%'}
+
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+fitMeasures(CFA_res,
+fit.measures = c("chisq", "df", "pvalue", 
+                 "rmsea",
+                 "srmr", 
+                 "cfi"))
+```
+
+
+:::
+::: {.column width = '55%'}
+
+
+::: {.fragment fragment-index=1}
+
+- the $\chi^2$ is generally the harshest fit measure. In theory, if it is significant, it indicates the model does not fit the data well. In practice it is almost always significant, so RMSEA, SRMR and CFI are generally more popular.
+
+:::
+
+:::
+::::
+
+
+:::: {.columns}
+::: {.column width = '33%'}
+
+::: {.fragment fragment-index=2}
+
+- $RMSEA \leq .05$ is considered good. Here we have $RMSEA = .12$, not good ❌
+
+:::
+
+:::
+::: {.column width = '33%'}
+
+::: {.fragment fragment-index=3}
+
+- $SRMR \leq .08$ is considered good. Here we have $SRMR = .11$, not good ❌
+
+:::
+
+:::
+::: {.column width = '33%'}
+
+::: {.fragment fragment-index=4}
+
+- $CFI \geq .95$ is considered good. Here we have $CFI = .76$, really not good ❌
+
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=5}
+
+So, our data does not support this structure of the PANAS. Is the PANAS bad? It's more likely that our CFA sample size ($N = 100$) is a bit too small to make any real conclusions.
+
+:::
 
 ## References 
 

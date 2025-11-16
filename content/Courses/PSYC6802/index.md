@@ -322,7 +322,7 @@ This lab briefly introduces moderation and mediation. In the case of moderation,
 
 <h3> 13. Latent Variables </h3> 
 
-Coming soon!
+This lab briefly introduces exploratory factor analysis (EFA) and confirmatory factor analysis (CFA). Given the breadth of the topic, only a really small subset of the methods and practices related to EFA and CFA are discussed.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_13.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
