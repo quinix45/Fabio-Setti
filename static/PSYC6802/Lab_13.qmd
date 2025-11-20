@@ -126,7 +126,7 @@ dat_PANAS <- dat %>%
 
 ::: {.fragment fragment-index=2}
 
-If we plan on running both EFA and CFA, we should split our data randomly. The idea is that EFA serves as an exploratory analysis, while CFA serves to *confirm* your EFA findings on a a new dataset.
+If we plan on running both EFA and CFA, we should split our data randomly. The idea is that EFA serves as an exploratory analysis, while CFA serves to *confirm* your EFA findings on a new dataset.
 
 
 ```{r}
@@ -337,7 +337,7 @@ Notably, item 3 does not seem to work super well *in our sample*.
 
 ## Defining the CFA Model
 
-Once again, I am assuming that we are are working with a completely new scale and that we just run EFA on a part of the data. Now we need to *confirm* our findings on the rest of the data with CFA. 
+Once again, I am assuming that we are working with a completely new scale and that we just run EFA on a part of the data. Now we need to *confirm* our findings on the rest of the data with CFA. 
 
 ::: {.fragment fragment-index=1}
 

@@ -66,23 +66,23 @@ library(e1071)
 ::: {.panel-tabset}
 ### `tidyverse`
 
-The `tidyverse` package [@wickham_rstudio_2023] loads a suite of packages that help with data manipulation and visualization. You can find the full package list [here](https://www.tidyverse.org/packages){target="_blank"}. Among others, `tidyverse` loads both  `dplyr` and `ggplot2`. 
+The `tidyverse` package [@Wickham_RStudio_2023] loads a suite of packages that help with data manipulation and visualization. You can find the full package list [here](https://www.tidyverse.org/packages){target="_blank"}. Among others, `tidyverse` loads both  `dplyr` and `ggplot2`. 
 
 ### `dplyr`
 
-The `dplyr` package [@wickham_etal_2023] offers a set of intuitive functions to work with data. The `dplyr` functions are great for data manipulation and data cleaning.
+The `dplyr` package [@Wickham_etal_2023] of·fers a set of intuitive functions to work with data. The `dplyr` functions are great for data manipulation and data cleaning.
 
 ### `ggplot2`
 
-The `ggplot2` package [@wickham_etal_2024] is the most popular R package for data visualization. There exist other ways to create data visualizations in R, but `ggplot2` is usually my choice.
+The `ggplot2` package [@Wickham_etal_2024] is the most popular R package for data visualization. There exist other ways to create data visualizations in R, but `ggplot2` is usually my choice.
 
 ### `rio`
 
-The `rio` package [@becker_etal_2024] developers describe this package as the *Swiss-Army Knife for Data I/O*. The `import()` and `export()` functions can import/export just about any data type.
+The `rio` package [@Becker_etal_2024] developers describe this package as the *Swiss-Army Knife for Data I/O*. The `import()` and `export()` functions can import/export just about any data type.
 
 ### `e1071`
 
-The `e1071` [@meyer_etal_2024] package contains a bunch of machine learning functions. We will only use it to calculate skewness and kurtosis. 
+The `e1071` [@Meyer_etal_2024] package contains a bunch of machine learning functions. We will only use it to calculate skewness and kurtosis. 
 
 
 :::
