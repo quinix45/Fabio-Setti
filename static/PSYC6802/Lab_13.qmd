@@ -258,7 +258,7 @@ print(efa_res$loadings, cutoff = .3)
 
 - `rotate =`: here you specify the type of rotation. `"oblimin"` is generally the suggested one.
 
-- `fm =`: here you specify the factor extraction method. `"pa"` stands for *parallel analysis*.
+- `fm =`: here you specify the factor extraction method. `"pa"` stands for *principal axis*.
 
 :::
 
