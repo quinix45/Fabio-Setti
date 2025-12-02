@@ -342,7 +342,7 @@ This lab briefly introduces exploratory factor analysis (EFA) and confirmatory f
 
 <h3> 14. Repeated Measures </h3> 
 
-This lab introduces some analysis techniques used to deal with repeated measures. The introduces both repeated measures ANOVA and hierarchical linear modeling (HLM). 
+This lab introduces some analysis techniques used to deal with repeated measures. The lab introduces both repeated measures ANOVA and hierarchical linear modeling (HLM). 
 
 
 <span class=" post-header">
