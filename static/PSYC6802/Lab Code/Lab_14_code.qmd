@@ -1,0 +1,131 @@
+
+## Today's Packages and Data 🤗 
+
+
+```{r}
+install.packages("ez")
+install.packages("lme4")
+install.packages("lmerTest")
+install.packages("performance")
+```
+
+
+```{r}
+library(tidyverse)
+library(ez)
+library(lme4)
+library(lmerTest)
+library(performance)
+```
+
+
+## From Wide data to long Data
+
+
+```{r}
+dat_long <- dat %>% 
+  pivot_longer(cols = c("High", "Medium", "Low"),
+               names_to = "Contingency",
+               values_to = "PropError")
+```
+
+## Repeated-Measures ANOVA with `ez`
+
+
+```{r}
+dat_long$Subject <- factor(dat_long$Subject)
+dat_long$Contingency <- factor(dat_long$Contingency)
+```
+
+
+```{r}
+Rep_AOV <- ezANOVA(data = dat_long, 
+                   dv = PropError, 
+                   wid = Subject, 
+                   within = Contingency)
+```
+
+
+
+## Repeated-Measures ANOVA Results
+
+
+```{r}
+Rep_AOV$ANOVA
+```
+
+
+```{r}
+Rep_AOV$`Mauchly's Test for Sphericity`
+```
+
+
+```{r}
+Rep_AOV$`Sphericity Corrections`
+```
+
+
+## Pairwise Comparisons
+
+
+```{r}
+t.test(dat$High - dat$Low)
+```
+
+
+```{r}
+t.test(dat$Medium - dat$Low)
+```
+
+
+## Another Dataset
+
+```{r}
+data(sleepstudy, package = "lme4")
+
+# number of subjects
+length(unique(sleepstudy$Subject))  
+```
+
+## Visualizing Trends
+
+
+```{r}
+ggplot(sleepstudy, aes(Days, Reaction, group = Subject)) +
+geom_path() + theme_classic()
+```
+
+
+## Fitting HLM with the `lmerTest` package
+
+
+```{r}
+HLM_mod <- lmerTest::lmer(Reaction ~ (1 | Subject), sleepstudy)
+summary(HLM_mod)
+```
+
+## Intraclass Correlation Coefficient
+
+```{r}
+performance::icc(HLM_mod)
+```
+
+
+## Adding a Predictor
+
+```{r}
+HLM_mod2 <- lmerTest::lmer(Reaction ~ (1 | Subject) + Days , sleepstudy)
+summary(HLM_mod2)
+
+performance::icc(HLM_mod2)
+```
+
+
+## Likelihood Ratio Test to Compare Models
+
+```{r}
+anova(HLM_mod, HLM_mod2)
+```install.packages("ez")
+# install.packages("lme4")
+# install.packages("lmerTest")
+# install.packages("performance")

@@ -6,8 +6,8 @@
 <script src="Lab_14_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Lab_14_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Lab_14_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Lab_14_files/libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.24">
+<link href="Lab_14_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Fabio Setti">
   <title>Lab 14: Repeated Measures</title>
@@ -28,10 +28,77 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     /* CSS for citations */
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
+      margin-bottom: 0em;
     }
     .hanging-indent div.csl-entry {
       margin-left:2em;
@@ -48,7 +115,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="Lab_14_files/libs/revealjs/dist/theme/quarto-c71bddcdc0f876fc515a112d049ed6b8.css">
+  <link rel="stylesheet" href="Lab_14_files/libs/revealjs/dist/theme/quarto-7e52bc6a12b56df135c318256aa0cdfb.css">
   <link href="Lab_14_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Lab_14_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Lab_14_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -142,6 +209,13 @@
       margin-right: 0; 
     }
   </style>
+  <script src="Lab_14_files/libs/core-js-2.5.3/shim.min.js"></script>
+  <script src="Lab_14_files/libs/react-18.2.0/react.min.js"></script>
+  <script src="Lab_14_files/libs/react-18.2.0/react-dom.min.js"></script>
+  <script src="Lab_14_files/libs/reactwidget-2.0.0/react-tools.js"></script>
+  <script src="Lab_14_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+  <link href="Lab_14_files/libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+  <script src="Lab_14_files/libs/reactable-binding-0.4.4/reactable.js"></script>
   <script src="Fabio_theme/Fabio_theme.js"></script>
 </head>
 <body class="quarto-light">
@@ -163,10 +237,441 @@ Fabio Setti
 </div>
 
 </section>
+<section id="todays-packages-and-data" class="slide level2">
+<h2>Today’s Packages and Data 🤗</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Install Packages Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"ez"</span>)</span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"lme4"</span>)</span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"lmerTest"</span>)</span>
+<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"performance"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell code-150">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ez)</span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lme4)</span>
+<span id="cb2-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lmerTest)</span>
+<span id="cb2-5"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1"><code>ez</code></a></li><li><a href="#tabset-1-2"><code>lme4</code></a></li><li><a href="#tabset-1-3"><code>lmerTest</code></a></li><li><a href="#tabset-1-4"><code>performance</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<p>The <code>ez</code> package <span class="citation" data-cites="Lawrence_2016">(<a href="#/references" role="doc-biblioref" onclick="">Lawrence, 2016</a>)</span> is a package designed to make ANOVAs analysis in <code>R</code> easier and more intuitive. It has some nice features, but does some things that I don’t personally love.</p>
+</div>
+<div id="tabset-1-2">
+<p>The <code>lme4</code> package <span class="citation" data-cites="Bates_etal_2025">(<a href="#/references" role="doc-biblioref" onclick="">Bates et al., 2025</a>)</span> is a popular package for running hierarchical linear modeling (HLM) in <code>R</code>.</p>
+</div>
+<div id="tabset-1-3">
+<p>The <code>lmerTest</code> package <span class="citation" data-cites="Kuznetsova_etal_2020">(<a href="#/references" role="doc-biblioref" onclick="">Kuznetsova et al., 2020</a>)</span> builds upno <code>lme4</code> and provides addition summary information.</p>
+</div>
+<div id="tabset-1-4">
+<p>The <code>performance</code> package <span class="citation" data-cites="Ludecke_etal_2025">(<a href="#/references" role="doc-biblioref" onclick="">Lüdecke et al., 2025</a>)</span> provides a host of function to evaluate the performance and quality of HLM models.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<center style="padding-bottom: 21px;">
+<span class="data-title">Data</span>
+</center>
+<p>Today we will look at data from <span class="citation" data-cites="Schmidt_Besner_2008">(<a href="#/references" role="doc-biblioref" onclick="">Schmidt &amp; Besner, 2008</a>)</span>, where the authors investigate how levels of rewards impacted performance on the <a href="https://www.psytoolkit.org/experiment-library/stroop.html" target="_blank">Stroop task</a>:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"https://fabio-setti.netlify.app/data/Lab_14_Schmidt%20data.xlsx"</span>,</span>
+<span id="cb3-2"><a href="" aria-hidden="true" tabindex="-1"></a>                    <span class="at">sheet =</span> <span class="dv">2</span>, <span class="at">range =</span> <span class="st">"B20:E257"</span>,</span>
+<span id="cb3-3"><a href="" aria-hidden="true" tabindex="-1"></a>                    <span class="at">col_names =</span> <span class="fu">c</span>(<span class="st">"Subject"</span>, <span class="st">"High"</span>, <span class="st">"Medium"</span>, <span class="st">"Low"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-a7f76187f00e2605baeb" class="reactable html-widget" style="width:auto;height:250px;"></div>
+<script type="application/json" data-for="htmlwidget-a7f76187f00e2605baeb">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Subject":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,89,90,92,93,94,95,96,97,98,99,100,101,102,103,104,105,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242],"High":[0.08,0.21,0.2,0.27,0.42,0.31,0.34,0.62,0.26,0.27,0.35,0.31,0.42,0.24,0.2,0.29,0.14,0.25,0.17,0.3,0.54,0.29,0.34,0.19,0.49,0.46,0.26,0.28,0.32,0.42,0.29,0.16,0.35,0.66,0.18,0.52,0.45,0.29,0.17,0.35,0.4,0.34,0.64,0.3,0.45,0.3,0.16,0.58,0.15,0.26,0.15,0.54,0.67,0.15,0.34,0.66,0.33,0.31,0.28,0.26,0.15,0.31,0.15,0.29,0.39,0.29,0.18,0.25,0.24,0.49,0.19,0.57,0.13,0.33,0.15,0.38,0.67,0.44,0.21,0.25,0.45,0.3,0.27,0.16,0.18,0.43,0.36,0.33,0.52,0.34,0.3,0.46,0.45,0.46,0.32,0.29,0.24,0.36,0.35,0.28,0.19,0.19,0.23,0.41,0.26,0.21,0.31,0.36,0.21,0.28,0.63,0.35,0.4,0.21,0.63,0.4,0.56,0.22,0.28,0.14,0.19,0.47,0.35,0.31,0.34,0.29,0.23,0.32,0.48,0.66,0.12,0.25,0.42,0.18,0.26,0.26,0.45,0.31,0.11,0.33,0.33,0.31,0.55,0.27,0.34,0.3,0.33,0.3,0.44,0.42,0.23,0.3,0.35,0.12,0.6,0.43,0.22,0.36,0.6,0.31,0.13,0.2,0.47,0.18,0.63,0.47,0.42,0.4,0.49,0.48,0.41,0.34,0.6,0.25,0.28,0.19,0.5,0.2,0.25,0.18,0.25,0.19,0.37,0.4,0.33,0.33,0.42,0.5,0.23,0.13,0.48,0.37,0.38,0.19,0.19,0.14,0.45,0.25,0.21,0.46,0.33,0.25,0.33,0.21,0.39,0.52,0.39,0.34,0.22,0.21,0.3,0.35,0.43,0.19,0.39,0.38,0.39,0.4,0.57,0.29,0.38,0.23,0.16,0.35,0.48,0.47,0.36,0.28,0.33,0.27,0.17,0.2,0.22,0.34,0.48,0.29,0.28,0.57],"Medium":[0.12,0.3,0.29,0.31,0.43,0.39,0.38,0.64,0.28,0.33,0.25,0.3,0.53,0.32,0.21,0.3,0.19,0.26,0.31,0.32,0.58,0.3,0.41,0.22,0.54,0.46,0.27,0.33,0.31,0.27,0.36,0.24,0.39,0.7,0.21,0.5,0.41,0.36,0.24,0.3,0.29,0.38,0.69,0.22,0.52,0.35,0.27,0.49,0.14,0.15,0.17,0.51,0.65,0.2,0.38,0.61,0.31,0.31,0.38,0.2,0.31,0.37,0.18,0.37,0.41,0.31,0.22,0.19,0.21,0.46,0.28,0.63,0.19,0.25,0.2,0.53,0.7,0.51,0.28,0.36,0.48,0.35,0.4,0.16,0.33,0.4,0.3,0.47,0.57,0.48,0.29,0.43,0.47,0.33,0.3,0.31,0.28,0.31,0.35,0.19,0.21,0.23,0.25,0.43,0.31,0.27,0.4,0.29,0.21,0.31,0.61,0.31,0.37,0.23,0.56,0.42,0.52,0.26,0.36,0.16,0.23,0.45,0.27,0.21,0.19,0.33,0.28,0.28,0.48,0.57,0.14,0.26,0.42,0.17,0.26,0.29,0.41,0.31,0.17,0.27,0.37,0.25,0.42,0.33,0.3,0.22,0.28,0.26,0.37,0.39,0.27,0.27,0.42,0.12,0.63,0.52,0.28,0.31,0.5,0.19,0.23,0.25,0.38,0.27,0.64,0.4,0.44,0.54,0.45,0.41,0.43,0.29,0.66,0.24,0.28,0.23,0.4,0.29,0.34,0.22,0.28,0.19,0.39,0.38,0.39,0.4,0.47,0.46,0.23,0.14,0.4,0.39,0.38,0.28,0.24,0.21,0.52,0.35,0.18,0.41,0.39,0.25,0.4,0.23,0.36,0.51,0.45,0.3,0.29,0.28,0.28,0.38,0.4,0.34,0.19,0.41,0.45,0.36,0.59,0.34,0.29,0.26,0.18,0.33,0.48,0.42,0.36,0.33,0.39,0.26,0.19,0.31,0.28,0.34,0.42,0.36,0.3,0.62],"Low":[0.17,0.3,0.24,0.36,0.46,0.36,0.43,0.65,0.22,0.27,0.33,0.38,0.5,0.3,0.2,0.36,0.2,0.3,0.31,0.31,0.64,0.31,0.33,0.29,0.55,0.54,0.35,0.33,0.36,0.29,0.27,0.25,0.41,0.72,0.21,0.44,0.45,0.3,0.25,0.38,0.39,0.26,0.69,0.32,0.51,0.33,0.2,0.55,0.17,0.2,0.35,0.53,0.66,0.2,0.39,0.55,0.38,0.33,0.31,0.23,0.34,0.36,0.28,0.4,0.45,0.33,0.27,0.24,0.18,0.57,0.3,0.53,0.15,0.32,0.2,0.52,0.73,0.49,0.23,0.37,0.45,0.32,0.35,0.22,0.3,0.46,0.36,0.39,0.55,0.3,0.36,0.39,0.45,0.37,0.32,0.33,0.33,0.3,0.31,0.29,0.26,0.27,0.27,0.35,0.35,0.21,0.25,0.37,0.4,0.35,0.54,0.34,0.4,0.2,0.55,0.53,0.5,0.26,0.35,0.24,0.24,0.49,0.37,0.28,0.23,0.32,0.18,0.28,0.47,0.56,0.17,0.19,0.46,0.2,0.32,0.3,0.42,0.3,0.17,0.35,0.34,0.3,0.44,0.34,0.32,0.24,0.31,0.22,0.48,0.45,0.24,0.24,0.41,0.16,0.65,0.55,0.33,0.39,0.62,0.26,0.21,0.23,0.58,0.28,0.61,0.44,0.42,0.49,0.46,0.51,0.44,0.29,0.65,0.26,0.33,0.23,0.44,0.28,0.3,0.21,0.36,0.28,0.41,0.45,0.34,0.38,0.52,0.53,0.35,0.17,0.41,0.33,0.43,0.29,0.22,0.29,0.55,0.27,0.21,0.49,0.41,0.26,0.41,0.23,0.34,0.43,0.41,0.37,0.31,0.22,0.33,0.3,0.34,0.27,0.33,0.36,0.53,0.4,0.57,0.37,0.36,0.28,0.19,0.36,0.45,0.41,0.32,0.29,0.27,0.21,0.19,0.18,0.29,0.42,0.58,0.39,0.31,0.55]},"columns":[{"id":"Subject","name":"Subject","type":"numeric","minWidth":100,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Participant ID"},"children":["Subject",{"name":"span","attribs":{"title":"Participant ID","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"High","name":"High","type":"numeric","minWidth":100,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"High Reward"},"children":["High",{"name":"span","attribs":{"title":"High Reward","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Medium","name":"Medium","type":"numeric","minWidth":100,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Medium Reward"},"children":["Medium",{"name":"span","attribs":{"title":"Medium Reward","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Low","name":"Low","type":"numeric","minWidth":100,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Low Reward"},"children":["Low",{"name":"span","attribs":{"title":"Low Reward","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"1rem"},"height":"250px","dataKey":"0979a8b28d02c2993ea475b820fa0c40"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div></div>
+</section>
+<section id="from-wide-data-to-long-data" class="slide level2">
+<h2>From Wide data to long Data</h2>
+<p>The data that we have on the previous slide is <em>wide data</em>. Most repeated measures packages prefer by far <em>long data</em>. We can use the <code>pivot_longer()</code> function from the <code>dplyr</code> package to turn wide data into long data:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat_long <span class="ot">&lt;-</span> dat <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">c</span>(<span class="st">"High"</span>, <span class="st">"Medium"</span>, <span class="st">"Low"</span>),</span>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"Contingency"</span>,</span>
+<span id="cb4-4"><a href="" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"PropError"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>And now <code>dat_long</code> looks like this:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-35ef02494b65f31e4769" class="reactable html-widget" style="width:auto;height:250px;"></div>
+<script type="application/json" data-for="htmlwidget-35ef02494b65f31e4769">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Subject":[1,1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,10,10,10,11,11,11,12,12,12,13,13,13,14,14,14,15,15,15,16,16,16,17,17,17,18,18,18,19,19,19,20,20,20,21,21,21,22,22,22,23,23,23,24,24,24,25,25,25,26,26,26,27,27,27,28,28,28,29,29,29,31,31,31,32,32,32,33,33,33,34,34,34,35,35,35,36,36,36,37,37,37,38,38,38,39,39,39,40,40,40,41,41,41,42,42,42,43,43,43,44,44,44,45,45,45,46,46,46,47,47,47,48,48,48,49,49,49,50,50,50,51,51,51,52,52,52,53,53,53,54,54,54,55,55,55,56,56,56,57,57,57,58,58,58,59,59,59,60,60,60,61,61,61,62,62,62,63,63,63,64,64,64,65,65,65,66,66,66,67,67,67,68,68,68,69,69,69,70,70,70,71,71,71,72,72,72,73,73,73,74,74,74,75,75,75,76,76,76,77,77,77,78,78,78,79,79,79,80,80,80,81,81,81,82,82,82,83,83,83,84,84,84,85,85,85,86,86,86,87,87,87,89,89,89,90,90,90,92,92,92,93,93,93,94,94,94,95,95,95,96,96,96,97,97,97,98,98,98,99,99,99,100,100,100,101,101,101,102,102,102,103,103,103,104,104,104,105,105,105,107,107,107,108,108,108,109,109,109,110,110,110,111,111,111,112,112,112,113,113,113,114,114,114,115,115,115,116,116,116,117,117,117,118,118,118,119,119,119,120,120,120,121,121,121,122,122,122,123,123,123,124,124,124,125,125,125,126,126,126,127,127,127,128,128,128,129,129,129,130,130,130,131,131,131,132,132,132,133,133,133,134,134,134,135,135,135,136,136,136,137,137,137,138,138,138,139,139,139,140,140,140,141,141,141,142,142,142,143,143,143,144,144,144,145,145,145,146,146,146,147,147,147,148,148,148,149,149,149,150,150,150,151,151,151,152,152,152,153,153,153,154,154,154,155,155,155,156,156,156,157,157,157,158,158,158,159,159,159,160,160,160,161,161,161,162,162,162,163,163,163,164,164,164,165,165,165,166,166,166,167,167,167,168,168,168,169,169,169,170,170,170,171,171,171,172,172,172,173,173,173,174,174,174,175,175,175,176,176,176,177,177,177,178,178,178,179,179,179,180,180,180,181,181,181,182,182,182,183,183,183,184,184,184,185,185,185,186,186,186,187,187,187,188,188,188,189,189,189,190,190,190,191,191,191,192,192,192,193,193,193,194,194,194,195,195,195,196,196,196,197,197,197,198,198,198,199,199,199,200,200,200,201,201,201,202,202,202,203,203,203,204,204,204,205,205,205,206,206,206,207,207,207,208,208,208,209,209,209,210,210,210,211,211,211,212,212,212,213,213,213,214,214,214,215,215,215,216,216,216,217,217,217,218,218,218,219,219,219,220,220,220,221,221,221,222,222,222,223,223,223,224,224,224,225,225,225,226,226,226,227,227,227,228,228,228,229,229,229,230,230,230,231,231,231,232,232,232,233,233,233,234,234,234,235,235,235,236,236,236,237,237,237,238,238,238,239,239,239,240,240,240,241,241,241,242,242,242],"Contingency":["High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low","High","Medium","Low"],"PropError":[0.08,0.12,0.17,0.21,0.3,0.3,0.2,0.29,0.24,0.27,0.31,0.36,0.42,0.43,0.46,0.31,0.39,0.36,0.34,0.38,0.43,0.62,0.64,0.65,0.26,0.28,0.22,0.27,0.33,0.27,0.35,0.25,0.33,0.31,0.3,0.38,0.42,0.53,0.5,0.24,0.32,0.3,0.2,0.21,0.2,0.29,0.3,0.36,0.14,0.19,0.2,0.25,0.26,0.3,0.17,0.31,0.31,0.3,0.32,0.31,0.54,0.58,0.64,0.29,0.3,0.31,0.34,0.41,0.33,0.19,0.22,0.29,0.49,0.54,0.55,0.46,0.46,0.54,0.26,0.27,0.35,0.28,0.33,0.33,0.32,0.31,0.36,0.42,0.27,0.29,0.29,0.36,0.27,0.16,0.24,0.25,0.35,0.39,0.41,0.66,0.7,0.72,0.18,0.21,0.21,0.52,0.5,0.44,0.45,0.41,0.45,0.29,0.36,0.3,0.17,0.24,0.25,0.35,0.3,0.38,0.4,0.29,0.39,0.34,0.38,0.26,0.64,0.69,0.69,0.3,0.22,0.32,0.45,0.52,0.51,0.3,0.35,0.33,0.16,0.27,0.2,0.58,0.49,0.55,0.15,0.14,0.17,0.26,0.15,0.2,0.15,0.17,0.35,0.54,0.51,0.53,0.67,0.65,0.66,0.15,0.2,0.2,0.34,0.38,0.39,0.66,0.61,0.55,0.33,0.31,0.38,0.31,0.31,0.33,0.28,0.38,0.31,0.26,0.2,0.23,0.15,0.31,0.34,0.31,0.37,0.36,0.15,0.18,0.28,0.29,0.37,0.4,0.39,0.41,0.45,0.29,0.31,0.33,0.18,0.22,0.27,0.25,0.19,0.24,0.24,0.21,0.18,0.49,0.46,0.57,0.19,0.28,0.3,0.57,0.63,0.53,0.13,0.19,0.15,0.33,0.25,0.32,0.15,0.2,0.2,0.38,0.53,0.52,0.67,0.7,0.73,0.44,0.51,0.49,0.21,0.28,0.23,0.25,0.36,0.37,0.45,0.48,0.45,0.3,0.35,0.32,0.27,0.4,0.35,0.16,0.16,0.22,0.18,0.33,0.3,0.43,0.4,0.46,0.36,0.3,0.36,0.33,0.47,0.39,0.52,0.57,0.55,0.34,0.48,0.3,0.3,0.29,0.36,0.46,0.43,0.39,0.45,0.47,0.45,0.46,0.33,0.37,0.32,0.3,0.32,0.29,0.31,0.33,0.24,0.28,0.33,0.36,0.31,0.3,0.35,0.35,0.31,0.28,0.19,0.29,0.19,0.21,0.26,0.19,0.23,0.27,0.23,0.25,0.27,0.41,0.43,0.35,0.26,0.31,0.35,0.21,0.27,0.21,0.31,0.4,0.25,0.36,0.29,0.37,0.21,0.21,0.4,0.28,0.31,0.35,0.63,0.61,0.54,0.35,0.31,0.34,0.4,0.37,0.4,0.21,0.23,0.2,0.63,0.56,0.55,0.4,0.42,0.53,0.56,0.52,0.5,0.22,0.26,0.26,0.28,0.36,0.35,0.14,0.16,0.24,0.19,0.23,0.24,0.47,0.45,0.49,0.35,0.27,0.37,0.31,0.21,0.28,0.34,0.19,0.23,0.29,0.33,0.32,0.23,0.28,0.18,0.32,0.28,0.28,0.48,0.48,0.47,0.66,0.57,0.56,0.12,0.14,0.17,0.25,0.26,0.19,0.42,0.42,0.46,0.18,0.17,0.2,0.26,0.26,0.32,0.26,0.29,0.3,0.45,0.41,0.42,0.31,0.31,0.3,0.11,0.17,0.17,0.33,0.27,0.35,0.33,0.37,0.34,0.31,0.25,0.3,0.55,0.42,0.44,0.27,0.33,0.34,0.34,0.3,0.32,0.3,0.22,0.24,0.33,0.28,0.31,0.3,0.26,0.22,0.44,0.37,0.48,0.42,0.39,0.45,0.23,0.27,0.24,0.3,0.27,0.24,0.35,0.42,0.41,0.12,0.12,0.16,0.6,0.63,0.65,0.43,0.52,0.55,0.22,0.28,0.33,0.36,0.31,0.39,0.6,0.5,0.62,0.31,0.19,0.26,0.13,0.23,0.21,0.2,0.25,0.23,0.47,0.38,0.58,0.18,0.27,0.28,0.63,0.64,0.61,0.47,0.4,0.44,0.42,0.44,0.42,0.4,0.54,0.49,0.49,0.45,0.46,0.48,0.41,0.51,0.41,0.43,0.44,0.34,0.29,0.29,0.6,0.66,0.65,0.25,0.24,0.26,0.28,0.28,0.33,0.19,0.23,0.23,0.5,0.4,0.44,0.2,0.29,0.28,0.25,0.34,0.3,0.18,0.22,0.21,0.25,0.28,0.36,0.19,0.19,0.28,0.37,0.39,0.41,0.4,0.38,0.45,0.33,0.39,0.34,0.33,0.4,0.38,0.42,0.47,0.52,0.5,0.46,0.53,0.23,0.23,0.35,0.13,0.14,0.17,0.48,0.4,0.41,0.37,0.39,0.33,0.38,0.38,0.43,0.19,0.28,0.29,0.19,0.24,0.22,0.14,0.21,0.29,0.45,0.52,0.55,0.25,0.35,0.27,0.21,0.18,0.21,0.46,0.41,0.49,0.33,0.39,0.41,0.25,0.25,0.26,0.33,0.4,0.41,0.21,0.23,0.23,0.39,0.36,0.34,0.52,0.51,0.43,0.39,0.45,0.41,0.34,0.3,0.37,0.22,0.29,0.31,0.21,0.28,0.22,0.3,0.28,0.33,0.35,0.38,0.3,0.43,0.4,0.34,0.19,0.34,0.27,0.39,0.19,0.33,0.38,0.41,0.36,0.39,0.45,0.53,0.4,0.36,0.4,0.57,0.59,0.57,0.29,0.34,0.37,0.38,0.29,0.36,0.23,0.26,0.28,0.16,0.18,0.19,0.35,0.33,0.36,0.48,0.48,0.45,0.47,0.42,0.41,0.36,0.36,0.32,0.28,0.33,0.29,0.33,0.39,0.27,0.27,0.26,0.21,0.17,0.19,0.19,0.2,0.31,0.18,0.22,0.28,0.29,0.34,0.34,0.42,0.48,0.42,0.58,0.29,0.36,0.39,0.28,0.3,0.31,0.57,0.62,0.55]},"columns":[{"id":"Subject","name":"Subject","type":"numeric","minWidth":100,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Participant ID"},"children":["Subject",{"name":"span","attribs":{"title":"Participant ID","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Contingency","name":"Contingency","type":"character","minWidth":100,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Reward level"},"children":["Contingency",{"name":"span","attribs":{"title":"Reward level","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"PropError","name":"PropError","type":"numeric","minWidth":100,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Proportion of errors"},"children":["PropError",{"name":"span","attribs":{"title":"Proportion of errors","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"1rem"},"height":"250px","dataKey":"5de6ebc158da68038826d137c3fa436c"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<ul>
+<li><p><code>cols =</code>: here you select the column of the data that you want to “stack”. Note that other columns in the data will automatically be sorted approprtiately as happened with the <code>Subject</code> column.</p></li>
+<li><p><code>names_to =</code>: here you define a new column where the labels for each value will end up.</p></li>
+<li><p><code>values_to =</code>: here you define a new column where your numerical values will end up.</p></li>
+</ul>
+<p>There is also a function called <code>pivot_wider()</code> that can turn the data from long into wide.</p>
+</div></div>
+</section>
+<section id="repeated-measures-anova-with-ez" class="slide level2">
+<h2>Repeated-Measures ANOVA with <code>ez</code></h2>
+<p>The <code>ezANOVA()</code> function from the <code>ez</code> package is convenient for running repeated measure ANOVA.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>As always, it is good practice to turn categorical variables into <code>factor</code> variables:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat_long<span class="sc">$</span>Subject <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat_long<span class="sc">$</span>Subject)</span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat_long<span class="sc">$</span>Contingency <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat_long<span class="sc">$</span>Contingency)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Then, we can use the <code>ezANOVA()</code> function to run a repeated measures ANOVA:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a>Rep_AOV <span class="ot">&lt;-</span> <span class="fu">ezANOVA</span>(<span class="at">data =</span> dat_long, </span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a>                   <span class="at">dv =</span> PropError, </span>
+<span id="cb6-3"><a href="" aria-hidden="true" tabindex="-1"></a>                   <span class="at">wid =</span> Subject, </span>
+<span id="cb6-4"><a href="" aria-hidden="true" tabindex="-1"></a>                   <span class="at">within =</span> Contingency)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>The <code>ezANOVA()</code> function works slightly differently compared to what we have seen before:</p>
+<ul>
+<li><code>data =</code> the name of your dataset.</li>
+<li><code>dv =</code> this is the name of your dependent variable (DV).</li>
+<li><code>wid =</code> this is the column that indicates the ID of each participant.</li>
+<li><code>within =</code> this is you independent variable (IV). The “within” means that every individual experiences multiple levels of the IV (i.e., the repeated measures part).</li>
+</ul>
+</div></div>
+<p>A <code>between =</code> argument is also available for running “normal” (between-subject) ANOVAs.</p>
+</section>
+<section id="repeated-measures-anova-results" class="slide level2">
+<h2>Repeated-Measures ANOVA Results</h2>
+<p>The results are store in the <code>ANOVA</code> element. We can just print it to look at the results:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="" aria-hidden="true" tabindex="-1"></a>Rep_AOV<span class="sc">$</span>ANOVA</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Effect DFn DFd        F            p p&lt;.05         ges
+2 Contingency   2 474 22.59048 4.255234e-10     * 0.007233318</code></pre>
+</div>
+</div>
+<p>The Effect of <code>Contingency</code> is significant, emaning that there are error rates differences in the stroop task depending on the type of reward. <code>ges</code> stands for <em>generalized eta squared</em> and is a measure of effect size; here, it is very small at roughly <span class="math inline">\(\eta = .01\)</span>.</p>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a>Rep_AOV<span class="sc">$</span><span class="st">`</span><span class="at">Mauchly's Test for Sphericity</span><span class="st">`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Effect         W         p p&lt;.05
+2 Contingency 0.9913123 0.3571406      </code></pre>
+</div>
+</div>
+</div><div class="column" style="width:55%;">
+<p>We can also test whether the <a href="https://en.wikipedia.org/wiki/Mauchly%27s_sphericity_test" target="_blank">sphericity assumption has been violated</a> has been violated. If so, we should look at the results below. Here the assumption holds.</p>
+</div></div>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a>Rep_AOV<span class="sc">$</span><span class="st">`</span><span class="at">Sphericity Corrections</span><span class="st">`</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       Effect       GGe        p[GG] p[GG]&lt;.05       HFe        p[HF] p[HF]&lt;.05
+2 Contingency 0.9913871 4.965852e-10         * 0.9997145 4.277068e-10         *</code></pre>
+</div>
+</div>
+</section>
+<section id="pairwise-comparisons" class="slide level2">
+<h2>Pairwise Comparisons</h2>
+<p>We would like to know which contingencies are significantly different in error rates on the stroop task. Because <code>ezANOVA</code> results do not play super well with the <code>emmeans</code> package, we can just run multiple paired samples <em>t</em>-tests:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<strong>High VS Low</strong>
+</center>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(dat<span class="sc">$</span>High <span class="sc">-</span> dat<span class="sc">$</span>Low)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  dat$High - dat$Low
+t = -6.8163, df = 237, p-value = 7.675e-11
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ -0.03427236 -0.01890359
+sample estimates:
+  mean of x 
+-0.02658798 </code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<center>
+<strong>Medium VS Low</strong>
+</center>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(dat<span class="sc">$</span>Medium <span class="sc">-</span> dat<span class="sc">$</span>Low)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  dat$Medium - dat$Low
+t = -3.5264, df = 237, p-value = 0.0005056
+alternative hypothesis: true mean is not equal to 0
+95 percent confidence interval:
+ -0.020473622 -0.005797378
+sample estimates:
+ mean of x 
+-0.0131355 </code></pre>
+</div>
+</div>
+</div></div>
+<p>Both mean difference are significant and you can find the difference in percentage of errors under the <code>mean of x</code> line.</p>
+</section>
+<section id="another-dataset" class="slide level2">
+<h2>Another Dataset</h2>
+<p>Now we are going to introduce hierarchial linear modeling (HLM), also referred to as multi-level modeling (MLM). HLM usually provides more interesting information compared to repeated measures ANOVA and allows for continuous IVs.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>We will use the <code>sleepstudy</code> data from the <code>lme4</code> package.</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(sleepstudy, <span class="at">package =</span> <span class="st">"lme4"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-cee489a4d7a795cc942a" class="reactable html-widget" style="width:auto;height:250px;"></div>
+<script type="application/json" data-for="htmlwidget-cee489a4d7a795cc942a">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Reaction":[249.56,258.7047,250.8006,321.4398,356.8519,414.6901,382.2038,290.1486,430.5853,466.3535,222.7339,205.2658,202.9778,204.707,207.7161,215.9618,213.6303,217.7272,224.2957,237.3142,199.0539,194.3322,234.32,232.8416,229.3074,220.4579,235.4208,255.7511,261.0125,247.5153,321.5426,300.4002,283.8565,285.133,285.7973,297.5855,280.2396,318.2613,305.3495,354.0487,287.6079,285,301.8206,320.1153,316.2773,293.3187,290.075,334.8177,293.7469,371.5811,234.8606,242.8118,272.9613,309.7688,317.4629,309.9976,454.1619,346.8311,330.3003,253.8644,283.8424,289.555,276.7693,299.8097,297.171,338.1665,332.0265,348.8399,333.36,362.0428,265.4731,276.2012,243.3647,254.6723,279.0244,284.1912,305.5248,331.5229,335.7469,377.299,241.6083,273.9472,254.4907,270.8021,251.4519,254.6362,245.4523,235.311,235.7541,237.2466,312.3666,313.8058,291.6112,346.1222,365.7324,391.8385,404.2601,416.6923,455.8643,458.9167,236.1032,230.3167,238.9256,254.922,250.7103,269.7744,281.5648,308.102,336.2806,351.6451,256.2968,243.4543,256.2046,255.5271,268.9165,329.7247,379.4445,362.9184,394.4872,389.0527,250.5265,300.0576,269.8939,280.5891,271.8274,304.6336,287.7466,266.5955,321.5418,347.5655,221.6771,298.1939,326.8785,346.8555,348.7402,352.8287,354.4266,360.4326,375.6406,388.5417,271.9235,268.4369,257.2424,277.6566,314.8222,317.2135,298.1353,348.1229,340.28,366.5131,225.264,234.5235,238.9008,240.473,267.5373,344.1937,281.1481,347.5855,365.163,372.2288,269.8804,272.4428,277.8989,281.7895,279.1705,284.512,259.2658,304.6306,350.7807,369.4692,269.4117,273.474,297.5968,310.6316,287.1726,329.6076,334.4818,343.2199,369.1417,364.1236],"Days":[0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9,0,1,2,3,4,5,6,7,8,9],"Subject":["308","308","308","308","308","308","308","308","308","308","309","309","309","309","309","309","309","309","309","309","310","310","310","310","310","310","310","310","310","310","330","330","330","330","330","330","330","330","330","330","331","331","331","331","331","331","331","331","331","331","332","332","332","332","332","332","332","332","332","332","333","333","333","333","333","333","333","333","333","333","334","334","334","334","334","334","334","334","334","334","335","335","335","335","335","335","335","335","335","335","337","337","337","337","337","337","337","337","337","337","349","349","349","349","349","349","349","349","349","349","350","350","350","350","350","350","350","350","350","350","351","351","351","351","351","351","351","351","351","351","352","352","352","352","352","352","352","352","352","352","369","369","369","369","369","369","369","369","369","369","370","370","370","370","370","370","370","370","370","370","371","371","371","371","371","371","371","371","371","371","372","372","372","372","372","372","372","372","372","372"]},"columns":[{"id":"Reaction","name":"Reaction","type":"numeric","minWidth":100,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Average reaction time (ms)"},"children":["Reaction",{"name":"span","attribs":{"title":"Average reaction time (ms)","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Days","name":"Days","type":"numeric","minWidth":100,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Number of days of sleep deprivation"},"children":["Days",{"name":"span","attribs":{"title":"Number of days of sleep deprivation","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Subject","name":"Subject","type":"factor","minWidth":100,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Subject number"},"children":["Subject",{"name":"span","attribs":{"title":"Subject number","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"1rem"},"height":"250px","dataKey":"8e32239fc964737a285dc1c58c634299"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>The data comes from <span class="citation" data-cites="Belenky_etal_2003">Belenky et al. (<a href="#/references" role="doc-biblioref" onclick="">2003</a>)</span>, where the authors looked at the effects of sleep deprivation on reaction times.</p>
+<ul>
+<li><p><code>Reaction</code>: Reaction time in ms.</p></li>
+<li><p><code>Days</code>: Days of sleep deprivation. Ranges from 0 to 9.</p></li>
+<li><p><code>Subject</code>: the subject ID.</p></li>
+</ul>
+<p>There are 18 participants in these data:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(sleepstudy<span class="sc">$</span>Subject))  </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 18</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="visualizing-trends" class="slide level2">
+<h2>Visualizing Trends</h2>
+<p>HLM is often employed in longitudinal designs, which is the case of these data. As such, we are often interested in the trend as time passes.</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p>We can plot the trend of <code>Reaction</code> for each participant to get a sense of the general trend:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(sleepstudy, <span class="fu">aes</span>(Days, Reaction, <span class="at">group =</span> Subject)) <span class="sc">+</span></span>
+<span id="cb20-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_path</span>() <span class="sc">+</span> <span class="fu">theme_classic</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Although reaction times increase with higher sleep deprivation, we can see that the increase is not the same for all participants.</p>
+</div><div class="column" style="width:70%;">
+<div class="cell code-125">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_14_files/figure-revealjs/unnamed-chunk-18-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="fitting-hlm-with-the-lmertest-package" class="slide level2">
+<h2>Fitting HLM with the <code>lmerTest</code> package</h2>
+<p>There are a couple of similarly name package to fit HLM models. I’ll just use <code>lmerTest</code> because it automatically includes significance tests for some of the results.</p>
+<div class="columns">
+<div class="column" style="width:65%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="" aria-hidden="true" tabindex="-1"></a>HLM_mod <span class="ot">&lt;-</span> lmerTest<span class="sc">::</span><span class="fu">lmer</span>(Reaction <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> Subject), sleepstudy)</span>
+<span id="cb21-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(HLM_mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: Reaction ~ (1 | Subject)
+   Data: sleepstudy
+
+REML criterion at convergence: 1904.3
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.4983 -0.5501 -0.1476  0.5123  3.3446 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ Subject  (Intercept) 1278     35.75   
+ Residual             1959     44.26   
+Number of obs: 180, groups:  Subject, 18
+
+Fixed effects:
+            Estimate Std. Error     df t value Pr(&gt;|t|)    
+(Intercept)   298.51       9.05  17.00   32.98   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:35%;">
+<p>We use the <code>lmer()</code> function from the <code>lmerTest</code> package. notice the formula:</p>
+<center>
+<code>Reaction ~ (1 | Subject)</code>
+</center>
+<p><code>Reaction</code> is the DV, while the <code>(1 | Subject)</code> part tells <code>R</code> that we think that the participants start with different reaction times.</p>
+<p>The <code>(1 | Subject)</code> part is also known as a <em>random intercept</em>. You can think of <code>Subject</code> as an IV.</p>
+</div></div>
+</section>
+<section id="hlm-results" class="slide level2">
+<h2>HLM Results</h2>
+<p>You will notice that the summary has two sections</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(HLM_mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: Reaction ~ (1 | Subject)
+   Data: sleepstudy
+
+REML criterion at convergence: 1904.3
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.4983 -0.5501 -0.1476  0.5123  3.3446 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ Subject  (Intercept) 1278     35.75   
+ Residual             1959     44.26   
+Number of obs: 180, groups:  Subject, 18
+
+Fixed effects:
+            Estimate Std. Error     df t value Pr(&gt;|t|)    
+(Intercept)   298.51       9.05  17.00   32.98   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<p><code>Random Effects:</code></p>
+<p><span class="math inline">\(\hat{\psi} = 1278\)</span>: this is the variance of the mean reaction time across participants (<em>between subject</em> variance).</p>
+<p><span class="math inline">\(\hat{\theta} = 1959\)</span>: this is the variance of the residuals. Here it represents the <em>within subject residuals</em> and it is the variance that <em>cannot be explained</em> differences across people.</p>
+<p><code>Fixed Effects:</code></p>
+<p><span class="math inline">\(\beta_0 = 298.51\)</span>: this is the same as the intercept in linear regression. Here it represents the average reaction time. The <span class="math inline">\(\hat{\psi}\)</span> represents how much that varies <em>between subjects</em>.</p>
+</div></div>
+</section>
+<section id="intraclass-correlation-coefficient" class="slide level2">
+<h2>Intraclass Correlation Coefficient</h2>
+<p>Because we are measuring the same individuals, we can expect measurement from the same individuals to be similar to each other. We can actually calculate how similar measurements from the same individuals are, and it’s done with the <em>intraclass Correlation Coefficient</em> (ICC).</p>
+<p>The ICC is the amount of total variance in the outcome that is due to <em>within</em> group variation:</p>
+<p><span class="math display">\[
+ICC = \frac{\hat{\psi}}{\hat{\theta} + \hat{\psi}} = \frac{1278}{ 1959 + 1278} = .395
+\]</span></p>
+<p>This tells us the percentage of the variance in <code>Reaction</code> that is due to between subject difference (i.e., how much do differences between people affect reaction times). We can also use the <code>icc()</code> function from the <code>performance</code> to get the ICC:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">icc</span>(HLM_mod)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Intraclass Correlation Coefficient
+
+    Adjusted ICC: 0.395
+  Unadjusted ICC: 0.395</code></pre>
+</div>
+</div>
+</section>
+<section id="adding-a-predictor" class="slide level2">
+<h2>Adding a Predictor</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="" aria-hidden="true" tabindex="-1"></a>HLM_mod2 <span class="ot">&lt;-</span> lmerTest<span class="sc">::</span><span class="fu">lmer</span>(Reaction <span class="sc">~</span> (<span class="dv">1</span> <span class="sc">|</span> Subject) <span class="sc">+</span> Days , sleepstudy)</span>
+<span id="cb27-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(HLM_mod2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: Reaction ~ (1 | Subject) + Days
+   Data: sleepstudy
+
+REML criterion at convergence: 1786.5
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.2257 -0.5529  0.0109  0.5188  4.2506 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ Subject  (Intercept) 1378.2   37.12   
+ Residual              960.5   30.99   
+Number of obs: 180, groups:  Subject, 18
+
+Fixed effects:
+            Estimate Std. Error       df t value Pr(&gt;|t|)    
+(Intercept) 251.4051     9.7467  22.8102   25.79   &lt;2e-16 ***
+Days         10.4673     0.8042 161.0000   13.02   &lt;2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+     (Intr)
+Days -0.371</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:40%;">
+<p>We can add predictors as we would with the <code>lm()</code> function by using the <code>+</code> symbol. If we scroll down to <code>Fixed effects</code> we see that now we have an additional parameter:</p>
+<p><span class="math inline">\(\beta_1 =  10.47\)</span>: This is the average increase in reaction time for each additional day of sleep deprivation.</p>
+<p>We can also see that by adding a predictor, both <span class="math inline">\(\hat{\psi}\)</span> and <span class="math inline">\(\hat{\theta}\)</span> have changed. We look at the <em>adjusted</em> ICC:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">icc</span>(HLM_mod2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Intraclass Correlation Coefficient
+
+    Adjusted ICC: 0.589
+  Unadjusted ICC: 0.424</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="likelihood-ratio-test-to-compare-models" class="slide level2">
+<h2>Likelihood Ratio Test to Compare Models</h2>
+<p>We can also check whether adding <code>Days</code> as a predictors provides a significant improvement in predictions. Just as we have done previously, we use the <code>anova()</code> function:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(HLM_mod, HLM_mod2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Data: sleepstudy
+Models:
+HLM_mod: Reaction ~ (1 | Subject)
+HLM_mod2: Reaction ~ (1 | Subject) + Days
+         npar    AIC    BIC  logLik -2*log(L)  Chisq Df Pr(&gt;Chisq)    
+HLM_mod     3 1916.5 1926.1 -955.27    1910.5                         
+HLM_mod2    4 1802.1 1814.8 -897.04    1794.1 116.46  1  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>On top of the likelihood ratio test (LRT), we also get the AIC and BIC, which are additional fit statistics. Lower AIC and BIC mean better fit. Similarly, a significant <em>p</em>-value indicates that the more complex model fits the data best.</p>
+<p>Unsurprisingly, in every case, the model with <code>Days</code> as predictor fits the data best. Higher sleep deprivation does indeed increase reaction times.</p>
+</section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
-<div id="refs" role="list">
-
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-Bates_etal_2025" class="csl-entry" role="listitem">
+Bates, D., Maechler, M., Bolker [aut, B., cre, Walker, S., Christensen, R. H. B., Singmann, H., Dai, B., Scheipl, F., Grothendieck, G., Green, P., Fox, J., Bauer, A., simulate.formula), P. N. K. (shared. copyright on, Tanaka, E., Jagan, M., &amp; Boylan, R. D. (2025). <em>Lme4: <span>Linear Mixed-Effects Models</span> using ’<span>Eigen</span>’ and <span>S4</span></em>.
+</div>
+<div id="ref-Belenky_etal_2003" class="csl-entry" role="listitem">
+Belenky, G., Wesensten, N. J., Thorne, D. R., Thomas, M. L., Sing, H. C., Redmond, D. P., Russo, M. B., &amp; Balkin, T. J. (2003). Patterns of performance degradation and restoration during sleep restriction and subsequent recovery: A sleep dose-response study. <em>Journal of Sleep Research</em>, <em>12</em>(1), 1–12. <a href="https://doi.org/10.1046/j.1365-2869.2003.00337.x">https://doi.org/10.1046/j.1365-2869.2003.00337.x</a>
+</div>
+<div id="ref-Kuznetsova_etal_2020" class="csl-entry" role="listitem">
+Kuznetsova, A., Brockhoff, P. B., Christensen, R. H. B., &amp; Jensen, S. P. (2020). <em><span class="nocase">lmerTest</span>: <span>Tests</span> in <span>Linear Mixed Effects Models</span></em>.
+</div>
+<div id="ref-Lawrence_2016" class="csl-entry" role="listitem">
+Lawrence, M. A. (2016). <em>Ez: <span>Easy Analysis</span> and <span>Visualization</span> of <span>Factorial Experiments</span></em>.
+</div>
+<div id="ref-Ludecke_etal_2025" class="csl-entry" role="listitem">
+Lüdecke, D., Aust, F., Crawley, S., Ben-Shachar, M. S., &amp; Anderson, S. C. (2025). <em>Ggeffects: <span>Create Tidy Data Frames</span> of <span>Marginal Effects</span> for ’ggplot’ from <span>Model Outputs</span></em>.
+</div>
+<div id="ref-Schmidt_Besner_2008" class="csl-entry" role="listitem">
+Schmidt, J. R., &amp; Besner, D. (2008). The <span>Stroop</span> effect: <span>Why</span> proportion congruent has nothing to do with congruency and everything to do with contingency. <em>Journal of Experimental Psychology: Learning, Memory, and Cognition</em>, <em>34</em>(3), 514–523. <a href="https://doi.org/10.1037/0278-7393.34.3.514">https://doi.org/10.1037/0278-7393.34.3.514</a>
+</div>
 </div>
 
 </section>
@@ -387,6 +892,44 @@ Fabio Setti
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")

@@ -26,6 +26,569 @@ build: local
 ---
 
 
+## Today's Packages and Data 🤗 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| code-fold: true
+#| eval: false 
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-125
+
+install.packages("ez")
+install.packages("lme4")
+install.packages("lmerTest")
+install.packages("performance")
+```
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(tidyverse)
+library(ez)
+library(lme4)
+library(lmerTest)
+library(performance)
+```
+
+
+::: {.panel-tabset}
+
+### `ez`
+
+The `ez` package [@Lawrence_2016] is a package designed to make ANOVAs analysis in `R` easier and more intuitive. It has some nice features, but does some things that I don't personally love.
+
+### `lme4`
+
+The `lme4` package [@Bates_etal_2025] is a popular package for running hierarchical linear modeling (HLM) in `R`. 
+
+
+### `lmerTest`
+
+The `lmerTest` package [@Kuznetsova_etal_2020] builds upno `lme4` and provides addition summary information.
+
+### `performance`
+
+The `performance` package [@Ludecke_etal_2025] provides a host of function to evaluate the performance and quality of HLM models.
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+Today we will look at data from [@Schmidt_Besner_2008], where the authors investigate how levels of rewards impacted performance on the        [Stroop task](https://www.psytoolkit.org/experiment-library/stroop.html){target='_blank'}:
+ 
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/Lab_14_Schmidt%20data.xlsx",
+                    sheet = 2, range = "B20:E257",
+                    col_names = c("Subject", "High", "Medium", "Low"))
+```
+
+```{r}
+library(FabioFun)
+
+labels <- c("Participant ID",
+            "High Reward",
+            "Medium Reward",
+            "Low Reward")
+
+labels_react <- FabioFun::reactbl_col.desc(names = colnames(dat),
+                                          desc =  labels,
+                                          style = "cursor: pointer; text-decoration: none;",
+                                          info_color = "#7a0b80")
+
+reactable::reactable(round(dat, 2),
+                     defaultColDef = colDef(minWidth = 100),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 250, columns = labels_react)
+```
+
+:::
+::::
+
+
+
+## From Wide data to long Data
+
+The data that we have on the previous slide is *wide data*. Most repeated measures packages prefer by far *long data*. We can use the `pivot_longer()` function from the `dplyr` package to turn wide data into long data:
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat_long <- dat %>% 
+  pivot_longer(cols = c("High", "Medium", "Low"),
+               names_to = "Contingency",
+               values_to = "PropError")
+```
+
+And now `dat_long` looks like this:
+
+```{r}
+labels <- c("Participant ID",
+            "Reward level",
+            "Proportion of errors")
+
+labels_react <- FabioFun::reactbl_col.desc(names = colnames(dat_long),
+                                          desc =  labels,
+                                          style = "cursor: pointer; text-decoration: none;",
+                                          info_color = "#7a0b80")
+dat_long$PropError <- round(dat_long$PropError, 2)
+
+reactable::reactable(dat_long,
+                     defaultColDef = colDef(minWidth = 100),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 250, columns = labels_react)
+```
+
+:::
+
+::: {.column width = '50%'}
+
+- `cols =`: here you select the column of the data that you want to "stack". Note that other columns in the data will automatically be sorted approprtiately as happened with the `Subject` column.
+
+- `names_to =`: here you define a new column where the labels for each value will end up.
+
+- `values_to =`: here you define a new column where your numerical values will end up.
+
+There is also a function called `pivot_wider()` that can turn the data from long into wide.
+
+:::
+::::
+
+
+## Repeated-Measures ANOVA with `ez`
+
+The `ezANOVA()` function from the `ez` package is convenient for running repeated measure ANOVA. 
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+As always, it is good practice to turn categorical variables into `factor` variables:
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat_long$Subject <- factor(dat_long$Subject)
+dat_long$Contingency <- factor(dat_long$Contingency)
+```
+
+Then, we can use the `ezANOVA()` function to run a repeated measures ANOVA:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+Rep_AOV <- ezANOVA(data = dat_long, 
+                   dv = PropError, 
+                   wid = Subject, 
+                   within = Contingency)
+```
+
+
+:::
+
+::: {.column width = '50%'}
+
+The `ezANOVA()` function works slightly differently compared to what we have seen before:
+
+- `data =` the name of your dataset.
+- `dv =` this is the name of your dependent variable (DV).
+- `wid =` this is the column that indicates the ID of each participant.
+- `within =` this is you independent variable (IV). The "within" means that every individual experiences multiple levels of the IV (i.e., the repeated measures part).
+
+
+:::
+::::
+
+A `between =` argument is also available for running "normal" (between-subject) ANOVAs.
+
+
+## Repeated-Measures ANOVA Results
+
+The results are store in the `ANOVA` element. We can just print it to look at the results:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+Rep_AOV$ANOVA
+```
+
+
+The Effect of `Contingency` is significant, emaning that there are error rates differences in the stroop task depending on the type of reward. `ges` stands for *generalized eta squared* and is a measure of effect size; here, it is very small at roughly $\eta = .01$. 
+
+:::: {.columns}
+::: {.column width = '45%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+Rep_AOV$`Mauchly's Test for Sphericity`
+
+```
+
+
+
+:::
+::: {.column width = '55%'}
+
+We can also test whether the [sphericity assumption has been violated](https://en.wikipedia.org/wiki/Mauchly%27s_sphericity_test){target='_blank'} has been violated. If so, we should look at the results below. Here the assumption holds.
+
+
+:::
+::::
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+Rep_AOV$`Sphericity Corrections`
+```
+
+
+
+## Pairwise Comparisons
+
+
+We would like to know which contingencies are significantly different in error rates on the stroop task. Because `ezANOVA` results do not play super well with the `emmeans` package, we can just run multiple paired samples *t*-tests:
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+<center> **High VS Low**  </center>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+t.test(dat$High - dat$Low)
+```
+
+
+:::
+::: {.column width = '50%'}
+
+<center> **Medium VS Low**  </center>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+t.test(dat$Medium - dat$Low)
+```
+
+:::
+::::
+
+Both mean difference are significant and you can find the difference in percentage of errors under the `mean of x` line. 
+
+
+## Another Dataset
+
+
+Now we are going to introduce hierarchial linear modeling (HLM), also referred to as multi-level modeling (MLM). HLM usually provides more interesting information compared to repeated measures ANOVA and allows for continuous IVs.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+We will use the `sleepstudy` data from the `lme4` package.  
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+data(sleepstudy, package = "lme4")
+
+```
+
+```{r}
+
+labels <- c("Average reaction time (ms)",
+            "Number of days of sleep deprivation",
+            "Subject number")
+
+labels_react <- FabioFun::reactbl_col.desc(names = colnames(sleepstudy),
+                                          desc =  labels,
+                                          style = "cursor: pointer; text-decoration: none;",
+                                          info_color = "#7a0b80")
+
+reactable::reactable(sleepstudy,
+                     defaultColDef = colDef(minWidth = 100),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 250, columns = labels_react)
+                   
+```
+
+:::
+
+
+::: {.column width = '50%'}
+
+The data comes from @Belenky_etal_2003, where the authors looked at the effects of sleep deprivation on reaction times.
+
+- `Reaction`: Reaction time in ms.
+
+- `Days`: Days of sleep deprivation. Ranges from 0 to 9.
+
+- `Subject`: the subject ID.
+
+
+There are 18 participants in these data:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+length(unique(sleepstudy$Subject))  
+```
+
+
+:::
+::::
+
+
+
+
+## Visualizing Trends
+
+
+HLM is often employed in longitudinal designs, which is the case of these data. As such, we are often interested in the trend as time passes.
+
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+
+We can plot the trend of `Reaction` for each participant to get a sense of the general trend:
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(sleepstudy, aes(Days, Reaction, group = Subject)) +
+geom_path() + theme_classic()
+```
+
+Although reaction times increase with higher sleep deprivation, we can see that the increase is not the same for all participants.
+
+:::
+
+
+::: {.column width = '70%'}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(sleepstudy, aes(Days, Reaction, group = Subject)) +
+geom_path() + theme_classic()
+```
+
+
+:::
+::::
+
+
+## Fitting HLM with the `lmerTest` package
+
+There are a couple of similarly name package to fit HLM models. I'll just use `lmerTest` because it automatically includes significance tests for some of the results.
+
+
+:::: {.columns}
+::: {.column width = '65%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+HLM_mod <- lmerTest::lmer(Reaction ~ (1 | Subject), sleepstudy)
+summary(HLM_mod)
+```
+
+
+:::
+::: {.column width = '35%'}
+
+We use the `lmer()` function from the `lmerTest` package. notice the formula:
+
+<center> `Reaction ~ (1 | Subject)` </center>
+
+
+`Reaction` is the DV, while the `(1 | Subject)` part tells `R` that we think that the participants start with different reaction times.
+
+The `(1 | Subject)` part is also known as a *random intercept*. You can think of `Subject` as an IV.
+
+:::
+::::
+
+## HLM Results
+
+
+You will notice that the summary has two sections
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(HLM_mod)
+```
+
+:::
+
+::: {.column width = '45%'}
+
+
+`Random Effects:`
+
+$\hat{\psi} = 1278$: this is the variance of the mean reaction time across participants (*between subject* variance).
+
+$\hat{\theta} = 1959$: this is the variance of the residuals. Here it represents the *within subject residuals* and it is the variance that *cannot be explained* differences across people.
+
+`Fixed Effects:` 
+
+$\beta_0 = 298.51$: this is the same as the intercept in linear regression. Here it represents the average reaction time. The $\hat{\psi}$ represents how much that varies *between subjects*.
+
+:::
+::::
+
+
+
+## Intraclass Correlation Coefficient
+
+Because we are measuring the same individuals, we can expect measurement from the same individuals to be similar to each other. We can actually calculate how similar measurements from the same individuals are, and it's done with the *intraclass Correlation Coefficient* (ICC).
+
+The ICC is the amount of total variance in the outcome that is due to *within* group variation:
+
+
+$$
+ICC = \frac{\hat{\psi}}{\hat{\theta} + \hat{\psi}} = \frac{1278}{ 1959 + 1278} = .395
+$$
+
+This tells us the percentage of the variance in `Reaction` that is due to between subject difference (i.e., how much do differences between people affect reaction times). We can also use the `icc()` function from the `performance` to get the ICC:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+performance::icc(HLM_mod)
+```
+
+
+## Adding a Predictor
+
+:::: {.columns}
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+HLM_mod2 <- lmerTest::lmer(Reaction ~ (1 | Subject) + Days , sleepstudy)
+summary(HLM_mod2)
+```
+
+
+
+:::
+::: {.column width = '40%'}
+
+We can add predictors as we would with the `lm()` function by using the `+` symbol. If we scroll down to `Fixed effects` we see that now we have an additional parameter:
+
+$\beta_1 =  10.47$: This is the average increase in reaction time for each additional day of sleep deprivation.
+
+We can also see that by adding a predictor, both $\hat{\psi}$ and $\hat{\theta}$ have changed. We look at the *adjusted* ICC:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+performance::icc(HLM_mod2)
+```
+
+
+:::
+::::
+
+
+## Likelihood Ratio Test to Compare Models
+
+We can also check whether adding `Days` as a predictors provides a significant improvement in predictions. Just as we have done previously, we use the `anova()` function:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+anova(HLM_mod, HLM_mod2)
+```
+
+On top of the likelihood ratio test (LRT), we also get the AIC and BIC, which are additional fit statistics. Lower AIC and BIC mean better fit. Similarly, a significant *p*-value indicates that the more complex model fits the data best.
+
+Unsurprisingly, in every case, the model with `Days` as predictor fits the data best. Higher sleep deprivation does indeed increase reaction times.
+
 
 ## References 
 
