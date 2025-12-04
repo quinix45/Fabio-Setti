@@ -19,6 +19,12 @@ library(performance)
 ```
 
 
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/Lab_14_Schmidt%20data.xlsx",
+                    sheet = 2, range = "B20:E257",
+                    col_names = c("Subject", "High", "Medium", "Low"))
+```
+
 ## From Wide data to long Data
 
 
