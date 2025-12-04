@@ -167,13 +167,30 @@ reactable::reactable(dat_long,
 
 ::: {.column width = '50%'}
 
+
+::: {.fragment fragment-index=1}
+
 - `cols =`: here you select the column of the data that you want to "stack". Note that other columns in the data will automatically be sorted approprtiately as happened with the `Subject` column.
+
+:::
+
+::: {.fragment fragment-index=2}
 
 - `names_to =`: here you define a new column where the labels for each value will end up.
 
+:::
+
+::: {.fragment fragment-index=3}
+
 - `values_to =`: here you define a new column where your numerical values will end up.
 
+:::
+
+::: {.fragment fragment-index=4}
+
 There is also a function called `pivot_wider()` that can turn the data from long into wide.
+
+:::
 
 :::
 ::::
@@ -200,6 +217,9 @@ dat_long$Subject <- factor(dat_long$Subject)
 dat_long$Contingency <- factor(dat_long$Contingency)
 ```
 
+
+::: {.fragment fragment-index=1}
+
 Then, we can use the `ezANOVA()` function to run a repeated measures ANOVA:
 
 ```{r}
@@ -214,10 +234,14 @@ Rep_AOV <- ezANOVA(data = dat_long,
                    within = Contingency)
 ```
 
+:::
+
 
 :::
 
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
 
 The `ezANOVA()` function works slightly differently compared to what we have seen before:
 
@@ -226,12 +250,17 @@ The `ezANOVA()` function works slightly differently compared to what we have see
 - `wid =` this is the column that indicates the ID of each participant.
 - `within =` this is you independent variable (IV). The "within" means that every individual experiences multiple levels of the IV (i.e., the repeated measures part).
 
+:::
 
 :::
 ::::
 
+
+::: {.fragment fragment-index=3}
+
 A `between =` argument is also available for running "normal" (between-subject) ANOVAs.
 
+:::
 
 ## Repeated-Measures ANOVA Results
 
@@ -247,7 +276,13 @@ Rep_AOV$ANOVA
 ```
 
 
+::: {.fragment fragment-index=1}
+
 The Effect of `Contingency` is significant, emaning that there are error rates differences in the stroop task depending on the type of reward. `ges` stands for *generalized eta squared* and is a measure of effect size; here, it is very small at roughly $\eta = .01$. 
+
+:::
+
+::: {.fragment fragment-index=2}
 
 :::: {.columns}
 ::: {.column width = '45%'}
@@ -273,6 +308,10 @@ We can also test whether the [sphericity assumption has been violated](https://e
 :::
 ::::
 
+:::
+
+::: {.fragment fragment-index=3}
+
 ```{r}
 #| eval: true
 #| echo: true 
@@ -282,7 +321,7 @@ We can also test whether the [sphericity assumption has been violated](https://e
 Rep_AOV$`Sphericity Corrections`
 ```
 
-
+:::
 
 ## Pairwise Comparisons
 
@@ -291,6 +330,8 @@ We would like to know which contingencies are significantly different in error r
 
 :::: {.columns}
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
 
 <center> **High VS Low**  </center>
 
@@ -305,7 +346,11 @@ t.test(dat$High - dat$Low)
 
 
 :::
+
+:::
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
 
 <center> **Medium VS Low**  </center>
 
@@ -319,18 +364,24 @@ t.test(dat$Medium - dat$Low)
 ```
 
 :::
+
+:::
 ::::
+
+::: {.fragment fragment-index=3}
 
 Both mean difference are significant and you can find the difference in percentage of errors under the `mean of x` line. 
 
+:::
 
 ## Another Dataset
-
 
 Now we are going to introduce hierarchial linear modeling (HLM), also referred to as multi-level modeling (MLM). HLM usually provides more interesting information compared to repeated measures ANOVA and allows for continuous IVs.
 
 :::: {.columns}
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
 
 We will use the `sleepstudy` data from the `lme4` package.  
 
@@ -364,8 +415,12 @@ reactable::reactable(sleepstudy,
 
 :::
 
+:::
+
 
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
 
 The data comes from @Belenky_etal_2003, where the authors looked at the effects of sleep deprivation on reaction times.
 
@@ -387,6 +442,7 @@ There are 18 participants in these data:
 length(unique(sleepstudy$Subject))  
 ```
 
+:::
 
 :::
 ::::
@@ -399,6 +455,7 @@ length(unique(sleepstudy$Subject))
 
 HLM is often employed in longitudinal designs, which is the case of these data. As such, we are often interested in the trend as time passes.
 
+::: {.fragment fragment-index=1}
 
 :::: {.columns}
 ::: {.column width = '30%'}
@@ -437,6 +494,8 @@ geom_path() + theme_classic()
 :::
 ::::
 
+:::
+
 
 ## Fitting HLM with the `lmerTest` package
 
@@ -460,17 +519,27 @@ summary(HLM_mod)
 :::
 ::: {.column width = '35%'}
 
+::: {.fragment fragment-index=1}
+
 We use the `lmer()` function from the `lmerTest` package. notice the formula:
 
 <center> `Reaction ~ (1 | Subject)` </center>
 
 
-`Reaction` is the DV, while the `(1 | Subject)` part tells `R` that we think that the participants start with different reaction times.
+:::
 
-The `(1 | Subject)` part is also known as a *random intercept*. You can think of `Subject` as an IV.
+::: {.fragment fragment-index=2}
+
+`Reaction` is the DV, while the `(1 | Subject)` part tells `R` that we think that the participants  will have different reaction times on average.
+
+The `(1 | Subject)` part is also known as a *random intercept*, meaning that every `Subject` will have a different intercept.
+
+:::
 
 :::
 ::::
+
+
 
 ## HLM Results
 
@@ -494,15 +563,30 @@ summary(HLM_mod)
 ::: {.column width = '45%'}
 
 
+
+
 `Random Effects:`
+
+::: {.fragment fragment-index=1}
 
 $\hat{\psi} = 1278$: this is the variance of the mean reaction time across participants (*between subject* variance).
 
+:::
+
+
+::: {.fragment fragment-index=2}
+
 $\hat{\theta} = 1959$: this is the variance of the residuals. Here it represents the *within subject residuals* and it is the variance that *cannot be explained* differences across people.
+
+:::
 
 `Fixed Effects:` 
 
+::: {.fragment fragment-index=3}
+
 $\beta_0 = 298.51$: this is the same as the intercept in linear regression. Here it represents the average reaction time. The $\hat{\psi}$ represents how much that varies *between subjects*.
+
+:::
 
 :::
 ::::
@@ -513,14 +597,22 @@ $\beta_0 = 298.51$: this is the same as the intercept in linear regression. Here
 
 Because we are measuring the same individuals, we can expect measurement from the same individuals to be similar to each other. We can actually calculate how similar measurements from the same individuals are, and it's done with the *intraclass Correlation Coefficient* (ICC).
 
-The ICC is the amount of total variance in the outcome that is due to *within* group variation:
 
+::: {.fragment fragment-index=1}
+
+The ICC is the amount of total variance in the outcome that is due to *between* group variation:
 
 $$
 ICC = \frac{\hat{\psi}}{\hat{\theta} + \hat{\psi}} = \frac{1278}{ 1959 + 1278} = .395
 $$
 
-This tells us the percentage of the variance in `Reaction` that is due to between subject difference (i.e., how much do differences between people affect reaction times). We can also use the `icc()` function from the `performance` to get the ICC:
+
+This tells us the percentage of the variance in `Reaction` that is due to between subject difference (the higher the ICC, the more similar observations from the same subject will be). We can also use the `icc()` function from the `performance` to get the ICC:
+
+:::
+
+
+::: {.fragment fragment-index=2}
 
 ```{r}
 #| eval: true
@@ -531,6 +623,7 @@ This tells us the percentage of the variance in `Reaction` that is due to betwee
 performance::icc(HLM_mod)
 ```
 
+:::
 
 ## Adding a Predictor
 
@@ -556,6 +649,8 @@ We can add predictors as we would with the `lm()` function by using the `+` symb
 
 $\beta_1 =  10.47$: This is the average increase in reaction time for each additional day of sleep deprivation.
 
+::: {.fragment fragment-index=1}
+
 We can also see that by adding a predictor, both $\hat{\psi}$ and $\hat{\theta}$ have changed. We look at the *adjusted* ICC:
 
 ```{r}
@@ -566,6 +661,8 @@ We can also see that by adding a predictor, both $\hat{\psi}$ and $\hat{\theta}$
 
 performance::icc(HLM_mod2)
 ```
+
+:::
 
 
 :::
@@ -585,9 +682,13 @@ We can also check whether adding `Days` as a predictors provides a significant i
 anova(HLM_mod, HLM_mod2)
 ```
 
+::: {.fragment fragment-index=1}
+
 On top of the likelihood ratio test (LRT), we also get the AIC and BIC, which are additional fit statistics. Lower AIC and BIC mean better fit. Similarly, a significant *p*-value indicates that the more complex model fits the data best.
 
 Unsurprisingly, in every case, the model with `Days` as predictor fits the data best. Higher sleep deprivation does indeed increase reaction times.
+
+:::
 
 
 ## References 
