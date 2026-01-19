@@ -66,6 +66,15 @@ links:
 </br>
 </br>
 
+
+<!-- Tab links -->
+
+<span class="ph0 pt5 post-header">
+<a class="tablinks btn-links mr2 ba dib" onclick="openTab(event, '2025')"> <b> Fall 2025 </b> </a>
+
+
+<div id="2025" class="tabcontent" style="display:block;" >
+
 <h3> 1. Introduction to R  </h3>
 
 This Lab introduces the R programming language and RStudio. This Lab also covers core concepts such as objects, functions, packages, and object subsetting. Additionally, this Lab introduces [Quarto](https://quarto.org) as a tool for creating neat PDF reports.
@@ -360,3 +369,5 @@ This lab introduces some analysis techniques used to deal with repeated measures
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-12-06T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_14_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr></hr>
+
+</div>

@@ -1,0 +1,10 @@
+---
+title: "Lab 12 Activity"
+author: PSYC 7804 - Spring 2026
+format: pdf
+editor: source
+header-includes:
+    - \usepackage{setspace}
+---
+
+\onehalfspacing

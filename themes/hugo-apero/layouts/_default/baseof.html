@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}" dir="ltr">
-    {{- partial "head.html" . -}}
-    <body>
-      <div class="grid-container{{ if .Params.layout }} {{ .Params.layout }}{{ end }}{{ if .IsHome }} home{{ end }}">
-        {{- block "header" . }}{{- partial "header.html" . -}}{{- end }}
-        {{- block "main" . }}{{- end }}
-        {{- block "footer" . }}{{- partial "footer.html" . -}}{{- end }}
-      </div>
-    </body>
+  {{- partial "head.html" . -}}
+  <body>
+    <div class="grid-container{{ if .Params.layout }} {{ .Params.layout }}{{ end }}{{ if .IsHome }} home{{ end }}">
+      {{- block "header" . }}{{- partial "header.html" . -}}{{- end }}
+      {{- block "main" . }}{{- end }}
+      {{- block "footer" . }}{{- partial "footer.html" . -}}{{- end }}
+    </div>
+
+    {{/* Load custom JS from assets/js/custom.js */}}
+    {{ $customJS := resources.Get "js/custom.js" | minify | fingerprint }}
+    <script src="{{ $customJS.RelPermalink }}" defer></script>
+  </body>
 </html>

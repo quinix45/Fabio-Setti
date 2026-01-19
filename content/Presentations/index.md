@@ -3,15 +3,19 @@ title: Presentations and Talks
 Description: Find My Conference Presentations and Talks Below
 ---
 
-
 <img src="Presentation.png" style="width:40%; display: block; margin: auto;">
 
+<!-- Tab links -->
+<span class="ph0 pt5 post-header">
+<a class="tablinks btn-links mr2 ba dib active" onclick="openTab(event, '2025')"> <b> 2025 </b> </a>
 
-<details open>
-  <summary class="drop-date">2025</summary>
-  
-  
-  <p><b>Subjective Probability, Utility and Decision Making (SPUDM)</b></p>
+<span class="ph0 pt5 post-header">
+<a class="tablinks btn-links mr2 ba dib" onclick="openTab(event, '2024')"> <b> 2024 </b> </a>
+
+
+<!-- Tab content -->
+<div id="2025" class="tabcontent" style="display:block;" >
+<p><b>Subjective Probability, Utility and Decision Making (SPUDM)</b></p>
   
   <div class="row">
   <div class="column"><i>August 31- September 4 </i></div>
@@ -40,17 +44,10 @@ Description: Find My Conference Presentations and Talks Below
 <span class="ph0 pt5 post-header">
 <a class="btn-links mr2 ba dib" href="https://raw.githack.com/quinix45/Conferences_2025/main/IMPS/IMPS%20presentation.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a>
 
+</div>
 
-
-</details>
-
-<hr class="fancy"></hr>
-
-<details>
-  <summary class="drop-date">2024</summary>
-  
-  
-  <p><b>International Meeting of the Psychometric Society (IMPS)</b></p>
+<div id="2024" class="tabcontent">
+ <p><b>International Meeting of the Psychometric Society (IMPS)</b></p>
   
   <div class="row">
   <div class="column"><i>July 16-19 </i></div>
@@ -62,7 +59,8 @@ Description: Find My Conference Presentations and Talks Below
 <span class="ph0 pt5 post-header">
 <a class="btn-links mr2 ba dib" href="https://raw.githack.com/quinix45/IMPS_2024/main/IMPS_presentation.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a>
 
-</details>
+</div>
+
 
 
 
