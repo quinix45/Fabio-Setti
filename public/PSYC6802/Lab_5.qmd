@@ -1,0 +1,691 @@
+---
+title: "Lab 5: Power"
+author: "Fabio Setti"
+institute: "PSYC 6802 - Introduction to Psychology Statistics"
+bibliography: Additional files/references.bib
+csl: Additional files/apa.csl
+title-slide-attributes:
+  data-transition: "zoom"
+  data-visibility: "uncounted"
+format:
+   revealjs:
+      footer: "PSYC 6802 - Lab 5: Power"
+      width: 1280
+      height: 720
+      chalkboard: true
+      slide-number: c/t 
+      theme: Fabio_theme/Fabio_theme.scss
+      navigation-mode: linear
+      controls: false
+      auto-stretch: false
+      header-includes:
+        - <script src="Fabio_theme/Fabio_theme.js"></script>
+
+editor: source
+build: local
+---
+
+## Today's Packages and Data 🤗
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-125
+
+
+install.packages("pwr")
+```
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(pwr)
+```
+
+</br>
+
+::: {.panel-tabset}
+
+### `pwr`
+
+The `pwr` package [@Champely_etal_2020] includes functions to conduct power analysis for some statistical analyses and experimental designs. Click [here](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html){target='_blank'} for examples on all the types of power calculations that the package allows for.
+:::
+
+:::
+
+::: {.column width = '50%'}
+
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+We won't look at data too much today, but let's load the data from last lab, which will come up for *retrospective* power analysis.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/Cuisine_rating.csv")
+```
+
+```{r}
+reactable::reactable(dat,
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300)
+
+```
+
+:::
+::::
+
+
+## What is Power⚡?
+
+**Power:** Statistical power is defined as *the probability of correctly rejecting the null hypothesis if $H_0$ is false*. Power is also known as 1 - Type II error rate. Type II error rate is denoted with $\beta$, and is the probability of failing to reject a false $H_0$. 
+
+::: {.fragment fragment-index=1}
+<div style="font-size: 24px"> In practice, power is used is mostly to answer the question: "how big of a sample size do I need to get a *p*-value lower than .05 given a certain effect size?" (pretty useless question if you ask me 😑) </div>
+:::
+
+:::: {.columns}
+::: {.column width="50%"}
+
+</br>
+
+::: {.fragment fragment-index=3}
+<div style="font-size: 24px"> The probability of making a Type I error is always the level of significance, $\alpha$. As you know, the level of significance is almost unilaterally $.05$. So, unless specified otherwise,  $\alpha = .05$. </div>
+
+</br>
+
+<div style="font-size: 24px"> On the other hand, it is common to generally look for a sample size that gives a power of $\beta = .8$. This would mean that if $H_0$ is false, you would reject it $80\%$ of the times. </div>
+:::
+
+:::
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=3}
+![](Additional%20files/images/type-i-and-ii-error-2.png)
+:::
+
+:::
+::::
+
+
+## The Logic of the `pwr` Functions
+
+All of the functions in the `pwr` package work in very similar fashion. They will generally include arguments representing these 4 factors that influence power:
+
+
+:::: {.columns}
+::: {.column width = '60%'}
+
+
+::: {.fragment fragment-index=1}
+
+<ul style='font-size: 26px'>
+
+<li> **Effect size**: could be $d$ in the case of a $t$-test, $W$ for a $\chi^2$ test, $R^2$ for regression... </li>
+
+<li> **Sample size**: How many participants you expect to have/will need. Will usually be the `n =` argument. </li>
+
+<li> **Type I error rate**: This is the desired $\alpha$ level. This is always the `sig.level =` argument. </li>
+
+<li> **Power**: The desired power. This is always the `power =` argument.  </li>
+
+</ul>
+
+:::
+
+::: {.fragment fragment-index=2}
+
+<center>  
+<u> The `pwr` functions will expect to leave one of these 4 arguments empty (`= NULL`), and will return its value </u>
+</center>
+
+:::
+
+:::
+::: {.column width = '40%'}
+
+::: {.fragment fragment-index=1}
+![As an example, this is the `pwr.t.test()` Function](Additional%20files/images/power_t_test.png)
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=3}
+These arguments may be named differently depending on the type of power analysis, so always check the function help menu when trying to use any of the `pwr` package functions.
+:::
+
+## Power For &#x3C7;<sup>2</sup> Tests
+
+Let's say the we want to run a study where we want to evaluate the effecicacy of a new cancer treatment versus an old one by checking whether there is an association between type of treatment and cancer remission. 
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+
+::: {.fragment fragment-index=1}
+We want to find out the necessary sample size ($N$) required to:
+
+<ol style='font-size: 26px'>
+
+<li> Achieve $.8$ power, </li>
+
+<li> At $\alpha = .05$, </li>
+
+<li> given that we expect an effect of $W = .5$. </li>
+
+</ol>
+
+Furthermore, we know that $df = 1$ because we would have a $2 \times 2$ table (new/old treatment VS remission/ no remission). 
+:::
+
+::: {.fragment fragment-index=3}
+<center style='padding-top: 14px;'> Given the desired power, $\alpha$ level, and expected effect size, we would need $N = 32$ participants (you always round up!) </center>
+
+:::
+
+:::
+::: {.column width = '30%'}
+
+
+::: {.fragment fragment-index=2}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+pwr.chisq.test(w = .5, 
+               N = NULL, 
+               df = 1, 
+               sig.level = .05, 
+               power = .8)
+```
+
+:::
+
+:::
+::::
+
+## Retrospective Power Analysis
+
+Sometimes it is insightful to check how much power a study had given the observed effect size. If you remember the airplane delays example from [Lab 3](https://fabio-setti.netlify.app/psyc6802/lab_3#/χ2-test-of-independence){target='_blank'},  We got the following results:  
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+::: {.fragment fragment-index=1}
+
+<ol style='font-size: 26px'>
+
+<li> At $\alpha = .05$, </li>
+
+<li> with $N = 106596$ observations, </li>
+
+<li> we got an effect of roughly $W = .06$, </li>
+
+<li> And we had $df = 1$. </li>
+
+</ol>
+
+
+
+How much power did we have? (probability to reject $H_0$)
+:::
+
+::: {.fragment fragment-index=3}
+We had power $= 1$. This comes as no surpise given the huge sample size, which is by far the most impactful thing on power. 
+
+This means that given a large enough sample size, anything becomes significant 🤷 
+:::
+
+:::
+::: {.column width = '30%'}
+
+::: {.fragment fragment-index=2}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+pwr.chisq.test(w = .06, 
+               N = 106596, 
+               df = 1, 
+               sig.level = .05, 
+               power = NULL)
+```
+
+:::
+:::
+::::
+
+## Power for One Sample $t$-tests
+
+In [Lab 4](https://fabio-setti.netlify.app/psyc6802/lab_4#/one-sample-t-test-in-r){target='_blank'} we ran a one sample *t*-test to test whether average restaurant ratings were significantly different from 3. with $d$ = .21 and $N$ = 200 we can do a retrospective power calculation:
+
+:::: {.columns}
+::: {.column width = '33%'}
+
+
+::: {.fragment fragment-index=1}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+pwr.t.test(n = 200,
+           d = .21,
+           sig.level = .05,
+           power = NULL,
+           type = "one.sample")
+```
+
+:::
+
+:::
+::: {.column width = '33%'}
+
+::: {.fragment fragment-index=2}
+So, given the observed results, we had $84\%$ power. 
+
+
+</br>
+</br>
+
+
+Alternatively, let's say that we want $95 \%$ power under the same conditions; how large of a sample size do we need? Then, 	&rArr; 	&rArr;
+:::
+
+::: {.fragment fragment-index=3}
+We would need $N = 297$ participants.
+:::
+
+
+:::
+
+::: {.column width = '33%'}
+
+::: {.fragment fragment-index=3}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+pwr.t.test(n = NULL,
+           d = .21,
+           sig.level = .05,
+           power = .95,
+           type = "one.sample")
+```
+
+:::
+
+:::
+::::
+
+
+## Power for Independent Sample $t$-tests
+
+In [Lab 4](https://fabio-setti.netlify.app/psyc6802/lab_4#/independent-samples-t-test-in-r-welch){target='_blank'}, we tested whether males and females were significantly different on average food rating. 
+
+:::: {.columns}
+::: {.column width = '33%'}
+::: {.fragment fragment-index=1}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+t.test(Overall_Rating ~ Gender, 
+       data = dat)
+```
+
+:::
+:::
+::: {.column width = '30%'}
+
+::: {.fragment fragment-index=2}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+library(effectsize)
+cohens_d(Overall_Rating ~ Gender, 
+         data = dat,
+         pooled_sd = FALSE)
+```
+
+
+
+<p style='font-size: 24px'>  And we will also need the sample size for both groups:  </p>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+table(dat$Gender)
+```
+
+:::
+
+:::
+
+
+::: {.column width = '36%'}
+
+::: {.fragment fragment-index=3}
+How much power did we have?
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+pwr.t2n.test(n1 = 82, n2 = 117,
+             d = 0.15, 
+             sig.level = 0.05,
+             power = NULL)
+```
+
+
+ <p style='font-size: 22px'>  Only $18\%$ power. It means that it was fairly unlikely for us to reject $H_0$ given the observed effect size and sample size. </p>
+
+:::
+
+:::
+
+::::
+
+
+
+## Low Power is bad Because...
+
+Low power *is not* bad because it will be hard to get $p < .05$. Low power is bad because when you do get $p < .05$ with low power, it is likely that:
+
+
+::: {.fragment fragment-index=1}
+<ol style="font-size: 22px">  
+
+<li> The effect size will be largely overestimated! (Type *M* error). </li>
+
+<li> The effect will be in the wrong direction! (Type *S* error). </li>
+
+ 
+</ol>
+:::
+
+::: {.fragment fragment-index=2}
+<div style="font-size: 24px; padding-bottom: 18px;"> You may have been "lucky" in the sense that your result was significant, but it will likely not replicate in future research. Your "lucky" result is ultimately a bad thing for the field (**!!**). And you will not see the results of many other people who ran the same analysis but did not get a significant *p*-value (publication bias!). </div>
+:::
+
+
+::: {.fragment fragment-index=3}
+:::: {.columns}
+::: {.column width="55%"}
+
+
+<div style="font-size: 26px"> So, I think people care about power for the wrong reasons 🤷 Some related blog posts/manuscripts by Andrew Gelman:
+
+<ul style="font-size: 22px">  
+
+<li>  [80% power is a lie and NIH grants](https://statmodeling.stat.columbia.edu/2017/12/04/80-power-lie/){target="_blank"} </li>
+
+<li>  [You don't have 80% Power](https://statmodeling.stat.columbia.edu/2018/08/24/anyone-claims-80-power-im-skeptical/){target="_blank"} </li>
+
+<li>  [You calculate power based on biased literature](https://sites.stat.columbia.edu/gelman/research/unpublished/illusion_power.pdf){target="_blank"} </li>
+
+<li>  [Type I and Type II error rates do not exist](https://statmodeling.stat.columbia.edu/2004/12/29/type_1_type_2_t/){target="_blank"} </li> 
+
+</ul>
+
+
+
+</div>
+
+
+:::
+::: {.column width="45%"}
+
+
+<center>
+<figure>
+  <img src="Additional files/images/Gelman.png" style="width:30%">
+  <figcaption style="font-size: 16px">  [Andrew Gelman](https://sites.stat.columbia.edu/gelman/){target="_blank"}, Columbia professor and very opinionated man. I like his opinions.</figcaption>
+</figure>
+</center>
+
+:::
+::::
+:::
+
+
+# Appendix: Power For F-tests, Correlation, and Regression
+
+
+## Power for Correlation
+
+Power for correaltion coefficients is fairly streightforward to compute.
+
+:::: {.columns}
+::: {.column width="50%"}
+::: {.fragment fragment-index=1}
+
+- <div style="font-size: 24px"> If we expect to see $r =.3$, what sample size do we need to have $80\%$ power at $\alpha = .05$? </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# we'll need 85 participants (you round up n)
+pwr.r.test(r = .3,
+           sig.level = .05,
+           power = .8)
+```
+
+:::
+
+:::
+
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=4}
+
+- <div style="font-size: 24px"> How much power do we have if $r =.2$, and $N = 75$ at $\alpha = .05$? </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# around .41 (41%) power
+pwr.r.test(r = .2,
+           sig.level = .05,
+           n = 75)
+```
+
+:::
+
+:::
+::::
+
+
+## Power in Regression
+
+In regression, We calculate power based on $R^2$. More specifically, we use Cohen's $f^2$. there are two slight variations on $f^2$:
+
+
+
+:::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
+When you have a single set of predictors and you want to calculate power for a regression, 
+
+$$
+f^2 = \frac{R^2}{1 - R^2}
+$$
+:::
+
+:::
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=2}
+When you want to calculate power for $\Delta R^2$ (see [this](https://quinix45.github.io/PSYC-7804-Regression-Lab-Slides/Slides%20Files/Lab%206.html#/testing-gain-in-prediction-delta-r2){target="_blank"}), whether a set of predictors *B* provides a significant improvement over an original set of predictors *A*,
+
+$$
+f^2 = \frac{R^2_{AB} - R^2_{A}}{1 - R^2_{AB}}
+$$
+
+Where $R^2_{AB} - R^2_{A} = \Delta R^2$, the improvement of adding the set of predictors *B*. 
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=3}
+Larger $R^2$ value imply larger $f^2$ values. Some guidelines are that $f^2$ of .02, .15, and .35 can be interpreted as small, medium, and large effect sizes respectively. Why do we use $f^2$? Check out the [this](https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%207#/appendix){target='_blank'} if you are curios!
+:::
+
+
+## Power For $R^2$
+
+<div style="font-size: 22px; padding-bottom: 20px;"> Let's say that we hypothesize that depression ($X_1$), anxiety ($X_2$), and social support ($X_3$) should predict willingness to partake in novel social experiences ($Y$). We look at the literature and we expect our variables to jointly explain $15\%$ (i.e., $R^2 = .15$) of the variance in willingness to partake in novel social experiences. How many participants do we need to collect to get $80\%$ power? </div>
+
+:::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
+<div style="font-size: 24px"> Fist we need to calculate $f^2$: </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+(f2 <- .15/(1-.15))
+```
+
+:::
+
+::: {.fragment fragment-index=4}
+<div style="font-size: 24px"> `u` stands for $\mathrm{df_1}$ and `v` stands for the $\mathrm{df_2}$ of the $F$-distribution. We know from Lab 4 that $\mathrm{df_2} = n - \mathrm{df_1} - 1$. Thus, </div>
+
+
+$$
+n = \mathrm{df_2} + 1 + \mathrm{df_1} = 61.18 + 1 + 3 = 65.18
+$$
+
+
+<div style="font-size: 24px"> We need $66$ participants (you always round up!) to achieve $80\%$ power. </div>
+
+:::
+:::
+
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=2}
+<div style="font-size: 24px"> Then, we can use the `pwr.f2.test()` function from the `pwr` package </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+pwr::pwr.f2.test(u = 3,  f2 = f2, 
+                 sig.level = 0.05, power = 0.8)
+```
+
+:::
+
+:::
+::::
+
+## Power For $\Delta R^2$
+
+<div style="font-size: 22px; padding-bottom: 20px;"> We further hypothesize that if we add openness to experience ($X_4$) to our model, we will explain an additional $5\%$ ($\Delta R^2 = .05$) of variance in willingness to partake in novel social experiences ($Y$). Originally, we specified $R^2 = .15$, so after adding $X_4$, we expect $R^2 = .2$. </div>
+
+:::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
+<div style="font-size: 24px">  We use the second formula from 2 slides ago to get $f^2$: </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+(f2 <- .05/(1-.20))
+```
+:::
+
+::: {.fragment fragment-index=2}
+<div style="font-size: 24px">  `u` is going to be $1$ because we only have 1 additional predictor, $X_4$: </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+pwr::pwr.f2.test(u = 1,  f2 = f2, 
+                 sig.level = 0.05, power = 0.8)
+```
+
+:::
+:::
+
+::: {.column width="50%"}
+
+
+::: {.fragment fragment-index=3}
+So, if we want to have $80\%$ power for $\Delta R^2 = .05$, we now need at least $131$ participants. We know this because 
+
+$$
+n = 125.5 + 4 + 1 = 130.5
+$$ 
+
+<div style="font-size: 22px"> where $4$ is the number of predictors in the full regression after adding $X_4$. </div>
+
+
+
+I already linked this in the first slide, but [this page](https://cran.r-project.org/web/packages/pwr/vignettes/pwr-vignette.html){target="_blank"} has very detailed explanations on how to use all the functions from the `pwr` package.
+:::
+
+:::
+::::
+
+## References 
+
+<div id="refs"> </div>

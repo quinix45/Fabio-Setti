@@ -1,0 +1,248 @@
+
+## Today's Packages and Data 🤗
+
+
+```{r}
+# run for packages that you have not installed yet
+# install.packages("ggeffects")
+```
+
+
+```{r}
+library(tidyverse)
+library(emmeans)
+library(ggeffects)
+# I am setting a theme for all the plots
+theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
+                        base_family = 'serif'))
+```
+
+
+
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/major_gender_SAT.csv")
+```
+
+
+## Turn Variables into Factors
+
+
+```{r}
+dat$Gender <- factor(dat$Gender,
+                     levels = c("F", "M"),
+                     labels = c("Female", "Male"))
+
+dat$Major <- factor(dat$Major,
+              levels = c("CS", "EO", "O"),
+              labels = c("Comp_Sci", "Engineering_OS", "Other"))                     
+```
+
+
+
+```{r}
+# count how many people in each group
+table(dat$Gender, dat$Major)
+```
+
+## Multiple One-way ANOVAs?
+
+
+```{r}
+# this is equivalent to a t-test btw
+reg_gender <- lm(SAT_math ~ Gender, dat)
+anova(reg_gender)
+```
+
+
+```{r}
+
+reg_major <- lm(SAT_math ~ Major, dat)
+anova(reg_major)
+```
+
+
+
+## Interactions Between Independent Variables
+
+
+```{r}
+reg_2way <- lm(SAT_math ~ Gender*Major, dat)
+anova(reg_2way)
+```
+
+
+## A Graphical intuition
+
+
+
+```{r}
+dat %>% 
+  group_by(Gender) %>% 
+  summarise(Mean_Gender = mean(SAT_math))
+```
+
+```{r}
+ggplot(dat, 
+      aes(y = SAT_math, x = Gender, fill = Gender)) +
+          geom_violin() +
+  geom_boxplot(width = 0.1)
+```
+
+
+```{r}
+dat %>% 
+  group_by(Major) %>% 
+  summarise(Mean_Major = mean(SAT_math))
+```
+
+
+```{r}
+ggplot(dat, 
+      aes(y = SAT_math, x = Major, fill = Major)) +
+          geom_violin() +
+  geom_boxplot(width = 0.1)
+```
+
+
+```{r}
+dat %>% group_by(Gender, Major) %>% summarise(Mean_Both = mean(SAT_math)) %>% arrange(desc(Mean_Both))
+```
+
+
+```{r}
+ggplot(dat, aes(x = Major, y = SAT_math, fill = Gender)) +
+  geom_violin(trim = FALSE, position = position_dodge(width = 0.8)) +
+  geom_boxplot(width = 0.1, position = position_dodge(width = 0.8)) +
+  labs(
+    x = "Major",
+    y = "SAT Math Score",
+    fill = "Gender"
+  )
+
+```
+
+## Interaction Effects
+
+```{r}
+ggeff <- ggeffects::ggpredict(reg_2way, terms = c("Gender", "Major"))
+
+plot(ggeff, connect_lines = TRUE)
+```
+
+
+## The `ggeffects` Package: Group Means
+
+
+```{r}
+ggeff <- ggpredict(reg_2way, 
+                   terms = c("Gender", "Major"))
+ggeff
+```
+
+
+## The `ggeffects` Package: Interaction Plot
+
+
+```{r}
+plot(ggeff, 
+     connect_lines = TRUE)
+```
+
+
+## Main Effects?
+
+```{r}
+anova(reg_2way)
+```
+
+
+## Simple Main Effects!
+
+
+```{r}
+em_res <- emmeans(reg_2way, 
+                  specs = c("Gender", "Major"))
+
+joint_tests(em_res, by = "Major")                  
+```
+
+
+## Simple Main Effects: Other way around
+
+
+```{r}
+joint_tests(em_res, by = "Gender")
+
+ggpredict(reg_2way, terms = c( "Major","Gender"))
+```
+
+## Post-Hoc Tests
+
+
+```{r}
+pairs(em_res, by = "Gender", adjust = "tukey")
+
+pairs(em_res, by = "Major", adjust = "tukey")
+```
+
+## ...And the cohen's $d$s
+
+```{r}
+
+emmeans::eff_size(em_res,
+         sigma = sigma(reg_2way),
+         edf = df.residual(reg_2way))
+    
+```
+
+
+## Effect Sizes For Factorial ANOVA
+
+```{r}
+effectsize::eta_squared(reg_2way)
+```
+
+
+## Sums of Squares and Unbalanced Data
+
+```{r}
+table(dat$Gender, dat$Major)
+```
+
+
+```{r}
+set.seed(1731)
+del <- sample(1:nrow(dat), 70)
+dat_unbalanced <- dat[-del,]
+
+table(dat_unbalanced$Gender, dat_unbalanced$Major)
+```
+
+## Results Comparison: Type II Sums of Squares
+
+
+```{r}
+# Type I SS
+
+reg_unb <- lm(SAT_math ~ Gender*Major,
+              dat_unbalanced)
+anova(reg_unb)
+```
+
+
+```{r}
+car::Anova(reg_unb, type = 2)
+```
+
+
+## ATTENTION: Type III Sums of Squares
+
+```{r}
+
+options(contrasts = c("contr.sum","contr.poly"))
+
+reg_unb <- lm(SAT_math ~ Gender*Major,
+              dat_unbalanced)
+
+car::Anova(reg_unb, type = 3)
+```

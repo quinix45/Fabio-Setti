@@ -1,0 +1,108 @@
+---
+title: 'Lab 13 Activity'
+format:
+ pdf:
+  mainfont: Times New Roman
+  sansfont: Times New Roman
+  monofont: Courier New
+  mathfont: Times New Roman
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+editor: source
+---
+
+
+The dataset that includes the Panas items also includes the Relationship Scales Questionnaire (RSQ), which includes 30 items on 5-point Likert scales (scored 1-5). Although the entire set of 30 items can be thought of as a single scale, the following subscales are also theoretically present:
+
+* RSQ items 11, 18, 21, 23, 25 : attachment avoidance
+* RSQ items 10, 12, 13, 15, 20, 24, 29, 30: attachment anxiety
+
+You can load the data with the following code
+
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/Lab_13_Cox.sav")
+```
+
+
+**1.** RSQ items 12, 13, 20, 24, 29 need to be [reverse coded](https://www.statology.org/reverse-coding/){target='_blank'}. Reverse code the items and then create a dataset that contains only the RSQ items related to attachment avoidance and attachmnet anxiety.
+
+```{r}
+#| echo: false
+#| eval: false
+
+dat <- dat %>% mutate(RSQ12 = 6 - RSQ12, RSQ13 = 6 - RSQ13, 
+                      RSQ20 = 6 - RSQ20, RSQ24 = 6 - RSQ24, 
+                      RSQ29 = 6 - RSQ29)
+
+dat_fa <- dat %>% 
+  dplyr::select(RSQ11, RSQ18, RSQ21, RSQ23, RSQ25,
+                RSQ10, RSQ12, RSQ13, RSQ15, RSQ20, 
+                RSQ24, RSQ29, RSQ30)
+```
+
+
+**2.** First, split the data into a training (exploratory) set and a test (confirmatory) set. Make sure to set a seed before splitting the data.
+
+```{r}
+#| echo: false
+#| eval: false
+
+set.seed(251) # answer will vary for this and all results due to different seeds
+idx <- caret::createFolds(1:nrow(dat_for_fa), 2)
+dat_efa <- dat_fa[idx$Fold1, ]
+dat_cfa <- dat_fa[idx$Fold2, ]
+```
+
+**3.** Create a scree plot and conduct parallel analysis using your exploratory data set. Based on these results, decide on the number of factors to retain.
+
+```{r}
+#| echo: false
+#| eval: false
+
+psych::scree(dat_efa, pc = FALSE)
+# should be 2 
+psych::fa.parallel(dat_EFA, fa = "fa")
+```
+
+
+**4.** Conduct an exploratory factor analysis (using the exploratory data set) with the number of factors that you identified in the previous step. Does your EFA support the theoretical latent factor structure?
+
+```{r}
+#| echo: false
+#| eval: false
+
+efa_res <- fa(dat_efa, nfactors = 2, rotate = "oblimin", fm = "pa")
+print(efa_res$loadings, cutoff = 0.3)
+
+#  Item  15 seems to be slightly problematic
+```
+
+
+**5.** Use CFA with the confirmatory data set to test the theoretical structure of these data (outlined at the top of this assignment), and evaluate fit. Does the model fit the data well?
+
+```{r}
+#| echo: false
+#| eval: false
+
+mod <- "Avoid =~ RSQ11 + RSQ18 + RSQ21 + RSQ23 + RSQ25
+        Anxiety =~ RSQ10 + RSQ12 + RSQ13 + RSQ15 + RSQ20 + RSQ24 + RSQ29 + RSQ30"
+cfa_res <- cfa(model = mod, data = dat_cfa, )
+standardizedSolution(cfa_res)
+fitMeasures(cfa_res, 
+            fit.measures = c("chisq", "df", 
+                             "pvalue", "rmsea", 
+                             "srmr", "cfi", "tli"))
+
+# bad fit                          
+```
+
+
+**6.** Based on the factor loadings estimated in the CFA, can you identify some items that don't seem to relate well to the latent construct?
+
+```{r}
+#| echo: false
+#| eval: false
+
+# Yes, items RSQ25, RSQ18, RSQ10, RSQ12, RSQ15 have fairly low loadings
+```

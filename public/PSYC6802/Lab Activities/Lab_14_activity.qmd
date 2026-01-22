@@ -1,0 +1,111 @@
+---
+title: 'Lab 14 Activity'
+format:
+ pdf:
+  mainfont: Times New Roman
+  sansfont: Times New Roman
+  monofont: Courier New
+  mathfont: Times New Roman
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+editor: source
+---
+
+
+
+For today's activity, we'll work with a dataset that contains weight measurements on multiple occasions for Asian children born in Britain. Load in the necessary packages and the dataset using the following code:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| warning: false
+
+library(tidyverse)
+library(lmerTest)
+dat <- rio::import("https://fabio-setti.netlify.app/data/Lab_14_asian.dta")
+```
+
+**id**: child identifier
+
+**occ**: numbered occasion of each measurement
+
+**age**: child's age (in years) at each measurement
+
+**weight**: child's measured weight (kg)
+
+**brthwt**: child's birthweight
+
+**gender**: 1 = male, 2 = female
+
+**1.** Fit a simple (no covariates) model with weight varying by `id` using these data. Do you notice something strange about some parameters? Considering the nature of these data, what do you think might be the problem?
+
+```{r}
+#| eval: false
+#| echo: false 
+
+
+summary(lmer(weight ~ (1 | id), dat))
+
+## model is singular - notice that there is no variance associated with id
+## children will span about the same range of weights over time - difficult to 
+## predict weight without including age as a covariate
+```
+
+**2.** Add one covariate to the model that you think will lead to the highest ICC. Calculate the residual ICC. 
+
+```{r}
+#| eval: false
+#| echo: false 
+
+## age probably makes the most sense
+## an argument could be made for including occasion, but age should have a more 
+##   direct relationship with weight than occasion
+## gender and birthwt probably aren't major factors
+
+mod <- lmer(weight ~ age + (1 | id), dat)
+summary(mod)
+.622 / (.622 + 1.535) #.288
+```
+
+
+- Additionally, has the problem from the previous question been fixed? 
+
+
+**3.** Given the variables available in this dataset, what combination of variables do you think might give the most realistic and accurate model of weight? Be creative, and remember what you learned about regression - many of the same principles apply! What ICC do you get?
+
+```{r}
+#| eval: false
+#| echo: false 
+
+cor(dat)
+## probably shouldn't use both age and occasion since these are highly correlated
+
+## gender probably should be included in the model
+
+## age might have a nonlinear effect! could include age^2 as a covariate
+
+## birthweight as a level-2 covariate could also make sense - 
+##  but using this will lead lmer to give a warning about the scale of this variable
+
+summary(lmer(weight ~ age + I(age^2) + gender + brthwt + (1 | id), dat))
+
+.4717 / (.4717 + .5505)
+
+## this data set is analyzed in Multilevel and Longitudinal Modeling Using Stata 
+## by Rabe-Hesketh and Skrondal - they use age, age^2, and gender as covariates
+##   (along with a random slope for age, which we don't cover in this course)
+```
+
+
+**4.** Create a compelling plot of these data using `ggplot`. 
+
+```{r}
+#| eval: false
+#| echo: false 
+
+## many possible options, including those that include an average regression line
+
+dat <- dat %>% mutate(gender = fct_recode(as.factor(gender), "boy" = "1", "girl" = "2"))
+ggplot(dat, aes(age, weight, group = id)) + geom_path() + facet_wrap(~gender) + theme_bw()
+```

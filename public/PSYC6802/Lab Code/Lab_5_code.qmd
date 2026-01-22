@@ -1,0 +1,127 @@
+
+## Today's Packages and Data 🤗
+
+```{r}
+install.packages("pwr")
+```
+
+```{r}
+library(pwr)
+```
+
+
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/Cuisine_rating.csv")
+```
+
+## Power For &#x3C7;<sup>2</sup> Tests
+
+```{r}
+pwr.chisq.test(w = .5, 
+               N = NULL, 
+               df = 1, 
+               sig.level = .05, 
+               power = .8)
+```
+
+## Retrospective Power Analysis
+
+```{r}
+pwr.chisq.test(w = .06, 
+               N = 106596, 
+               df = 1, 
+               sig.level = .05, 
+               power = NULL)
+```
+
+
+## Power for One Sample $t$-tests
+
+
+```{r}
+pwr.t.test(n = 200,
+           d = .21,
+           sig.level = .05,
+           power = NULL,
+           type = "one.sample")
+```
+
+```{r}
+pwr.t.test(n = NULL,
+           d = .21,
+           sig.level = .05,
+           power = .95,
+           type = "one.sample")
+```
+
+## Power for Independent Sample $t$-tests
+
+```{r}
+t.test(Overall_Rating ~ Gender, 
+       data = dat)
+```
+
+```{r}
+library(effectsize)
+cohens_d(Overall_Rating ~ Gender, 
+         data = dat,
+         pooled_sd = FALSE)
+```
+
+
+```{r}
+table(dat$Gender)
+```
+
+
+```{r}
+pwr.t2n.test(n1 = 82, n2 = 117,
+             d = 0.15, 
+             sig.level = 0.05,
+             power = NULL)
+```
+
+
+## Power for Correlation
+
+```{r}
+# we'll need 85 participants (you round up n)
+pwr.r.test(r = .3,
+           sig.level = .05,
+           power = .8)
+```
+
+
+```{r}
+# around .41 (41%) power
+pwr.r.test(r = .2,
+           sig.level = .05,
+           n = 75)
+```
+
+## Power in Regression
+
+
+```{r}
+f2 <- .15/(1-.15)
+```
+
+
+```{r}
+pwr::pwr.f2.test(u = 3,  f2 = f2, 
+                 sig.level = 0.05, power = 0.8)
+```
+
+## Power For $\Delta R^2$
+
+
+```{r}
+(f2 <- .05/(1-.20))
+```
+
+
+```{r}
+pwr::pwr.f2.test(u = 1,  f2 = f2, 
+                 sig.level = 0.05, power = 0.8)
+```
+

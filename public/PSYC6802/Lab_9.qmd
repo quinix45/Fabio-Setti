@@ -1,0 +1,1127 @@
+---
+title: "Lab 9: Multiple Regression I"
+author: "Fabio Setti"
+institute: "PSYC 6802 - Introduction to Psychology Statistics"
+bibliography: Additional files/references.bib
+csl: Additional files/apa.csl
+title-slide-attributes:
+  data-transition: "zoom"
+  data-visibility: "uncounted"
+format:
+   revealjs:
+      footer: "PSYC 6802 - Lab 9: Multiple Regression I"
+      width: 1280
+      height: 720
+      chalkboard: true
+      slide-number: c/t 
+      theme: Fabio_theme/Fabio_theme.scss
+      navigation-mode: linear
+      controls: false
+      auto-stretch: false
+      header-includes:
+        - <script src="Fabio_theme/Fabio_theme.js"></script>
+
+editor: source
+build: local
+---
+
+
+## Today's Packages and Data 🤗
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-125
+
+
+install.packages("GGally")
+install.packages("devtools")
+devtools::install_github("quinix45/FabioFun")
+```
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+# package 'devtools' must be installed first
+library(GGally)
+library(tidyverse)
+library(FabioFun)
+# I am setting a theme for all the plots
+theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
+                        base_family = 'serif'))
+```
+
+
+
+::: {.panel-tabset}
+
+### `GGally`
+
+The `GGally` package [@Schloerke_etal_2024] builds upon `ggplot2` and includes many functions for creating complex plots. We will be using it to create scatterplot matrices.
+
+### `FabioFun`
+
+As you may have guessed, this is my package 🫣 I use it both to save some functions that I find may be useful in the future. I'll show some functions to create interactive 3D plots and APA style regression tables. 
+
+### `flextable`
+
+The `flextable` package [@Gohel_etal_2024] allows to create highly customizable tables. The function that I use to create APA style Word tables makes heavy use of this package.
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+Today we'll be looking at data from the [2024 World Happiness report](https://www.worldhappiness.report/ed/2024/){target='_blank'}. 
+ 
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
+```
+
+```{r}
+library(FabioFun)
+
+
+labels <- c("Country name",
+            "Region of the World",
+            "Country happiness score. COrresponds to the sum of the other variables",
+            "Log of country Gross Domestic Product (GDP)",
+            "Perceived Social Support in the Country",
+            "Country Healthy life Expectancy",
+            "Perceived Freedom in the Country",
+            "Perceived Generosity in the Country",
+            "Perceived Corruption of the Country")
+
+labels_react <- reactbl_col.desc(names = colnames(dat),
+                                 desc =  labels,
+                                 style = "cursor: pointer; text-decoration: none;",
+                                 info_color = "#7a0b80")
+
+reactable::reactable(dat,
+                     defaultColDef = colDef(minWidth = 170),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300, columns = labels_react)
+```
+
+:::
+::::
+
+
+## Predicting Country Happiness
+
+In our data we have many variables that are likely related to happiness. I will just pick 2 of them for the purpose of this Lab. Let's say that we want to evaluate how `Freedom` and `Corruption` predict `Happiness`. If we run two separate regressions, we find that both have reasonably high $R^2$ values:
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-115
+
+reg_free <- lm(Happiness_score ~ Freedom, dat)
+summary(reg_free)
+```
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-115
+
+reg_corr <- lm(Happiness_score ~ Corruption, dat)
+summary(reg_corr)
+```
+
+:::
+
+:::
+::::
+
+
+## Well, That's just the correlation 🤷
+
+As we have learned, regression with one predictor is just a contrived way of calculating correlations among variables. We can better visualize the relation among out 3 variables with the `ggpairs()` function from `GGally`:
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width = '35%'}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# here I am selecting the 3 columns that I wantr to plot
+ggpairs(dat[,c(3, 7,9)])
+```
+
+- **Lower part:** scatterplot between variables
+- **Diagonal:** variable distribution
+- **Upper part:** correlation between variables
+
+Notably, `Freedom` and `Corruption` are also correlated.
+
+:::
+::: {.column width = '65%'}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+ggpairs(dat[,c(3, 7,9)])
+```
+
+:::
+::::
+
+:::
+
+::: {.fragment fragment-index=2}
+
+Separate regressions miss the points that our predictors share information!
+
+:::
+
+## Multiple Independent Variables
+
+:::: {.columns}
+::: {.column width = '52%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_multi <- lm(Happiness_score ~ Freedom + Corruption, dat)
+summary(reg_multi)
+```
+
+:::
+::: {.column width = '48%'}
+
+We can include both predictors in our regression by adding variables in the `lm()` function like so `lm(DV ~ IV1 + IV2 + ..., dat)`. for now I will note two things:
+
+
+::: {.fragment fragment-index=1}
+1. Both slopes have changed and are not as large as they were in the individual regressions. The regression equations is now:
+
+ <p style='font-size: 20px'>   $$\mathrm{Happiness} = 5.09 + 4.03 \times \mathrm{Freedom} - 2.44 \times \mathrm{Corruption}$$ </p>
+
+:::
+
+
+::: {.fragment fragment-index=2}
+2. The $R^2$ is roughly $.48$, which is lower than the sum of the $R^2$ from the two individual regressions from before ($.41 + .2 = .
+61$).
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=3}
+
+What is going on here? 🤔 a graphical illustration may provide some intuition!
+
+:::
+
+## Individual regression plots
+
+Below I plot the individual regression lines for `Freedom` and `Corruption` predicting `Happiness`. 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat,  
+ aes(x = Freedom, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE)
+```
+
+:::
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat,  
+ aes(x = Corruption, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE)
+```
+
+
+
+:::
+::::
+
+::: {.fragment fragment-index=1}
+
+Now, what happens if we try to overlay the regression lines that we got from our multiple regression? Will they "fit the data" better that the regression lines shown here?
+
+:::
+
+
+
+## Adding Multiple regression Lines
+
+if we add our multiple regression lines to the plot... (🥁 *drum roll*)
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat,  
+ aes(x = Freedom, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE) +
+    geom_abline(intercept = coef(reg_multi)[1], 
+                slope = coef(reg_multi)[2])
+
+```
+
+:::
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat,  
+ aes(x = Corruption, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE)+
+    geom_abline(intercept = coef(reg_multi)[1], 
+                slope = coef(reg_multi)[3])
+
+```
+
+:::
+::::
+
+:::
+
+::: {.fragment fragment-index=2}
+
+Wait, we are way off now 🤨 And here I thought multiple regression would be better 😑 ...Unsurprisingly, the multiple regression is fine, our *perspective* is the problem!
+
+:::
+
+## A better Perspective
+
+We have *3* variables, `Freedom`, `Corruption`, and `Happiness`, but we are looking at them in *2* dimensions with the individual scatterplots. We need a **3D** scatterplot!
+
+
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+# run "devtools::install_github("quinix45/FabioFun")" if you haven't installed the package yet
+library(FabioFun)
+
+nice_3D_plot(y = dat$Happiness_score,
+             x1 = dat$Freedom,
+             x2 = dat$Corruption,
+             dot_labels = dat$Country_name,
+             axis_names = c("Happiness", 
+                            "Freedom", 
+                            "Corruption"))
+```
+
+What is happening is that the scatterplots are *only the sides* of this box ‼️
+
+:::
+
+::: {.fragment fragment-index=2}
+Multiple regression works on this plot on the right, not the individual ones; multiple regression *operates on a different dimension*.
+:::
+
+:::
+::: {.column width = '60%'}
+
+::: {.fragment fragment-index=1}
+
+```{r out.width = "100%"}
+
+library(FabioFun)
+
+
+nice_3D_plot(y = dat$Happiness_score,
+             x1 = dat$Freedom,
+             x2 = dat$Corruption,
+             dot_labels = dat$Country_name,
+             axis_names = c("Happiness", 
+                            "Freedom", 
+                            "Corruption")) %>%  
+                    bslib::card(full_screen = TRUE)
+```
+
+:::
+
+:::
+::::
+
+
+## The Regression *Plane*
+
+The results from multiple regression create a **regression plane**, which is the 3D version of a regression line. 
+
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = dat$Happiness_score,
+             x1 = dat$Freedom,
+             x2 = dat$Corruption,
+             dot_labels = dat$Country_name,
+             axis_names = c("Happiness", 
+                            "Freedom", 
+                            "Corruption"),
+             reg_plane = TRUE)
+```
+
+
+The plane works exactly as the regression line. its surface is the best predition of `happiness` given a value of `Freedom` and `Corruption`. The residuals are now the distance from any of the dots to the plane! 
+
+:::
+
+
+::: {.fragment fragment-index=2}
+**Question:** What would the plot look like with one extra variable?
+:::
+
+:::
+
+::: {.column width = '60%'}
+
+::: {.fragment fragment-index=1}
+
+```{r out.width = "100%"}
+
+nice_3D_plot(y = dat$Happiness_score,
+             x1 = dat$Freedom,
+             x2 = dat$Corruption,
+             dot_labels = dat$Country_name,
+             axis_names = c("Happiness", 
+                            "Freedom", 
+                            "Corruption"),
+             reg_plane = TRUE) %>%  
+                    bslib::card(full_screen = TRUE)
+```
+
+:::
+
+:::
+::::
+
+
+## Added Variable Plots
+
+If the 3D plot is a bit much for you, you can also visualize the results of multiple regression with **added variable plots**. To do that, we can pass out `lm()` object to the `avPlots()` function from `car`:
+
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+car::avPlots(reg_multi)
+```
+
+:::
+
+:::
+::: {.column width = '30%'}
+
+::: {.fragment fragment-index=2}
+Essentially, added variable plots give you a visual representation of the relation between an IV and the DV *after* accounting for all other IVs.
+:::
+
+::: {.fragment fragment-index=3}
+Added variable plots have the advantage of being able to show multiple regression results when more than 2 IVs are involved. Why? Because with 3 IVs you would need a 4D plot, and humans can't really do that 😔 
+:::
+
+:::
+::::
+
+## Interpreting Multiple Regression
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg_multi)
+```
+
+
+:::
+::: {.column width = '50%'}
+
+Now that we have looked at our results graphically for a while, let's interpret the numbers that we get.
+
+::: {.fragment fragment-index=1}
+
+- **intercept**: the expected value of `Happiness` when both `Freedom` and `Corruption` are at 0.
+
+
+- **Slope of `Freedom`**: the expected change in `Happiness` for 1-unit increase in `Freedom`, controlling for `Corruption`. 
+
+- **Slope of `corruption`**: the expected change in `Happiness` for 1-unit increase in `Corruption`, controlling for `Freedom`.
+
+- The $R^2$ is the variance in `Happiness` jointly explained by `Corruption` and `Freedom`.
+
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=5}
+**Note:** Instead of "controlling for", you may also hear "accounting for" or "holding constant". They are all the same thing. 
+:::
+
+
+## Checking Residuals
+
+Because now we have multiple IVs, we need need to check the residuals against each of them. We can use the `residualPlots()` function from `car` to quickly get residual plots for all of our predictors:
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+car::residualPlots(reg_multi, fitted = FALSE, test = FALSE)
+
+```
+
+:::
+
+:::
+::: {.column width = '30%'}
+
+::: {.fragment fragment-index=2}
+
+<p style='font-size: 32px'>  As far as residuals go, I would say that these two plots are not too bad.  </p>
+
+
+<p style='font-size: 32px'>
+The residuals of `Freedom` probably look better than those of `Corruption` mostly because `Corruption` has more points clustered at higher values and few points at lowe values.
+</p>
+
+:::
+
+:::
+::::
+
+## The Scale of Our Variables and Interpretation
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+
+Our regression intercept and slope are:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+coef(reg_multi)
+```
+
+::: {.fragment fragment-index=1}
+
+If we look at the range of our variables, it should be apparent why the "1-unit increase in the IV" is not very meaningful in our case:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+range(dat$Happiness_score)
+range(dat$Freedom)
+range(dat$Corruption)
+```
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+Because of the way `Freddom` and `Happiness` are measures, a "1-unit" increase is already out of range, making the value of the slopes not very representative of the data.
+
+Once again, standardizing our variables can help us produce more interpretable results:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat$Happiness_std <- scale(dat$Happiness_score)[,1]
+dat$Freedom_std <- scale(dat$Freedom)[,1]
+dat$Corruption_std <- scale(dat$Corruption)[,1]
+
+```
+
+:::
+
+::: {.fragment fragment-index=3}
+
+</br>
+
+And now all the variables are on the same measurement unit. As a reminder, a value of 0 now represents the mean of the variable, and a value of -1/+1 represents a value 1 SD below/above the mean.
+:::
+
+:::
+::::
+
+## Standardized Multiple Regression
+
+
+:::: {.columns}
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_std <- lm(Happiness_std ~ Freedom_std + Corruption_std, dat)
+summary(reg_std)
+```
+
+:::
+::: {.column width = '40%'}
+
+Now that the variables have been standardized, when can interpret the slopes as follows:
+
+- When controlling for `Corruption`, 1 SD increase in `Freedom` will result in a $0.55$ SD units *increase* in `Happiness`.
+
+- When controlling for `Freedom`, 1 SD increase in `Corruption` will result in a $0.26$ SD units *decrease* in `Happiness`.
+
+:::
+::::
+
+::: {.fragment fragment-index=1}
+
+In general, I believe you should always report standardized regression results, because your readers always know the scale of all your variables and how to interpret regression coefficients. 
+
+:::
+
+## APA Style Table for Regression Results
+
+because I hate creating tables manually, at some point I made function that does that for me ✨ Also, creating big tables by hand is generally not a good idea: you waste time and likely make typos.
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+library(FabioFun)
+reg_tab <- regression_flextable(reg_std, 
+                                var_names = c("Freedom", "Corruption"), 
+                                intercept = FALSE)
+reg_tab
+```
+
+:::
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# save to Word document (will be saved to current working directory)
+flextable::save_as_docx(reg_tab, path = "table.docx")
+```
+
+
+Feel free to use this instead of creating regression tables manually.
+
+:::
+
+:::
+::: {.column width = '30%'}
+
+::: {.fragment fragment-index=1}
+the `regression_flextable()` function I made takes in an `lm()` object and has some optional arguments (see help page). Here I rename the regression coefficients with the `var_names =` argument.
+
+:::
+
+
+::: {.fragment fragment-index=2}
+You can save the table as a `.docx` file (Word document) by using the `save_as_docx()` function from the `flextable()` package. You specify the file name in the `path =` argument.
+:::
+
+:::
+::::
+
+
+## Categorical Variables 
+
+So far, we have only seen categorical IVs in ANOVA. Because ANOVA is a regression, we can indeed use categorical predictors in a regression. The catch is that we need to trick the regression into thinking that the categorical predictors are numeric variables 🧐
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+::: {.fragment fragment-index=1}
+
+The one categorical variable we have in our data is `Region`, which describes what world region the country is in. 
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+table(dat$Region)
+```
+
+:::
+
+:::
+::: {.column width = '30%'}
+
+::: {.fragment fragment-index=2}
+
+<p style='font-size: 30px'>  **Idea:** we think that if we use the mean of `Happiness` of each of these regions, we will improve our 
+ predictions! (this should sound familiar) </p>
+
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=3}
+Now, we need to somehow express the `Region` variable in some numeric fashion, such that the regression switches to using the mean of `Happiness` by `Region` when it's predicting `Happiness` of a country from that region 💡
+:::
+
+::: {.fragment fragment-index=4}
+There actually are many ways of doing this, but we will make use of the fact that regression slopes are the "change in `Y` per 1-unit change in `X`". We will focus on the trick known as **dummy coding**!
+:::
+
+## Dummy Coding With Factor Variables
+
+
+Factor variables have the advantage of automatically doing dummy coding for you! I will filter for just a few regions to make the example a bit easier to follow:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat_filt <- dat %>% 
+   filter(Region %in% c("Africa", "Asia", "Western Europe", "Eastern Europe"))
+
+```
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+
+Let's turn `Region` into a factor variable and investigate first:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat_filt$Region <- factor(dat_filt$Region)
+```
+
+:::
+
+::: {.fragment fragment-index=2}
+
+We can now use the `contrasts()` function to see that `R` has done dummy coding for us behind the scenes:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+contrasts(dat_filt$Region)
+```
+
+:::
+
+:::
+
+
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=3}
+
+If we look at each row, you can see each variable is assigned a vector of $0$s and $1$s. Crucially, each vector uniquely identifies the region (e.g., `0, 0, 0` corresponds to `Africa`)
+
+:::
+
+::: {.fragment fragment-index=4}
+
+If we look at the columns, we can see that a $1$ appears on when the column name corresponds to the row name. Also, there is no column for `Africa` because we don't need it, just leaving `0,0,0` will automatically represent `Africa`.
+
+:::
+
+::: {.fragment fragment-index=5}
+
+What does this mean for a regression?
+
+:::
+
+:::
+::::
+
+
+## Regression With a Categorical Variable
+
+:::: {.columns}
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_cat <- lm(Happiness_score ~ Region, dat_filt)
+summary(reg_cat)
+```
+
+:::
+::: {.column width = '40%'}
+
+::: {.fragment fragment-index=1}
+
+We get 3 "slopes" each corresponding to the regions that did not have all 0s. Let's look at the mean `Happiness` for each region:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat_filt %>% 
+   group_by(Region) %>% 
+    summarise(Happ_mean = mean(Happiness_score))
+
+```
+
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=2}
+
+You should see that the intercept is the mean `Happiness` for `Africa`, while the "slopes" are the differences from each of the other regions `happiness` from that of `Africa`! 
+
+:::
+
+## The Graphical intuition
+
+What is happening is that we have a *reference group*, which is the one coded a all 0s, `Africa` in our case. All other slopes will be the mean differences from the reference group. 
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+::: {.fragment fragment-index=1}
+
+the intercept and the slopes are:
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+
+
+dat_coef <- data.frame(c("Intercept", "Asia", "Eastern Europe", "Western Europe"), 
+                        as.numeric(round(coef(reg_cat), 2)))
+colnames(dat_coef) <- c("Coefficient", "Value")
+dat_coef
+```
+
+
+The slopes represent the change in mean `Happiness` for each region from the reference group! 
+
+:::
+
+:::
+::: {.column width = '70%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+happ_means <- dat_filt %>% 
+   group_by(Region) %>% 
+    summarise(Happ_mean = mean(Happiness_score))
+
+# reference mean 
+ref <- as.numeric(happ_means[1,2])
+
+ggplot(happ_means, aes(x = Region, y = Happ_mean)) +
+  geom_point(size = 4, color = "#7a0b80") +
+  geom_text(aes(label = round(Happ_mean, 2)), vjust = -1) +
+  geom_hline(yintercept = ref, lty = 3) +
+  geom_segment(x = "Asia", 
+               xend = "Asia", 
+               y = ref,
+               yend = as.numeric(happ_means[2,2]), lty = 3) +
+ geom_segment(x = "Eastern Europe", 
+               xend = "Eastern Europe", 
+               y = ref,
+               yend = as.numeric(happ_means[3,2]), lty = 3) +
+geom_segment(x = "Western Europe", 
+               xend = "Western Europe", 
+               y = ref,
+               yend = as.numeric(happ_means[4,2]), lty = 3) +
+annotate("text", x = 1,  y = 4.2, label = "Reference Point") +
+annotate("text", x = 2.2,  y = 5.3, label = paste("+", round(coef(reg_cat)[2], 2))) +
+annotate("text", x = 3.2,  y = 5.3, label = paste("+", round(coef(reg_cat)[3], 2))) +
+annotate("text", x = 4.2,  y = 5.3, label = paste("+", round(coef(reg_cat)[4], 2))) +
+ylim(c(4, 6.9)) +
+ylab("Mean Region Happiness")
+```
+
+:::
+:::
+::::
+
+## Why Does this work?
+
+I think it is worthwhile to dive a bit more into *why* dummy coding works. The regression from two slides ago implied the following regression equation:
+
+$$\mathrm{Happiness} = 4.40 + 1.09 \times \mathrm{Asia} + 1.55 \times \mathrm{Eastern Europe} +  2.35 \times \mathrm{Western Europe}$$
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+if you recall, the intercept is "the expected value of `Y` when all other variables are 0". If we apply it to this equation we get $4.40$, the *mean happiness of `Africa`*. This is the case because `Africa` is represented by `0,0,0`. 
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+intercept <- coef(reg_cat)[1]
+slopes <- coef(reg_cat)[-1]
+
+# the intercept + all slopes multiplied by 0. Will give the mean happiness for Africa
+intercept + sum(slopes*c(0,0,0))
+```
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+Similarly, we know that `Western Europe` is represented as `0, 0, 1`. So, to get the mean `Happiness` of `Western Europe`, we run:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# mean happiness of western Europe (equivalent to doing 4.40 + 2.35)
+intercept + sum(slopes*c(0,0,1))
+```
+
+For "1-unit increase" in `Western Europe`, the mean of `Happiness` goes from the reference of $4.40$ to $6.75$.
+
+:::
+
+:::
+::::
+
+## The Moral of the Story
+
+
+So, dummy coding is one way of tricking regression into treating categorical variables as continuous. <u> Dummy ccoding is a type of contrast </u>, and as we have seen in [Lab 7](https://fabio-setti.netlify.app/psyc6802/lab_7#/significance-of-contrast){target='_blank'}, the numbers that we choose for contrasts can be whatever we like as long as they proportionally represent the comparison we are interested in.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+For example, nothing prevents me from changing the $1s$ in the dummy coding to $3s$. The significance tests will be equivalent:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+
+contrasts(dat_filt$Region)[contrasts(dat_filt$Region) == 1] <- 3
+contrasts(dat_filt$Region)
+```
+
+:::
+
+::: {.fragment fragment-index=3}
+
+However, this is impractical! Our coefficients are now interpreted as $\frac{1}{3}$ the mean difference comepared to the reference group. No one would want that 🤷
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: height-125
+
+
+reg_cat <- lm(Happiness_score ~ Region, dat_filt)
+summary(reg_cat)
+```
+
+:::
+
+:::
+::::
+
+
+## References 
+
+<div id="refs"> </div>

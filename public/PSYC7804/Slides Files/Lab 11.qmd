@@ -1,7 +1,8 @@
 ---
 title: "Lab 11: Interactions With Categorical Predictors"
 author: "Fabio Setti"
-institute: "PSYC 7804 - Regression with Lab"
+institute: "Spring 2025"
+subtitle: "PSYC 7804 - Regression with Lab"
 bibliography: Additional files/R packages.bib
 csl: Additional files/apa.csl
 title-slide-attributes:
@@ -9,7 +10,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 11: Interactions With Categorical Predictors"
+      footer: "PSYC 7804 - Lab 11: Interactions With Categorical Predictors"
       width: 1280
       height: 720
       chalkboard: true
@@ -22,6 +23,7 @@ format:
         - <script src="Fabio_theme/Fabio_theme.js"></script>
 
 editor: source
+build: local
 ---
 
 

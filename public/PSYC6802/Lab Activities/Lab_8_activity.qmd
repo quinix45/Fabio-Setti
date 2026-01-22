@@ -1,0 +1,127 @@
+---
+title: "Lab 8 Activity"
+format: pdf
+editor: source
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+---
+
+
+Load in the `Ornstein` data from the `carData` package, along with the `tidyverse` package. Read the help page for the `Ornstein` data to better understand these data.
+
+```{r}
+#| message: false
+#| warning: false
+
+library(tidyverse)
+data("Ornstein", package = "carData")
+```
+
+Here is a description of the data:
+
+```{r}
+#| eval: true
+#| echo: false
+#| message: false
+#| warning: false
+
+
+info <- tibble(variable = names(Ornstein),
+               description = c("Assets in millions of dollars",
+                               "Industrial sector. A factor with levels: AGR, agriculture, food, light industry; BNK, banking; CON, construction; FIN, other financial; HLD, holding companies; MAN, heavy manufacturing; MER, merchandizing; MIN, mining, metals, etc.; TRN, transport; WOD, wood and paper",
+                               "Nation of control. A factor with levels: CAN, Canada; OTH, other foreign; UK, Britain; US, United States",
+                               "Number of interlocking director and executive positions shared with other major firms"))
+
+
+library(kableExtra)
+
+kable(info) %>% 
+  column_spec(column = 2, width = "5in") %>% 
+  column_spec(column = 1, bold = T) %>% 
+  row_spec(0, bold = T)
+```
+
+
+**1.** For today, we will use `interlocks` as the DV, and `sector` and `nation` as IVs. 
+
+- However, we are only interested in whether the nation is Canada or not, so we want to combine the `OTH`, `UK`, and `US` factor levels. Modify the `nation` variable such that we are only left with `CAN` for canada, and `Other` for other nations. There are many ways of doing this, but the `ifelse()` function should be helpful; here is an example of how it works:
+
+```{r}
+ifelse(test = c("some", "thing", "some", "other") != "some", 
+       yes = "new", 
+       no = "some")
+```
+
+```{r}
+#| eval: false
+#| echo: false
+
+Ornstein$nation <- ifelse(test = Ornstein$nation != "CAN", 
+                          yes = "Other", 
+                          no = "CAN")
+```
+
+- Finally, omit data from the "BNK", "CON", and "HLD" levels of `sector` because they have relatively few observations.
+
+```{r}
+#| eval: false
+#| echo: false
+
+
+Ornstein <- Ornstein %>% 
+    filter(!(sector %in% c("BNK", "CON","HLD")))
+```
+
+
+**2.** plot the means of `interlocks` by `sector` and `nation`. Do you expect to find a significant interaction effect in between `sector` and `nation`? You use violin plots of the `ggeffects` package.
+
+```{r}
+#| eval: false
+#| echo: false
+
+
+library(ggeffects)
+
+reg <- lm(interlocks ~ sector*nation, Ornstein)
+
+ggeff <- ggpredict(reg, 
+                   terms = c("sector", "nation"))
+plot(ggeff, 
+     connect_lines = TRUE)
+
+# there should be no interaciton effect because the lines do not cross
+```
+
+
+**3.** Conduct a two-way ANOVA on these data and calculate the partial $\omega^2$ for each of the effects. What do you find? Use an appropriate type of sums of squares.
+
+```{r}
+#| eval: false
+#| echo: false
+
+
+options(contrasts = c("contr.sum","contr.poly"))
+
+reg <- lm(interlocks ~ sector*nation, Ornstein)
+
+car::Anova(reg, type = 3)
+
+
+effectsize::omega_squared(reg)
+
+# the ionteraction effect is not significant and the omega squared associated with it is essentially 0. sector and nation both have a significant main effect and explain a good proportion of variance in the outcome.
+```
+
+**4.** Based on your results in the previous part, either report the simple main effects or ordinary main effects. What do you conclude?
+
+```{r}
+#| eval: false
+#| echo: false
+
+
+# here we can report the ordinary main effects because there is not interaction effect
+
+# significant main effect of sector, F(6, 214) = 6.06, p < .001
+# significant main effect of nation, F(1, 214) = 33.88, p < .001
+```

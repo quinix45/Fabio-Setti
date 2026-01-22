@@ -1,0 +1,179 @@
+---
+title: "Lab 4 Activity"
+format: pdf
+editor: source
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+---
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+
+library(tidyverse)
+```
+
+
+**1.** Load in the `CO2` data from the `datasets` package by running the following code:
+
+```{r}
+#| eval: false
+data(CO2, package = "datasets")
+help(CO2)
+```
+
+Look at the documentation to understand the variables in this dataset. Identify a way to analyze these data using a $t$ test (several possible choices, but `conc` probably won't be an interesting DV). Evaluate each assumption, conduct the $t$ test, compute an effect size, and interpret the results.
+
+```{r}
+#| echo: false
+#| eval: false
+
+CO2 %>% summary
+# Type or Treatment are appropriate IVs for an ind. samples t-test
+# uptake is the most obvious DV
+
+## Type as the IV: 
+
+# test for outliers:
+CO2 %>% group_by(Type) %>%
+  summarize(mean = mean(uptake),
+            tmean = mean(uptake, trim = .05), 
+            .groups = "keep") # some differences for Quebec
+ggplot(CO2, aes(Type, uptake)) + geom_boxplot() 
+# possibly some outliers for Quebec
+
+# test for normality:
+library(e1071)
+CO2 %>% group_by(Type) %>%
+  summarize(mean = mean(uptake), sd = sd(uptake),
+            skew = skewness(uptake), kurt = kurtosis(uptake),
+            n = n(), .groups = "keep")
+# some potentially meaningful skew for Quebec, kurt for Mississippi
+ggplot(CO2, aes(sample = uptake)) + stat_qq() + 
+  stat_qq_line() + facet_wrap(~Type) # some major violations of normality
+# but 42/group might mitigate against this violation
+
+# test for homogeneity of variance:
+library(car)
+leveneTest(uptake ~ Type, CO2)
+# homogeneity not violated, but we'll use Welch anyways
+
+# t-test (two-tailed, Welch)
+t.test(uptake ~ Type, CO2)
+
+# effect size - put pooled standard deviation in the denominator
+CO2 %>% group_by(Type) %>% summarize(var(uptake), n(), .groups = "keep")
+sp <- sqrt((41 * 93.6 + 41 * 61.1) / (42 + 42 - 2))
+(33.54286 - 20.88333) / sp
+
+# mean CO2 uptake rate in Quebec is significantly higher than in Mississippi with a very large effect size (d = 1.44)
+
+
+## Treatment as the IV:
+
+# test for outliers:
+CO2 %>% group_by(Treatment) %>%
+  summarize(mean = mean(uptake),
+            tmean = mean(uptake, trim = .05), 
+            .groups = "keep") # no major differences
+ggplot(CO2, aes(Treatment, uptake)) + geom_boxplot() 
+# no outliers shown
+
+# test for normality:
+library(e1071)
+CO2 %>% group_by(Treatment) %>%
+  summarize(mean = mean(uptake), sd = sd(uptake),
+            skew = skewness(uptake), kurt = kurtosis(uptake),
+            n = n(), .groups = "keep")
+# some potentially meaningful skew and kurt for both groups
+ggplot(CO2, aes(sample = uptake)) + stat_qq() + 
+  stat_qq_line() + facet_wrap(~Treatment) # some major violations of normality
+# but 42/group might mitigate against this violation
+
+# test for homogeneity of variance:
+library(car)
+leveneTest(uptake ~ Treatment, CO2)
+# homogeneity not violated, but we'll use Welch anyways
+
+# t-test (two-tailed, Welch)
+t.test(uptake ~ Treatment, CO2)
+
+# effect size - put pooled standard deviation in the denominator
+CO2 %>% group_by(Treatment) %>% summarize(var(uptake), n(), .groups = "keep")
+sp <- sqrt((41 * 94.2 + 41 * 118) / (42 + 42 - 2))
+(30.64286 - 23.78333) / sp
+
+# mean CO2 uptake rate for nonchilled treatment is significantly higher than in for the chilled treatment with a large effect size (d = .67)
+```
+
+**2.** Load in the `sleep` data from the `datasets` package by running the following code:
+
+```{r}
+
+data(sleep, package = "datasets")
+
+# This makes analyzing the data easier
+
+sleep <- sleep %>%  
+            tidyr::pivot_wider(id_cols = ID, 
+                               names_from = group, 
+                               names_prefix = "group",
+                               values_from = extra)
+```
+
+Look at the documentation to understand the variables in this dataset (but try not to peek at the examples section of the documentation). Identify a way to analyze these data using a $t$ test. Evaluate each assumption, conduct the $t$ test, compute an effect size, and interpret the results.
+
+
+```{r}
+#| echo: false
+#| eval: false
+data(sleep, package = "datasets")
+sleep <- sleep %>% 
+  pivot_wider(id_cols = ID, 
+              names_from = group, 
+              names_prefix = "group",
+              values_from = extra)
+sleep %>% summary
+
+# extra should be the DV
+# group is an appropriate IV for paired samples t-test (see documentation)
+
+# want to evaluate the normality of difference scores
+sleep <- sleep %>% mutate(diff = group2 - group1)
+
+# trimmed mean may not be appropriate because N is so small
+ggplot(sleep, aes(diff)) + geom_boxplot()
+# possibly likely outliers, but hard to draw any definitive conclusions
+
+ggplot(sleep, aes(sample = diff)) + stat_qq() + stat_qq_line() # probably non-normal
+
+# an upper-tailed test may be appropriate if we are only concerned about gains
+t.test(sleep$diff, alternative = "greater")
+
+# effect size
+4.0621 / sqrt(10)
+
+# there is a significant increase in sleep with drug 2 over drug 1 with a large effect size (d = 1.28), but sample size is small, so we are cautious about this conclusion
+```
+
+
+**3.** The `t.test()` function also includes an `alternative =` argument. What does that argument do? How do your results differ if you try different values for the `alternative =` argument? Make sure to read the help menu of the `t.test()` function.
+
+```{r}
+#| echo: false
+#| eval: false
+
+# the alternative =  argument allows to specified directional hypotheses. The p-value of directional hypotheses will always be twice as small as the p-value of non directional hypotheses. 
+```
+
+
+**4.** For (1) and (2), use `ggplot` to create interesting graphs to illustrate your results (what might you include in a thesis or published paper?).
+
+```{r}
+#| echo: false
+#| eval: false
+
+## depends on what students chose for 1 and 2, many possible answers
+```

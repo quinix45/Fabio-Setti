@@ -1,7 +1,8 @@
 ---
 title: "Lab 10: Categorical Predictors"
 author: "Fabio Setti"
-institute: "PSYC 7804 - Regression with Lab"
+institute: "Spring 2025"
+subtitle: "PSYC 7804 - Regression with Lab"
 bibliography: Additional files/R packages.bib
 csl: Additional files/apa.csl
 notice: |
@@ -12,7 +13,7 @@ title-slide-attributes:
 
 format:
    revealjs:
-      footer: "Lab 10: Categorical Predictors"
+      footer: "PSYC 7804 - Lab 10: Categorical Predictors"
       width: 1280
       height: 720
       chalkboard: true

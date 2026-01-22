@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr"><head>
+  
+                           
+     
+
+
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.147.9">
+<title>PSYC 6802: Introduction to Psychology Statistics | Fabio Setti</title>
+
+
+
+
+
+
+
+
+  
+    
+  
+<meta name="description" content="A set of HTML slides for the lab portion of PSYC 6802 (graduate course). In this lab, I provide an introduction to the **R** programming language and go over how to implement popular statistical analyses employed in the social sciences.">
+
+
+<meta property="og:site_name" content="Fabio Setti">
+<meta property="og:title" content="PSYC 6802: Introduction to Psychology Statistics | Fabio Setti">
+<meta property="og:description" content="A set of HTML slides for the lab portion of PSYC 6802 (graduate course). In this lab, I provide an introduction to the **R** programming language and go over how to implement popular statistical analyses employed in the social sciences." />
+<meta property="og:type" content="page" />
+<meta property="og:url" content="https://Fabio-Setti.netlify.app/courses/psyc6802/" />
+<meta property="og:locale" content="en">
+
+
+
+
+    
+        <meta property="og:image" content="https://Fabio-Setti.netlify.app/courses/psyc6802/featured-hex.png" >
+        <meta property="twitter:card" content="summary">
+        <meta name="twitter:image" content="https://Fabio-Setti.netlify.app/courses/psyc6802/featured-hex.png" >
+    
+    
+  
+  <meta itemprop="name" content="PSYC 6802: Introduction to Psychology Statistics">
+  <meta itemprop="description" content="Slides: Click to access Lab presentations. To navigate slides, use left/right arrow keys (on laptop) or swipe left/right (on tablet). The slides are created with the quarto extension of RStudio and use the revealjs framework.
+Code: Click to download raw R code that is used in the Lab slides. The code is included in a .qmd file that is divided according to the title of each Lab slide.
+Activity: Click to download Lab activity with practice questions. A Lab activity presents questions of varying difficulty related to the respective Lab.">
+  <meta itemprop="datePublished" content="2025-08-01T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-08-01T00:00:00+00:00">
+  <meta itemprop="wordCount" content="837">
+  <meta itemprop="image" content="https://Fabio-Setti.netlify.app/courses/psyc6802/featured-hex.png">
+  <!--[if IE]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <link rel="shortcut icon" href="/img/Logo.ico" type="image/x-icon">
+  <link rel="icon" href="/img/Logo.ico" type="image/x-icon">
+  
+  
+  <link rel="stylesheet" href="/style.main.min.7e162c1168dbd2d1eb24a94c96f9ca29d00e19c6e332b5aa78b89cd365c14ed0.css" integrity="sha256-fhYsEWjb0tHrJKlMlvnKKdAOGcbjMrWqeLic02XBTtA=" media="screen">
+  
+  
+  <script src="/panelset.min.ed1ac24b6e16f4e2481e3d1d098ae66f5bc77438aef619e6e266d8ac5b00dc72.js" type="text/javascript"></script>
+  
+  
+  <script src="/main.min.ab2684511e7bd7f12706289479579e35f8dd4f2699045cc4272a657a3339a2eb.js" type="text/javascript"></script>
+</head>
+<body>
+    <div class="grid-container single">
+<header class="site-header pt4 pb2 mb4 bb b--transparent ph5 headroom z-max" role="banner">
+  <nav class="site-nav db dt-l w-100" role="navigation">
+    <a class="site-brand db dtc-l v-mid link no-underline w-100 w-33-l tc tl-l" href="https://Fabio-Setti.netlify.app/" title="Home">
+      <img src="/img/home-icon.png" class="dib db-l h2 w-auto" alt="Fabio Setti">
+    </a>
+    <div class="site-links db dtc-l v-mid w-100 w-47-l tc tr-l mt3 mt0-l ttu tracked">
+      
+        
+        
+        
+      <a class="link f6 f5-l dib pv1 ph2 active" href="/courses/" title="Materials for Courses I Taught">Courses</a>
+      
+        
+        
+        
+      <a class="link f6 f5-l dib pv1 ph2 " href="/presentations/" title="Conference Presentations">Presentations</a>
+      
+        
+        
+        
+      <a class="link f6 f5-l dib pv1 ph2 " href="/project/" title="Project Portfolio">Projects</a>
+      
+        
+        
+        
+      <a class="link f6 f5-l dib pv1 ph2 " href="https://raw.githack.com/quinix45/CV/main/Fabio-Setti-CV.html" title="View My CV">CV</a>
+      
+      
+    </div>
+  </nav>
+</header>
+
+<main class="page-main pa4" role="main">
+  <section class="page-content mw7 center">
+    <article class="post-content pa0 ph4-l">
+      <header class="post-header">
+        <h1 class="f1 lh-solid measure-narrow mb3 fw4" style="text-align: center;">PSYC 6802: Introduction to Psychology Statistics</h1>
+        
+        
+        
+        
+
+      
+      <div class="ph0 pt5">
+        
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+      
+  <a class="btn-links mr2 ba dib" href="https://github.com/quinix45/Fabio-Setti/tree/main/static/PSYC6802" target="_blank" rel="noopener"><i class="fab fa-github fa-lg fa-fw mr2"></i>Find code here</a>
+
+
+      </div>
+      
+
+      </header>
+      <section class="post-body pt5 pb4">
+        <center> <img src="featured-hex.png"  width="60%"> </center>
+</br>
+</br>
+<p><i class="fas fa-chalkboard-teacher"> </i> <strong>Slides:</strong> Click to access Lab presentations. To navigate slides, use left/right arrow keys (on laptop) or swipe left/right (on tablet). The slides are created with the <a href="https://quarto.org/docs/presentations/" target="_blank" class="inline-link">quarto</a> extension of <a href="https://posit.co/download/rstudio-desktop/" target="_blank" class="inline-link">RStudio</a> and use the <a href="https://revealjs.com" target="_blank" class="inline-link">revealjs</a> framework.</p>
+<p><i class="fas fa-code"> </i> <strong>Code:</strong> Click to download raw R code that is used in the Lab slides. The code is included in a .qmd file that is divided according to the title of each Lab slide.</p>
+<p><i class="fas fa-bullseye"> </i> <strong>Activity:</strong> Click to download Lab activity with practice questions. A Lab activity presents questions of varying difficulty related to the respective Lab.</p>
+<p><i class="fas fa-check"> </i> <strong>Activity solution:</strong> Click to download solutions to Lab activity as a .qmd file. The solutions presented are just one of many ways to solve the activity questions.</p>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const buttons = document.querySelectorAll('.delayed-download');
+
+    buttons.forEach(button => {
+      const availableAfter = new Date(button.dataset.availableAfter);
+      const file = button.dataset.file;
+
+      button.addEventListener('click', () => {
+        const now = new Date();
+        if (now >= availableAfter) {
+          // Proceed with download
+          const link = document.createElement('a');
+          link.href = file;
+          link.download = file.split('/').pop();
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          // Show alert instead (no seconds)
+          alert(`This file will be available for download on ${availableAfter.toLocaleString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+          })}.`);
+        }
+      });
+    });
+  });
+</script>
+</br>
+</br>
+</br>
+<!-- Tab links -->
+<span class="ph0 pt5 post-header">
+<a class="tablinks btn-links mr2 ba dib" onclick="openTab(event, '2025')"> <b> Fall 2025 </b> </a>
+<div id="2025" class="tabcontent" style="display:block;" >
+<h3> 1. Introduction to R  </h3>
+<p>This Lab introduces the R programming language and RStudio. This Lab also covers core concepts such as objects, functions, packages, and object subsetting. Additionally, this Lab introduces 
+<a href="https://quarto.org" target="_blank" rel="noopener">Quarto</a> as a tool for creating neat PDF reports.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_1.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_1_code.qmd" download="Lab 1 code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class="post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_1_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-08-29T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_1_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 2. Descriptive Statistics, Data Manipulation, and Plotting </h3>
+<p>This Lab goes over some basic descriptive statistics, data manipulation with 
+<a href="https://dplyr.tidyverse.org" target="_blank" rel="noopener"><code>dplyr</code></a>, and plotting with 
+<a href="https://ggplot2.tidyverse.org/index.html" target="_blank" rel="noopener"><code>ggplot2</code></a>.</p>
+<span class="post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_2.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_2_code.qmd" download="Lab 2 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class="post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_2_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-09-07T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_2_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 3. Chi-Square </h3>
+<p>This lab introduces some categorical data analysis methods for contingency tables. In particular, this Lab goes over χ<sup>2</sup> tests, likelihood ratio test, and Fisher&rsquo;s exact test. Further, the Lab also goes over odds and risk, as well as odds ratios and relative risk.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_3.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_3_code.qmd" download="Lab 3 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_3_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-09-12T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_3_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 4. t-Test </h3>
+<p>This Lab introduces one-sample, paired-samples, and independent-samples <em>t</em>-tests, as well as a non-parametric alternative. Cohen&rsquo;s <em>d</em>, a measure of effect size for mean differences, as well as methods to asses the assumption of normality are also discussed.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_4.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_4_code.qmd" download="Lab 4 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_4_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-09-19T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_4_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 5. Power </h3>
+<p>This lab introduces power analysis with the 
+<a href="https://cran.r-project.org/web/packages/pwr/index.html" target="_blank" rel="noopener"><code>pwr</code></a> package. The types of power analyses discussed in this lab are mostly for basic statistical analyses such as χ<sup>2</sup> tests, and <em>t</em>-tests. The appendix also includes power analyses examples for <em>F</em>-tests, correlation, and regression.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_5.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_5_code.qmd" download="Lab 5 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_5_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-09-26T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_5_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 6. Correlation and Regression </h3>
+<p>This Lab introduce both correlation and regression. The lab also gives examples of unstandardized and standardized regression results and talks about the differences and similarities between the two. The exploration of residuals as an integral part of regression analysis is emphasized. Finally, The lab introduces <i>R</i><sup>2</sup> as an effect size for regression and provides graphical illustrations of the idea of <i>variance explained</i>.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_6.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_6_code.qmd" download="Lab 6 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_6_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-10-03T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_6_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 7. One-Way ANOVA </h3>
+<p>This lab introduces one-way ANOVA. The lab also shows how to calculate ANOVA effect sizes such as η<sup>2</sup> and ω<sup>2</sup>, along with post HOC comparisons and some basic contrasts. The lab frames ANOVA in terms of additional variance explained in the DV by using group means and provides more details on sums of squares in the appendix.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_7.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_7_code.qmd" download="Lab 7 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_7_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-10-10T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_7_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 8. Factorial ANOVA </h3>
+<p>This Lab introduces factorial ANOVA in the context of two categorical IVs. Interaction effects, the idea of simple main effects, and partial effect sizes are discussed. The Lab also touches upon the choice of different types of sums of squares.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_8.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_8_code.qmd" download="Lab 8 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_8_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-10-17T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_8_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 9. Multiple Regression I </h3> 
+<p>This Lab introduces multiple regression, as well as regression with categorical predictors. Residual plots, added variable plots, interpretation of regression coefficients and R<sup>2</sup> in the context of multiple regression are discussed. The Lab includes an interactive 3D visualization of the regression plane, as well as code to automatically generate an APA style table for regression results.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_9.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_9_code.qmd" download="Lab 9 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_9_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-10-24T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_9_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 10. Multiple Regression II </h3> 
+<p>This Lab introduces partial and semi-partial correlations. Additionally, the Lab details different regression diagnostics and ways to check whether some individuals data-points may have a strong influence on the regression results. Finally, the Lab introduces the issue of multicollinearity, its consequences, and a graphical representation of the phenomenon.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_10.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_10_code.qmd" download="Lab 10 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_10_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-01T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_10_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 11. Logistic Regression </h3> 
+<p>This Lab introduces logistic regression. Interpretation of logistic regression coefficients, likelihood ratio test for model comparison, as well as some basic metrics to evaluate logistic regression based on confusion matrices are discussed. The idea of splitting data into training and test partition to test model predictions on out-of-sample data is also discussed briefly.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_11.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_11_code.qmd" download="Lab 11 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_11_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-08T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_11_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 12. Third Variables </h3> 
+<p>This lab briefly introduces moderation and mediation. In the case of moderation, the idea of simple slopes is introduced. In the case of mediation, an example of a simple mediation model in <code>lavaan</code> is shown. A more detailed treatment of both topics can be found in 
+<a href="https://fabio-setti.netlify.app/courses/psyc7804/" target="_blank" rel="noopener">PSYC 7804: Regression With Lab</a>.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_12.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_12_code.qmd" download="Lab 12 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_12_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-15T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_12_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 13. Latent Variables </h3> 
+<p>This lab briefly introduces exploratory factor analysis (EFA) and confirmatory factor analysis (CFA). Given the breadth of the topic, only a really small subset of the methods and practices related to EFA and CFA are discussed.</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_13.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_13_code.qmd" download="Lab 13 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_13_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-11-22T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_13_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr class="fancy"></hr>
+<h3> 14. Repeated Measures </h3> 
+<p>This lab introduces some analysis techniques used to deal with repeated measures. The lab introduces both repeated measures ANOVA and hierarchical linear modeling (HLM).</p>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab_14.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Code/Lab_14_code.qmd" download="Lab 14 Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib" href="/PSYC6802/Lab Activities/Lab_14_activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<span class=" post-header">
+<a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-12-06T12:00Z" data-file="/PSYC6802/Lab Activities/Lab_14_activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
+<hr></hr>
+</div>
+        
+      </section>
+      <footer class="post-footer">
+        <div class="post-pagination dt w-100 mt4 mb2">
+  
+  
+  
+  
+    <a class="next dtc pl2 tr v-top fw6"
+    href="https://Fabio-Setti.netlify.app/courses/psyc7804/">PSYC 7804: Regression With Lab &rarr;</a>
+  
+</div>
+
+      </footer>
+    </article>
+    
+  </section>
+</main>
+<footer class="site-footer pv4 bt b--transparent ph5" role="contentinfo">
+  <nav class="db dt-l w-100">
+    <p class="site-copyright f7 db dtc-l v-mid w-100 w-33-l tc tl-l pv2 pv0-l mv0 lh-copy">
+      &copy; 2026 Fordham University, NY
+      <span class="middot-divider"></span>
+      Made with <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/hugo-apero/" rel="dct:source">Hugo Apéro</a></span>.
+      <br />
+      
+Based on <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title"><a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/formspree/blogophonic-hugo" rel="dct:source">Blogophonic</a></span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://formspree.io" property="cc:attributionName" rel="cc:attributionURL">Formspree</a>.
+    </p>
+    
+    <div class="site-social-links db dtc-l v-mid w-100 w-33-l tc pv2 pv0-l mv0">
+      <div class="social-icon-links" aria-hidden="true">
+  
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <a class="link dib h1 w1 ml0 mr2 f5 o-90 grow-large" href="https://github.com/quinix45" title="github" target="_blank" rel="me noopener">
+      <i class="fab fa-github fa-lg fa-fw"></i>
+    </a>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <a class="link dib h1 w1 ml0 mr2 f5 o-90 grow-large" href="mailto:fabio.setti45@gmail.com" title="envelope" >
+      <i class="far fa-envelope fa-lg fa-fw"></i>
+    </a>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <a class="link dib h1 w1 ml0 mr2 f5 o-90 grow-large" href="https://www.linkedin.com/in/fabio-setti-0a0a85236/" title="linkedin" target="_blank" rel="me noopener">
+      <i class="fab fa-linkedin fa-lg fa-fw"></i>
+    </a>
+  
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    <a class="link dib h1 w1 ml0 mr2 f5 o-90 grow-large" href="https://orcid.org/0000-0001-8516-6939" title="orcid" target="_blank" rel="me noopener">
+      <i class="ai ai-orcid fa-lg fa-fw"></i>
+    </a>
+  
+</div>
+
+    </div>
+    
+    <div class="site-links f6 db dtc-l v-mid w-100 w-67-l tc tr-l pv2 pv0-l mv0">
+      
+      <a class="dib pv1 ph2 link" href="/contact/" title="Contact form">Contact</a>
+      
+    </div>
+  </nav>
+  
+    <script>
+
+    var i, text, code, codes = document.getElementsByTagName('code');
+    for (let i = 0; i < codes.length;) {
+      code = codes[i];
+      if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+        text = code.textContent;
+        if (/^\$[^$]/.test(text) && /[^$]\$$/.test(text)) {
+          text = text.replace(/^\$/, '\\(').replace(/\$$/, '\\)');
+          code.textContent = text;
+        }
+        if (/^\\\((.|\s)+\\\)$/.test(text) ||
+            /^\\\[(.|\s)+\\\]$/.test(text) ||
+            /^\$(.|\s)+\$$/.test(text) ||
+            /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+          code.outerHTML = code.innerHTML;  
+          continue;
+        }
+      }
+      i++;
+    }
+</script>
+
+  
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous" onload="renderMathInElement(document.body);"></script>
+
+
+
+    
+  
+  
+</footer>
+
+    </div>
+
+    
+    
+    <script src="/js/custom.min.86c93fd93c15ef9668ff06f4e28891436fd89dc224dab50adfa6a409bf31bbc7.js" defer></script>
+  </body>
+</html>

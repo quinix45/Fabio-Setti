@@ -1,7 +1,8 @@
 ---
 title: "Lab 5: Added Variable Plots and Bootstrapping"
 author: "Fabio Setti"
-institute: "PSYC 7804 - Regression with Lab"
+institute: "Spring 2025"
+subtitle: "PSYC 7804 - Regression with Lab"
 bibliography: Additional files/R packages.bib
 csl: Additional files/apa.csl
 notice: |
@@ -12,7 +13,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 5: Added Variable Plots and Bootstrapping"
+      footer: "PSYC 7804 - Lab 5: Added Variable Plots and Bootstrapping"
       width: 1280
       height: 720
       chalkboard: true

@@ -1,0 +1,125 @@
+---
+title: "Lab 6 Activity"
+format: pdf
+editor: source
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+---
+
+
+
+In this lab activity you will use the `insurance.csv` dataset. First, click [here](https://fabio-setti.netlify.app/data/insurance.csv) to download the dataset. These data contain the information on yearly health insurance charges for 1,338 individuals. Here is a description of the variables in the dataset:
+
+
+```{r}
+#| warning: false
+#| eval: true
+#| echo: false
+
+library(tidyverse)
+dat <- rio::import("https://fabio-setti.netlify.app/data/insurance.csv")
+
+
+info <- tibble(variable = names(dat),
+               description = c("Age of primary beneficiary", 
+                               "Insurance contractor gender, female, male", 
+                               "Body mass index", 
+                               "Number of children covered by health insurance / Number of dependents",
+                               "Whether the beneficiary is a smoker", 
+                               "The beneficiary's residential area in the US, northeast, southeast, southwest, northwest", 
+                               "Individual medical costs billed yearly by health insurance in $"))
+
+library(kableExtra)
+
+kable(info) %>% 
+  column_spec(column = 2, width = "5in") %>% 
+  column_spec(column = 1, bold = T) %>% 
+  row_spec(0, bold = T)
+```
+
+
+\newpage
+
+
+**1.** Load the data and run a regression where `charges` is the DV ($y$) and `age` is the IV ($x$). Before looking at the results, whuld you expect the slope of this regression to be positive or negative? why? Print your results and write out the regression equation given the estimated intercept and the regression slope.
+
+```{r}
+#| eval: false
+#| echo: false
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/insurance.csv")
+
+reg <- lm(charges ~ age, data = dat)
+
+
+# the slope should be positive as health insurance charges should increase as age increases. 
+
+summary(reg)
+
+# charges = 3165.9 + 257.7*age
+```
+
+**2.** Interpret the intercept. What is the meaning of the intercept in this case? Is it meaningful given the scale of the data? Justify your answer.
+
+```{r}
+#| eval: false
+#| echo: false
+
+# the intercept, 3165.9, is the expected mean health insurance yearly bill when age is 0. This nuimber is not meaningful because no one at age 0 would be billed for health insurance. More generally, age - 0 is not representative of any observation in the data.
+```
+
+
+**3.** Interpret the slope. What is the meaning of the slope in this case? According to the regression equation, what would be the predicted yearly health insurance charge for someone who is 40 years old?
+```{r}
+#| eval: false
+#| echo: false
+
+# the slope is 257.7 and it represents the expected increase in mean yearly insuurance charge per 1-unit increase in age.
+
+# The predicted yearly health insurance charge for someone who is 40 would be:
+
+3165.9 + 257.7*40
+
+# around $13,473.9
+```
+
+**4.** Create a scatterplot of `charges` on the $y$-axis and `age` on the $x$-axis with a regression line. Additionally, also create a scatterplot of the residuals of `charges` on the $y$-axis and `age` on the $x$-axis, along with a line at $y = 0$. (**Note:** you will notice that the two plots are *very* similar. in fact, the residual plot is the regression plot but tilted such that the regression line is flat)
+
+
+```{r}
+#| eval: false
+#| echo: false
+
+ggplot(dat, aes(y =  charges, x = age)) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    theme_classic()
+
+dat$residuals <- reg$residuals
+
+ggplot(dat, aes(y = residuals, x = age)) +
+    geom_point() +
+    geom_smooth(method = "lm") +
+    theme_classic()
+
+```
+
+
+- What do you make of the pattern of the residuals? Do you think that the regression line adequately described the relation between `charges` and `age`? Are the some points that are not well predicted by the regression line? 
+
+```{r}
+#| eval: false
+#| echo: false
+
+# although the overall positive relation makes sense, there seem to be come datapoints that are not very well described by the regression. in particular, there seem to be clusters of inidviduals who pay more yearly that are not well predicted by th regression. There likely is some clustering factor that causes this.
+```
+
+- You should notice some unusual patterns in the residuals plots (i.e., separate clusters of points). Look back a the table with the description of each variable; can you identify any variable that may explain the unusual pattern in the residuals and the relatevely poor performance of our regression? (this question is a bit more conceptual, so we can discuss in class) 
+
+```{r}
+#| eval: false
+#| echo: false
+
+# the smoking variable is clearly an important component in predicting charges. namely, the clusters of individuals around the $40,000 in charges are mostly smokers; that explains why there appear to be seaprate clusters of individuals 
+```

@@ -1,0 +1,77 @@
+---
+title: "Lab 5 Activity"
+format: pdf
+editor: source
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+---
+
+**1.** Suppose that you are planning to conduct an experiment to compare a new treatment to a placebo, and you want to be able to detect a relatively small effect ($d = 0.3$) with $\alpha = .05$. You have the budget to recruit $N = 100$ subjects for your study. Based on power considerations alone, would you prefer to conduct a paired-samples $t$-test or an independent-samples $t$-test (with equally sized groups)? Do the power calculations in R. For the test with less power, how many additional subjects would you need to recruit to have the same power as the more powerful test? 
+
+```{r}
+#| echo: false
+#| eval: false
+
+library(pwr)
+
+# for a two-tailed test:
+
+pwr.t.test(n = 100, d = .3, sig.level = .05, power = NULL, 
+           type = "paired", alternative = "two.sided") # power = .84
+
+pwr.t.test(n = 50, d = .3, sig.level = .05, power = NULL, # remember:  is the number in *each* group
+           type = "two.sample", alternative = "two.sided") # power = .32
+
+pwr.t.test(n = NULL, d = .3, sig.level = .05, power = .8439471,
+           type = "two.sample", alternative = "two.sided") 
+# n = 197 in each group - nearly 4x as many as the original!
+
+# for a one-tailed test:
+
+pwr.t.test(n = 100, d = .3, sig.level = .05, power = NULL, 
+           type = "paired", alternative = "greater") # power = .91
+
+pwr.t.test(n = 50, d = .3, sig.level = .05, power = NULL, # remember:  is the number in *each* group
+           type = "two.sample", alternative = "greater") # power = .44
+
+pwr.t.test(n = NULL, d = .3, sig.level = .05, power = .9089875,
+           type = "two.sample", alternative = "greater") 
+# n = 197 in each group - nearly 4x as many as the original!
+
+```
+
+
+**2.** For the independent samples $t$-test, to what extent does having equally vs. unequally sized groups affect power? Test for a two-tailed test using $d = .5$, $N = 100$, and $\alpha = .05$. At what group sizes will power be less than .5? 
+
+```{r}
+#| echo: false
+#| eval: false
+
+pwr.t2n.test(n1 = 50, n2 = 50, d = .5, sig.level = .05, power = NULL, alternative = "two.sided") # .70
+pwr.t2n.test(n1 = 25, n2 = 75, d = .5, sig.level = .05, power = NULL, alternative = "two.sided") # .57
+pwr.t2n.test(n1 = 15, n2 = 85, d = .5, sig.level = .05, power = NULL, alternative = "two.sided") # .42
+pwr.t2n.test(n1 = 20, n2 = 80, d = .5, sig.level = .05, power = NULL, alternative = "two.sided") # .51
+pwr.t2n.test(n1 = 19, n2 = 81, d = .5, sig.level = .05, power = NULL, alternative = "two.sided") # .49
+
+# different sample sizes across groups result in lower sample sizes 
+```
+
+
+**3.** How does changing the degrees of freedom in a chi-square test affect power, holding other factors constant? Answer this question by trying out various calls to `pwr.chisq.test()` in R. How might this affect your experimental design?
+
+```{r}
+#| echo: false
+#| eval: false
+
+pwr.chisq.test(w = .5, N = 50, df = 1, sig.level = .05)
+pwr.chisq.test(w = .5, N = 50, df = 2, sig.level = .05)
+pwr.chisq.test(w = .5, N = 50, df = 3, sig.level = .05)
+
+pwr.chisq.test(w = .1, N = 500, df = 1, sig.level = .05)
+pwr.chisq.test(w = .1, N = 500, df = 2, sig.level = .05)
+pwr.chisq.test(w = .1, N = 500, df = 3, sig.level = .05)
+
+# adding degrees of freedom (categories) lowers power - may want to include fewer categories of categorical variables if they don't provide a lot of information
+```
+

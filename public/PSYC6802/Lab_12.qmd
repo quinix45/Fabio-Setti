@@ -1,0 +1,892 @@
+---
+title: "Lab 12: Third Variables"
+author: "Fabio Setti"
+institute: "PSYC 6802 - Introduction to Psychology Statistics"
+bibliography: Additional files/references.bib
+csl: Additional files/apa.csl
+title-slide-attributes:
+  data-transition: "zoom"
+  data-visibility: "uncounted"
+format:
+   revealjs:
+      footer: "PSYC 6802 - Lab 12: Third Variables"
+      width: 1280
+      height: 720
+      chalkboard: true
+      slide-number: c/t 
+      theme: Fabio_theme/Fabio_theme.scss
+      navigation-mode: linear
+      controls: false
+      auto-stretch: false
+      header-includes:
+        - <script src="Fabio_theme/Fabio_theme.js"></script>
+
+editor: source
+build: local
+---
+
+## Today's Packages and Data 🤗 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-125
+
+install.packages("devtools")
+devtools::install_github("quinix45/FabioFun")
+install.packages("interactions")
+install.packages("lavaan")
+install.packages("semTools")
+```
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(lavaan)
+library(interactions)
+library(semTools)
+library(tidyverse)
+```
+
+
+::: {.panel-tabset}
+
+### `lavaan`
+
+The `lavaan` package [@Rosseel_etal_2024] is the most popular package to run SEM models in R. We will use it to run mediation analysis, which the SEM framework accommodates nicely.
+
+### `semTools`
+
+The `semTools` package [@Jorgensen_etal_2025] offers some helper functions that build upon `lavaan`. We will use it to compute monte carlo confidence intervals for indirect effects.
+
+### `interactions`
+
+The interactions package [@Long_2024] provides helpful functions to explore interaction effects.
+
+:::
+
+:::
+
+::: {.column width = '50%'}
+
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+Today we will use the `attend` dataset from the `wooldridge` package [@Shea_Brown_2024]. See [here](https://rdrr.io/cran/wooldridge/man/attend.html){target='_blank'} for more information about the data. 
+ 
+```{r}
+#| eval: true
+
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/Lab_12_attend.dta")
+```
+
+```{r}
+library(FabioFun)
+
+labels <- c("Classes attended out of 32",
+            "GPA for term",
+            "Cumulative GPA prior to term",
+            "ACT score",
+            "Final exam score",
+            "Percent classes attended",
+            "Percent homework turned in",
+            "Equals 1 if freshman",
+            "Equals 1 if sophomore",
+            "Number of classes missed",
+            "Standardized Final Score")
+
+labels_react <- FabioFun::reactbl_col.desc(names = colnames(dat),
+                                          desc =  labels,
+                                          style = "cursor: pointer; text-decoration: none;",
+                                          info_color = "#7a0b80")
+
+reactable::reactable(round(dat, 2),
+                     defaultColDef = colDef(minWidth = 100),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300, columns = labels_react)
+```
+
+:::
+::::
+
+## Moderation = Interactions
+
+To start off, there is absolutely no difference between *moderation* and *interactions*, which we have looked at in [Lab 8](https://fabio-setti.netlify.app/psyc6802/lab_8#/interactions-between-independent-variables){target='_blank'}. This is a case where people use different words to refer to the same thing. 
+
+::: {.fragment fragment-index=1}
+
+If we have two predictors $X_1$ and $X_2$ and we believe that the effect that they have on $Y$ is fundamentally tied together, the we say that there is an interaction between $X_1$ and $X_2$. The regression equation to describe this is:
+
+$$
+Y = \beta_0 + \beta_1X_1 + \beta_2X_2 + \beta_3(X_1 \times X_2)
+$$
+
+:::
+
+
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=2}
+
+For example, if we look at individuals who have $X_2 = 1$, we get the equation on the right. 
+
+Note that we get a unique regression equation for individuals who have $X_2 = 1$, where $(\beta_0 + \beta_2)$ is the intercept and $(\beta_1 + \beta_3)$ the slope.
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=2}
+$$
+Y = \beta_0 + \beta_1X_1 + \beta_2 \times 1 + \beta_3(X_1 \times 1) =
+$$
+
+$$
+   \beta_0 + \beta_1X_1 + \beta_2 + \beta_3X_1 =
+$$
+
+$$
+ Y = (\beta_0 + \beta_2) + (\beta_1 + \beta_3)\times X_1 
+$$
+
+
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=3}
+
+The regression coefficient $\beta_3$ is the interaction effect between $X_1$ and $X_2$. Some call this **moderation analysis**, I personally prefer to say that we think that there is an interaction effect between $X_1$ and $X_2$ 🤷
+
+:::
+
+## Which Variable is the moderator?
+
+::: {.fragment fragment-index=2}
+When hypothesizing interaction effects, it is useful to make a distinction between a **focal predictor** and a **moderator**. For example, if you are interesting in exploring how *race* ($X_2$) affects the impact of *cognitive behavioral therapy (CBT)* ($X_1$) on *depression* ($Y$), then I would say that *race* is more easily understood as the **moderator** and *CBT* as the **focal predictor**.
+:::
+
+
+:::: {.columns}
+::: {.column width="45%"}
+
+
+
+::: {.fragment fragment-index=3}
+Interactions are usually represented with the diagrams on the right. the variable pointing directly to $Y$ is considered the focal predictor, while the variable pointing to the line is considered the moderator. 
+:::
+
+::: {.fragment fragment-index=4}
+
+The two representation on the right are equivalent (the regression equation is the same). However, depending on your hypotheses it may make more practical sense to conceptualize one variables as the focal predictor and the other as the moderator. 
+
+:::
+
+:::
+::: {.column width="55%"}
+
+::: {.fragment fragment-index=3}
+<center> <img src="Additional files/images/moderation.png" style="width:60%;"> </center>
+:::
+
+:::
+::::
+
+## Moderation in `R`
+
+<div style="font-size: 24px"> We hypothesize that the grade on a statistics final (`final`, $Y$) is predicted by how many classes a student attends (`attend`, $X_1$). Additionally, we also think that the effect that `attend` has on `final` is *moderated* by prior GPA before starting the class (`priGPA`, $X_2$). </div>
+
+
+
+:::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-115
+
+reg_int <- lm(final ~ attend*priGPA, data = dat)
+summary(reg_int)
+```
+
+:::
+
+:::
+::: {.column width="50%"}
+
+
+::: {.fragment fragment-index=1}
+To specify an interaction we use the `*` operator. Our regression equation is:
+
+$$
+Y = 30. 14 - 0.48X_1 - 2.21X_2 + 0.20 X_1 X_2
+$$
+
+:::
+
+
+::: {.fragment fragment-index=2}
+
+<div style="font-size: 28px"> Our interaction term is significantly different from 0. The intercept, $30.14$, is still the expected value of $Y$ when $X_1 = 0$ and $X_2 = 0$... </div>
+
+:::
+
+
+
+::: {.fragment fragment-index=3}
+
+<div style="font-size: 28px; text-align:center; padding-top: 12px;">  However, now that we are dealing with a significant interaction effect, $0.20 X_1 X_2$, things are not so simple! Just as in [Lab 8](https://fabio-setti.netlify.app/psyc6802/lab_8#/simple-main-effects){target='_blank'}, we need to look at *simple slopes*. </div>
+
+:::
+
+
+
+:::
+::::
+
+## Simple Slopes
+
+Because the interaction term is significant, the effect of our focal predictor depends on the value of the moderator. We can use the `sim_slopes()` function from the `interactions` package.
+
+
+:::: {.columns}
+::: {.column width = '57%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# NOTE: you need to specify which variable is the focal predictor (`pred =`) and which is the moderator (`modx =`)!
+sim_slopes <- interactions::sim_slopes(reg_int, 
+                                       modx = "priGPA",
+                                       pred = "attend")
+# rounding to 3 decimal places for nicer output
+round(sim_slopes$slopes,3)
+```
+
+:::
+
+
+:::
+
+::: {.column width = '43%'}
+
+
+::: {.fragment fragment-index=1}
+
+Here, I am treating prior GPA before taking the course, `priGPA`, as the moderator. The `sim_slopes()` function will calculate the simple slope of the focal predictor `attend` given some values of `priGPA`. The `sim_slopes()` function automatically chooses the mean of the moderator and 1 SD below/above the mean of the moderator as values. 
+
+:::
+
+:::
+::::
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+::: {.fragment fragment-index=3}
+
+when prior GPA $= 2.042$  &rarr; slope of `attend` $= -0.064$
+
+when prior GPA $= 2.587$  &rarr; slope of `attend` $= 0.047$
+
+when prior GPA $= 3.131$  &rarr; slope of `attend` $= 0.157$
+
+:::
+
+:::
+::: {.column width = '45%'}
+
+::: {.fragment fragment-index=4}
+
+The simple slopes are under the `est.` column. Notice that the simple slope of `attend` is significant only when GPA $= 3.131$. What does this mean?
+
+:::
+
+:::
+::::
+
+
+## Plotting simple slopes
+
+We can use the `interact_plot()` function from the `interactions` to plot the simple slopes that we just calculated.
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| classes: code-125
+
+interact_plot(reg_int, 
+              modx = "priGPA",
+              pred = "attend")              
+```
+
+Once again, in `modx =` we specify the variable that we want to treat as the moderator, and in `pred =` we specify the variable that we want to treat as the focal predictor.
+
+
+
+
+:::
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+
+interact_plot(reg_int, 
+              modx = "priGPA",
+              pred = "attend")
+
+
+```
+
+:::
+::::
+
+::: {.fragment fragment-index=1}
+
+Only the slope of the regression line when `priGPA` is 1 SD above the mean is significantly different from 0. S, there is a positive relation between final grade and class attendance *only* for students who have a relatively high prior GPA.
+
+:::
+
+## Mean-Centering
+
+From some slides ago, we got that our current regression equation is
+
+$$
+Y = 30. 14 - 0.48X_1 - 2.21X_2 + 0.20 X_1 X_2
+$$
+
+Where $Y =$ `final`, $X_1 =$ `attend` and $X_2 =$ `priGPA`. Currently, the interpretation of the slopes of $X_1$ and $X_2$ is not very useful because:
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+- $- 0.48$ is the slope of `attend` on `final`, *when*  `priGPA` is $0$ (impossible, no one has a GPA of $0$).
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+- $- 2.21$ is the slope of `priGPA` on `final`, *when*  `attend` is $0$ (really unlikely that someone would attend $0$ classes).
+
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=2}
+
+We can **mean-center** all of our predictors such that $0$ becomes the mean! We have seen this in [Lab 6](https://fabio-setti.netlify.app/psyc6802/lab_6#/the-steps-graphically){target='_blank'}. Note that standardizing does the same thing, and is probably better because it also puts the predictors on the same scale.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# mean-center attend
+dat$attend_cnt <- dat$attend - mean(dat$attend)
+```
+
+
+
+:::
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# mean-center priGPA
+dat$priGPA_cnt <- dat$priGPA - mean(dat$priGPA)
+```
+
+
+:::
+::::
+
+:::
+
+## Mean-centered Regression
+
+:::: {.columns}
+::: {.column width="55%"}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-115
+
+reg_int_cnt <- lm(final ~ attend_cnt*priGPA_cnt, data = dat)
+summary(reg_int_cnt)
+```
+
+:::
+
+:::
+::: {.column width="45%"}
+
+
+::: {.fragment fragment-index=1}
+The regression is now
+
+$$
+Y = 25. 63 + 0.05X_1 + 3.07X_2 + 0.20 X_1 X_2
+$$
+
+:::
+
+::: {.fragment fragment-index=2}
+Notice that the interaction terms is the exact same, but the slope of both `attend` and `priGPA` are now positive (as they should be).
+:::
+
+
+
+::: {.fragment fragment-index=3}
+
+- $0.05$ is the slope of `attend` on `final`, *when*  `priGPA` is $0$, which is now the mean of `priGPA`.
+
+- $3.07$ is the slope of `priGPA` on `final`, *when*  `attend` is $0$, also the mean of `attend` now.
+
+
+:::
+
+:::
+::::
+
+
+::: {.fragment fragment-index=4}
+
+I am skipping over a lot of interpretation and context that you can find in [Lab 9 of PSYC 7804 - Regression With Lab](https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%209#/title-slide){target='_blank'}. 
+
+:::
+
+
+## Mediation
+
+<div style="font-size: 26px; padding-bottom: 12px;"> If we hypothesize that a *casual sequence* exists among our variables, we test this hypothesis with **mediation** analysis. </div>
+
+
+:::: {.columns}
+::: {.column width="65%"}
+
+
+:::{.fragment fragment-index=1}
+The first diagram to the right describes a regression of $Y$ predicting $X$. It is helpful to name the paths when talking about mediation, so $c$ represents the slope between $X$ and $Y$. 
+:::
+
+</br>
+
+:::{.fragment fragment-index=2}
+If we further hypothesize that an intermediate variable, $M$, exists such that $X$ causes $M$, and $M$ causes $Y$, we get the second diagram on the right. 
+:::
+
+:::
+::: {.column width="35%"}
+
+:::{.fragment fragment-index=1}
+```{tikz}
+#| fig-ext: svg
+#| fig-width: 4
+#| fig-cap: "Hypothesizing that X predicts Y"
+
+
+\usetikzlibrary{arrows,intersections}
+  \begin{tikzpicture}
+  
+    \node (X) at (0,0) [draw, rectangle] {X};
+    \node (Y) at (4,0) [draw, rectangle] {Y};
+    
+    % Arrows
+    \draw[-stealth] (X) -- (Y) node[midway, above] {c};
+  
+  \end{tikzpicture}
+```
+:::
+
+
+:::{.fragment fragment-index=2}
+
+```{tikz}
+#| fig-ext: svg
+#| fig-width: 5
+#| fig-cap: "Hypothesizing that M mediates the relation between X and Y"
+
+
+\usetikzlibrary{arrows,intersections}
+  \begin{tikzpicture}
+    \node (X) at (0,0) [draw, rectangle] {X};
+    \node (M) at (2,.8) [draw, rectangle] {M};
+    \node (Y) at (4,0) [draw, rectangle] {Y};
+    
+    % Arrows
+    \draw[-stealth] (X) -- (M) node[midway, above] {a};
+    \draw[-stealth] (M) -- (Y) node[midway, above] {b};
+    \draw[-stealth] (X) -- (Y) node[midway, above] {c'};
+  
+  \end{tikzpicture}
+```
+
+:::
+
+:::
+::::
+
+:::{.fragment fragment-index=3}
+Importantly, you should see that arrowheads reach two boxes in the mediation diagram. This means that the mediation diagram implies 2 separate regressions:
+:::
+
+:::: {.columns}
+::: {.column width="30%"}
+
+:::{.fragment fragment-index=4}
+- `M ~ X`
+
+- `Y ~ X + M`
+:::
+
+:::
+:::{.column width="70%"}
+
+:::{.fragment fragment-index=4}
+This means that $X$ can influence $Y$ ***directly*** through the $c'$ path, but also ***indirectly*** by influencing $M$ through the $a$ path, and subsequently getting to $X$ through the $b$ path. 
+:::
+
+:::
+::::
+
+
+## Running a regression in `lavaan`
+
+We will use `lavaan` for mediation analysis. Because of its flexibility, `lavaan`'s models require a specific syntax. 
+
+:::: {.columns}
+::: {.column width="50%"}
+
+
+
+<center> `lm()` </center>
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_lm <- lm(final ~ termgpa, dat)
+summary(reg_lm)
+```
+
+:::
+
+:::
+::: {.column width="50%"}
+
+
+<center> `lavaan` </center>
+
+::: {.fragment fragment-index=2}
+
+First, we need to specify the model as a `character`. The syntax is similar to `lm()`:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+mod_lv <-"final ~ termgpa"
+```
+
+:::
+
+::: {.fragment fragment-index=3}
+
+Then, we run the model with the `sem()` function. the second argument is going to be our data:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_lv <- lavaan::sem(mod_lv, dat)
+# NOTE: a function I made for neater lavaan output. If you just run summary(), a lot of extra things that we don't need will be printed
+FabioFun::lavaan_summary(reg_lv)
+```
+
+<div style="font-size: 24px"> The slope, $3.265$ is the exact same in both cases. </div>
+
+:::
+
+:::
+::::
+
+## A Mediation Model
+
+Let's say we believe that student `ACT` ($X$) score predicts grade on the `final` ($Y$). However, we think that the relation between `ACT` and `final` is mediated by the GPA for that specific term, `termgpa` ($M$).
+
+
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+```{tikz}
+#| fig-ext: svg
+#| fig-width: 6
+
+
+\usetikzlibrary{arrows,intersections}
+  \begin{tikzpicture}
+    \node (X) at (0,0) [draw] {\scriptsize ACT};
+    \node (M) at (2.5,.8) [draw]{\scriptsize termgpa};
+    \node (Y) at (5,0) [draw] {\scriptsize final};
+    
+    % Arrows
+    \draw[-stealth] (X.east) -- (M.west) node[midway, above] {\scriptsize a};
+    \draw[-stealth] (M.east) -- (Y.west) node[midway, above] {\scriptsize b};
+    \draw[-stealth] (X.east) -- (Y.west) node[midway, above] {\scriptsize c'};
+  
+  \end{tikzpicture}
+```
+
+:::
+
+::: {.fragment fragment-index=2}
+
+So the regression coefficients for the paths are:
+
+```{tikz}
+#| fig-ext: svg
+#| fig-width: 6.5
+
+
+\usetikzlibrary{arrows,intersections}
+  \begin{tikzpicture}
+    \node (X) at (0,0) [draw] {\scriptsize ACT};
+    \node (M) at (2.5,.8) [draw]{\scriptsize termgpa};
+    \node (Y) at (5,0) [draw] {\scriptsize final};
+    
+    % Arrows
+    \draw[-stealth] (X.east) -- (M.west) node[midway, above] {\scriptsize 0.05};
+    \draw[-stealth] (M.east) -- (Y.west) node[midway, above] {\scriptsize 2.87};
+    \draw[-stealth] (X.east) -- (Y.west) node[midway, above] {\scriptsize 0.34};
+  
+  \end{tikzpicture}
+```
+
+
+Note that running two separate regression with `lm()` would give the exact same result.
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+This graph implies these 2 regressions:
+
+- `temrgpa ~ ACT`
+
+- `final ~ ACT + termgpa`
+
+:::
+
+::: {.fragment fragment-index=2}
+
+we can do this all at once in `lavaan`:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+lv_2reg <-"termgpa ~ ACT
+           final ~ ACT + termgpa"
+lv_2reg_res <- sem(lv_2reg, dat)
+FabioFun::lavaan_summary(lv_2reg_res)
+```
+
+:::
+
+:::
+::::
+
+## Direct and Indirect Effects
+
+When running mediation analysis, usually we care about the direct, indirect, and total effect (see [here](https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%2012#/direct-and-indirect-effects){target='_blank'} to understand what they are). We know that:
+
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width = '33%'}
+
+- indirect effect $= a \times b$, which is equivalent to $c - c'$
+
+:::
+::: {.column width = '33%'}
+
+- direct effect $= c'$, which is equivalent to  $c - a \times b$
+:::
+
+::: {.column width = '33%'}
+
+- total effect $= c$, which is equivalent to $c' + a \times b$
+:::
+::::
+
+:::
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+We can specify all these calculations in the `lavaan` model. 
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+lv_med <-"termgpa ~ a*ACT
+           final ~ c_p*ACT + b*termgpa
+           indirect := a*b
+           total := c_p + a*b"
+```
+
+- We use the `*` operator to label the regression coefficients
+- We define new element with the `:=` operator. This will do some math operation with labeled values.
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=3}
+
+You will see that both the `indirect` and `direct` values that we define will now be in the output.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+lv_med_res <- sem(lv_med, dat)
+FabioFun::lavaan_summary(lv_med_res)
+```
+
+:::
+
+:::
+::::
+
+
+## Confidence Intervals for Indirect Effects
+
+Testing whether the indirect effect is significantly different from 0 requires computing different confidence intervals than the ones in the normal `lavaan` output because of [reasons](https://pmc.ncbi.nlm.nih.gov/articles/PMC2821115/){target='_blank'}. 
+
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+::: {.fragment fragment-index=1}
+
+Here I show one quick way if doing this with the `monteCarloCI()` from the `semTools` package. The function will create 95% CIs for all the elements created with `:=`.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# NOTE: We pass the lavaan results to the monteCarloCI() function
+semTools::monteCarloCI(lv_med_res)
+```
+
+The confidence intervals for the indirect effect are slightly different (almost the same) from the previous slide. 
+
+:::
+
+:::
+::: {.column width = '45%'}
+
+::: {.fragment fragment-index=2}
+
+As a disclaimer, I am skipping A LOT of information and context about both moderation and mediation (which have absolutely nothing to do with each other by the way). Once again, you can find a much more detailed treatment of both in the **PYSC 7804 - Regression with Lab** materials:
+
+- [PSYC 7804 - Lab 9: Interactions between continuous variables](https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%209#/title-slide){target='_blank'}
+
+- [PSYC 7804 - Lab 12: Mediation Analysis](https://fabio-setti.netlify.app/psyc7804/slides%20files/lab%2012#/title-slide){target='_blank'}
+
+:::
+
+:::
+::::
+
+
+## References 
+
+<div id="refs"> </div>

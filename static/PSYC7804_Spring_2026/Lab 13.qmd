@@ -1,0 +1,40 @@
+---
+title: "Lab 13: Generalized Linear Models"
+author: "Fabio Setti"
+institute: "Spring 2026"
+subtitle: "PSYC 7804 - Regression with Lab"
+bibliography: Additional files/R packages.bib
+csl: Additional files/apa.csl
+notice: |
+  @Fox_etal_2024
+  @Wickham_RStudio_2023
+title-slide-attributes:
+  data-transition: "zoom"
+  data-visibility: "uncounted"
+format:
+   revealjs:
+      footer: "PSYC 7804 - Lab 13: Generalized Linear Models"
+      width: 1280
+      height: 720
+      chalkboard: true
+      slide-number: c/t 
+      theme: Fabio_theme/Fabio_theme.scss
+      navigation-mode: linear
+      controls: false
+      auto-stretch: false
+      header-includes:
+        - <script src="Fabio_theme/Fabio_theme.js"></script>
+
+editor: source
+---
+## Today's Packages and Data 🤗
+
+
+
+
+
+## References 
+
+<div id="refs"> </div>
+
+

@@ -1,7 +1,8 @@
 ---
 title: "Lab 12: Mediation Analysis"
 author: "Fabio Setti"
-institute: "PSYC 7804 - Regression with Lab"
+institute: "Spring 2025"
+subtitle: "PSYC 7804 - Regression with Lab"
 bibliography: Additional files/R packages.bib
 csl: Additional files/apa.csl
 title-slide-attributes:
@@ -9,7 +10,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 12: Mediation Analysis"
+      footer: "PSYC 7804 - Lab 12: Mediation Analysis"
       width: 1280
       height: 720
       chalkboard: true

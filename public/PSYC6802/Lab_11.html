@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<script src="Lab_11_files/libs/clipboard/clipboard.min.js"></script>
+<script src="Lab_11_files/libs/quarto-html/tabby.min.js"></script>
+<script src="Lab_11_files/libs/quarto-html/popper.min.js"></script>
+<script src="Lab_11_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="Lab_11_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="Lab_11_files/libs/quarto-html/light-border.css" rel="stylesheet">
+<link href="Lab_11_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.25">
+
+  <meta name="author" content="Fabio Setti">
+  <title>Lab 11: Logistic Regression</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="Lab_11_files/libs/revealjs/dist/reset.css">
+  <link rel="stylesheet" href="Lab_11_files/libs/revealjs/dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+      vertical-align: middle;
+    }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+    /* CSS for citations */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+      margin-bottom: 0em;
+    }
+    .hanging-indent div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }  </style>
+  <link rel="stylesheet" href="Lab_11_files/libs/revealjs/dist/theme/quarto-7e52bc6a12b56df135c318256aa0cdfb.css">
+  <link href="Lab_11_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
+  <link href="Lab_11_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
+  <link href="Lab_11_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
+  <link href="Lab_11_files/libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
+  <link href="Lab_11_files/libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="Lab_11_files/libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
+  <style type="text/css">
+    .reveal div.sourceCode {
+      margin: 0;
+      overflow: auto;
+    }
+    .reveal div.hanging-indent {
+      margin-left: 1em;
+      text-indent: -1em;
+    }
+    .reveal .slide:not(.center) {
+      height: 100%;
+    }
+    .reveal .slide.scrollable {
+      overflow-y: auto;
+    }
+    .reveal .footnotes {
+      height: 100%;
+      overflow-y: auto;
+    }
+    .reveal .slide .absolute {
+      position: absolute;
+      display: block;
+    }
+    .reveal .footnotes ol {
+      counter-reset: ol;
+      list-style-type: none; 
+      margin-left: 0;
+    }
+    .reveal .footnotes ol li:before {
+      counter-increment: ol;
+      content: counter(ol) ". "; 
+    }
+    .reveal .footnotes ol li > p:first-child {
+      display: inline-block;
+    }
+    .reveal .slide ul,
+    .reveal .slide ol {
+      margin-bottom: 0.5em;
+    }
+    .reveal .slide ul li,
+    .reveal .slide ol li {
+      margin-top: 0.4em;
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide ul[role="tablist"] li {
+      margin-bottom: 0;
+    }
+    .reveal .slide ul li > *:first-child,
+    .reveal .slide ol li > *:first-child {
+      margin-block-start: 0;
+    }
+    .reveal .slide ul li > *:last-child,
+    .reveal .slide ol li > *:last-child {
+      margin-block-end: 0;
+    }
+    .reveal .slide .columns:nth-child(3) {
+      margin-block-start: 0.8em;
+    }
+    .reveal blockquote {
+      box-shadow: none;
+    }
+    .reveal .tippy-content>* {
+      margin-top: 0.2em;
+      margin-bottom: 0.7em;
+    }
+    .reveal .tippy-content>*:last-child {
+      margin-bottom: 0.2em;
+    }
+    .reveal .slide > img.stretch.quarto-figure-center,
+    .reveal .slide > img.r-stretch.quarto-figure-center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-left,
+    .reveal .slide > img.r-stretch.quarto-figure-left  {
+      display: block;
+      margin-left: 0;
+      margin-right: auto; 
+    }
+    .reveal .slide > img.stretch.quarto-figure-right,
+    .reveal .slide > img.r-stretch.quarto-figure-right  {
+      display: block;
+      margin-left: auto;
+      margin-right: 0; 
+    }
+  </style>
+  <script src="Lab_11_files/libs/core-js-2.5.3/shim.min.js"></script>
+  <script src="Lab_11_files/libs/react-18.2.0/react.min.js"></script>
+  <script src="Lab_11_files/libs/react-18.2.0/react-dom.min.js"></script>
+  <script src="Lab_11_files/libs/reactwidget-2.0.0/react-tools.js"></script>
+  <script src="Lab_11_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+  <link href="Lab_11_files/libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+  <script src="Lab_11_files/libs/reactable-binding-0.4.4/reactable.js"></script>
+  <script src="Fabio_theme/Fabio_theme.js"></script>
+</head>
+<body class="quarto-light">
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide" data-transition="zoom" data-visibility="uncounted" class="quarto-title-block center">
+  <h1 class="title">Lab 11: Logistic Regression</h1>
+
+<div class="quarto-title-authors">
+<div class="quarto-title-author">
+<div class="quarto-title-author-name">
+Fabio Setti 
+</div>
+        <p class="quarto-title-affiliation">
+            PSYC 6802 - Introduction to Psychology Statistics
+          </p>
+    </div>
+</div>
+
+</section>
+<section id="todays-packages-and-data" class="slide level2">
+<h2>Today’s Packages and Data 🤗</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Install Packages Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"caret"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell code-150">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb2-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># I am setting a theme for all the plots</span></span>
+<span id="cb2-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_classic</span>(<span class="at">base_size =</span> <span class="dv">16</span>, <span class="at">accent =</span> <span class="st">"#7a0b80"</span>,</span>
+<span id="cb2-5"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="at">base_family =</span> <span class="st">'serif'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1"><code>caret</code></a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<p>The <code>caret</code> package <span class="citation" data-cites="Kuhn_etal_2024">(<a href="#/references" role="doc-biblioref" onclick="">Kuhn et al., 2024</a>)</span> is a package that focuses on streamlining the process of creating predictive models. It focuses on machine learning applications and we will use it to help us with logistic regression.</p>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<center style="padding-bottom: 21px;">
+<span class="data-title">Data</span>
+</center>
+<p>Today we will look at some recidivsm data in a criminal population. This dataset comes from <span class="citation" data-cites="Rossi_etal_1980">Rossi et al. (<a href="#/references" role="doc-biblioref" onclick="">1980</a>)</span> and you can find out more information on the data <a href="https://vincentarelbundock.github.io/Rdatasets/doc/carData/Rossi.html" target="_blank">here</a>.</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"https://fabio-setti.netlify.app/data/Recidivism_data.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-bbe74a290235272c60d1" class="reactable html-widget" style="width:auto;height:300px;"></div>
+<script type="application/json" data-for="htmlwidget-bbe74a290235272c60d1">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"id":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,139,140,141,142,143,144,145,146,147,148,149,150,151,152,153,154,155,156,157,158,159,160,161,162,163,164,165,166,167,168,169,170,171,172,173,174,175,176,177,178,179,180,181,182,183,184,185,186,187,188,189,190,191,192,193,194,195,196,197,198,199,200,201,202,203,204,205,206,207,208,209,210,211,212,213,214,215,216,217,218,219,220,221,222,223,224,225,226,227,228,229,230,231,232,233,234,235,236,237,238,239,240,241,242,243,244,245,246,247,248,249,250,251,252,253,254,255,256,257,258,259,260,261,262,263,264,265,266,267,268,269,270,271,272,273,274,275,276,277,278,279,280,281,282,283,284,285,286,287,288,289,290,291,292,293,294,295,296,297,298,299,300,301,302,303,304,305,306,307,308,309,310,311,312,313,314,315,316,317,318,319,320,321,322,323,324,325,326,327,328,329,330,331,332,333,334,335,336,337,338,339,340,341,342,343,344,345,346,347,348,349,350,351,352,353,354,355,356,357,358,359,360,361,362,363,364,365,366,367,368,369,370,371,372,373,374,375,376,377,378,379,380,381,382,383,384,385,386,387,388,389,390,391,392,393,394,395,396,397,398,399,400,401,402,403,404,405,406,407,408,409,410,411,412,413,414,415,416,417,418,419,420,421,422,423,424,425,426,427,428,429,430,431,432],"arrest":[1,1,1,0,0,0,1,0,0,0,0,0,1,0,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1,1,0,1,0,1,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,1,0,0,1,0,0,0,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,1,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,0,1,0,0,1,0,0,0,0,0,1,0,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1,0,0,1,0,0,0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,1,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,1,1,1,1,0,0,0,0,1,0,1,1,0,0,1,0,0,1,0,1,0,1,0,0,1,1,0,0,0,1,0,0,0,1,0,0,1,1,1,0,0,0,0,1,0,1,0,1,1,1,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,0,0,0,1,0,1,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,1,1,1,1,1,0,0,1,1,0,1,0,1,0,0,0,0,0],"fin":["no","no","no","yes","no","no","no","yes","no","no","yes","no","no","no","no","yes","no","no","no","no","no","yes","yes","yes","yes","yes","no","no","yes","yes","yes","yes","yes","no","no","yes","no","no","yes","no","yes","no","no","no","yes","yes","yes","yes","no","yes","yes","yes","yes","yes","no","no","no","no","yes","yes","no","no","no","no","no","yes","yes","yes","no","no","yes","no","yes","no","no","yes","no","no","no","no","no","no","yes","no","yes","yes","no","no","yes","yes","no","no","yes","yes","no","yes","yes","yes","yes","yes","no","no","no","yes","no","no","no","yes","no","no","no","yes","no","yes","no","no","no","yes","yes","no","yes","no","yes","yes","no","no","yes","no","yes","no","no","no","yes","no","yes","yes","yes","yes","yes","yes","no","no","yes","yes","yes","no","yes","yes","no","no","yes","yes","no","no","no","no","yes","yes","yes","yes","yes","no","yes","yes","yes","yes","no","yes","no","yes","yes","yes","yes","no","yes","no","yes","yes","yes","yes","no","yes","yes","no","no","yes","no","yes","yes","no","no","yes","yes","yes","no","yes","yes","no","no","no","no","no","yes","yes","yes","no","no","yes","yes","no","yes","yes","no","no","yes","yes","yes","no","no","no","no","yes","no","yes","yes","yes","yes","yes","no","yes","yes","yes","no","no","yes","no","no","no","no","no","no","no","no","no","no","yes","no","yes","yes","no","no","no","yes","yes","yes","yes","no","no","yes","no","no","no","no","yes","no","no","yes","yes","no","yes","no","yes","yes","no","yes","yes","yes","yes","yes","yes","yes","no","yes","yes","no","yes","no","yes","yes","no","no","yes","no","no","yes","no","yes","yes","yes","no","no","no","no","no","yes","no","no","no","no","yes","yes","yes","yes","no","no","no","no","no","yes","yes","no","no","no","yes","yes","yes","yes","yes","yes","yes","no","yes","yes","yes","yes","no","yes","no","yes","no","yes","no","yes","no","yes","yes","no","yes","no","yes","no","yes","yes","no","no","no","yes","no","no","no","yes","yes","yes","no","no","yes","yes","no","yes","no","no","yes","yes","yes","no","no","no","yes","no","yes","no","yes","yes","no","no","yes","yes","no","no","no","no","yes","yes","no","no","no","yes","no","no","yes","no","yes","no","no","no","no","yes","yes","yes","yes","no","yes","no","yes","no","yes","no","no","yes","yes","yes","yes","yes","no","no","no","yes","yes","no","yes","no","yes"],"age":[27,18,19,23,19,24,25,21,22,20,26,40,17,37,20,22,19,20,25,24,23,44,29,28,21,19,33,19,19,23,23,19,42,23,24,20,22,27,19,28,33,24,21,22,19,22,22,23,32,27,36,22,32,19,28,32,33,26,20,42,19,22,22,36,23,27,21,22,35,21,25,18,26,30,20,43,23,42,21,19,29,30,21,20,19,22,25,22,22,24,39,21,20,24,25,21,20,19,24,24,44,32,23,19,20,27,19,21,20,25,20,23,20,30,25,22,24,18,40,22,23,21,24,24,38,26,29,21,21,22,23,27,18,23,24,21,20,27,20,29,19,20,18,19,24,28,26,17,21,34,26,43,20,20,32,25,22,31,42,32,20,20,36,34,28,21,18,20,17,44,30,22,30,23,20,19,21,22,19,21,38,24,39,30,37,23,21,31,24,31,24,24,21,22,20,21,24,25,19,20,20,24,18,28,19,19,25,19,25,24,20,30,29,28,36,23,23,24,29,26,39,20,23,21,21,20,20,27,18,25,20,20,20,24,23,28,21,25,24,29,22,28,19,20,20,22,20,21,21,19,26,23,22,24,40,32,38,26,27,29,20,22,22,19,22,19,32,25,21,36,40,20,19,18,28,22,25,28,25,20,24,24,36,34,19,23,19,40,31,23,42,26,20,27,24,25,22,20,20,22,18,20,20,22,30,36,25,29,19,24,21,35,19,20,22,23,19,18,38,18,22,21,21,21,17,22,23,19,21,35,23,22,25,20,19,20,41,23,26,26,38,27,19,25,30,42,20,23,21,20,17,26,24,37,28,33,22,25,20,20,24,26,26,25,26,23,28,27,23,17,20,20,20,22,31,43,29,21,24,30,22,26,20,23,25,40,30,22,18,18,24,25,19,24,24,18,18,23,20,18,23,20,23,23,23,20,26,30,36,43,20,24,22,20,21,18,18,33,19,21,21,21,22,18,18,24,22,31,20,20,29,24],"race":["black","black","other","black","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","black","black","black","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","other","black","black","black","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","black","black","other","black","black","black","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","black","black","black","black","black","black","black","black","black","other","black","other","black","black","black","other","black","black","black","black","other","other","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","black","black","other","black","black","other","black","black","black","black","black","black","other","black","black","black","black","black","black","black","other","black","black","black","black","black","other","black","black","black","black","black","black","other","black","black","black","black","other","other","black","other","black","black","black","other","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","black","black","black","black","black","black","black","black","black","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","other","black","black","black","black","black","other","black","other","black","black","black","other","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","black","other","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","black","other","other","black","other","black","black","black","black","black","black","other","black","other","black","black","black","black","black","other","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","black","other","black","other","black","black","black","black","black","black","black","black","other","black","black","black","black","black","black","black","other","black","black","black","black"],"wexp":["no","no","yes","yes","yes","yes","yes","yes","no","yes","no","yes","yes","yes","no","yes","no","no","no","yes","no","yes","yes","yes","yes","yes","yes","no","no","yes","no","no","yes","yes","yes","yes","yes","yes","no","yes","yes","yes","no","no","no","no","no","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","no","yes","yes","no","yes","no","no","yes","yes","no","yes","yes","yes","yes","no","yes","yes","no","yes","yes","yes","no","no","no","yes","yes","no","no","yes","no","no","yes","no","yes","yes","yes","no","yes","yes","no","no","no","yes","yes","yes","yes","no","no","yes","no","yes","no","no","no","yes","no","yes","yes","yes","yes","no","yes","no","no","yes","yes","no","yes","yes","yes","no","yes","no","no","yes","no","no","no","no","no","yes","no","yes","no","no","no","no","yes","yes","no","no","no","yes","yes","yes","no","yes","yes","yes","no","yes","yes","yes","no","no","no","yes","yes","yes","no","no","no","no","yes","no","no","no","yes","no","no","no","no","no","no","no","yes","no","yes","no","no","yes","no","yes","no","yes","yes","no","no","yes","yes","yes","no","no","yes","yes","no","no","no","yes","yes","no","no","no","yes","no","yes","yes","no","yes","no","yes","yes","yes","yes","yes","yes","yes","no","no","no","yes","yes","yes","no","yes","no","yes","no","yes","no","no","yes","yes","yes","no","no","yes","no","yes","no","no","yes","no","yes","yes","yes","yes","no","no","yes","yes","yes","yes","yes","no","no","yes","yes","no","yes","yes","no","yes","yes","no","no","no","yes","yes","no","yes","yes","yes","no","yes","yes","yes","yes","no","yes","yes","yes","yes","no","yes","no","yes","no","no","yes","no","yes","no","yes","yes","yes","yes","yes","yes","yes","no","yes","yes","no","yes","yes","no","no","yes","no","no","yes","no","yes","no","yes","no","no","yes","yes","no","yes","yes","yes","no","no","yes","no","no","yes","yes","yes","no","yes","yes","no","yes","yes","yes","yes","yes","no","yes","no","no","yes","yes","yes","yes","no","yes","no","no","yes","no","yes","yes","yes","no","no","yes","no","no","no","no","no","yes","no","yes","yes","no","yes","yes","yes","yes","yes","yes","yes","yes","yes","no","no","no","yes","yes","no","yes","no","yes","yes","yes","no","yes","yes","no","no","yes","yes","yes","yes","no","yes","yes","yes","yes","yes","no","no","no","yes","yes","no","yes","no","yes","no","no","no","yes","yes","yes","no","yes","yes","yes"],"mar":["no","no","no","yes","no","no","yes","no","no","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","no","no","no","no","no","no","yes","no","no","no","yes","no","no","no","no","no","no","yes","no","no","no","no","no","no","no","yes","no","no","no","no","no","yes","no","yes","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","no","no","no","no","yes","no","no","no","no","no","no","no","yes","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","no","no","no","no","no","no","yes","no","no","no","no","no","yes","no","no","no","no","no","no","no","no","no","no","yes","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","no","no","no","no","yes","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","no","no","no","no","no","yes","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","no","no","no","no","no","yes","no","no","no","no","yes","yes","yes","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","no","no","no","no","yes","yes","no","no","no","no","no","no","no","no","no","no","yes","no","no","no","no","no","no","no","yes","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","yes","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","yes","no","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","no","no","no","no","yes","no","no","no","no","no","no","no","no","no","yes","no","no","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","yes","yes","no","no","yes","yes","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","yes","no","no","no","no","yes","yes","no","no","no","yes","no","no","yes","no","no","no","no","no","no","no","no","no","yes","no","yes","no","no","no","no","no","no","yes","no","no","no","no","no","no","no","no","no","no","no","no","yes","no","no","yes","no","no"],"paro":["yes","yes","yes","yes","yes","no","yes","yes","no","no","yes","no","yes","no","yes","yes","no","no","yes","yes","yes","yes","yes","yes","no","yes","yes","no","yes","yes","yes","yes","no","no","no","yes","yes","no","no","yes","no","yes","yes","yes","yes","no","no","yes","yes","yes","no","yes","yes","no","yes","no","yes","yes","yes","no","no","no","yes","no","no","yes","yes","yes","yes","yes","yes","yes","yes","no","yes","yes","yes","no","no","no","no","yes","yes","yes","yes","yes","yes","no","yes","yes","yes","yes","yes","no","yes","no","yes","yes","no","yes","yes","no","no","yes","yes","yes","no","no","yes","yes","yes","yes","no","no","yes","yes","yes","no","yes","yes","yes","yes","yes","yes","yes","no","no","yes","yes","yes","yes","no","yes","no","yes","no","yes","no","yes","yes","no","no","yes","yes","yes","yes","no","yes","yes","no","no","yes","yes","yes","yes","yes","yes","yes","yes","no","no","no","yes","yes","yes","yes","yes","yes","yes","yes","yes","no","no","no","no","no","yes","yes","yes","no","yes","no","no","yes","no","yes","yes","yes","no","yes","yes","yes","no","no","yes","yes","yes","yes","yes","no","yes","no","no","yes","no","no","no","no","no","no","yes","yes","yes","yes","yes","no","no","yes","yes","yes","no","yes","yes","yes","yes","yes","yes","yes","no","no","no","no","no","no","no","no","no","no","yes","no","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","no","no","no","no","yes","yes","yes","yes","no","no","no","no","no","no","yes","yes","yes","no","yes","yes","yes","no","no","yes","no","no","no","no","no","yes","no","yes","yes","yes","no","no","yes","yes","yes","yes","yes","no","no","yes","yes","yes","yes","yes","yes","yes","yes","no","no","yes","yes","yes","yes","no","yes","no","no","no","no","no","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","no","no","no","no","no","no","no","no","yes","yes","no","no","yes","yes","yes","no","no","no","yes","yes","yes","no","no","no","yes","yes","yes","yes","yes","yes","no","no","no","no","yes","yes","yes","no","yes","yes","no","yes","yes","yes","yes","yes","yes","no","no","no","no","no","no","no","no","no","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","yes","no","yes","yes","yes","yes","no","yes","yes","yes","no","no","no","no","no","yes","no","no","no","no","no","yes","yes","yes","yes","yes","yes","yes","no","yes","yes","yes","yes","yes","yes","yes"],"prio":[3,8,13,1,3,2,0,4,6,0,3,2,5,2,3,2,7,2,12,1,4,0,2,1,0,2,1,2,3,9,3,1,0,2,3,2,5,2,4,3,9,1,14,2,2,2,15,5,2,0,0,1,1,10,1,3,1,1,0,9,6,2,5,11,2,3,1,2,3,4,5,0,2,4,2,1,4,2,2,3,4,3,10,7,10,1,3,4,4,2,4,1,2,1,2,4,1,3,2,1,2,2,3,1,1,0,6,1,1,3,6,3,2,1,0,1,3,4,1,1,6,1,2,14,2,3,1,8,2,4,5,2,2,5,2,3,4,4,11,5,10,8,0,2,1,4,4,0,3,2,1,2,0,1,1,1,1,1,4,10,8,1,8,2,3,2,6,4,3,3,5,11,3,8,2,10,1,6,2,10,3,7,2,3,0,2,1,1,13,3,2,1,1,2,5,0,2,1,1,2,4,1,4,5,4,1,0,1,2,0,1,1,4,4,1,7,2,4,1,2,3,1,3,2,1,2,3,2,3,1,6,5,7,11,1,4,2,1,1,3,2,18,1,1,5,1,8,2,1,3,1,2,4,8,5,2,0,1,0,3,4,1,5,12,1,3,1,2,2,1,2,1,0,4,0,2,1,2,2,4,5,0,2,1,5,1,3,2,2,0,2,1,9,1,5,2,3,2,2,3,1,2,1,2,2,1,5,3,3,2,0,6,4,0,3,1,18,3,2,6,1,3,1,5,3,1,0,4,1,5,8,2,11,4,1,1,3,4,0,2,1,1,3,1,2,1,2,1,3,3,1,5,1,1,1,0,4,2,10,1,4,11,1,1,1,3,4,0,3,7,4,5,9,2,1,1,1,0,2,3,0,1,0,6,5,2,0,2,2,0,2,2,2,2,2,3,0,0,2,1,2,1,5,1,2,4,4,1,4,4,1,1,1,1,0,5,1,2,2,1,1,4,3,3,2,2,2,3,1,1,3,1],"educ":[3,4,3,5,3,4,4,3,3,5,3,5,3,3,4,3,3,3,3,3,3,3,4,3,4,3,4,3,3,3,5,3,5,4,4,3,3,3,3,3,3,4,3,3,4,4,3,3,3,4,3,4,3,3,5,3,4,3,3,4,3,4,4,3,4,3,3,3,3,3,3,3,4,3,4,4,3,5,3,3,3,3,3,3,3,5,3,4,3,4,3,3,3,3,5,3,3,4,4,4,5,4,3,4,3,3,3,3,4,3,3,4,3,4,4,3,3,3,5,5,3,3,3,3,3,3,3,3,4,3,3,4,3,3,3,4,3,3,4,4,4,3,3,3,5,3,3,3,3,3,4,5,4,3,4,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,4,3,4,3,4,3,4,5,3,3,3,4,5,3,3,5,3,3,4,3,5,5,3,3,3,4,3,3,3,3,3,4,3,3,3,4,4,3,5,3,4,3,4,3,3,3,5,3,3,3,3,3,4,4,3,3,3,3,3,4,3,5,3,3,3,4,4,3,4,5,4,3,4,5,3,3,3,4,4,3,3,3,3,4,3,3,4,3,5,4,4,3,4,4,3,3,3,4,3,3,3,3,4,4,4,4,5,3,3,5,3,4,4,5,3,3,3,4,4,4,3,5,3,5,3,5,4,4,4,3,4,3,3,4,3,5,3,3,4,3,3,3,3,3,3,3,4,3,3,4,4,3,4,3,3,4,5,3,4,3,3,4,3,3,3,5,3,3,3,3,4,5,3,3,3,5,3,4,3,3,4,3,3,3,5,4,3,5,3,4,3,5,4,5,4,3,3,5,4,3,5,3,3,4,3,5,4,4,3,4,5,4,3,4,3,5,3,3,4,3,5,5,3,3,3,5,4,3,3,3,5,3,3,4,3,3,3,3,3,3,3,3,3,3,3,3,4,4,3,5,4,3,4,3,3,4,4,3,4,3,4,4],"emp":["no","no","no","yes","no","no","no","no","yes","no","yes","yes","no","yes","no","no","no","no","yes","no","yes","yes","no","yes","no","yes","yes","no","yes","yes","no","yes","no","no","yes","yes","no","yes","no","no","no","no","yes","yes","no","yes","no","yes","yes","yes","yes","no","yes","yes","yes","no","no","yes","yes","yes","no","no","no","no","no","yes","yes","no","no","no","no","no","yes","yes","yes","yes","no","yes","no","no","no","no","yes","no","no","no","no","yes","no","no","yes","yes","yes","yes","no","no","yes","no","yes","yes","no","yes","no","no","yes","no","no","yes","no","yes","no","yes","no","no","yes","no","yes","yes","no","yes","no","no","no","no","no","no","no","yes","yes","yes","no","yes","no","no","yes","yes","no","yes","no","no","no","no","no","no","yes","no","no","no","yes","yes","yes","yes","no","yes","yes","no","yes","no","yes","no","yes","no","yes","yes","yes","yes","no","yes","yes","no","no","yes","no","no","yes","yes","no","no","no","no","no","no","yes","no","yes","no","no","no","yes","no","yes","yes","yes","no","no","yes","yes","yes","no","yes","no","no","no","no","no","no","yes","no","yes","no","yes","no","yes","no","no","yes","yes","no","yes","yes","no","no","yes","no","yes","no","yes","yes","yes","no","no","yes","no","no","yes","no","no","no","yes","no","yes","no","no","no","no","no","no","yes","no","no","yes","no","yes","no","no","yes","no","no","no","yes","no","yes","yes","no","yes","yes","yes","yes","yes","no","no","yes","no","no","yes","yes","no","no","no","no","no","yes","no","yes","no","no","no","yes","yes","yes","no","no","no","no","yes","no","yes","no","no","no","yes","yes","no","no","no","yes","yes","no","no","yes","no","yes","no","no","no","no","no","yes","yes","no","no","yes","yes","no","no","no","yes","no","no","yes","no","yes","no","no","no","no","yes","no","yes","yes","no","no","no","no","yes","yes","no","yes","yes","no","no","yes","yes","yes","no","yes","yes","yes","no","yes","yes","no","no","no","yes","no","yes","yes","no","no","no","no","no","yes","no","no","no","no","yes","no","no","yes","no","no","yes","no","yes","no","no","no","yes","yes","no","yes","yes","yes","no","yes","no","no","no","no","no","no","yes","no","yes","yes","no","no","no","yes","yes","no","no","no","no","yes","no","yes","yes","yes","no","yes","no","yes","no","no","no","no","yes","yes"]},"columns":[{"id":"id","name":"id","type":"numeric","minWidth":80,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Individual Identification"},"children":["id",{"name":"span","attribs":{"title":"Individual Identification","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"arrest","name":"arrest","type":"numeric","minWidth":80,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Has the individual been arrested during the 1 year follow-up: 0 = No, 1 = Yes"},"children":["arrest",{"name":"span","attribs":{"title":"Has the individual been arrested during the 1 year follow-up: 0 = No, 1 = Yes","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"fin","name":"fin","type":"character","minWidth":80,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Denote whether the inmate received financial aid after release"},"children":["fin",{"name":"span","attribs":{"title":"Denote whether the inmate received financial aid after release","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"age","name":"age","type":"numeric","minWidth":80,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Age in years at the time of release"},"children":["age",{"name":"span","attribs":{"title":"Age in years at the time of release","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"race","name":"race","type":"character","minWidth":80,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Denote whether the race of the individual is black or not"},"children":["race",{"name":"span","attribs":{"title":"Denote whether the race of the individual is black or not","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"wexp","name":"wexp","type":"character","minWidth":80,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Denote whether the individual had full-time work experience before incarceration or not."},"children":["wexp",{"name":"span","attribs":{"title":"Denote whether the individual had full-time work experience before incarceration or not.","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"mar","name":"mar","type":"character","minWidth":80,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Denote whether the inmate was married at the time of release or not"},"children":["mar",{"name":"span","attribs":{"title":"Denote whether the inmate was married at the time of release or not","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"paro","name":"paro","type":"character","minWidth":80,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Denote whether the inmate was released on parole or not"},"children":["paro",{"name":"span","attribs":{"title":"Denote whether the inmate was released on parole or not","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"prio","name":"prio","type":"numeric","minWidth":80,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"The number of convictions an inmate had prior to incarceration"},"children":["prio",{"name":"span","attribs":{"title":"The number of convictions an inmate had prior to incarceration","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"educ","name":"educ","type":"numeric","minWidth":80,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Level of education: '3' = 9th degree or less; '4' = 10th or 11th degree; '5' = 12th degree or higher;"},"children":["educ",{"name":"span","attribs":{"title":"Level of education: '3' = 9th degree or less; '4' = 10th or 11th degree; '5' = 12th degree or higher;","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"emp","name":"emp","type":"character","minWidth":80,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Denote whether the individual was working full time during the observed time interval"},"children":["emp",{"name":"span","attribs":{"title":"Denote whether the individual was working full time during the observed time interval","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"1rem"},"height":"300px","dataKey":"26042b9a74c95d4f9ca411f9529ec103"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div></div>
+</section>
+<section id="predicting-recidivism-linear-regression" class="slide level2">
+<h2>Predicting Recidivism: Linear Regression?</h2>
+<p>We think we can predict the <code>arrest</code> variable, whether an individual has been arrested within 1 year of being released from prison, by looking at the number of prior convictions, <code>prio</code>. We <em>can</em> run linear regression and get some results:</p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="fragment" data-fragment-index="1">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a>lin_reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(arrest <span class="sc">~</span> prio, dat)</span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(lin_reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = arrest ~ prio, data = dat)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-0.5625 -0.2643 -0.2146  0.5369  0.8103 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 0.189727   0.030126   6.298 7.47e-10 ***
+prio        0.024855   0.007249   3.429 0.000665 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.4358 on 430 degrees of freedom
+Multiple R-squared:  0.02661,   Adjusted R-squared:  0.02435 
+F-statistic: 11.76 on 1 and 430 DF,  p-value: 0.0006651</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:40%;">
+<div class="fragment" data-fragment-index="2">
+<p>However, <code>arrest</code> is a binary variable, where only 2 outcome are possible (0 = <em>not arrested</em>, 1 = <em>arrested</em>). Here are the counts:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dat<span class="sc">$</span>arrest)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+  0   1 
+318 114 </code></pre>
+</div>
+</div>
+<center>
+You can probably intuit that a linear regression is not appropriate for a binary DV, but looking at a plot will make many of the reasons clear.
+</center>
+</div>
+</div></div>
+</section>
+<section id="plotting-the-regression" class="slide level2">
+<h2>Plotting the regression</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> prio, <span class="at">y =</span> arrest)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="fu">aes</span>(<span class="at">intercept =</span> <span class="fu">coef</span>(lin_reg)[<span class="dv">1</span>], <span class="at">slope =</span> <span class="fu">coef</span>(lin_reg)[<span class="dv">2</span>])) <span class="sc">+</span></span>
+<span id="cb8-4"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">4</span>, <span class="dv">25</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="sc">-</span><span class="fl">0.2</span>, <span class="fl">1.2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_11_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:40%;">
+<p>There are multiple things that should jump out to you 🧐</p>
+<div class="fragment" data-fragment-index="1">
+<ul>
+<li>It does not take a statistics expert to guess that the residuals will not be normally distributed around the regression line.</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li>More importantly, the regression line will eventually make predictions that are outside the possible range of <code>arrest</code> when <code>prio</code> increases beyond a certain point.</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="3">
+<center>
+The last point is very important. <u> We want to force our regression to make predictions that are <em>always</em> between 0 and 1. </u>
+</center>
+</div>
+</div></div>
+</section>
+<section id="the-logistic-function" class="slide level2">
+<h2>The Logistic Function</h2>
+<p>In this case, one annoying features of linear regression is that its predictions can range from <span class="math inline">\(- \infty\)</span> to <span class="math inline">\(+ \infty\)</span> (not good ❌). What we really want is <em>the probability of an individual being arrested</em> given some other variables. Probabilities can only range between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> (good ✅).</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<p>There are functions that always give values between 0 and 1, one of them being the <em>logistic function</em>:</p>
+<p><span class="math display">\[y = \frac{e^x}{1 + e^x}\]</span></p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>As you can see the line approaches <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span> when <span class="math inline">\(x\)</span> decreases/increases, but never becomes exactly 0 or 1.</p>
+<p>The <span class="math inline">\(e\)</span> is <a href="https://en.wikipedia.org/wiki/E_(mathematical_constant)" target="_blank">Euler’s number</a>, equals roughly <span class="math inline">\(2.718\)</span>. We can get it in <code>R</code> by simply typing <code>exp(1)</code></p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2.718282</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<div class="cell code-125">
+<details class="code-fold">
+<summary>Plot Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_function</span>(</span>
+<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">fun =</span> plogis,</span>
+<span id="cb11-4"><a href="" aria-hidden="true" tabindex="-1"></a>    <span class="at">col =</span> <span class="st">"#7a0b80"</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"x"</span>,</span>
+<span id="cb11-6"><a href="" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="fu">expression</span>(<span class="fu">frac</span>(e<span class="sc">^</span>x, <span class="dv">1</span> <span class="sc">+</span> e<span class="sc">^</span>x))) <span class="sc">+</span> </span>
+<span id="cb11-7"><a href="" aria-hidden="true" tabindex="-1"></a>        <span class="fu">xlim</span>(<span class="sc">-</span><span class="dv">6</span>, <span class="dv">6</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_11_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="logistic-regression" class="slide level2">
+<h2>Logistic Regression</h2>
+<p>Now that we have our trusty logistic function we can run the exact same regression, but instead of the simple linear regression <span class="math inline">\(y = \beta_0 + \beta_1 \times x\)</span>, we stick the regression formula inside the logistic function, thus getting the logistic regression formula:</p>
+<div class="fragment" data-fragment-index="1">
+<p><span class="math display">\[P(y = 1) = \frac{e^{\beta_0 + \beta_1 \times x}}{1 + e^{\beta_0 + \beta_1 \times x}}\]</span></p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<p>notice that we are predicting <span class="math inline">\(P(y = 1)\)</span>, the probability that the DV = 1. In our case this is the probability of one of the individuals being arrested again within a year from release.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
+<p>Another important point is that <span class="math inline">\(\beta_0\)</span> and <span class="math inline">\(\beta_1\)</span> are still the intercept and the slope respectively, but their interpretation is now different because the outcome is not just <span class="math inline">\(y\)</span>, but <span class="math inline">\(P(y = 1)\)</span>.</p>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="4">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>Link functions</strong></p>
+</div>
+<div class="callout-content">
+<p>The <span class="math inline">\(y = \frac{e^x}{1 + e^x}\)</span> is also knowns as a <em>link function</em>. The idea of link functions is that your normal regression makes predictions between <span class="math inline">\(- \infty\)</span> to <span class="math inline">\(+ \infty\)</span>, but you have data that cannot possible range between <span class="math inline">\(- \infty\)</span> to <span class="math inline">\(+ \infty\)</span>. Link functions force the regression predictions within a certain range. Another example of a link function is the <em>Poisson link</em> used for <a href="https://en.wikipedia.org/wiki/Poisson_regression" target="_blank">Poisson regression</a>, where you are looking at count data (e.g., predicting suicide attempts, which cannot be less than 0).</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="logistic-regression-in-r" class="slide level2">
+<h2>Logistic Regression in <code>R</code></h2>
+<p>We use the <code>glm()</code> function (it stands for <em>generalized linear model</em>) to run a logistic regression in <code>R</code>. The syntax is almost identical to the <code>lm()</code> function.</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="" aria-hidden="true" tabindex="-1"></a>log_reg <span class="ot">&lt;-</span> <span class="fu">glm</span>(arrest <span class="sc">~</span> prio, dat, <span class="at">family =</span> binomial)</span>
+<span id="cb12-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(log_reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = arrest ~ prio, family = binomial, data = dat)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept) -1.39476    0.16180  -8.620  &lt; 2e-16 ***
+prio         0.11614    0.03557   3.265  0.00109 ** 
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 498.60  on 431  degrees of freedom
+Residual deviance: 487.96  on 430  degrees of freedom
+AIC: 491.96
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<div class="fragment" data-fragment-index="1">
+<p>The <code>family = "binomial"</code> argument is what tells the <code>glm()</code> function that we want a logistic regression. Other types of regressions are possible with the <code>glm()</code> function (e.g., Poisson regression). The logistic regression formula is:</p>
+<p><span class="math display">\[P(\mathrm{arrest} = 1) = \frac{e^{-1.39 + 0.12 \times \mathrm{Convictions}}}{1 + e^{-1.39 + 0.12 \times \mathrm{Convictions}}}\]</span></p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<center>
+What do the values of the intercept, -1.39 , and the slope, 0.12, represent 🤔
+</center>
+</div>
+</div></div>
+</section>
+<section id="odds-again" class="slide level2">
+<h2>Odds again?? 😱</h2>
+<p>If for some reason you remember our discussion on odds in <a href="https://fabio-setti.netlify.app/psyc6802/lab_3#/odds-and-probability" target="_blank">Lab 3</a> (ages ago by now), we looked at a formula to turn odds into probability. Let’s contrast it with the logistic function:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<center>
+<strong>Logistic Function</strong>
+</center>
+<p><span class="math display">\[P = \frac{e^x}{1 + e^x}\]</span></p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<center>
+<strong>Odds to Probability</strong>
+</center>
+<p><span class="math display">\[P = \frac{\mathrm{odds}}{1 + \mathrm{odds}}\]</span></p>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="3">
+<p>Ahh, they are are the exact same thing💡 Importantly, <span class="math inline">\(e^x = \mathrm{odds}\)</span>. So, in the previous slide, the <span class="math inline">\(e^{-1.39 + 0.12 \times \mathrm{Convictions}}\)</span> part gives <em>the odds of being arrested again given number of convictions at release</em>.</p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="4">
+<p>so, the intercept, <span class="math inline">\(e^{-1.39} = .25\)</span> is the odds of being rearrested 1 year after release, <em>if</em> the person was released has 0 additional convictions. We can also get the probability, which is <span class="math inline">\(\frac{e^{-1.39}}{1 + e^{-1.39}} = .2\)</span>.</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="5">
+<p>The slope, <span class="math inline">\(0.12\)</span>, is the change in <em>log odds</em> (see next slide) per unit change in <code>prio</code> at release. In other words, the more convictions at release, the higher the odds of being arrested again.</p>
+</div>
+</div></div>
+</section>
+<section id="log-odds" class="slide level2">
+<h2>“Log” Odds</h2>
+<p>The ever so slightly annoying thing is that you need to be a bit familiar with logarithms and exponents to interpret logistic regression. <a href="https://en.wikipedia.org/wiki/Logarithm" target="_blank">Logarithms</a> are the <em>inverse</em> of exponents. For example:</p>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div class="fragment" data-fragment-index="1">
+<p>if we have <span class="math inline">\(e^3\)</span>, then the natural logarithm of that, <span class="math inline">\(ln(e^3) = 3\)</span>. The logarithm gives you what is inside the exponent:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20.08554</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># the log() function is ln() in the formula above</span></span>
+<span id="cb16-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">exp</span>(<span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:55%;">
+<div class="fragment" data-fragment-index="2">
+<p>Similarly, we can get the result of <span class="math inline">\(e^3\)</span> by doing <span class="math inline">\(e^{ln(e^3)}\)</span>:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">log</span>(<span class="fu">exp</span>(<span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 20.08554</code></pre>
+</div>
+</div>
+<p>You can see that the exponent and the logarithm keep giving back their opposite if I keep alternating the <code>log()</code> and <code>exp()</code>:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">log</span>(<span class="fu">exp</span>(<span class="fu">log</span>(<span class="fu">exp</span>(<span class="dv">3</span>))))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 3</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="3">
+<p>so if <span class="math inline">\(e^x\)</span> is the odds, then <span class="math inline">\(ln(e^x) = x\)</span> is the <u> <em>log of the odds</em> </u>, or <em>log odds</em> as it is most commonly called. This is why in our logistic regression <span class="math inline">\(e^{-1.39 + 0.12 \times \mathrm{Convictions}}\)</span>, the slope <span class="math inline">\(0.12\)</span> is the change in <em>log odds</em> per unit increase in convictions, not the change in odds.</p>
+</div>
+</section>
+<section id="plotting-a-logistic-regression" class="slide level2">
+<h2>Plotting a Logistic Regression</h2>
+<p>Depending on your data, the logistic regression line may look very similar or different compared to the linear regression line. In our case they look fairly similar:</p>
+<div class="columns">
+<div class="column" style="width:40%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dat, <span class="fu">aes</span>(<span class="at">x =</span> prio, <span class="at">y =</span> arrest)) <span class="sc">+</span></span>
+<span id="cb22-2"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb22-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"glm"</span>, </span>
+<span id="cb22-4"><a href="" aria-hidden="true" tabindex="-1"></a>              <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">family =</span> <span class="st">"binomial"</span>), </span>
+<span id="cb22-5"><a href="" aria-hidden="true" tabindex="-1"></a>              <span class="at">se =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>where you need to add the <code>method.args = list(family = "binomial")</code> part to the <code>geom_smooth()</code> function to tell <code>ggplot</code> that you want a logistic regression line.</p>
+</div><div class="column" style="width:60%;">
+<div class="cell code-125">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab_11_files/figure-revealjs/unnamed-chunk-15-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="1">
+<p>As you can see, the probability being arrested again (<span class="math inline">\(y\)</span>-axis) increases with prior convictions. You can also see the line bending a bit, and although we don’t see it here, this line will always be between 0 and 1.</p>
+</div>
+</section>
+<section id="making-predictions" class="slide level2">
+<h2>Making Predictions</h2>
+<p>We can use the <code>fitted()</code> function to get the predicted probability of being arrested again for each individual in our data.</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p>Here is print the predicted probability for the first 5 individuals:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: do not run this in your code, it will just print values. this is just for demonstration purposes</span></span>
+<span id="cb23-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">fitted</span>(log_reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell code-125">
+<div class="cell-output cell-output-stdout">
+<pre><code>   1    2    3    4    5 
+0.26 0.39 0.53 0.22 0.26 </code></pre>
+</div>
+</div>
+<div class="fragment" data-fragment-index="1">
+<p>We use the <code>ifelse()</code> function, which does one of two things depending on the instructions that we give it:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">ifelse</span>(<span class="fu">fitted</span>(log_reg) <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"P_Arrest"</span>, <span class="st">"P_NoArrest"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell code-125">
+<div class="cell-output cell-output-stdout">
+<pre><code>           1            2            3            4            5 
+"P_NoArrest" "P_NoArrest"   "P_Arrest" "P_NoArrest" "P_NoArrest" </code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:45%;">
+<p>Logistic regression returns probabilities. But we don’t want probabilities, we need actual predictions to eventually evaluate how well our logistic regression predicts the data.</p>
+<div class="fragment" data-fragment-index="1">
+<p>As our criterion to make prediction we say that if anyone has a predicted probability of being arrested above <span class="math inline">\(0.5\)</span>, we predict that they will be arrested again. Otherwise, we predict that they will not.</p>
+<p>Out of the first 5 individuals, only the third individual had a probaiblity of being arrested above <span class="math inline">\(0.5\)</span>, so we predict that they will be arrested again.</p>
+</div>
+</div></div>
+</section>
+<section id="confusion-matrices-and-accuracy" class="slide level2">
+<h2>Confusion Matrices and Accuracy</h2>
+<p>The start of all metrics that evaluate logistic regression predictions are what is called a <strong>confusion matrix</strong>. Confusion matrices are nothing more than the cross-tabulation of the predicted and observed outcomes:</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: now I add the prediction to the data for convenience</span></span>
+<span id="cb27-2"><a href="" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>predictions1 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">fitted</span>(log_reg) <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"P_Arrest"</span>, <span class="st">"P_NoArrest"</span>)</span>
+<span id="cb27-3"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># the "confusion matrix"</span></span>
+<span id="cb27-5"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat <span class="ot">&lt;-</span> <span class="fu">table</span>(dat<span class="sc">$</span>predictions1, dat<span class="sc">$</span>arrest)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: 0 is not arrested and 1 is arrested</span></span>
+<span id="cb28-2"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+               0   1
+  P_Arrest     3   4
+  P_NoArrest 315 110</code></pre>
+</div>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="1">
+<p>We can calculate the <strong>classification accuracy</strong> by computing the proportion of individuals that are correctly predicted to be arrested and not arrested. We correctly classify <span class="math inline">\(74\%\)</span> of the individuals.</p>
+<div class="cell code-150">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="" aria-hidden="true" tabindex="-1"></a>(conf_mat[<span class="dv">2</span>,<span class="dv">1</span>] <span class="sc">+</span> conf_mat[<span class="dv">1</span>,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">sum</span>(conf_mat)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7384259</code></pre>
+</div>
+</div>
+</div>
+</section>
+<section id="truefalse-positives-and-negatives" class="slide level2">
+<h2>True/False Positives and Negatives</h2>
+<p>You may have realized that something is a bit off about our logistic regression predictions. To understand why classification accuracy is not a great metric, we need to talk about true/false positives and negatives.</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li><strong>sensitivity:</strong> the test’s ability to correctly detect the disease in individuals who do have the disease.</li>
+</ul>
+<p><span class="math display">\[ \mathrm{sensitivity} = \frac{\mathrm{TP}}{\mathrm{TP} + \mathrm{FN}}\]</span></p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<ul>
+<li><strong>specificity:</strong> the test’s ability to correctly categorize individuals as healthy if they do not have the disease.</li>
+</ul>
+<p><span class="math display">\[ \mathrm{specificity} = \frac{\mathrm{TN}}{\mathrm{TN} + \mathrm{FP}}\]</span></p>
+</div>
+</div><div class="column" style="width:45%;">
+<div class="fragment" data-fragment-index="1">
+<center>
+<img data-src="Additional%20files/images/false_true_positive.png" style="width:70.0%">
+</center>
+</div>
+</div></div>
+</section>
+<section id="sensitivityspecificity-trade-off" class="slide level2">
+<h2>Sensitivity/Specificity Trade-Off</h2>
+<p>Without needing to look at anything else, we see a bit of an issue. The logistic regression predicts pretty well who will not be arrested, but does a really poor job at predicting those who will be arrested!</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+               0   1
+  P_Arrest     3   4
+  P_NoArrest 315 110</code></pre>
+</div>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>anyone could get similar sensitivity and accuracy by always predictiong “no arrest” and they would do almost as well as the logistic regression 🤡</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<p>amazing specificity:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat[<span class="dv">2</span>,<span class="dv">1</span>]<span class="sc">/</span><span class="fu">sum</span>(conf_mat[,<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.990566</code></pre>
+</div>
+</div>
+<p>But awful sensitivity:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat[<span class="dv">1</span>,<span class="dv">2</span>]<span class="sc">/</span><span class="fu">sum</span>(conf_mat[,<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.03508772</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="3">
+<p>What is happening? The prediction almost always are “no arrest”. Prior convictions do increase the likelihood of being arrested again, but the effect is likely small, and even at 9 prior convictions, the probability of being arrested again is still below 0.5. Only a handful of individuals in the data have more than 9 prior convictions.</p>
+</div>
+</section>
+<section id="adding-predictors" class="slide level2">
+<h2>Adding Predictors</h2>
+<p>Our logistic regression is not doing very well. Can we add some predictors and see if we do any better? Let’s say that we think that age at release, <code>age</code>, will also impact the probability of being arrested again.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="" aria-hidden="true" tabindex="-1"></a>log_reg2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(arrest <span class="sc">~</span> prio <span class="sc">+</span> age, dat, <span class="at">family =</span> binomial)</span>
+<span id="cb38-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(log_reg2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = arrest ~ prio + age, family = binomial, data = dat)
+
+Coefficients:
+            Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)  0.50218    0.56590   0.887 0.374865    
+prio         0.10465    0.03599   2.908 0.003637 ** 
+age         -0.07796    0.02303  -3.385 0.000711 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for binomial family taken to be 1)
+
+    Null deviance: 498.60  on 431  degrees of freedom
+Residual deviance: 474.27  on 429  degrees of freedom
+AIC: 480.27
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>we add an additional variable in the same way that we would with <code>lm()</code>. The idea is similar to multiple regression and the interpretations are similar:</p>
+<div class="fragment" data-fragment-index="1">
+<ul>
+<li><span class="math inline">\(0.5\)</span> the log-odds of being arrested again when both <code>age</code> and <code>prio</code> are 0.</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li><span class="math inline">\(0.10\)</span> the change in log-odds of being arrested for every additional conviction at release, accounting for <code>age</code>.</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="3">
+<ul>
+<li><span class="math inline">\(- 0.8\)</span> the change in log-odds of being arrested for every additional years of age at release, accounting for previous convictions.</li>
+</ul>
+</div>
+</div></div>
+</section>
+<section id="statistical-model-comparison" class="slide level2">
+<h2>Statistical Model Comparison</h2>
+<p>We just added <code>age</code> as an additional predictor. We would like to know whether we now do a better job at predicting the DV <code>arrest</code>. In the case of logistic regrerssion we can use the <a href="https://en.wikipedia.org/wiki/Likelihood-ratio_test" target="_blank">likelihood-ratio test</a> (LRT) to test whether adding <code>age</code> produces a <em>significant</em> improvement in predictions. That is, we compare the Logistic regression with only <code>prio</code> to the one with <code>prio + age</code>.</p>
+<div class="columns">
+<div class="column" style="width:65%;">
+<div class="fragment" data-fragment-index="1">
+<p>For reasons that are beyond human understanding, the <code>R</code> developers decided that you run the likelihood-ratio test with the <code>anova()</code> function.</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(log_reg,</span>
+<span id="cb40-2"><a href="" aria-hidden="true" tabindex="-1"></a>      log_reg2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Analysis of Deviance Table
+
+Model 1: arrest ~ prio
+Model 2: arrest ~ prio + age
+  Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
+1       430     487.96                          
+2       429     474.27  1   13.694 0.0002151 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:35%;">
+<div class="fragment" data-fragment-index="1">
+<p>You include the two logistic regression objects that you want to compare. If the <em>p</em>-value is significant, it means that the model with more predictors is best (statistically).</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>Note that this is something that we have touched on briefly in <a href="https://fabio-setti.netlify.app/psyc6802/lab_3#/likelihood-ratio-test" target="_blank">Lab 3</a>. Regardless, the LRT does not quantify how much adding <code>age</code> as a DV improves our predictions.</p>
+</div>
+</div></div>
+</section>
+<section id="are-we-actually-doing-better-now" class="slide level2">
+<h2>Are we actually doing better now?</h2>
+<p>How well are we actrually doing now that we have included <code>age</code> as a predictor? We can get predictions with the new logistic regression and look at the confusion matrix again.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>predictions2 <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(<span class="fu">fitted</span>(log_reg2) <span class="sc">&gt;</span> <span class="fl">0.5</span>, </span>
+<span id="cb42-2"><a href="" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"P_Arrest"</span>, <span class="st">"P_NoArrest"</span>)</span>
+<span id="cb42-3"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat2 <span class="ot">&lt;-</span> <span class="fu">table</span>(dat<span class="sc">$</span>predictions2, dat<span class="sc">$</span>arrest)</span>
+<span id="cb42-4"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+               0   1
+  P_Arrest     3   9
+  P_NoArrest 315 105</code></pre>
+</div>
+</div>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p>We are doing a tiny bit better, but still pretty poorly overall. Both <code>prio</code> and <code>age</code> are somewhat predictive of <code>arrest</code>, but we still do a bad job at identifying individuals who will be arrested again 😔</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<p>accuracy:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="" aria-hidden="true" tabindex="-1"></a>(conf_mat2[<span class="dv">2</span>,<span class="dv">1</span>] <span class="sc">+</span> conf_mat2[<span class="dv">1</span>,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">sum</span>(conf_mat2)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.75</code></pre>
+</div>
+</div>
+<p>Specificity:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat2[<span class="dv">2</span>,<span class="dv">1</span>]<span class="sc">/</span><span class="fu">sum</span>(conf_mat2[,<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.990566</code></pre>
+</div>
+</div>
+<p>Sensitivity:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat2[<span class="dv">1</span>,<span class="dv">2</span>]<span class="sc">/</span><span class="fu">sum</span>(conf_mat2[,<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.07894737</code></pre>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="training-and-test-partitions" class="slide level2">
+<h2>Training and Test Partitions</h2>
+<p>We are going to talk about something that is more common in the field of machine learning, where the most important goal is not understanding the nature of the relation between variables, but to get the best possible predictions.</p>
+<div class="fragment" data-fragment-index="1">
+<p>The idea is that we are interested in seeing how well our model predicts data <u><em>that it has not seen yet</em></u>, not the data it has already seen 🧐 This is because we want the model to generalize well when it encounters new data!</p>
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<p>To test how well our regression does when we try to predict new data, we can split our data into a <em>training</em> and <em>test</em> partition. the <code>caret</code> package has a function for it:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">5435</span>)</span>
+<span id="cb50-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># create k = 2 folds</span></span>
+<span id="cb50-4"><a href="" aria-hidden="true" tabindex="-1"></a>idx <span class="ot">&lt;-</span> caret<span class="sc">::</span><span class="fu">createFolds</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(dat), <span class="at">k =</span> <span class="dv">2</span>)</span>
+<span id="cb50-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-6"><a href="" aria-hidden="true" tabindex="-1"></a><span class="co"># split data into two datasets</span></span>
+<span id="cb50-7"><a href="" aria-hidden="true" tabindex="-1"></a>dat_train <span class="ot">&lt;-</span> dat[idx<span class="sc">$</span>Fold1,]</span>
+<span id="cb50-8"><a href="" aria-hidden="true" tabindex="-1"></a>dat_test <span class="ot">&lt;-</span> dat[idx<span class="sc">$</span>Fold2,]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="3">
+<p><code>createFolds()</code> takes in a vector of numbers, which is <code>1:nrow(dat)</code> in this case, and randomly splits it into some sets <code>k =</code> (only 2 in this case). <code>createFolds()</code> will return a <code>list</code> containing the numbers assigned to each fold.</p>
+</div>
+<div class="fragment" data-fragment-index="4">
+<p><code>1:nrow(dat)</code> will correspond to every row in our data, which will be randomly split in two folds. We can then <a href="https://fabio-setti.netlify.app/psyc6802/lab_1#/back-to-dimensions-subsetting" target="_blank">subset the data</a> by selecting the rows corresponding to the values in each fold.</p>
+</div>
+</div></div>
+</section>
+<section id="predicting-new-data" class="slide level2">
+<h2>Predicting new Data</h2>
+<p>Now we can run the same logistic regression on the training partition, <code>dat_train</code>, and check how well we can predict new data, <code>dat_test</code>.</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="" aria-hidden="true" tabindex="-1"></a>log_reg_train <span class="ot">&lt;-</span> <span class="fu">glm</span>(arrest <span class="sc">~</span> prio <span class="sc">+</span> age, dat_train, <span class="at">family =</span> binomial)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="fragment" data-fragment-index="1">
+<p>Then, we get the predictions on new data that the regression above has not been “trained on”. To get predictions for new data in <code>R</code> we generally use the <code>predict()</code> function:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat_test<span class="sc">$</span>predictions_probs <span class="ot">&lt;-</span> <span class="fu">predict</span>(log_reg_train, <span class="at">newdata =</span> dat_test, <span class="at">type =</span> <span class="st">"response"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>Note that you must include the <code>type = "response"</code> argument such that the predictions are returned as probabilities. Then we can turn the probabilities into actual predictions as we did before.</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="" aria-hidden="true" tabindex="-1"></a>dat_test<span class="sc">$</span>predictions <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(dat_test<span class="sc">$</span>predictions_probs <span class="sc">&gt;</span> <span class="fl">0.5</span>, <span class="st">"P_Arrest"</span>, <span class="st">"P_NoArrest"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Now we can test how well we do on the “test” data. (spoiler: if we did not do well on the full data, we will not do well when we split the data)</p>
+</div>
+</section>
+<section id="performance-on-test-data" class="slide level2">
+<h2>Performance on Test Data</h2>
+<p>We go through the same process where we create the confusion matrix and calculate accuracy, sensitivity and specificity.</p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat_test <span class="ot">&lt;-</span> <span class="fu">table</span>(dat_test<span class="sc">$</span>predictions, dat_test<span class="sc">$</span>arrest)</span>
+<span id="cb54-2"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat_test</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+               0   1
+  P_Arrest     6   5
+  P_NoArrest 155  50</code></pre>
+</div>
+</div>
+<p>And once again we are doing really poorly at predicting which individuals will be arrested.</p>
+<div class="fragment" data-fragment-index="1">
+<p>Is our logistic regression model useless? Probably not great, but not useless. If you are a psychologist, at least you established that having more convictions increases chances of arrest, and being older decreases them. If you are interested in predictions alone, you are not very happy 🤷</p>
+</div>
+</div><div class="column" style="width:45%;">
+<p>accuracy:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="" aria-hidden="true" tabindex="-1"></a>(conf_mat_test[<span class="dv">2</span>,<span class="dv">1</span>] <span class="sc">+</span> conf_mat_test[<span class="dv">1</span>,<span class="dv">2</span>])<span class="sc">/</span><span class="fu">sum</span>(conf_mat_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.7407407</code></pre>
+</div>
+</div>
+<p>Specificity:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat_test[<span class="dv">2</span>,<span class="dv">1</span>]<span class="sc">/</span><span class="fu">sum</span>(conf_mat_test[,<span class="dv">1</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9627329</code></pre>
+</div>
+</div>
+<p>Sensitivity:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="" aria-hidden="true" tabindex="-1"></a>conf_mat_test[<span class="dv">1</span>,<span class="dv">2</span>]<span class="sc">/</span><span class="fu">sum</span>(conf_mat_test[,<span class="dv">2</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.09090909</code></pre>
+</div>
+</div>
+</div></div>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
+<h2>References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-Kuhn_etal_2024" class="csl-entry" role="listitem">
+Kuhn, M., cre, Wing, J., Weston, S., Williams, A., Keefer, C., Engelhardt, A., Cooper, T., Mayer, Z., Kenkel, B., Team, R. C., Benesty, M., Lescarbeau, R., Ziem, A., Scrucca, L., Tang, Y., Candan, C., &amp; Hunt, T. (2024). <em>Caret: <span>Classification</span> and <span>Regression Training</span></em>.
+</div>
+<div id="ref-Rossi_etal_1980" class="csl-entry" role="listitem">
+Rossi, P. H., Berk, R. A., &amp; Lenihan, K. J. (Eds.). (1980). Money, <span>Work</span>, and <span>Crime Experimental Evidence</span>. In <em>Money, <span>Work</span>, and <span>Crime</span></em> (p. iii). Academic Press. <a href="https://doi.org/10.1016/B978-0-12-598240-5.50001-6">https://doi.org/10.1016/B978-0-12-598240-5.50001-6</a>
+</div>
+</div>
+
+</section>
+    </div>
+  <div class="quarto-auto-generated-content" style="display: none;">
+<div class="footer footer-default">
+<p>PSYC 6802 - Lab 11: Logistic Regression</p>
+</div>
+</div></div>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script>
+  <script src="Lab_11_files/libs/revealjs/dist/reveal.js"></script>
+  <!-- reveal.js plugins -->
+  <script src="Lab_11_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.js"></script>
+  <script src="Lab_11_files/libs/revealjs/plugin/pdf-export/pdfexport.js"></script>
+  <script src="Lab_11_files/libs/revealjs/plugin/reveal-menu/menu.js"></script>
+  <script src="Lab_11_files/libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
+  <script src="Lab_11_files/libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="Lab_11_files/libs/revealjs/plugin/quarto-support/support.js"></script>
+  
+
+  <script src="Lab_11_files/libs/revealjs/plugin/notes/notes.js"></script>
+  <script src="Lab_11_files/libs/revealjs/plugin/search/search.js"></script>
+  <script src="Lab_11_files/libs/revealjs/plugin/zoom/zoom.js"></script>
+  <script src="Lab_11_files/libs/revealjs/plugin/math/math.js"></script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+'controlsAuto': false,
+'previewLinksAuto': false,
+'pdfSeparateFragments': false,
+'autoAnimateEasing': "ease",
+'autoAnimateDuration': 1,
+'autoAnimateUnmatched': true,
+'jumpToSlide': true,
+'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
+'chalkboard': {"buttons":true},
+'smaller': false,
+ 
+        // Display controls in the bottom right corner
+        controls: false,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: false,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'edges',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: 'c/t',
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: true,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: true,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: false,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'linear',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: false,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'none',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'none',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        // The "normal" size of the presentation, aspect ratio will be preserved
+        // when the presentation is scaled to fit different resolutions. Can be
+        // specified using percentage units.
+        width: 1280,
+
+        height: 720,
+
+        // Factor of the display size that should remain empty around the content
+        margin: 0.1,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
+    <script id="quarto-html-after-body" type="application/javascript">
+      window.document.addEventListener("DOMContentLoaded", function (event) {
+        const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
+        tabsets.forEach(function(tabset) {
+          const tabby = new Tabby('#' + tabset.id);
+        });
+        const isCodeAnnotation = (el) => {
+          for (const clz of el.classList) {
+            if (clz.startsWith('code-annotation-')) {                     
+              return true;
+            }
+          }
+          return false;
+        }
+        const onCopySuccess = function(e) {
+          // button target
+          const button = e.trigger;
+          // don't keep focus
+          button.blur();
+          // flash "checked"
+          button.classList.add('code-copy-button-checked');
+          var currentTitle = button.getAttribute("title");
+          button.setAttribute("title", "Copied!");
+          let tooltip;
+          if (window.bootstrap) {
+            button.setAttribute("data-bs-toggle", "tooltip");
+            button.setAttribute("data-bs-placement", "left");
+            button.setAttribute("data-bs-title", "Copied!");
+            tooltip = new bootstrap.Tooltip(button, 
+              { trigger: "manual", 
+                customClass: "code-copy-button-tooltip",
+                offset: [0, -8]});
+            tooltip.show();    
+          }
+          setTimeout(function() {
+            if (tooltip) {
+              tooltip.hide();
+              button.removeAttribute("data-bs-title");
+              button.removeAttribute("data-bs-toggle");
+              button.removeAttribute("data-bs-placement");
+            }
+            button.setAttribute("title", currentTitle);
+            button.classList.remove('code-copy-button-checked');
+          }, 1000);
+          // clear code selection
+          e.clearSelection();
+        }
+        const getTextToCopy = function(trigger) {
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
+            }
+          }
+          return codeEl.innerText;
+        }
+        const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+          text: getTextToCopy
+        });
+        clipboard.on('success', onCopySuccess);
+        if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+          const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+            text: getTextToCopy,
+            container: window.document.getElementById('quarto-embedded-source-code-modal')
+          });
+          clipboardModal.on('success', onCopySuccess);
+        }
+          var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+          var mailtoRegex = new RegExp(/^mailto:/);
+            var filterRegex = new RegExp('/' + window.location.host + '/');
+          var isInternal = (href) => {
+              return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+          }
+          // Inspect non-navigation links and adorn them if external
+         var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+          for (var i=0; i<links.length; i++) {
+            const link = links[i];
+            if (!isInternal(link.href)) {
+              // undo the damage that might have been done by quarto-nav.js in the case of
+              // links that we want to consider external
+              if (link.dataset.originalHref !== undefined) {
+                link.href = link.dataset.originalHref;
+              }
+            }
+          }
+        function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+          const config = {
+            allowHTML: true,
+            maxWidth: 500,
+            delay: 100,
+            arrow: false,
+            appendTo: function(el) {
+                return el.closest('section.slide') || el.parentElement;
+            },
+            interactive: true,
+            interactiveBorder: 10,
+            theme: 'light-border',
+            placement: 'bottom-start',
+          };
+          if (contentFn) {
+            config.content = contentFn;
+          }
+          if (onTriggerFn) {
+            config.onTrigger = onTriggerFn;
+          }
+          if (onUntriggerFn) {
+            config.onUntrigger = onUntriggerFn;
+          }
+            config['offset'] = [0,0];
+            config['maxWidth'] = 700;
+          window.tippy(el, config); 
+        }
+        const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+        for (var i=0; i<noterefs.length; i++) {
+          const ref = noterefs[i];
+          tippyHover(ref, function() {
+            // use id or data attribute instead here
+            let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+            try { href = new URL(href).hash; } catch {}
+            const id = href.replace(/^#\/?/, "");
+            const note = window.document.getElementById(id);
+            if (note) {
+              return note.innerHTML;
+            } else {
+              return "";
+            }
+          });
+        }
+        const findCites = (el) => {
+          const parentEl = el.parentElement;
+          if (parentEl) {
+            const cites = parentEl.dataset.cites;
+            if (cites) {
+              return {
+                el,
+                cites: cites.split(' ')
+              };
+            } else {
+              return findCites(el.parentElement)
+            }
+          } else {
+            return undefined;
+          }
+        };
+        var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+        for (var i=0; i<bibliorefs.length; i++) {
+          const ref = bibliorefs[i];
+          const citeInfo = findCites(ref);
+          if (citeInfo) {
+            tippyHover(citeInfo.el, function() {
+              var popup = window.document.createElement('div');
+              citeInfo.cites.forEach(function(cite) {
+                var citeDiv = window.document.createElement('div');
+                citeDiv.classList.add('hanging-indent');
+                citeDiv.classList.add('csl-entry');
+                var biblioDiv = window.document.getElementById('ref-' + cite);
+                if (biblioDiv) {
+                  citeDiv.innerHTML = biblioDiv.innerHTML;
+                }
+                popup.appendChild(citeDiv);
+              });
+              return popup.innerHTML;
+            });
+          }
+        }
+      });
+      </script>
+    
+
+</body></html>

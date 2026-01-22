@@ -1,7 +1,8 @@
 ---
 title: "Lab 7: Multicollinearity, Dominance Analysis, and Power"
 author: "Fabio Setti"
-institute: "PSYC 7804 - Regression with Lab"
+institute: "Spring 2025"
+subtitle: "PSYC 7804 - Regression with Lab"
 bibliography: Additional files/R packages.bib
 csl: Additional files/apa.csl
 notice: |
@@ -12,7 +13,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 7: Multicollinearity, Dominance Analysis, and Power"
+      footer: "PSYC 7804 - Lab 7: Multicollinearity, Dominance Analysis, and Power"
       width: 1280
       height: 720
       chalkboard: true
@@ -890,7 +891,7 @@ $$
 :::
 
 ::: {.fragment fragment-index=2}
-<div style="font-size: 24px; padding-bottom: 18px;"> The one thing to keep in mind is that the smaller $\mathrm{SE}_{b_1}$, the higher your power. $n$, the sample size, is in the denominator, meaning that larger sample size decreases $\mathrm{SE}_{b_1}$...everything in order so far more $n$, more power 😀. </div>
+<div style="font-size: 24px; padding-bottom: 18px;"> The one thing to keep in mind is that the smaller $\mathrm{SE}_{b_1}$, the higher your power. $n$, the sample size, is in the denominator, meaning that larger sample size decreases $\mathrm{SE}_{b_1}$...so, more $n$, more power 😀. </div>
 :::
 
 
@@ -941,7 +942,7 @@ Low power *is not* bad because it will be hard to get $p < .05$. Low power is ba
 ::: {.column width="50%"}
 
 
-<div style="font-size: 24px"> So, I think people care about power for the wrong reasons 🤷 Some related blog posts/manuscripts from Andrew Gelman:
+<div style="font-size: 24px"> So, I think people care about power for the wrong reasons 🤷 Some related blog posts/manuscripts by Andrew Gelman:
 
 <ul style="font-size: 22px">  
 

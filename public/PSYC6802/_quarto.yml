@@ -1,0 +1,5 @@
+# This makes sure that only single files are rendered 
+
+project:
+  type: default
+  render: []

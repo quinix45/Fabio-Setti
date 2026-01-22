@@ -6,8 +6,8 @@
 <script src="Lab 14_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Lab 14_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Lab 14_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Lab 14_files/libs/quarto-html/quarto-syntax-highlighting-e1a5c8363afafaef2c763b6775fbf3ca.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.7.31">
+<link href="Lab 14_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.26">
 
   <meta name="author" content="Fabio Setti">
   <title>Lab 14: Regression Diagnostics</title>
@@ -115,7 +115,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="Lab 14_files/libs/revealjs/dist/theme/quarto-2d554fba576698464a245e315fd7fc66.css">
+  <link rel="stylesheet" href="Lab 14_files/libs/revealjs/dist/theme/quarto-60f14cd0614b98e80d8f9b8c8e302a8a.css">
   <link href="Lab 14_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Lab 14_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Lab 14_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -210,19 +210,12 @@
     }
   </style>
   <script src="Lab 14_files/libs/core-js-2.5.3/shim.min.js"></script>
-
   <script src="Lab 14_files/libs/react-18.2.0/react.min.js"></script>
-
   <script src="Lab 14_files/libs/react-18.2.0/react-dom.min.js"></script>
-
   <script src="Lab 14_files/libs/reactwidget-2.0.0/react-tools.js"></script>
-
   <script src="Lab 14_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-
   <link href="Lab 14_files/libs/reactable-0.4.4/reactable.css" rel="stylesheet">
-
   <script src="Lab 14_files/libs/reactable-binding-0.4.4/reactable.js"></script>
-
   <script src="Fabio_theme/Fabio_theme.js"></script>
 </head>
 <body class="quarto-light">
@@ -231,6 +224,7 @@
 
 <section id="title-slide" data-transition="zoom" data-visibility="uncounted" class="quarto-title-block center">
   <h1 class="title">Lab 14: Regression Diagnostics</h1>
+  <p class="subtitle">PSYC 7804 - Regression with Lab</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -238,7 +232,7 @@
 Fabio Setti 
 </div>
         <p class="quarto-title-affiliation">
-            PSYC 7804 - Regression with Lab
+            Spring 2025
           </p>
     </div>
 </div>
@@ -250,10 +244,10 @@ Fabio Setti
 <div class="column" style="width:50%;">
 <p>No new packages for today!</p>
 <div class="cell code-150">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
 <span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_classic</span>(<span class="at">base_size =</span> <span class="dv">16</span>, </span>
-<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="at">base_family =</span> <span class="st">'serif'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="at">base_family =</span> <span class="st">'serif'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div><div class="column" style="width:50%;">
 <center style="padding-bottom: 41px;">
@@ -264,11 +258,11 @@ Fabio Setti
 
 </div>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a>WH_2024 <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/World_happiness_2024.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a>WH_2024 <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/World_happiness_2024.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s also name the rows with the country names. This helps later when we need to identify problematic data points:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(WH_2024) <span class="ot">&lt;-</span> WH_2024<span class="sc">$</span>Country_name</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(WH_2024) <span class="ot">&lt;-</span> WH_2024<span class="sc">$</span>Country_name</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </div></div>
 </section>
@@ -304,7 +298,7 @@ Fabio Setti
 <div class="cell code-125">
 <details class="code-fold">
 <summary>simulate data</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">28567</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">28567</span>)</span>
 <span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>cor_mat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">1</span>, .<span class="dv">2</span>),</span>
 <span id="cb4-4"><a href="" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">c</span>(.<span class="dv">2</span>, <span class="dv">1</span>))</span>
@@ -313,7 +307,7 @@ Fabio Setti
 <span id="cb4-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(sim_dat_50) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="st">"X"</span>)</span>
 <span id="cb4-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-9"><a href="" aria-hidden="true" tabindex="-1"></a>sim_dat_500 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n =</span> <span class="dv">500</span>, <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">Sigma =</span> cor_mat, <span class="at">empirical =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb4-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(sim_dat_500) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="st">"X"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(sim_dat_500) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="st">"X"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 </center>
@@ -575,7 +569,7 @@ Here is a quick summary of the regression diagnostics that we will look at today
 <ul style="font-size: 24px">
 <div class="fragment" data-fragment-index="4">
 <li>
-<strong>Cook’s <em>D</em>:</strong> For each data point, it measures how large the average change in all the regression coefficients would be <em>if</em> that data point was removed (influence).
+<strong>Cook’s <em>D</em>:</strong> This is <em>very</em> similar to DFFITS, because it also measures how large the change in the predictions, <span class="math inline">\(\hat{Y}\)</span>, would be <em>if</em> a data point was removed (influence).
 </li>
 </div>
 <div class="fragment" data-fragment-index="5">
@@ -600,8 +594,8 @@ Here is a quick summary of the regression diagnostics that we will look at today
 <h2>Our model</h2>
 <p>Let’s say that we want to look at how <code>log_GDP</code> and <code>Social_support</code> predict <code>Happiness_score</code> for each country. Let’s look at the added variables plots directly:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Happiness_score <span class="sc">~</span> Log_GDP <span class="sc">+</span> Social_support, WH_2024)</span>
-<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">avPlots</span>(reg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Happiness_score <span class="sc">~</span> Log_GDP <span class="sc">+</span> Social_support, WH_2024)</span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">avPlots</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="columns">
 <div class="column" style="width:30%;">
@@ -633,8 +627,8 @@ As mentioned all the way back in Lab 5, the <code>avPlots()</code> function also
 <div class="fragment" data-fragment-index="1">
 <p>To compute hat values for all your observations you use the <code>hatvalues()</code> function. Here I only print the 5 largest values</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a>hatvals <span class="ot">&lt;-</span> <span class="fu">hatvalues</span>(reg)</span>
-<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(hatvals, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a>hatvals <span class="ot">&lt;-</span> <span class="fu">hatvalues</span>(reg)</span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(hatvals, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Venezuela Afghanistan       Benin  Bangladesh       Yemen 
  0.21265378  0.09809391  0.09120859  0.08473355  0.06862403 </code></pre>
@@ -664,18 +658,16 @@ As mentioned all the way back in Lab 5, the <code>avPlots()</code> function also
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="fragment" data-fragment-index="1">
-<p>To compute hat values for all your observations you use the <code>rstudent()</code> function. Here I only print the 5 largest and smallest values</p>
+<p>To compute hat values for all your observations you use the <code>rstudent()</code> function. Here I only print the 3 largest and smallest values</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a>rstud <span class="ot">&lt;-</span> <span class="fu">rstudent</span>(reg)</span>
-<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sort</span>(rstud,)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>],</span>
-<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(rstud, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a>rstud <span class="ot">&lt;-</span> <span class="fu">rstudent</span>(reg)</span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sort</span>(rstud,)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>],</span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(rstud, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>           Botswana             Lebanon           Sri Lanka               Yemen 
-          -3.186036           -2.984894           -2.820828           -2.578256 
-           Eswatini               Benin           Venezuela Congo (Brazzaville) 
-          -2.474610            2.157962            2.131176            1.945239 
-        El Salvador              Guinea 
-           1.897265            1.718991 </code></pre>
+<pre><code>           Botswana             Lebanon           Sri Lanka               Benin 
+          -3.186036           -2.984894           -2.820828            2.157962 
+          Venezuela Congo (Brazzaville) 
+           2.131176            1.945239 </code></pre>
 </div>
 </div>
 </div>
@@ -702,7 +694,7 @@ As mentioned all the way back in Lab 5, the <code>avPlots()</code> function also
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">qqPlot</span>(reg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">qqPlot</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -726,18 +718,14 @@ As mentioned all the way back in Lab 5, the <code>avPlots()</code> function also
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="fragment" data-fragment-index="1">
-<p>To compute hat values for all your observations you use the <code>dffits()</code> function. Here I only print the 5 largest and smallest values</p>
+<p>To compute DFFITS for all your observations you use the <code>dffits()</code> function. Here I only print the 3 largest and smallest values:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a>dffits <span class="ot">&lt;-</span> <span class="fu">dffits</span>(reg)</span>
-<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sort</span>(dffits)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>],</span>
-<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(dffits, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a>dffits <span class="ot">&lt;-</span> <span class="fu">dffits</span>(reg)</span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sort</span>(dffits)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>],</span>
+<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(dffits, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>              Yemen             Lebanon         Afghanistan            Botswana 
-         -0.6998446          -0.6820855          -0.4798498          -0.3653259 
-            Lesotho           Venezuela               Benin          Mozambique 
-         -0.2911133           1.1075748           0.6836434           0.3463596 
-Congo (Brazzaville)             Morocco 
-          0.3060233           0.2768784 </code></pre>
+<pre><code>      Yemen     Lebanon Afghanistan   Venezuela       Benin  Mozambique 
+ -0.6998446  -0.6820855  -0.4798498   1.1075748   0.6836434   0.3463596 </code></pre>
 </div>
 </div>
 </div>
@@ -755,19 +743,19 @@ Congo (Brazzaville)             Morocco
 </center>
 </div></div>
 <div class="fragment" data-fragment-index="2">
-<p>Predictions can change either positively or negatively, so we shuold look at extreme values both ways. You can think of DFFITS as a measure that summarizes how much the whole regression model changes when a data point is removed.</p>
+<p>Predictions can change either positively or negatively, so we should look at extreme values both ways. You can think of DFFITS as a measure that summarizes how much the whole regression model changes when a data point is removed.</p>
 </div>
 </section>
 <section id="cooks-d" class="slide level2">
 <h2>Cook’s <em>D</em></h2>
-<p><strong>Cook’s <em>D</em> </strong> measures how large the average change in all the regression coefficients would be <em>if</em> that data point was removed (influence).</p>
+<p><strong>Cook’s <em>D</em></strong> is very similar to DFFITS because it also summarizes the change in the predictions, <span class="math inline">\(\hat{Y}\)</span>, given any data point <em>if</em> that data point was removed (influence). The differencer is that Cook’s D is always positive, and large values imply larger influence.</p>
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="fragment" data-fragment-index="1">
 <p>To compute Cook’s distance for all your observations you use the <code>cooks.distance()</code> function. Here I only print the 5 largest values:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>cookD <span class="ot">&lt;-</span> <span class="fu">cooks.distance</span>(reg)</span>
-<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(cookD, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>cookD <span class="ot">&lt;-</span> <span class="fu">cooks.distance</span>(reg)</span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(cookD, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  Venezuela       Yemen       Benin     Lebanon Afghanistan 
  0.39860207  0.15679733  0.15173923  0.14661548  0.07613119 </code></pre>
@@ -788,7 +776,7 @@ Congo (Brazzaville)             Morocco
 </div>
 </div></div>
 <div class="fragment" data-fragment-index="2">
-<p>Data points with large DFFITS (in magnitude) will have large Cook’s <em>D</em>, so the interpretation is similar. The one notable difference is that Cook’s distance is always positive, so may be easier to interpret from some. You can confirm that teh the contries on this slide are the same countries with the largest DFFITS in magnitude on the previous slide.</p>
+<p>Data points with large DFFITS (in magnitude) will have large Cook’s <em>D</em>, so the interpretation is similar. Because Cook’s distance is always positive, it may be easier to interpret from some. You can confirm that the the countries on this slide are the same countries with the largest DFFITS in magnitude on the previous slide.</p>
 </div>
 </section>
 <section id="covratio" class="slide level2">
@@ -797,11 +785,11 @@ Congo (Brazzaville)             Morocco
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="fragment" data-fragment-index="1">
-<p>To compute hat values for all your observations you use the <code>dffits()</code> function. Here I only print the 5 largest and smallest values</p>
+<p>To compute COVRATIO values for all your observations you use the <code>dffits()</code> function. Here I only print the 5 largest and smallest values</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a>covrat <span class="ot">&lt;-</span> <span class="fu">covratio</span>(reg)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a>covrat <span class="ot">&lt;-</span> <span class="fu">covratio</span>(reg)</span>
 <span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sort</span>(covrat)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>],</span>
-<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(covrat, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(covrat, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   Botswana   Sri Lanka     Lebanon    Eswatini       Egypt   Venezuela 
   0.8345086   0.8684843   0.8891520   0.9051094   0.9379370   1.1764633 
@@ -834,7 +822,7 @@ Congo (Brazzaville)             Morocco
 <div class="column" style="width:50%;">
 <p>To compute DFBETAS we use the <code>dfbetas()</code> function:</p>
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dfbetas</span>(reg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dfbetas</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -858,7 +846,7 @@ Congo (Brazzaville)             Morocco
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">influencePlot</span>(reg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">influencePlot</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -884,7 +872,7 @@ Congo (Brazzaville)             Morocco
 <div class="columns">
 <div class="column" style="width:70%;">
 <div class="cell code-125">
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">influenceIndexPlot</span>(reg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">influenceIndexPlot</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="cell">
 <div class="cell-output-display">
@@ -922,7 +910,7 @@ Wickham, H., &amp; RStudio. (2023). <em>Tidyverse: <span>Easily Install</span> a
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
-<p>Lab 14: Regression Diagnostics</p>
+<p>PSYC 7804 - Lab 14: Regression Diagnostics</p>
 </div>
 </div></div>
 
@@ -1110,7 +1098,7 @@ Wickham, H., &amp; RStudio. (2023). <em>Tidyverse: <span>Easily Install</span> a
         margin: 0.1,
 
         math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/MathJax.js',
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js',
           config: 'TeX-AMS_HTML-full',
           tex2jax: {
             inlineMath: [['\\(','\\)']],
@@ -1137,80 +1125,42 @@ Wickham, H., &amp; RStudio. (2023). <em>Tidyverse: <span>Easily Install</span> a
       });
     </script>
     
-
     <script>
-
       // htmlwidgets need to know to resize themselves when slides are shown/hidden.
-
       // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
-
       // slide changes (different for each slide format).
-
       (function () {
-
         // dispatch for htmlwidgets
-
         function fireSlideEnter() {
-
           const event = window.document.createEvent("Event");
-
           event.initEvent("slideenter", true, true);
-
           window.document.dispatchEvent(event);
-
         }
-
-    
 
         function fireSlideChanged(previousSlide, currentSlide) {
-
           fireSlideEnter();
 
-    
-
           // dispatch for shiny
-
           if (window.jQuery) {
-
             if (previousSlide) {
-
               window.jQuery(previousSlide).trigger("hidden");
-
             }
-
             if (currentSlide) {
-
               window.jQuery(currentSlide).trigger("shown");
-
             }
-
           }
-
         }
-
-    
 
         // hookup for slidy
-
         if (window.w3c_slidy) {
-
           window.w3c_slidy.add_observer(function (slide_num) {
-
             // slide_num starts at position 1
-
             fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
-
           });
-
         }
 
-    
-
       })();
-
     </script>
-
-    
 
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -1260,13 +1210,14 @@ Wickham, H., &amp; RStudio. (2023). <em>Tidyverse: <span>Easily Install</span> a
           e.clearSelection();
         }
         const getTextToCopy = function(trigger) {
-            const codeEl = trigger.previousElementSibling.cloneNode(true);
-            for (const childEl of codeEl.children) {
-              if (isCodeAnnotation(childEl)) {
-                childEl.remove();
-              }
+          const outerScaffold = trigger.parentElement.cloneNode(true);
+          const codeEl = outerScaffold.querySelector('code');
+          for (const childEl of codeEl.children) {
+            if (isCodeAnnotation(childEl)) {
+              childEl.remove();
             }
-            return codeEl.innerText;
+          }
+          return codeEl.innerText;
         }
         const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
           text: getTextToCopy

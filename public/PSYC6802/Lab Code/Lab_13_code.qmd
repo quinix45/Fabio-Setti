@@ -1,0 +1,86 @@
+
+## Today's Packages and Data 🤗 
+
+```{r}
+library(psych)
+library(lavaan)
+library(tidyverse)
+```
+
+
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/Lab_13_Cox.sav")
+```
+
+## Some Preliminary Steps
+
+
+```{r}
+# example of how paste0() works
+paste0("Panas", 1:3)
+
+dat_PANAS <- dat %>% 
+              dplyr::select(paste0("Panas", 1:20))
+```
+
+```{r}
+set.seed(878673)
+
+folds <- caret::createFolds(1:nrow(dat), k = 2)
+dat_EFA <- dat_PANAS[folds$Fold1, ]
+dat_CFA <- dat_PANAS[folds$Fold2, ]
+```
+
+
+## Determining Number of Factors
+
+
+```{r}
+# NOTE: you need to provide the function with the item responses only (no other variables)
+psych::scree(dat_EFA, pc = FALSE)
+```
+
+
+## Parallel Analysis
+
+
+```{r}
+psych::fa.parallel(dat_EFA, fa = "fa")
+```
+
+
+## Exploratory Factor Analysis in `R`
+
+```{r}
+efa_res <- fa(dat_EFA, nfactors = 2,
+              rotate = "oblimin", fm = "pa")
+print(efa_res$loadings, cutoff = .3)
+```
+
+## Defining the CFA Model
+
+
+```{r}
+CFA_mod <- "
+Positive_aff =~ Panas1 + Panas3 + Panas5 + Panas9 + Panas10 + Panas12 + Panas14 + Panas16 + Panas17 + Panas19
+Negative_aff =~ Panas2 + Panas4 + Panas6 + Panas7 + Panas8 + Panas11 + Panas13 + Panas15 + Panas18 + Panas20
+" 
+```
+
+
+## Confirmatory Factor Analysis in `R`
+
+```{r}
+CFA_res <- sem(model = CFA_mod, data = dat_CFA)
+standardizedSolution(CFA_res)
+```
+
+## Assessing Model Fit
+
+```{r}
+fitMeasures(CFA_res,
+fit.measures = c("chisq", "df", "pvalue", 
+                 "rmsea",
+                 "srmr", 
+                 "cfi"))
+```

@@ -1,0 +1,138 @@
+---
+title: "Lab 7 Activity"
+format: pdf
+editor: source
+header-includes:
+  - \usepackage{setspace}
+  - \onehalfspacing
+---
+
+We will continue using the same dataset from [Lab 7](https://fabio-setti.netlify.app/psyc6802/lab_7#/todays-packages-and-data){target='_blank'}. Run the following code to load the data into your `R` environment.
+
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/NYC_SAT_data.csv")
+```
+
+**1.** We think that the race distribution across different borough may be different. In particular, we want to test whether the percentage of black students in each school is different across boroughs. The variable indicating the percentage of black students in each school is `Percent_Black`. Attempt to run a one-way ANOVA testing whether there are significant differences in mean `Percent_Black` across `Borough`. 
+
+- Do you encounter any issues? what does the `Percent_Black` look like? Why do you think the analysis does not run?
+
+```{r}
+#| echo: false
+#| eval: true
+#| results: hide
+
+str(dat$Percent_Black)
+
+# the `Percent_Black` is a character and it also includes a % sign, so transforming it directly into a numeric does not work
+```
+
+
+**2.** Whoever made this dataset, entered the variables in a very suboptimal way. Appropriately turn the `Percent_Black` variable into a `numeric` variable such that we can run the one-way ANOVA.
+
+- Transform the `Percent_Black` variable into a `numeric` variable. There are many ways of doing it, but try looking into the `sub()` function. here is an example of how it works:
+
+```{r}
+sub(pattern = "hi", 
+    x = c("hi there", "you can change the pattern to hi"), 
+    replacement = "anything you want")
+```
+
+
+```{r}
+#| echo: false
+#| eval: true
+#| results: hide
+
+dat$Percent_Black <- as.numeric(sub(pattern = "%", x = dat$Percent_Black, replacement = ""))
+```
+
+
+- Run a one-way ANOVA testing whether there are significant differences in mean `Percent_Black` across `Borough`. Remember to first turn `Borough` into a `factor` variable. Interpret the ANOVA result.
+
+```{r}
+#| echo: false
+#| eval: true
+#| results: hide
+
+dat$Borough <- factor(dat$Borough)
+
+reg <- lm(Percent_Black ~ Borough, data = dat)
+anova(reg)
+
+# there are some mean differences in percentage of black students in schools across the 5 Boroughs
+```
+
+
+**3.** Calculate the effect size for the effect of `Borough` on `Percent_Black`. How would you interpret it?
+
+```{r}
+#| include: false
+
+
+effectsize::omega_squared(reg)
+
+# Borough explains around 26% of the variance in percentage of black students in each school 
+```
+
+
+**4.** Evaluate the ANOVA assumptions by creating violin plots of `Percent_Black` by `Borough`. What do you think about the equal variances and the normality assumption? 
+
+
+```{r}
+#| include: false
+
+
+library(tidyverse)
+
+dat$Percent_Hispanic <- as.numeric(sub(pattern = "%", x = dat$Percent_Hispanic, replacement = ""))
+
+ggplot(dat, aes(y = Percent_Black, 
+                x = Borough, 
+                fill = Borough)) +
+  geom_violin() +
+  geom_boxplot(width = 0.1)
+
+
+# definitely not doing well. It seems like the Bronx is the only Borough that has something close to a normal distribution. The variances are also quite different. 
+```
+
+
+**5.** conduct some contrasts. Test all the following contrasts at once:
+
+- Test the mean difference in `Percent_Black` between the Bronx and Manhattan.
+
+- Test the mean difference in `Percent_Black` between the Bronx and Manhattan plus Brooklyn.
+
+- Test the mean difference in `Percent_Black` between Queens plus Staten Island and Manhattan plus the Bronx.
+
+Run all contrasts together twice; the first time apply a Bonferroni corerction to the *p*-values. The second time apply Sidak adjustment to the *p*-values. Would you conclusions change depending on the adjustment?
+
+```{r}
+#| echo: false
+#| eval: true
+#| results: hide
+#| warning: false
+
+levels(dat$Borough)
+
+cont_1 <- c(1, 0, 1 , 0 , 0)
+cont_2 <- c(2, -1, -1 , 0 , 0)
+cont_3 <- c(1, 0, 1 , -1 , -1)
+
+em_res <- emmeans::emmeans(reg, specs = "Borough")
+
+emmeans::contrast(em_res, 
+         method = list(cont_1 = cont_1,
+                       cont_2 = cont_2,
+                       cont_3 = cont_3 ),
+          adjust = "bonferroni")
+
+
+
+emmeans::contrast(em_res, 
+         method = list(cont_1 = cont_1,
+                       cont_2 = cont_2,
+                       cont_3 = cont_3 ),
+          adjust = "sidak")
+```

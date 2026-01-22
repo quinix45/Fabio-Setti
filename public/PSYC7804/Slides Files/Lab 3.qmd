@@ -1,7 +1,8 @@
 ---
 title: "Lab 3: Significance Tests and Reporting Results"
 author: "Fabio Setti"
-institute: "PSYC 7804 - Regression with Lab"
+institute: "Spring 2025"
+subtitle: "PSYC 7804 - Regression with Lab"
 bibliography: Additional files/R packages.bib
 csl: Additional files/apa.csl
 notice: |
@@ -11,7 +12,7 @@ title-slide-attributes:
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 3: Significance Tests and Reporting Results"
+      footer: "PSYC 7804 - Lab 3: Significance Tests and Reporting Results"
       width: 1280
       height: 720
       chalkboard: true
@@ -628,13 +629,11 @@ If you open the `reg_table.docx` document that was just saved to your working di
 #| code-line-numbers: false
 
 table <- FabioFun::regression_flextable(reg_model,
-         var_names = c("Intercept", 
-                       "BMI", 
+         var_names = c("BMI", 
                        "Sex"))
 
 save_as_docx(table, 
        path = "reg_table_names.docx")
-
 ```
 
 
@@ -656,7 +655,7 @@ FabioFun::regression_flextable(reg_model)
 
 ```{r}
 FabioFun::regression_flextable(reg_model, 
-                     var_names = c("Intercept", "BMI", "Sex"))
+                     var_names = c("BMI", "Sex"))
 ```
 
 
