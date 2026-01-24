@@ -1,168 +1,378 @@
 ---
-title: "Lab 3 Code"
+title: "Lab 1 Code"
 author: "Fabio Setti"
-date: "Spring-2025"
+date: "Spring-2026"
 output: html_document
 ---
 
 ## Today's Packages 🤗
 
 ```{r}
-install.packages("flextable")
-install.packages("devtools")
-devtools::install_github("quinix45/FabioFun")
-
-# Tidyverse should be already installed
-# install.packages("tidyverse")
+install.packages("rio")
+install.packages("psych")
+install.packages("tidyverse")
+install.packages("car")
 ```
 
 
 ```{r}
-
-library(flextable)
-library(devtools)
-library(FabioFun)
+library(car)
+library(psych)
 library(tidyverse)
-theme_set(theme_classic(base_size = 16, 
-                        base_family = 'serif'))
+```
+
+
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/NY_Temp.txt")
+```
+
+## Describing the Data Numerically
+
+
+```{r}
+str(dat)
+```
+
+
+```{r}
+# the `trim = .05` argument calculates means without the bottom/top 2.5% of the data
+# add IQR = TRUE to get the interquartile range
+psych::describe(dat[,-1], trim = .05)
+```
+
+
+## Describing the Data Graphically
+
+
+```{r}
+ggplot() 
+```
+
+
+## Adding Coordinates
+
+
+```{r}
+ggplot(dat,  
+ aes(x = Case, y = Temp)) 
+```
+
+
+## A Basic Plot
+
+
+```{r}
+ggplot(dat,  
+ aes(x = Case, y = Temp)) +
+ geom_point()
+```
+
+## Change the Theme
+
+```{r}
+ggplot(dat,  
+ aes(x = Case, y = Temp)) +
+ geom_point() +
+ theme_classic()
+```
+
+
+```{r}
+# set theme globally
+theme_set(theme_classic())
+```
+
+## Add Linear Regression Line
+
+```{r}
+
+ggplot(dat,  
+ aes(x = Case, y = Temp)) +
+ geom_point() +
+ geom_smooth(method = "lm")
+```
+
+
+## Add a Loess Line
+
+
+```{r}
+ggplot(dat,  
+ aes(x = Case, y = Temp)) +
+ geom_point() +
+ geom_smooth(method = "lm", se = FALSE) +
+ geom_smooth(method = "loess", se = FALSE,
+             col = "red")
+```
+
+
+## 1D Scatterplot 🤔 
+
+
+```{r}
+ggplot(dat,  
+       aes(x = Temp, y = 0)) +
+       # shape = n can be used to change the shape of the dots. there are 25 shapes (1 to 25)
+       geom_point(shape = 1) +
+       theme_classic()
+```
+
+
+## Histograms
+
+
+```{r}
+ggplot(dat,  
+       # note that we only need to give X
+       aes(x = Temp)) +
+       geom_histogram()
+```
+
+
+## Histogram: Adjusting Bins
+
+
+```{r}
+ggplot(dat,  
+ aes(x = Temp)) +
+ geom_histogram(bins = 15,
+                color = "black",
+                linewidth = .8,
+                fill = "#3492eb") 
+```
+
+
+## Box-Plots
+
+
+```{r}
+ggplot(dat,
+       aes(y = Temp)) +
+       geom_boxplot()
+```
+
+
+## Kernel Density plots 
+
+```{r}
+ggplot(dat,
+       aes(x = Temp)) +
+       geom_density() +
+       xlim(45, 110)
+```
+
+
+## Change Kernel and Smoothing Parameter
+
+
+```{r}
+ggplot(dat,
+ aes(x = Temp)) +
+ geom_density(kernel = "triangular",
+              adjust = 0.5) +
+ xlim(45, 110)
+```
+
+
+## QQplots
+
+```{r}
+ggplot(dat,
+       aes(sample = Temp)) + 
+       stat_qq() + 
+       stat_qq_line()
+```
+
+
+# One-Predictor Regression
+
+## Our Variables
+
+```{r}
+ggplot(dat,  
+ aes(x = Wind, y = Temp)) +
+ geom_point() +
+ geom_smooth(method = "lm", 
+             se = FALSE)
+```
+
+
+```{r}
+cor(dat$Wind, dat$Temp)
+```
+
+## Run a Regression with `lm()`
+
+
+```{r}
+reg <- lm(Temp ~ Wind, data = dat)
+```
+
+
+```{r}
+class(reg)
+```
+
+
+## What's inside the `lm()` output? 🧐
+
+
+```{r}
+names(reg)
+```
+
+
+## The `summary()` Function 
+
+
+```{r}
+sum_reg <- summary(reg) # normally I would not save the summary as an object, but I want to show the contents later
+sum_reg
+```
+
+
+```{r}
+class(sum_reg)
+```
+
+
+## What's inside `summary(lm)`? 🧐
+
+
+```{r}
+names(sum_reg)
+```
+
+## Making Predictions The "right way"
+
+
+```{r}
+reg$coef
 ```
 
 
 ```{r}
 
-insurance <- rio::import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/insurance.csv")
-
-# let's peak at our variables
-str(insurance)
-```
-
-## Predicting Insurance Charges
-
-
-```{r}
-reg <- lm(charges ~ bmi, insurance)
-summary(reg)
-```
-
-## Sampling Distributions (optional)
-
-
-
-```{r}
-# you need to install this package 
-library(extraDistr)
-
-ggplot() +
-  geom_function(fun = dlst, args = list(mu = 0, sigma = 53.25, df = 1336), color = "blue") +
-  labs(x = "All the slopes if H0 is true") +
-  xlim(-(53.25*3), (53.25*3)) +
-  scale_y_continuous(expand = c(0,0)) +
-    annotate("text", x = -2, y = .002, 
-             label = "The spread of this distribution \n is determined by the stanrdard error of the slope, \n which is 53.25") +
-  theme(axis.title.y=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks.y=element_blank(),
-        axis.line.y =  element_blank())
-```
-
-
-## Where's the T 🍵? (optional)
-
-
-```{r}
-pt(7.397, df = 1336, lower.tail = FALSE)*2
+reg$coef[1] + reg$coef[2]*13 #  I prefer `as.numeric(coef(reg)[1] + coef(reg)[2]*13)` which makes sure to unnamed the output; this happens because reg$coef if a named vector, so the names remain unless we use `as.numeric()`
 ```
 
 
 ```{r}
-ggplot() +
-  geom_function(fun = dt, args = list(df = 1336), color = "blue") +
-  labs(x = "All the slopes if H0 is true, but standardized") +
-    annotate("text", x = 0, y = .1, 
-             label = "Hey, I am still the same distribution \n from the previous slide. People \n like me better when my X-axis \n looks like this!") +
-  xlim(-3, 3) +
-  scale_y_continuous(expand = c(0,0)) +
-  theme(axis.title.y=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks.y=element_blank(),
-        axis.line.y =  element_blank())
+# first we create new data that we want to get predictions on
+pred_dat <- data.frame("Wind" = seq(10, 20, by = 0.2))
 ```
-
-## ...And the intercept
-
-```{r}
-pt(.717, df = 1336, lower.tail = FALSE)*2
-```
-
-```{r}
-ggplot() +
-  geom_function(fun = dt, args = list(df = 1336), color = "blue") +
-  labs(x = "All the intercepts if H0 is true") +
-  geom_vline(xintercept = 0.717, linetype = 2) +
-  xlim(-3, 3) +
-  annotate("text", x = .25, y = .1, label = "t-value of \n the intercept") +
-  annotate("text", x = -2, y = .3, label = "we also look at the \n opposite side, two-tailed test") +
-    geom_ribbon(data = data.frame(x = seq(0.717, 4, length.out = 100)), 
-              aes(x = x, ymin = 0, ymax = dt(x, df = 1336)), 
-              fill = "lightblue", alpha = 0.5) +
-  geom_ribbon(data = data.frame(x = seq(-0.717, -4, length.out = 100)), 
-              aes(x = x, ymin = 0, ymax = dt(x, df = 1336)), 
-              fill = "lightblue", alpha = 0.5) +
-  scale_y_continuous(expand = c(0,0)) +
-  scale_x_continuous(limits = c(-3, 3), breaks = c(-2, 0, 0.717, 2)) +
-  theme(axis.title.y=element_blank(),
-        axis.text.y=element_blank(),
-        axis.ticks.y=element_blank(),
-        axis.line.y =  element_blank())
-```
-
-
-
-
-## Confidence Intervals
-
-```{r}
-confint(reg)
-```
-
-## APA Style Report
-
-```{r}
-summary(reg)
-```
-
-
-
-## ANOVA Output
-
-```{r}
-anova(reg)
-```
-
-
-## Creating APA Style regression tables
 
 
 ```{r}
-# any regression model
-reg_model <- lm(charges ~ bmi + sex, insurance)
-
-# create the table
-table <-  FabioFun::regression_flextable(reg_model)
-
-# save the table to as a word doc. You should see the files in the `path` argument appear in your working directory
-save_as_docx(table, path = "reg_table.docx")
+pred_dat$y_pred <- predict(reg, pred_dat)
+str(pred_dat)
 ```
 
-## Table Output
+## Visualizing Predictions
+
 
 ```{r}
-table <- FabioFun::regression_flextable(reg_model,
-         var_names = c("Intercept", 
-                       "BMI", 
-                       "Sex"))
-
-save_as_docx(table, 
-       path = "reg_table_names.docx")
+ggplot(dat,
+ aes(x = Wind, y = Temp)) +
+ geom_point(shape = 1) +
+ geom_point(aes(y = reg$fitted), 
+                col = "red")
 ```
 
+## Visualizing Residuals
+
+```{r}
+ggplot(dat,
+ aes(x = Wind, y = Temp)) +
+ geom_point(shape = 1) +
+ geom_point(aes(y = reg$fitted), 
+                col = "red") +
+ geom_segment(y = reg$fitted,
+              x = dat$Wind,
+              xend = dat$Wind,
+              yend = dat$Temp,
+              linetype = 2,
+              alpha = 0.5)
+```
+
+## Normality of Residuals
+
+```{r}
+car::qqPlot(reg)
+```
+
+## Plotting Residuals Against Predictors
+
+
+```{r}
+ggplot(dat, 
+  aes(x = Wind, y = reg$resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  geom_smooth(method = "loess",
+              se = FALSE)
+```
+
+# Appendix
+
+## Understanding QQplots
+
+
+```{r}
+# quantile values of .1, .5., .8 for normal distribution with mean = 0 and sd = 1
+# this will results in Z-scores that correspond to the 
+# 10th, 50th, and 80th percentile
+
+qnorm(c(.1, .5, .8), mean = 0, sd = 1)
+```
+
+
+```{r}
+# The quantile function calculates the observed percentiles fo a given variable.
+# by supplying c(.1, .5, .8) we want the 10th, 50th, and 80th percentile of Temp
+
+quantile(dat$Temp, c(.1, .5, .8))
+```
+
+## Creating QQplot Data
+
+
+```{r}
+# first, it is useful to define all the quantiles that we want as a vector
+quantiles <- seq(from = .01, to = .99, by = .01)  
+str(quantiles)
+
+# calculate quantiles for normal distribution and real data
+Xaxis <- qnorm(quantiles)
+Yaxis <- quantile(dat$Temp, quantiles)
+
+# Note that you can use ANY mean and SD value for the qnorm() function.
+# Here, I use the mean and SD of the Temp variable
+Xaxis_2 <- qnorm(quantiles, mean = mean(dat$Temp), sd = sd(dat$Temp))
+
+# create a data.frame (ggplot like data.frame objects)
+QQdata <- data.frame("Xaxis" = Xaxis,
+                     "Xaxis_2" = Xaxis_2,
+                     "Yaxis" = Yaxis)
+head(QQdata)
+```
+
+## QQplot The Data
+
+```{r}
+ggplot(QQdata, 
+       aes(x = Xaxis, y = Yaxis)) +
+      geom_point()
+```
+
+
+## A more intuitive "QQplot"?
+
+
+```{r}
+ggplot(QQdata, 
+       aes(x = Xaxis_2, y = Yaxis)) +
+       geom_point() +
+       # equivalent to stat_qq_line()
+       geom_abline(intercept = 0, slope = 1)
+```

@@ -12,7 +12,7 @@ links:
 - icon: github
   icon_pack: fab
   name: Find code here
-  url: https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides
+  url: https://github.com/quinix45/Fabio-Setti/tree/main/static
 ---
 <center> <img src="featured-hex.png"  width="60%"> </center>
 
@@ -78,7 +78,7 @@ links:
 
 <h3> 1. Descriptive Techniques and One-Predictor Regression </h3>
 
-Coming soon!
+This lab introduces descriptive techniques, both numerical and graphical, for one-dimensional and two-dimensional data. Further, one-predictor regression is introduced. Find interpretation of regression coefficients, graphical representations of one-predictor regression, and a brief introduction to assumption checks.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 1.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

@@ -8,3 +8,162 @@ header-includes:
 ---
 
 \onehalfspacing
+
+
+```{r include=FALSE}
+library(tidyverse)
+
+```
+
+
+For this lab activity we will use the `attitude` dataset, which is automatically loaded in `R`. 
+
+**Description:** A survey of the clerical employees of a large financial organization. The data are aggregated from the questionnaires of the approximately 35 employees for each of 30 (randomly selected) departments. The numbers give the percent proportion of favourable responses to seven questions in each department.
+
+
+
+```{r}
+#| echo: false
+#| eval: true
+#| warning: false
+
+library(tidyverse)
+
+info <- tibble(Variable = names(attitude),
+               Description = c("Overall rating", 
+                               "Handling of employee complaints",
+                               "Does not allow special privileges", 
+                               "Opportunity to learn", 
+                               "Raises based on performance",
+                               "Too critical", 
+                               "Advancement"))
+library(kableExtra)
+
+kable(info) %>% 
+  column_spec(column = 2, width = "5in") %>% 
+  column_spec(column = 1, bold = T) %>% 
+  row_spec(0, bold = T)
+```
+
+
+We will be looking at how positions that allow opportunities for learning (`learning`) predict overall rating of their department (`rating`). The data is already loaded into `R` as `attitude`.
+
+
+**1.** Calculate means and standard deviations of the two variables.
+
+```{r}
+#| echo: false
+#| eval: false
+
+mean(attitude$learning)
+mean(attitude$rating)
+
+sd(attitude$privileges)
+sd(attitude$rating)
+```
+
+**2.** create plots to describe the distribution of the two variables. Use a different plot for each variable.
+
+```{r}
+#| echo: false
+#| eval: false
+
+set_theme(theme_classic())
+
+# strange distribution
+
+ggplot(attitude,
+       aes(x = learning)) +
+       geom_density()
+
+# not very normally distributed
+
+ggplot(attitude,  
+ aes(x = rating)) +
+ geom_histogram(bins = 15,
+                color = "black",
+                linewidth = .8,
+                fill = "#3492eb")
+
+# strange distributions to be expected given the small sample size                
+
+```
+
+**3.** Create a scatterplot with `rating` on the $y$-axis and `learning` on the $x$-axis and draw a regression line. What sign do you expect the slope to have? 
+
+```{r}
+#| echo: false
+#| eval: false
+
+ggplot(attitude,  
+ aes(x = learning, y = rating)) +
+ geom_point() +
+ geom_smooth(method = "lm", 
+             se = FALSE)
+
+# Positive sign           
+```
+
+**4.** Run a linear regression and write the regression equation. How would interpret $\beta_1$, the slope of `learning`? 
+
+```{r}
+#| echo: false
+#| eval: false
+
+reg <- lm(rating ~ learning, attitude)
+
+summary(reg)
+
+# rating = 28.1741 + 0.6468*learning
+
+# the slope of learning means that for each unit increase in learning, we expect a 0.6468 units increase in rating of the department.
+```
+
+- What is the predicted value of `rating` when `learning` = 58?
+
+```{r}
+#| echo: false
+#| eval: false
+
+reg$coef[1] + reg$coef[2]*58
+
+# 65.68981 
+```
+
+
+**5.** Create a residuals plot and evaluate whether the residuals are reasonably evenly distributed around the regression line.
+
+```{r}
+#| echo: false
+#| eval: false
+
+ggplot(attitude, 
+  aes(x = learning, y = reg$resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  geom_smooth(method = "loess",
+              se = FALSE)
+
+# seems alright given that the sample size is a bit small              
+```
+
+
+**6.** Can you identify a datapoint that is "unexpected" according to the regression? Print the row of the dataset associated with this datapoint. Given the regression, what is "unusual" about this datapoint?
+
+```{r}
+#| echo: false
+#| eval: false
+
+# the residual with the highest absolute value is the most "unexpected"
+(point <- which.max(abs(reg$resid)))
+
+
+# this point has high learning opportunities but low overall rating. This is unlike the general linear trend described by the regression
+
+attitude[point, c("rating", "learning")]
+```
+
+
+
+
+

@@ -29,7 +29,1565 @@ editor: source
 
 ## Today's Packages and Data 🤗
 
+:::: {.columns}
+::: {.column width="50%"}
 
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-150
+
+install.packages("rio")
+install.packages("psych")
+install.packages("tidyverse")
+install.packages("car")
+```
+
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(car)
+library(psych)
+library(tidyverse)
+```
+
+<!-- 
+theme_set(theme_classic(base_size = 16, 
+                        base_family = 'serif')) -->
+
+</br>
+
+
+<div style="font-size: 26px">
+
+::: {.panel-tabset}
+
+### `car`
+
+The `car` package [@Fox_etal_2024] contains many helper functions to analyze and explore regression results. It was originally created to be used along a regression book written by the same authors.
+
+### `tidyverse`
+
+The `tidyverse` package [@Wickham_RStudio_2023] loads a suite of packages that help with data cleaning and visualization. Among others, `tidyverse` loads both `dplyr` and `ggplot2`.
+
+### `psych`
+
+The `psych` package [@Revelle_2024a] includes MANY functions that help with data exploration and running analyses typically done in the social sciences.
+
+:::
+</div>
+
+  
+
+:::
+
+
+::: {.column width="50%"}
+
+<center style="padding-bottom: 41px;"> [Data]{.data-title} </center>
+
+Today we will use the `NY_Temp.txt` dataset: 
+
+```{r}
+#| warning: false
+#| classes: code-125
+#| echo: true
+#| code-line-numbers: false
+#| output: true
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/NY_Temp.txt")
+```
+
+
+This dataset includes weather measuremts taken in New York at different timepoints. 
+
+```{r}
+
+library(FabioFun)
+
+labels <- c("Measurement instance",
+            "Ozone levels",
+            "Solar Radiations Levels",
+            "Temperature (Fahrenheit)",
+            "Wind Speed")
+
+labels_react <- reactbl_col.desc(names = colnames(dat),
+                                 desc =  labels,
+                                 style = "cursor: pointer; text-decoration: none;",
+                                 info_color = "#7a0b80")
+
+
+reactable::reactable(dat,
+                     defaultColDef = colDef(minWidth = 40),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300, columns = labels_react)
+```
+
+:::
+::::
+
+
+## Describing the Data Numerically
+
+There are many ways to calculate descriptive statistics of put data in `R`. 
+
+:::: {.columns}
+::: {.column width="40%"}
+
+
+
+::: {.fragment fragment-index=1}
+
+The `str()` function can give you good sense of the type of variables you are dealing with
+
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+
+str(dat)
+```
+
+The `str()` function immediately tells us how many row/columns out data has, as well as provinding information about the variable types that we are dealing with.
+
+:::
+
+:::
+::: {.column width="60%"}
+
+::: {.fragment fragment-index=2}
+
+When dealing with continuous variables, I like the `describe()` function from the `psych` package:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+
+
+# the `trim = .05` argument calculates means without the bottom/top 2.5% of the data
+# add IQR = TRUE to get the interquartile range
+psych::describe(dat[,-1], trim = .05)
+```
+
+
+:::{.callout-note appearance="minimal"}
+ what does the `[,-1]` do in the code above? Why did I include it?
+:::
+
+:::
+:::
+::::
+
+## Describing the Data Graphically
+
+To create plots we will use the `GGplot2` package [@Wickham_etal_2024], which is loaded automatically by `tidyverse`. For a refresher on `tidyverse` and `GGplot2` basics see [Lab 2 of PSYC 6802](https://fabio-setti.netlify.app/psyc6802/lab_2#/title-slide){target='_blank'}.
+
+
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width="30%"}
+
+The general idea of `GGplot2` is that we start with some blank canvas:
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot() 
+```
+
+The `ggplot()` function by itself will actually create our blank canvas. Now we need to add elements on top of it.
+
+
+:::
+
+::: {.column width="70%"}
+
+```{r}
+ggplot() 
+```
+
+:::
+
+::::
+
+:::
+
+
+## Adding Coordinates
+
+We use the `aes()` function to defined coordinates. Note that the name of the data object (`dat` in our case) is almost always the first argument of the `ggplot()` function.  
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width="30%"}
+
+We define the temperature observed (`Temp`) as the $y$-axis and the measueremnt instance (`Case`) as the $x$-axis . 
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+ggplot(dat,  
+ aes(x = Case, y = Temp)) 
+```
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(dat,  
+ aes(x = Case, y = Temp))  
+```
+
+:::
+::::
+
+:::
+
+## A Basic Plot
+
+We use one of the `geom_...()` functions to add shapes to our plot. 
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+ aes(x = Case, y = Temp)) +
+ geom_point()
+```
+
+
+This is a **Profile plot**, which in this case shows the trend of `Temp` over time.
+
+::: {.callout-note}
+## `geom_...()`
+
+The `geom_...()` functions add geometrical elements to a blank plot ([see here](https://ggplot2.tidyverse.org/reference/){target="_blank"} for a list of all the `geom_...()` functions). Note that most `geom_...()` will *inherit* the `x` and `y` coordinates from the ones given to the `aes()` function in the `ggplot()` function. 
+:::
+
+:::
+
+
+::: {.column width="70%"}
+
+
+```{r}
+ggplot(dat,  
+ aes(x = Case, y = Temp)) +
+ geom_point()
+```
+
+:::
+::::
+
+:::
+
+## Change the Theme
+
+I personally find `GGplot2`'s default theme a bit ugly. Luckily there are much nicer alternatives (see [here](https://r-charts.com/ggplot2/themes/){target='_blank'}). I like `theme_classic()`:
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+ aes(x = Case, y = Temp)) +
+ geom_point() +
+ theme_classic()
+```
+
+::: {.fragment fragment-index=1}
+
+Whenever I plan on creating a bunch of plots, I fist set the theme globally, which can be done with:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+theme_set(theme_classic())
+```
+
+Now, all the following plots will use `theme_classic()` as the default theme.
+
+:::
+
+:::
+
+::: {.column width="70%"}
+
+```{r}
+ggplot(dat,  
+       aes(x = Case, y = Temp)) +
+       geom_point() +
+       theme_classic()
+```
+
+:::
+::::
+
+:::
+
+## Add Linear Regression Line
+
+
+:::: {.columns}
+::: {.column width="30%"}
+
+We can use the `geom_smooth()` function to draw trend lines. The `method =` argument can be use to specify the type of trend line. We specify `"lm"` to choose a linear regression line:
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+ aes(x = Case, y = Temp)) +
+ geom_point() +
+ geom_smooth(method = "lm")
+```
+
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(dat,  
+       aes(x = Case, y = Temp)) +
+       geom_point() +
+       geom_smooth(method = "lm")
+```
+
+:::
+::::
+
+::: {.fragment fragment-index=1}
+
+The grey band around the line is the 95% confidence interval. we can add the `se = FALSE` argument to remove it for nicer looking plots. 
+
+:::
+
+## Add a Loess Line
+
+:::: {.columns}
+::: {.column width="30%"}
+
+ `method =  "loess"` can be used to add a loess line. 
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+ aes(x = Case, y = Temp)) +
+ geom_point() +
+ geom_smooth(method = "lm", se = FALSE) +
+ geom_smooth(method = "loess", se = FALSE,
+             col = "red")
+```
+
+::: {.fragment fragment-index=1}
+
+Loess lines should mostly be used as an exploratory tool to detect non-linear trends. Because this is temperature across the year, a non-liner trend should be expected.
+
+:::
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(dat,  
+       aes(x = Case, y = Temp)) +
+       geom_point() +
+       geom_smooth(method = "lm", se = FALSE) +
+       geom_smooth(method = "loess", se = FALSE,
+                   col = "red")
+```
+
+:::
+::::
+
+## 1D Scatterplot 🤔 
+
+This is the one-dimensional representation of the `Temp` variable. 
+
+:::: {.columns}
+
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+       aes(x = Temp, y = 0)) +
+       # shape = n can be used to change the shape of the dots. there are 25 shapes (1 to 25)
+       geom_point(shape = 1) +
+       theme_classic()
+```
+
+This plot gives a good graphical representation of the variance of a variable. However, for visualizing data, we have better options...
+
+
+:::
+
+::: {.column width="70%"}
+
+```{r}
+#| eval: true
+#| echo: false
+
+ggplot(dat,  
+       aes(x = Temp, y = 0)) +
+       geom_point(shape = 1) +
+       theme_classic()
+```
+
+:::
+::::
+
+
+
+## Histograms
+
+Histograms are fairly useful for visualizing distributions of single variables. But you have to choose the number of `bins` appropriately.
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+       # note that we only need to give X
+       aes(x = Temp)) +
+       geom_histogram()
+```
+
+::: {.fragment fragment-index=1}
+
+There are a bit too many **bins**, so it is hard to get a good sense of the distribution. We can use the `bins = ` argument to change the number of bins, which is the number of bars on the plot.
+
+:::
+
+:::
+
+::: {.column width="70%"}
+
+```{r}
+ggplot(dat,  
+       aes(x = Temp)) +
+       geom_histogram() 
+```
+
+:::
+::::
+
+## Histogram: Adjusting Bins
+
+ere I just touched up the plot a bit and set the bins to 15. It is much easier to tell what the distribution looks like now.
+
+:::: {.columns}
+::: {.column width="30%"}
+
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+ggplot(dat,  
+ aes(x = Temp)) +
+ geom_histogram(bins = 15,
+                color = "black",
+                linewidth = .8,
+                fill = "#3492eb") 
+```
+
+
+
+::: {.callout-note}
+## HEX color codes 
+
+The `"#3492eb"` is actually a color. R supports HEX color codes, which are codes that can represent just about all possible colors. There are many online color pickers ([see here](https://htmlcolorcodes.com/color-picker/){target="_blank"} for example) that will let you select a color and provide the corresponding HEX color code.  
+:::
+
+:::
+::: {.column width="70%"}
+
+
+```{r}
+ggplot(dat,  
+       aes(x = Temp)) +
+       geom_histogram(bins = 15,
+                      color = "black",
+                      linewidth = .8,
+                      fill = "#3492eb")
+```
+
+:::
+::::
+
+## Box-Plots
+
+Box-plots useful to get a sense of the variable's variance, range, presence of outliers. 
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,
+       aes(y = Temp)) +
+       geom_boxplot()
+```
+
+
+
+::: {.callout-note}
+# Reading a Box-plot
+
+The square represents the interquartile range, meaning that the bottom edge is the $25^{th}$ percentile of the variable and the top edge is the $75^{th}$ percentile of the variable. The bolded line is the median of the variable, which is not quite in the middle of the box. This suggests some degree of skew. 
+:::
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(dat,
+       aes(y = Temp)) +
+       geom_boxplot()
+```
+
+:::
+::::
+
+## Kernel Density plots 
+
+Kernel density plots do a similar job to histograms, but I tend to prefer them over histograms. 
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,
+       aes(x = Temp)) +
+       geom_density() +
+       xlim(45, 110)
+```
+
+::: {.fragment fragment-index=1}
+
+The "kernel" is the mathematical function that is used to draw the density. We can change the type of kernel with the `kernel =` argument. See [here at the bottom of the page](https://r-charts.com/distribution/density-plot-ggplot2/#:~:text=The%20kernel%20used%20can%20also,instead%20of%20a%20gaussian%20kernel.){target="_blank"} for other kernel options.
+
+:::
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(dat,
+       aes(x = Temp)) +
+       geom_density() +
+       xlim(45, 110)
+```
+
+:::
+::::
+
+## Change Kernel and Smoothing Parameter
+
+
+Aside from changing the kernel, I also tweak the smoothing parameter (`adjust =`), which determines how "smooth" the distribution will look.
+
+:::: {.columns}
+::: {.column width="30%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,
+ aes(x = Temp)) +
+ geom_density(kernel = "triangular",
+              adjust = 0.5) +
+ xlim(45, 110)
+```
+
+
+::: {.fragment fragment-index=1}
+
+Generally, `R`'s default choice of the smoothing parameter is pretty good (here I decreased it). You generally do not want to increase the smoothing parameter too much becuause it will end up hiding irregularities in the distribution.
+
+:::
+
+:::
+::: {.column width="70%"}
+
+```{r}
+ggplot(dat,
+       aes(x = Temp)) +
+       geom_density(kernel = "triangular",
+                    adjust = 0.5) +
+       xlim(45, 110)
+```
+
+:::
+::::
+
+## QQplots
+
+QQplots give a graphical representation of how much a variable deviates from normality. 
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width="30%"}
+
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+ggplot(dat,
+       aes(sample = Temp)) + 
+       stat_qq() + 
+       stat_qq_line()
+```
+
+In general, you want the points to be as close as possible to the line. Here I would say that the distribution does not look too non-normal.
+
+::: {.fragment fragment-index=1}
+
+See [the appendix](#appendix) for an explanation of what are the axes of a QQplot represent.
+
+:::
+
+:::
+
+
+::: {.column width="70%"}
+```{r}
+ggplot(dat, 
+       aes(sample = Temp)) + 
+       stat_qq() + 
+       stat_qq_line()
+```
+
+:::
+::::
+
+:::
+
+#
+
+
+:::: {.columns}
+::: {.column width="60%"}
+
+</br>
+
+<p style='font-size: 120px'>  One-Predictor Regression  </p>
+
+:::
+::: {.column width="40%"}
+
+<center>
+
+![](Additional files/Images/regression_hex.png)
+
+</center>
+
+:::
+::::
+
+## Our Variables
+
+
+We will be using wind speed (`Wind`) to predict temperature (`Temp`). First let's take a look at these two variables:
+
+:::: {.columns}
+::: {.column width="30%"}
+
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+ aes(x = Wind, y = Temp)) +
+ geom_point() +
+ geom_smooth(method = "lm", 
+             se = FALSE)
+```
+
+
+::: {.fragment fragment-index=1}
+
+We can tell that there is a very clear negative trend. If we calculate the correlation between the two variables, we get:
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cor(dat$Wind, dat$Temp)
+```
+
+:::
+
+:::
+
+::: {.column width="70%"}
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,  
+ aes(x = Wind, y = Temp)) +
+ geom_point() +
+ geom_smooth(method = "lm", se = FALSE)
+```
+
+:::
+::::
+
+::: {.fragment fragment-index=2}
+
+Our goal is to find the mathematical formula that describes the regression line on the plot!
+
+:::
+
+## Run a Regression with `lm()`
+
+The `lm()` function is what runs [ordinary least squares (OLS) regression](https://en.wikipedia.org/wiki/Ordinary_least_squares){target='_blank'} in `R`. The function stands fro "linear model"!
+
+
+:::: {.columns}
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| classes: code-125
+#| code-line-numbers: false
+
+reg <- lm(Temp ~ Wind, data = dat)
+```
+
+the general syntax of the `lm()` function is as follows:
+
+<center> `lm(Y ~ X, data = your data)` </center>
+
+
+::: {.fragment fragment-index=1}
+
+<ul style="font-size: 26px">
+
+<li> `Y`: the name of your dependent variable (DV) </li>
+
+<li> `X`: the name of your independent variable (IV) </li>
+
+<li>  `data = your data`: The data that contains your variables </li>
+
+</ul>
+
+:::
+
+::: {.fragment fragment-index=2}
+
+<div style="font-size: 26px">  
+**NOTE**: if we were to just run `lm(Temp ~ Wind)`, we would get an error. Neither  `Temp` and `Wind` are objects in our `R` environment. We need to tell `R` where to find `Temp` and `Wind` by adding `data = dat`. 
+</div>
+
+:::
+
+:::
+
+::: {.column width = '40%'}
+
+
+::: {.fragment fragment-index=3}
+
+now you should se an object called `reg` appear in your environment, which is the output of the `lm()` function. Importantly, `reg` is an `lm` object:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+class(reg)
+```
+
+:::
+
+
+::: {.fragment fragment-index=4}
+
+Because this is a regression class, I think it is useful to discuss in more detail the contents of `lm` objects.
+
+:::
+
+:::
+::::
+
+## What's inside the `lm()` output? 🧐
+
+The output of `lm()` is a `list`, and we can check the contents of a `list` with the `names()` function:
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+names(reg)
+```
+
+:::
+
+::: {.column width = '30%'}
+
+All of these may not make sense now, but hopefully they will in the future. Use this slide for future reference.
+
+:::
+::::
+
+
+
+
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+
+<ul style='font-size: 26px'>
+
+::: {.fragment fragment-index=1}
+
+<li> `coefficients`: the regression Coefficients (Intercept and slopes) </li>
+
+:::
+
+::: {.fragment fragment-index=2}
+
+<li> `residuals`: the residuals (true values - predicted value) </li>
+
+:::
+
+::: {.fragment fragment-index=3}
+
+<li> `effects`: [this linear algebra thing](https://genomicsclass.github.io/book/pages/qr_and_regression.html){target='_blank'} (will likely never come up in your life) </li>
+
+:::
+
+
+::: {.fragment fragment-index=4}
+
+<li> `rank`: the number of variables in the regression (2 in our case) </li>
+
+:::
+
+::: {.fragment fragment-index=5}
+
+<li> `fitted.values`: the predicted value of the DV for each row </li>
+
+:::
+
+::: {.fragment fragment-index=6}
+
+<li> `assign`: the index of the coefficients (not very important) </li>
+
+:::
+
+</ul>
+
+:::
+::: {.column width = '45%'}
+
+
+<ul style='font-size: 26px'>
+
+::: {.fragment fragment-index=7}
+
+<li> `qr`: related to `effects` above. (ignore) </li>
+
+:::
+
+::: {.fragment fragment-index=8}
+
+<li> `df.residual`: the residuals degrees of freedom </li>
+
+:::
+
+::: {.fragment fragment-index=9}
+
+<li> `xlevels`: saves the levels of `factor` variables if present </li>
+
+:::
+
+::: {.fragment fragment-index=10}
+
+<li> `call`: the regression formula you specified </li>
+
+:::
+
+::: {.fragment fragment-index=11}
+
+<li> `terms`: the variables in the model </li>
+
+:::
+
+::: {.fragment fragment-index=12}
+
+<li> `model`: this is a matrix containing all the data used for the regression </li>
+
+:::
+
+</ul>
+
+
+:::
+::::
+
+## The `summary()` Function 
+
+to get a neat summary of a regression result, we can use the `summary()` function on an `lm` object:
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+sum_reg <- summary(reg) # normally I would not save the summary as an object, but I want to show the contents later
+sum_reg
+```
+
+:::
+::: {.column width = '45%'}
+
+::: {.fragment fragment-index=1}
+
+For the time being, we want to look at the output under `coefficients:`, which contains our regression equation:
+
+
+<center>   $$\hat{Y} = \beta_0 + \beta_1 \times X$$ </center>
+
+<center> &darr; </center>
+
+<center>   $$\hat{Y} = 91.02 + -1.33 \times \mathrm{Wind}$$ </center>
+
+:::
+
+::: {.fragment fragment-index=2}
+
+Before we interpret things, I want to talk about the contents of the contents of a `summary.lm` object:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+class(sum_reg)
+```
+
+:::
+
+:::
+::::
+
+## What's inside `summary(lm)`? 🧐
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+names(sum_reg)
+```
+
+:::
+::: {.column width = '30%'}
+
+Once again, we take a peak at the contents. Some things are the same `lm` output, while others are new.
+
+:::
+::::
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+<ul style='font-size: 26px'>
+
+::: {.fragment fragment-index=1}
+
+<li> `call`:  the regression formula you specified </li>
+
+:::
+
+::: {.fragment fragment-index=2}
+
+<li> `terms`: the variables in the model </li>
+
+:::
+
+::: {.fragment fragment-index=3}
+
+<li> `residuals`: the residuals (true values - predicted value) </li>
+
+:::
+
+::: {.fragment fragment-index=4}
+
+<li> `coefficients`: the regression Coefficients (Intercept and slopes), along standard errors and significance tests. </li>
+
+:::
+
+::: {.fragment fragment-index=5}
+
+<li> `aliased`: Indicates whether any variables are perfectly correlated (you will get a warning if this happens) </li>
+
+:::
+
+</ul>
+
+:::
+::: {.column width = '45%'}
+
+
+<ul style='font-size: 26px'>
+
+::: {.fragment fragment-index=6}
+
+<li> `sigma`: the residual standard error, $\epsilon$ </li>
+
+:::
+
+::: {.fragment fragment-index=7}
+
+<li> `df`: residuals and regression degrees of freedom </li>
+
+:::
+
+::: {.fragment fragment-index=8}
+
+<li> `r.squared`: variance explained, AKA $R^2$ </li>
+
+:::
+
+::: {.fragment fragment-index=9}
+
+<li> `adj.r.squared`: adjusted $R^2$ </li>
+
+:::
+
+::: {.fragment fragment-index=10}
+
+<li> `fstatistic`: the regression $F$-statistic </li>
+
+:::
+
+::: {.fragment fragment-index=11}
+
+<li> `cov.unscaled`: covariance of regression parameters (unlikely to come up in your future) </li>
+
+:::
+
+</ul>
+
+:::
+::::
+
+::: {.fragment fragment-index=12}
+
+Although printing the summary shows most of these elements, sometimes you need to extract them individually, so it is good to know where to find them.
+
+:::
+
+## Interpreting Regression Coefficients
+
+We found that the regression equation for `Wind` predicting `Temp` is; let's interpret the result.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+sum_reg
+```
+
+:::
+::: {.column width = '50%'}
+
+
+<center>   $$\hat{Y} = \beta_0 + \beta_1 \times X$$ </center>
+
+<center> &darr; </center>
+
+<center>   $$\hat{Y} = 91.02 + -1.33 \times \mathrm{Wind}$$ </center>
+
+<ul style='font-size: 26px'>
+
+::: {.fragment fragment-index=1}
+
+<li>  $\beta_0 = 91.02$: The intercept; this is the expected value of `Temp` when `Wind` = 0. In other words, when there is no wind in NY, we expect a temperature of $91.02$ degrees Fahrenheit. </li>
+
+:::
+
+::: {.fragment fragment-index=2}
+
+<li>  $\beta_1 = -1.33$: The slope; this means that for each 1-unit increase in `Wind`, we expect `Temp` to *decrease* by $1.33$ degrees Fahrenheit. </li>
+
+:::
+
+</ul>
+
+
+:::
+::::
+
+## Making Predictions
+
+For many reasons, once we have a regression, we may want to predict values of $Y$ based on some values of $X$. 
+
+
+:::: {.columns}
+::: {.column width="30%"}
+
+::: {.fragment fragment-index=1}
+<div style="font-size: 24px"> From the previous slide, we know that $\hat{Y} = 91.02 - 1.33 \times X$. So, to find values of $\hat{Y}$ we plug in some values of $X$. </div>
+:::
+
+<ul style="font-size: 22px; padding-top: 26px;">  
+
+
+::: {.fragment fragment-index=2}
+<li> If $X = 13$, then $\hat{Y} = 91.02 - 1.33 \times 13 = 73.71$   </li>
+
+<li> If $X = 17$, then $\hat{Y} = 91.02 - 1.33 \times 17 = 68.39$   </li>
+:::
+
+</ul>
+
+::: {.fragment fragment-index=3}
+
+<center> **Predictions Represent the *mean* expected value of *Y* given some value of *X*. Predictions are *always* on the regression line** </center>
+:::
+
+
+:::
+::: {.column width="70%"}
+
+::: {.fragment fragment-index=2}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| code-fold: true
+#| code-summary: "Plot Code"
+#| classes: code-125
+
+ggplot(dat,
+       aes(x = Wind, y = Temp)) +
+  geom_point(alpha = 0.5, shape = 1) +
+  geom_smooth(method = "lm",
+              se = FALSE) +
+  geom_segment(x = 13,
+               xend = 13,
+               y = 0,
+               yend = coef(reg)[1] + coef(reg)[2]*13,
+               linetype = 2) +
+    geom_segment(x = 0,
+                 xend = 13,
+                 y = coef(reg)[1] + coef(reg)[2]*13,
+                 yend = coef(reg)[1] + coef(reg)[2]*13,
+                 linetype = 2)  +
+  geom_segment(x = 17,
+               xend = 17,
+               y = 0,
+               yend = coef(reg)[1] + coef(reg)[2]*17,
+               linetype = 2) +
+    geom_segment(x = 0,
+                 xend = 17,
+                 y = coef(reg)[1] + coef(reg)[2]*17,
+                 yend = coef(reg)[1] + coef(reg)[2]*17,
+                 linetype = 2)   
+  
+```
+:::
+
+:::
+::::
+
+## Making Predictions The "right way"
+
+Whenever you are doing calculations in R, you *should never* copy and paste output numbers because there may be rounding error (and your code will not be generalizable!). 
+
+:::: {.columns}
+::: {.column width="40%"}
+
+::: {.fragment fragment-index=1}
+<div style="font-size: 26px"> For any `lm()` object, the `$coef` element will contain the exact coefficient values (intercepts and slopes in order of predictor):</div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg$coef
+```
+
+:::
+
+::: {.fragment fragment-index=2}
+<div style="font-size: 26px; padding-top: 18px;"> So, the appropriate way of calculating the predicted value of $Y$ if $X = 13$ is: </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| classes: code-125
+#| code-line-numbers: false
+
+reg$coef[1] + reg$coef[2]*13 #  I prefer `as.numeric(coef(reg)[1] + coef(reg)[2]*13)` which makes sure to unnamed the output; this happens because reg$coef if a named vector, so the names remain unless we use `as.numeric()`
+```
+
+:::
+
+:::
+::: {.column width="60%"}
+
+::: {.fragment fragment-index=3}
+<div style="font-size: 26px">  Usually, you need predictions for some new data, so you would use the `predict()` function. The predict function requires that you input data that has *the exact same structure as the original data*, but without the $Y$ variable. </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# first we create new data that we want to get predictions on
+pred_dat <- data.frame("Wind" = seq(10, 20, by = 0.2))
+```
+
+:::
+
+::: {.fragment fragment-index=4}
+<div style="font-size: 26px; padding-top: 18px;"> Here I save the predictions as a new variable. Look at the `pred_dat` object after running the code below: </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+pred_dat$y_pred <- predict(reg, pred_dat)
+str(pred_dat)
+```
+
+:::
+
+:::
+::::
+
+
+
+
+
+## Visualizing Predictions
+
+:::: {.columns}
+::: {.column width="30%"}
+
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat,
+ aes(x = Wind, y = Temp)) +
+ geom_point(shape = 1) +
+ geom_point(aes(y = reg$fitted), 
+                col = "red")
+```
+
+<ul style="font-size: 26px">
+
+<li> The *black circles* are the observed data points.</li>
+
+<li> The *red dots* are the predicted values for our data points. </li>
+
+</ul>
+
+(although it may be obvious to most, the predictions always fall on the regression line)
+
+
+:::
+
+::: {.column width="70%"}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+
+ggplot(dat,
+ aes(x = Wind, y = Temp)) +
+ geom_point(shape = 1) +
+ geom_point(aes(y = reg$fitted), 
+                colour = "red")
+```
+
+:::
+::::
+
+## Visualizing Residuals
+
+:::: {.columns}
+::: {.column width="30%"}
+
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-115
+
+ggplot(dat,
+ aes(x = Wind, y = Temp)) +
+ geom_point(shape = 1) +
+ geom_point(aes(y = reg$fitted), 
+                col = "red") +
+ geom_segment(y = reg$fitted,
+              x = dat$Wind,
+              xend = dat$Wind,
+              yend = dat$Temp,
+              linetype = 2,
+              alpha = 0.5)
+   
+```
+
+
+The *length of the dashed lines* are the residuals, which represent the difference between observed values (black circles) and predicted values (red dots) 
+
+
+
+:::
+
+::: {.column width="70%"}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+
+ggplot(dat,
+ aes(x = Wind, y = Temp)) +
+ geom_point(shape = 1) +
+ geom_point(aes(y = reg$fitted), 
+                col = "red") +
+ geom_segment(y = reg$fitted,
+              x = dat$Wind,
+              xend = dat$Wind,
+              yend = dat$Temp,
+              linetype = 2,
+              alpha = 0.5)
+   
+```
+
+
+:::
+::::
+
+A datapoint with a large residual implies that the regression does a particularly bad job at predicting that datapoint.
+
+
+## Normality of Residuals
+
+The fact that residuals must be normally distributed is the main regression assumption. QQplots can help us infer how much residuals deviate from normality.
+
+:::: {.columns}
+::: {.column width="30%"}
+
+::: {.fragment fragment-index=1}
+
+The `qqPlot()` function from the `car` package is helpful here:
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+car::qqPlot(reg)
+```
+
+:::
+
+::: {.fragment fragment-index=2}
+
+As long as roughly 95% of the residuals (dots) are within the band, there should be no cause for concern.
+
+<div style="font-size: 22px"> **NOTE:** since the shaded area represents a 95% confidence interval, seeing roughly 5% of the residuals outside would be within our expectations. </div>
+
+:::
+
+
+
+:::
+::: {.column width="70%"}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+car::qqPlot(reg)
+```
+
+:::
+
+:::
+::::
+
+## Plotting Residuals Against Predictors
+
+Equivalently, we can also check that the residuals residuals are evenly distributed around 0 and there are no non-linear trends.  
+
+:::: {.columns}
+::: {.column width="30%"}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+ggplot(dat, 
+  aes(x = Wind, y = reg$resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  geom_smooth(method = "loess",
+              se = FALSE)
+```
+
+The points look reasonably distributed around the 0 line to me. I would not give the loess line too much weight here.
+
+Note that this is the regrerssion plot tilted such that the regression line is perfectrly horizontal.
+
+:::
+
+:::
+::: {.column width="70%"}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+
+ggplot(dat, 
+  aes(x = Wind, y = reg$resid)) +
+  geom_point() +
+  geom_hline(yintercept = 0) +
+  geom_smooth(method = "loess",
+              se = FALSE) 
+```
+
+:::
+
+:::
+::::
 
 
 
@@ -38,5 +1596,224 @@ editor: source
 <div id="refs"> </div>
 
 
+# Appendix {#appendix}
 
+:::: {.columns}
+::: {.column width="50%"}
+
+<p style='font-size: 110px'>  What is a QQplot?  </p>
+
+:::
+::: {.column width="50%"}
+
+<center>
+
+![](Additional files/Images/Question.png)
+
+</center>
+
+:::
+::::
+
+
+
+## Understanding QQplots
+
+<div style="font-size: 22px; padding-bottom: 10px;"> QQplots use the idea of quantiles (both Qs stand for "quantile"). You are probably more familiar with percentiles, which are the exact same as quantiles, save for their units (e.g., the $.5$ quantile is the same as the $50^{th}$ percentile). If it makes it easier, whenever you see quantile, just think of it as percentile. </div>
+
+:::: {.columns}
+::: {.column width="70%"}
+
+<div style="font-size: 26px"> What do the **x-axis** and the **y-axis** represent in a QQplot? </div>
+
+<ul style="font-size: 23px">
+
+
+::: {.fragment fragment-index=1}
+
+<li> **x-axis:** Values corresponding to quantiles of a perfectly normal distribution. </li>
+  
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# quantile values of .1, .5., .8 for normal distribution with mean = 0 and sd = 1
+# this will results in Z-scores that correspond to the 
+# 10th, 50th, and 80th percentile
+
+qnorm(c(.1, .5, .8), mean = 0, sd = 1)
+``` 
+
+::: 
+
+::: {.fragment fragment-index=2}
+
+<li> **y-axis:** Values of the corresponding observed quantiles of our variable </li>
+ 
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# The quantile function calculates the observed percentiles fo a given variable.
+# by supplying c(.1, .5, .8) we want the 10th, 50th, and 80th percentile of Temp
+
+quantile(dat$Temp, c(.1, .5, .8))
+```
+ 
+:::
+</ul>
+
+
+:::
+::: {.column width="30%"}
+
+::: {.fragment fragment-index=3}
+:::{.callout-note appearance="default"}
+## d, p, q, r? 
+
+Any probability distribution in R has a `d`, `p`, `q`, and `r` variant. We just used the `q` variant of the normal distribution, `qnorm()` ([see here](https://www.stat.umn.edu/geyer/old/5101/rlook.html#:~:text=R%20Functions%20for%20Probability%20Distributions,-Every%20distribution%20that&text=For%20the%20normal%20distribution%2C%20these,qbinom%20%2C%20dbinom%20%2C%20and%20rbinom%20.) for all base R distribution functions). `d` calculates the density (i.e., height) of a probability distribution for a given $x$ value, `p` gives the quantile corresponding to a value (e.g., `pnorm(0)` gives `0.5`), `q` gives the value corresponding to a quantile (e.g., `qnorm(0.5)` gives `0`), and `r` generates random values from a distribution. 
+:::
+:::
+
+:::
+::::
+
+## Creating QQplot Data
+
+So, what now? Well, on the left, we only calculated the coordinates for 3 of the dots on the QQplot. Normally, QQplots do it for all 99 quantiles ($1^{st}$ percentile to $99^{th}$ percentile). Let's walk through the process:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-90 
+
+# first, it is useful to define all the quantiles that we want as a vector
+quantiles <- seq(from = .01, to = .99, by = .01)  
+str(quantiles)
+
+# calculate quantiles for normal distribution and real data
+Xaxis <- qnorm(quantiles)
+Yaxis <- quantile(dat$Temp, quantiles)
+
+# Note that you can use ANY mean and SD value for the qnorm() function.
+# Here, I use the mean and SD of the Temp variable
+Xaxis_2 <- qnorm(quantiles, mean = mean(dat$Temp), sd = sd(dat$Temp))
+
+# create a data.frame (ggplot like data.frame objects)
+QQdata <- data.frame("Xaxis" = Xaxis,
+                     "Xaxis_2" = Xaxis_2,
+                     "Yaxis" = Yaxis)
+head(QQdata)
+```
+
+
+## QQplot The Data
+
+If the explanation before made no sense, here's a recreated QQplots to convince you (hopefully?)
+
+:::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
+
+The pattern of points is the exact same as the one generated by the `stat_qq()` function.
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+
+ggplot(QQdata, 
+       aes(x = Xaxis, y = Yaxis)) +
+      geom_point()
+```
+
+:::
+
+:::
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=2}
+
+<div style="font-size: 20px"> As mentioned, the quantiles generated from any different normal distribution will not change the pattern of the dots (magic? Do give this some thought if it does not make sense to you) </div>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+
+ggplot(QQdata, 
+       aes(x = Xaxis_2, y = Yaxis)) +
+      geom_point()
+```
+
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=3}
+<center>
+The values on the X-axis are the only difference. 
+</center>
+:::
+
+## A more intuitive "QQplot"?
+
+<div style="font-size: 24px"> Really, what a QQplot does is tell you how much your observed data (Y-axis) match/mismatch a perfectly normal distribution (X-axis). The same exact information can be conveyed in a possibly more intuitive way... </div>
+
+:::: {.columns}
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+
+ggplot(QQdata, 
+       aes(x = Xaxis_2, y = Yaxis)) +
+       geom_point() +
+       # equivalent to stat_qq_line()
+       geom_abline(intercept = 0, slope = 1)
+```
+
+:::
+
+
+:::
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-90
+ 
+ggplot(dat, aes(x = Temp)) +
+ geom_density() +
+# the function below adds the normal distribution (in blue)
+ geom_function(fun = dnorm, 
+               args = list(mean = mean(dat$Temp),
+                           sd = sd(dat$Temp)), color = "blue") + xlim(45, 110)
+```
+
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=3}
+
+<div style="font-size: 24px"> You should be able to see that the observed data deviating from the normal distribution in the plot on the right is mirrored exactly by the dots deviating form the line in the plot on the left 🧐 </div>
+
+:::
 
