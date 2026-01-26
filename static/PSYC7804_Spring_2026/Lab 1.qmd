@@ -527,7 +527,7 @@ ggplot(dat,
 
 ## Histogram: Adjusting Bins
 
-ere I just touched up the plot a bit and set the bins to 15. It is much easier to tell what the distribution looks like now.
+Here I just touched up the plot a bit and set the bins to 15. It is much easier to tell what the distribution looks like now.
 
 :::: {.columns}
 ::: {.column width="30%"}
@@ -825,7 +825,7 @@ Our goal is to find the mathematical formula that describes the regression line 
 
 ## Run a Regression with `lm()`
 
-The `lm()` function is what runs [ordinary least squares (OLS) regression](https://en.wikipedia.org/wiki/Ordinary_least_squares){target='_blank'} in `R`. The function stands fro "linear model"!
+The `lm()` function is what runs [ordinary least squares (OLS) regression](https://en.wikipedia.org/wiki/Ordinary_least_squares){target='_blank'} in `R`. The function stands for "linear model"!
 
 
 :::: {.columns}
@@ -1539,7 +1539,7 @@ car::qqPlot(reg)
 
 ## Plotting Residuals Against Predictors
 
-Equivalently, we can also check that the residuals residuals are evenly distributed around 0 and there are no non-linear trends.  
+Equivalently, we can also check that the residuals are evenly distributed around 0 and there are no non-linear trends.  
 
 :::: {.columns}
 ::: {.column width="30%"}
