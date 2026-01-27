@@ -82,6 +82,10 @@ The `tidyverse` package [@Wickham_RStudio_2023] loads a suite of packages that h
 
 The `psych` package [@Revelle_2024a] includes MANY functions that help with data exploration and running analyses typically done in the social sciences.
 
+### `rio`
+
+The `rio` package [@Becker_etal_2024a] developers describe this package as the *Swiss-Army Knife for Data I/O*. The `import()` and `export()` functions can import/export just about any data type.
+
 :::
 </div>
 
