@@ -29,6 +29,31 @@ editor: source
 ---
 ## Today's Packages and Data 🤗
 
+```{r}
+#| code-fold: true
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| code-summary: "Install Packages Code"
+#| classes: code-150
+
+install.packages("devtools")
+# requires devtools
+devtools::install_github("quinix45/FabioFun")
+
+```
+
+<div style="font-size: 26px">
+
+::: {.panel-tabset}
+
+### `devtools`
+
+The `devtools` package [@Wickham_etal_2022] helps developing R packages. It is more commonly used to download R packages from [github](https://github.com){target='_blank'}.
+
+### `FabioFun`
+
+This is my personal package where I save functions that I use for research/teaching/convenience. You can run `devtools::install_github("quinix45/FabioFun")` to install it. 
 
 
 

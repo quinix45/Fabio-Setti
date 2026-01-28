@@ -8,3 +8,180 @@ header-includes:
 ---
 
 \onehalfspacing
+
+```{r include=FALSE}
+library(tidyverse)
+```
+
+Today we will be looking at the `insurance.csv` dataset. These data are data simulated according to the US census data and can be found [here on this Kaggle page](https://www.kaggle.com/datasets/teertha/ushealthinsurancedataset/data){target='_blank'}. To load the data run the following code:
+
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/insurance.csv")
+```
+
+Here is a descriptions of the variables in the data:
+
+```{r}
+#| warning: false
+#| eval: true
+#| echo: false
+
+library(tidyverse)
+dat <- rio::import("https://fabio-setti.netlify.app/data/insurance.csv")
+
+
+info <- tibble(variable = names(dat),
+               description = c("Age of primary beneficiary", 
+                               "Insurance contractor gender, female, male", 
+                               "Body mass index", 
+                               "Number of children covered by health insurance / Number of dependents",
+                               "Whether the beneficiary is a smoker", 
+                               "The beneficiary's residential area in the US, northeast, southeast, southwest, northwest", 
+                               "Individual medical costs billed yearly by health insurance in $"))
+
+library(kableExtra)
+
+kable(info) %>% 
+  column_spec(column = 2, width = "5in") %>% 
+  column_spec(column = 1, bold = T) %>% 
+  row_spec(0, bold = T)
+```
+
+
+\newpage
+
+
+**1.** Create a scatterplot with `bmi` on the $x$-axis and `charges` on the $y$-axis and draw a regression line. Does the regression line match your expectations? Do you see something a bit strange about the distribution of the dots around the regression line?
+
+```{r}
+#| echo: false
+#| eval: false
+
+set_theme(theme_classic())
+
+ggplot(dat, 
+aes(x = bmi, y = charges)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = FALSE)
+
+
+# as bmi increases, charges increase and that make sense. There seem to be some dots missing from the upper right part of the regression line. Something is not quite right.
+```
+
+
+**2.** Create Mean-centered and Standardized versions of both `bmi` and `charges`.
+
+```{r}
+#| echo: false
+#| eval: false
+
+dat$bmi_cnt <- scale(dat$bmi, scale = FALSE)
+dat$bmi_std <- scale(dat$bmi)
+dat$charges_cnt <- scale(dat$charges, scale = FALSE)
+dat$charges_std <- scale(dat$charges)
+```
+
+- What is the mean, standard deviation, and range (you can use the `range()` function) of `bmi` and `charges` and their linearly transformed counterparts?
+
+```{r}
+#| echo: false
+#| eval: false
+
+# means
+apply(dat[,c("bmi", "charges", "bmi_cnt", "charges_cnt", "bmi_std", "charges_std")], 2, mean)
+
+# sd
+apply(dat[,c("bmi", "charges", "bmi_cnt", "charges_cnt", "bmi_std", "charges_std")], 2, sd)
+
+# range
+apply(dat[,c("bmi", "charges", "bmi_cnt", "charges_cnt", "bmi_std", "charges_std")], 2, range)
+```
+
+
+**3.** Run an unstandardized linear regression with `bmi` predicting `charges`. Write the regression equation and interpret the intercept and the slope.
+
+```{r}
+#| echo: false
+#| eval: false
+
+reg <- lm(charges ~ bmi, dat)
+
+print(paste(round(reg$coefficients[1], 2), "+", round(reg$coefficients[2], 2), "* BMI"))
+
+# the interpcept is the expected annual charge when a parson's BMI is 0
+# the slope is the expected increase in annual charges per 1-unit increase in BMI
+```
+
+- Do you notice anything off with the interpretation of the intercept?
+
+```{r}
+#| echo: false
+#| eval: false
+
+# The intercept is meaningless because it is impossible to have a BMI of 0
+```
+
+**4.** Using any of either the original or linearly transformed variables, run a regression such that the intercept represents the expected value of `charges` when `bmi` is at the sample mean. According to these data, what are the expected annual `charges` in dollars for an individual with average BMI?
+
+```{r}
+#| echo: false
+#| eval: false
+
+reg_cnt <- lm(charges ~ bmi_cnt, dat)
+
+print(paste(round(reg_cnt$coefficients[1], 2), "+", round(reg_cnt$coefficients[2], 2), "* BMI"))
+
+
+# $13270.42
+```
+
+
+**5.**  Using any of either the original or linearly transformed variables, find the correlation between `charges` and `bmi`. (only use the `lm()` and `summary()` function to answer this question)
+
+```{r}
+#| echo: false
+#| eval: false
+
+reg_std <- lm(charges_std ~ bmi_std, dat)
+summary(reg_std)
+
+# the correaltion is roughly .198
+```
+
+
+**6.** Assuming that some variable is roughly normally distributed, standardization transforms the variable into Z-scores (see [here](https://vitalflux.com/z-score-z-statistics-concepts-formula-examples/){target='_blank'}). In the case of a Z-score, we know that a value of 0 generally represents the $50^{th}$ percentile, while a value of 1 (i.e., *1 standard deviation above the mean*) represents the $84^{th}$ percentile. The `pnorm()` function returns the correspodning percentile given any Z-score:
+
+```{r}
+pnorm(0)
+pnorm(1)
+```
+
+Assuming the `charges` is approximately normally distributed, in what percetile of `charges` are individuals who are 1.5 standard deviations above the mean `bmi` predicted to be? 
+
+```{r}
+#| echo: false
+#| eval: false
+
+reg_std <- lm(charges_std ~ bmi_std, dat)
+
+
+pnorm(reg_std$coefficients[1] + reg_std$coefficients[2]*1.5)
+
+# 62nd percentile 
+```
+
+
+- Think about the effect of `bmi` on `charges`. Assuming a roughly normal distribution, 1.5 corresponds to what `bmi` percentile? Given the magnitude of the change in `bmi` necessary for the predicted percentile of `charges`, how impactful do you think is the effect of `bmi` on `charges`?
+
+```{r}
+#| echo: false
+#| eval: false
+
+pnorm(1.5)
+
+# relatively small. It take a fairly large increase in BMI to result in a noticeably increase in charges
+```
+
+
+
+

@@ -1,16 +1,19 @@
 ---
-title: "Lab 2: Significance Tests and Reporting Results"
+title: "Lab 2: Linear Transformations and Significance Tests"
 author: "Fabio Setti"
 institute: "Spring 2026"
 subtitle: "PSYC 7804 - Regression with Lab"
 bibliography: Additional files/R packages.bib
 csl: Additional files/apa.csl
+notice: |
+  @Wickham_RStudio_2023
+  @Becker_etal_2024a
 title-slide-attributes:
   data-transition: "zoom"
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "PSYC 7804 - Lab 2: Significance Tests and Reporting Results"
+      footer: "PSYC 7804 - Lab 2: Linear Transformations and Significance Tests"
       width: 1280
       height: 720
       chalkboard: true
@@ -26,6 +29,747 @@ editor: source
 ---
 ## Today's Packages and Data 🤗
 
+:::: {.columns}
+::: {.column width="50%"}
+
+
+No new packages for today! I will only load `tidyverse` (mostly for `ggplot2`):
+```{r}
+#| eval: true
+#| echo: true
+#| code-line-numbers: false
+#| warning: false
+#| classes: code-150
+
+library(tidyverse)
+```
+
+
+The one extra bit of code that you will see me include in the first slide from now on is the following:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+theme_set(
+  theme_classic(base_size = 16, 
+                accent = "#3492eb",
+                base_family = 'serif'))
+```
+
+This sets the default style and font for all the plots in the slide deck.
+
+:::
+
+
+::: {.column width="50%"}
+
+<center style="padding-bottom: 41px;"> [Data]{.data-title} </center>
+
+We will continue using the `NY_Temp.txt` dataset: 
+
+```{r}
+#| warning: false
+#| classes: code-125
+#| echo: true
+#| code-line-numbers: false
+#| output: true
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/NY_Temp.txt")
+```
+
+```{r}
+
+library(FabioFun)
+
+labels <- c("Measurement instance",
+            "Ozone levels",
+            "Solar Radiations Levels",
+            "Temperature (Fahrenheit)",
+            "Wind Speed")
+
+labels_react <- reactbl_col.desc(names = colnames(dat),
+                                 desc =  labels,
+                                 style = "cursor: pointer; text-decoration: none;",
+                                 info_color = "#7a0b80")
+
+
+reactable::reactable(dat,
+                     defaultColDef = colDef(minWidth = 40),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300, columns = labels_react)
+```
+
+
+:::
+::::
+
+## Recapping the Regression model
+
+In [Lab 1](https://fabio-setti.netlify.app/psyc7804_spring_2026/lab%201){target='_blank'} we ran a regression with wind speed (`Wind`) predicting temperature (`Temp`)
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg <- lm(Temp ~ Wind, dat)
+summary(reg)
+```
+
+:::
+
+::: {.column width = '45%'}
+
+Where as `wind` increases, `Temp` decreases:
+
+$$\hat{Y} = 91.02 - 1.33 \times \mathrm{Wind}$$
+
+As we discussed, this is the equation that describes the the OLS regression line that goes through the scatterplot of `Temp` and `Wind`. This is known as the *unstandardized* regression formula. 
+
+The unstandardized regression formula is by no means the only way of writing regression equations. Let's look at what happens when we apply **linear transformations** to our variables.
+
+
+
+:::
+::::
+
+
+## Linear Transformations
+
+Without needing to give too formal of a definition, a linear transformation is a transformation of any variable such that the transformed variable is perfectly correlated with the original.
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+for example,
+
+$$\mathrm{Wind_{New}} = \mathrm{Wind} \times 3 + 4$$
+
+
+Is a linear transformation. The quickest way to get a good intuition is plotting the transformed and untransformed variables:
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat$Wind_new <- dat$Wind*3 + 4
+
+ggplot(dat, 
+       aes(x = Wind, y = Wind_new)) +
+        geom_point()
+```
+
+:::
+::: {.column width = '70%'}
+
+```{r}
+#| eval: true
+#| echo: false 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat$Wind_new <- dat$Wind*3 + 4
+
+ggplot(dat, 
+       aes(x = Wind, y = Wind_new)) +
+        geom_point()
+```
+
+:::
+::::
+
+
+## Mean-Centering and Standardization
+
+The two linear transformations that you will come across the most are **mean-centering** and **Standardization**:
+
+
+:::: {.panel-tabset}
+
+### Mean-Centering
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+
+Mean-centering simply involves subtracting the mean from the original variable:
+$$x_{\mathrm{cent}} = x - \bar{x}$$
+
+The only difference is that $x_{\mathrm{cent}}$ will have a mean of 0.
+
+
+:::
+
+
+
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat, aes(x = Wind)) +
+  geom_density(aes(color = "Original")) +
+  geom_density(aes(x = Wind - mean(dat$Wind), color = "Centered")) +
+  xlim(c(-10, 20)) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_color_manual(
+    values = c("Original" = "blue",
+               "Centered" = "red"),
+    name = "",
+    labels = c(
+      "Original" = expression(x),
+      "Centered" = expression(x - bar(x)))) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y  = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.y  = element_blank())
+
+```
+
+
+:::
+::::
+
+
+### Standardization
+
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+standardization involves mean-centering first and then dividing by the SD:
+$$x_{\mathrm{std}} = \frac{x_i - \bar{x}}{SD_x}$$
+
+Dividing by the SD "squishes" the distribution, but the shape does not change! The only difference is that $x_{\mathrm{std}}$ will have a mean of 0 and a standard deviation of 1.
+
+
+
+:::
+
+
+::: {.column width = '60%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat, aes(x = Wind)) +
+  geom_density(aes(color = "Original")) +
+  geom_density(aes(x = Wind - mean(dat$Wind), color = "Centered")) +
+  geom_density(aes(x = (Wind - mean(dat$Wind)) / sd(dat$Wind),
+                   color = "Standardized")) +
+  xlim(c(-10, 20)) +
+  scale_y_continuous(expand = c(0,0)) +
+  scale_color_manual(
+    values = c("Original" = "blue",
+               "Centered" = "red",
+               "Standardized" = "purple"),
+    name = "",
+    labels = c(
+      "Raw" = expression(x),
+      "Centered" = expression(x - bar(x)),
+      "Standardized" = expression((x - bar(x)) / SD[x])
+    )
+  ) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y  = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.y  = element_blank())
+```
+
+
+
+:::
+
+::::
+
+::::
+
+## Mean-Centering and Standardization in `R`
+
+Although it is pretty simple to do it manually, we can use the `scale()` function to mean-center and standardize variables. Let's do it for both `Wind` and `Temp`:
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+<center> **Mean-Centering** </center>
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat$Wind_cnt <- scale(dat$Wind, scale = FALSE)
+dat$Temp_cnt <- scale(dat$Temp, scale = FALSE)
+
+```
+
+
+:::
+::: {.column width = '50%'}
+
+<center> **Standardization** </center>
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+dat$Wind_std <- scale(dat$Wind)
+dat$Temp_std <- scale(dat$Temp)
+
+```
+
+:::
+::::
+
+And we have added both the mean-centered and standardized versions of the variables to the data:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+colnames(dat)
+```
+
+
+Now, there are an infinite number of linear transformations (e.g., $x + 1, x + 2, \dots ,x + \infty$). So what is so special about mean-centering and standardization? 🤔 Nothing much really, but they can be very helpful for interpreting regression results and hopefully this will become clearer throughout the course (although, standardized variables have nice mathematical properties!). 
+
+## Mean-centered regression
+
+The unstandardized regression equation is $\hat{Y} = 91.02 - 1.33 \times \mathrm{Wind}$
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_cnt <- lm(Temp_cnt ~ Wind_cnt, dat)
+summary(reg_cnt)
+```
+
+:::
+
+::: {.column width = '45%'}
+
+the *mean-centered* regression equation is:
+
+$$\hat{Y} = 0 - 1.33 \times \mathrm{Wind}$$
+
+Not much has changed. The only difference is that the intercept is now 0 🧐 why that happens will be clearer later once we look at this regression graphically.
+
+
+For now, let's look at the standardized counterpart.
+
+
+
+:::
+::::
+
+## Standardized regression
+
+The unstandardized regression equation is $\hat{Y} = 91.02 - 1.33 \times \mathrm{Wind}$, while the mean-centered regression equation is $\hat{Y} = 0 - 1.33 \times \mathrm{Wind}$.
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_std <- lm(Temp_std ~ Wind_std, dat)
+summary(reg_std)
+```
+
+:::
+
+::: {.column width = '45%'}
+
+the *standardized* regression equation is:
+
+$$\hat{Y} = 0 - 0.5 \times \mathrm{Wind}$$
+
+Now the value of the slope changes such that $\beta_1 = .5$. 
+
+In the case of one-predictor regression, the standardized slope is the correlation between the two variables:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+cor(dat$Temp, dat$Wind)
+```
+
+:::
+::::
+
+
+## Looking at It graphically
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+We can see that although the equations are "different" (they are not actually), the plots are the exact same.
+
+The only thing that changes when we plot the regression separately are the values on the axes.
+
+
+:::
+::: {.column width = '70%'}
+
+:::: {.panel-tabset}
+
+### Unstandardized 
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat, aes(x = Wind, Temp)) +
+  geom_point(shape  = 4) +
+  geom_smooth(method = "lm", se = FALSE, col = "blue")
+
+```
+
+
+
+
+
+### Mean-Centered
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat, aes(x = Wind_cnt, Temp_cnt)) +
+  geom_point(shape = 2) +
+  geom_smooth(method = "lm", se = FALSE)
+
+```
+
+
+
+
+### Standardized
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat, aes(x = Wind_std, Temp_std)) +
+  geom_point(shape = 3) +
+  geom_smooth(method = "lm", se = FALSE, col = "red")
+
+```
+
+
+
+
+::::
+
+
+:::
+::::
+
+## On the same plot?
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+We can plot the 3 regressions on the same plot to get a general sense of what is happening. All linear transformations do is move around the dots on the same cartesian plane 😀
+
+Also notice that both the mean-centered and unstandardized regression lines are now centered at 0. That is why both of their interecept are exactly 0.
+
+:::
+::: {.column width = '70%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+# Combine your data into a long format or add a "type" variable
+dat_long <- data.frame(
+  x = c(dat$Wind_std, dat$Wind, dat$Wind_cnt),
+  y = c(dat$Temp_std, dat$Temp, dat$Temp_cnt),
+  type = factor(rep(c("Standardized", "Original", "Mean-Centered"), 
+                    times = c(nrow(dat), nrow(dat), nrow(dat))))
+)
+
+ggplot() +
+  # Points with legend
+  geom_point(data = dat, aes(x = Wind_std, y = Temp_std, shape = "Standardized")) +
+  geom_point(data = dat, aes(x = Wind, y = Temp, shape = "Original")) +
+  geom_point(data = dat, aes(x = Wind_cnt, y = Temp_cnt, shape = "Mean-Centered")) +
+  
+  # Regression lines without legend
+  geom_smooth(data = dat, aes(x = Wind_std, y = Temp_std), method = "lm", se = FALSE, color = "red", show.legend = FALSE) +
+  geom_smooth(data = dat, aes(x = Wind, y = Temp), method = "lm", se = FALSE, color = "blue", show.legend = FALSE) +
+  geom_smooth(data = dat, aes(x = Wind_cnt, y = Temp_cnt), method = "lm", se = FALSE, show.legend = FALSE) +
+  
+  # Labels and manual shapes
+  labs(
+    x = "Wind",
+    y = "Temp",
+    shape = ""
+  ) +
+
+scale_shape_manual(values = c("Standardized" = 3, "Original" = 4, "Mean-Centered" = 2))
+
+```
+
+
+
+:::
+::::
+
+
+## Interpretations of Regression Coefficients
+
+Although the conclusion about the relation between `Wind` and `Temp` that we make from all of these are the exact same, there are some small nuances in the interpretation of each:
+
+:::: {.columns}
+
+::: {.column width = '33%'}
+
+<center> **Unstandardized** </center>
+
+$$\hat{Y} = 91.02 - 1.33 \times \mathrm{Wind}$$
+
+$\beta_0 = 91.02$: the expected (i.e., <u>mean</u>) value of `Temp` when `Wind` = 0. 
+
+$\beta_1 = -1.33$: for each 1-unit increase in `Wind`, we expect `Temp` to *decrease* by $1.33$.
+
+
+:::
+
+::: {.column width = '33%'}
+
+<center> **Mean-Centered** </center>
+
+$$\hat{Y} = 0 - 1.33 \times \mathrm{Wind}$$
+
+
+$\beta_0 = 0$: the expected (i.e., <u>mean</u>) value of `Temp` when `Wind` = 0 (now it's mean). If you remember, centered variables have a mean of 0 exactly, so this checks out. 
+
+$\beta_1 = -1.33$: for each 1-unit increase in `Wind`, we expect `Temp` to *decrease* by $1.33$. Same as before.
+
+
+:::
+
+::: {.column width = '33%'}
+
+<center> **Standardized** </center>
+
+$$\hat{Y} = 0 - 0.5 \times \mathrm{Wind}$$
+
+$\beta_0 = 0$: the expected (i.e., <u>mean</u>) value of `Temp` when `Wind` = 0.
+
+$\beta_1 = -0.5$: for each 1 <u>standard deviation increase</u> in `Wind`, we expect `Temp` to *decrease* by 0.5 <u>standard deviations</u>. By "standard deviations" I mean what is known as [Z-scores](https://mathbitsnotebook.com/Algebra2/Statistics/STzScores.html){target='_blank'}.
+
+:::
+::::
+
+## Hypothesis Tests
+
+So far we have talked about the interpretation of regression coefficients. However, we are often interested in gaining insight from our sample to make inferences about the population! Usually, we want to know whether there is a relation between some variables *in the population*, not the sample. In regression terms this is equivalent to asking:
+
+<center> **is the slope of our regression *not* 0?** </center>
+
+One way this can be done is by using *p*-values, which I am not going to go into details about (mostly because I think they are a bit useless 🫣)
+
+:::: {.columns}
+::: {.column width = '50%'}
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg)$coef
+```
+
+$b_0 = 91.02$, $t(109) = 38.77, p < .001$
+
+$b_1 = -1.33$, $t(109) = -5.98, p < .001$
+
+:::
+::: {.column width = '50%'}
+
+The summary provides the $t$-statistic and the associated $p$-value. The degrees of freedom are given by $n - k - 1 = 111 - 1 - 1 = 109$, where $n$ is the sample size and $k$ is the number of predictors.
+
+We don't care much about the intercept. We care about the slope, and here we conclude that it is "*significantly different from 0*" because $p < .05$.
+
+:::
+::::
+
+## What about the Other Slopes?
+
+"What about the mean-centered and standardized slope? Are they significantly different from 0? 🧐" one may ask (yes they are). 
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+The $t$-statistics associated with the slopes are exactly the same. 
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg)$coef # I am rounding all numbers to 3 decimals for readability
+```
+
+```{r}
+round(summary(reg)$coef, 3)
+
+```
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg_cnt)$coef
+```
+
+```{r}
+round(summary(reg_cnt)$coef, 3)
+```
+
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg_std)$coef
+```
+
+```{r}
+round(summary(reg_std)$coef, 3)
+```
+
+:::
+::: {.column width = '60%'}
+
+In other words, we are testing the exact same hypotheses, and, as I mentioned some slides ago, regardless of how we linearly transform our variables, we conclude that there is a significant raletion between `Wind` and `Temp`.
+
+Then which regression is best to report? 🤔 I am of the opinion that in the vast majority of cases, the standardized regression is the way to go. That is because the slope always has the exact same interpretation and scale. 
+
+The "practical problem" with unstandardized slopes is that the interpretation becomes hard if one is not familiar with the units of the variable. For example, I am European, so I don't have a good sense of whether a change in 1.33 degrees Fahrenheit is a lot or not 🤷
+
+:::
+::::
+
+
+## Confidence Intervals
+
+Confidence intervals are essentially equivalent to *p*-values. Given that the convention for significance is *p < .05*, we generally report $95\%$ confidence intervals. we can use the `confint()` function to extract $95\%$ confidence intervals for our regression coefficients:
+
+:::: {.columns}
+::: {.column width = '60%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+ 
+confint(reg)
+```
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+confint(reg_cnt)
+```
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+confint(reg_std)
+```
+
+:::
+::: {.column width = '40%'}
+
+Confidence intervals are always symmetric and do not include 0 if the value is significantly different from 0.
+
+If the value *is not* significantly different from 0, then they will include 0 (for example, look at the intercept for the mean-centered regression).
+
+You can use the `level =` argument to change the percentage of the confidence interval (e.g., `confint(reg_std, level = .99)` for $99 \%$ CI). 
+
+:::
+::::
+
+
+
+
+
 
 
 
@@ -33,5 +777,6 @@ editor: source
 ## References 
 
 <div id="refs"> </div>
+
 
 

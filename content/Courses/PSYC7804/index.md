@@ -94,9 +94,9 @@ This lab introduces descriptive techniques, both numerical and graphical, for on
 
 <hr class="fancy"></hr>
 
-<h3> 2. Significance Tests and Reporting Results </h3>
+<h3> 2. Linear Transformations and Significance Tests </h3>
 
-Coming soon!
+This lab introduces linear transformations such as mean-centering and standardization. The graphical comparisons and interpretation of regression results with linearly transformed variables are discussed. Significance tests are also touched upon briefly.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 2.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

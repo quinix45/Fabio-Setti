@@ -439,10 +439,10 @@ ggplot(dat, aes(x = education)) +
 :::
 ::: {.column width = '30%'}
 
-The red density is the `education` variable after we subtract its mean from all the values. So the red density represents the the $x_i - \bar{x}$ part of $z_i = \frac{x_i - \bar{x}}{S_x}$. 
+The red density is the `education` variable after we subtract its mean from all the values. So the red density represents the the $x_i - \bar{x}$ part of $z_i = \frac{x_i - \bar{x}}{SD_x}$. 
 
 
-This is known as **mean centering**, and it comes up in moderation anlyses to get easier interpretations. 
+This is known as **mean centering**, and it comes up in moderation analyses to get easier interpretations. 
 
 :::
 ::::
@@ -478,7 +478,7 @@ ggplot(dat, aes(x = education)) +
     labels = c(
       "Raw" = expression(x[i]),
       "Centered" = expression(x[i] - bar(x)),
-      "Standardized" = expression((x[i] - bar(x)) / S[x])
+      "Standardized" = expression((x[i] - bar(x)) / SD[x])
     )
   ) +
   theme(

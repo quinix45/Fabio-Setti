@@ -114,7 +114,6 @@ dat <- rio::import("https://fabio-setti.netlify.app/data/NY_Temp.txt")
 This dataset includes weather measuremts taken in New York at different timepoints. 
 
 ```{r}
-
 library(FabioFun)
 
 labels <- c("Measurement instance",
@@ -1052,7 +1051,7 @@ For the time being, we want to look at the output under `coefficients:`, which c
 
 <center> &darr; </center>
 
-<center>   $$\hat{Y} = 91.02 + -1.33 \times \mathrm{Wind}$$ </center>
+<center>   $$\hat{Y} = 91.02  - 1.33 \times \mathrm{Wind}$$ </center>
 
 :::
 
@@ -1210,7 +1209,7 @@ sum_reg
 
 <center> &darr; </center>
 
-<center>   $$\hat{Y} = 91.02 + -1.33 \times \mathrm{Wind}$$ </center>
+<center>   $$\hat{Y} = 91.02 - 1.33 \times \mathrm{Wind}$$ </center>
 
 <ul style='font-size: 26px'>
 
