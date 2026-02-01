@@ -156,7 +156,7 @@ pnorm(0)
 pnorm(1)
 ```
 
-Assuming the `charges` is approximately normally distributed, in what percetile of `charges` are individuals who are 1.5 standard deviations above the mean `bmi` predicted to be? 
+Assuming that `charges` is approximately normally distributed, in what percetile of `charges` are individuals who are 1.5 standard deviations above the mean `bmi` predicted to be? 
 
 ```{r}
 #| echo: false

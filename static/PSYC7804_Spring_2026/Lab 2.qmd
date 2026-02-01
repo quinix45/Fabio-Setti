@@ -131,11 +131,18 @@ Where as `wind` increases, `Temp` decreases:
 
 $$\hat{Y} = 91.02 - 1.33 \times \mathrm{Wind}$$
 
+::: {.fragment fragment-index=1}
+
+
 As we discussed, this is the equation that describes the the OLS regression line that goes through the scatterplot of `Temp` and `Wind`. This is known as the *unstandardized* regression formula. 
+
+:::
+
+::: {.fragment fragment-index=2}
 
 The unstandardized regression formula is by no means the only way of writing regression equations. Let's look at what happens when we apply **linear transformations** to our variables.
 
-
+:::
 
 :::
 ::::
@@ -148,12 +155,18 @@ Without needing to give too formal of a definition, a linear transformation is a
 :::: {.columns}
 ::: {.column width = '30%'}
 
+::: {.fragment fragment-index=1}
+
 for example,
 
 $$\mathrm{Wind_{New}} = \mathrm{Wind} \times 3 + 4$$
 
 
 Is a linear transformation. The quickest way to get a good intuition is plotting the transformed and untransformed variables:
+
+:::
+
+::: {.fragment fragment-index=2}
 
 ```{r}
 #| eval: false
@@ -169,7 +182,11 @@ ggplot(dat,
 ```
 
 :::
+
+:::
 ::: {.column width = '70%'}
+
+::: {.fragment fragment-index=2}
 
 ```{r}
 #| eval: true
@@ -185,12 +202,16 @@ ggplot(dat,
 ```
 
 :::
+
+:::
 ::::
 
 
 ## Mean-Centering and Standardization
 
 The two linear transformations that you will come across the most are **mean-centering** and **Standardization**:
+
+::: {.fragment fragment-index=1}
 
 
 :::: {.panel-tabset}
@@ -244,7 +265,6 @@ ggplot(dat, aes(x = Wind)) +
 
 :::
 ::::
-
 
 ### Standardization
 
@@ -305,13 +325,18 @@ ggplot(dat, aes(x = Wind)) +
 
 ::::
 
+:::
+
 ## Mean-Centering and Standardization in `R`
 
 Although it is pretty simple to do it manually, we can use the `scale()` function to mean-center and standardize variables. Let's do it for both `Wind` and `Temp`:
 
 
+::: {.fragment fragment-index=1}
+
 :::: {.columns}
 ::: {.column width = '50%'}
+
 
 
 <center> **Mean-Centering** </center>
@@ -348,6 +373,11 @@ dat$Temp_std <- scale(dat$Temp)
 :::
 ::::
 
+:::
+
+
+::: {.fragment fragment-index=2}
+
 And we have added both the mean-centered and standardized versions of the variables to the data:
 
 ```{r}
@@ -360,7 +390,13 @@ colnames(dat)
 ```
 
 
+:::
+
+::: {.fragment fragment-index=3}
+
 Now, there are an infinite number of linear transformations (e.g., $x + 1, x + 2, \dots ,x + \infty$). So what is so special about mean-centering and standardization? 🤔 Nothing much really, but they can be very helpful for interpreting regression results and hopefully this will become clearer throughout the course (although, standardized variables have nice mathematical properties!). 
+
+:::
 
 ## Mean-centered regression
 
@@ -387,12 +423,18 @@ the *mean-centered* regression equation is:
 
 $$\hat{Y} = 0 - 1.33 \times \mathrm{Wind}$$
 
+
+::: {.fragment fragment-index=1}
+
 Not much has changed. The only difference is that the intercept is now 0 🧐 why that happens will be clearer later once we look at this regression graphically.
 
+:::
+
+::: {.fragment fragment-index=2}
 
 For now, let's look at the standardized counterpart.
 
-
+:::
 
 :::
 ::::
@@ -418,9 +460,16 @@ summary(reg_std)
 
 ::: {.column width = '45%'}
 
+
+::: {.fragment fragment-index=1}
+
 the *standardized* regression equation is:
 
 $$\hat{Y} = 0 - 0.5 \times \mathrm{Wind}$$
+
+:::
+
+::: {.fragment fragment-index=2}
 
 Now the value of the slope changes such that $\beta_1 = .5$. 
 
@@ -434,6 +483,8 @@ In the case of one-predictor regression, the standardized slope is the correlati
 
 cor(dat$Temp, dat$Wind)
 ```
+
+:::
 
 :::
 ::::
@@ -526,7 +577,12 @@ ggplot(dat, aes(x = Wind_std, Temp_std)) +
 
 We can plot the 3 regressions on the same plot to get a general sense of what is happening. All linear transformations do is move around the dots on the same cartesian plane 😀
 
+
+::: {.fragment fragment-index=1}
+
 Also notice that both the mean-centered and unstandardized regression lines are now centered at 0. That is why both of their interecept are exactly 0.
+
+:::
 
 :::
 ::: {.column width = '70%'}
@@ -584,6 +640,9 @@ Although the conclusion about the relation between `Wind` and `Temp` that we mak
 
 ::: {.column width = '33%'}
 
+
+::: {.fragment fragment-index=1}
+
 <center> **Unstandardized** </center>
 
 $$\hat{Y} = 91.02 - 1.33 \times \mathrm{Wind}$$
@@ -592,10 +651,14 @@ $\beta_0 = 91.02$: the expected (i.e., <u>mean</u>) value of `Temp` when `Wind` 
 
 $\beta_1 = -1.33$: for each 1-unit increase in `Wind`, we expect `Temp` to *decrease* by $1.33$.
 
+:::
+
 
 :::
 
 ::: {.column width = '33%'}
+
+::: {.fragment fragment-index=2}
 
 <center> **Mean-Centered** </center>
 
@@ -606,10 +669,13 @@ $\beta_0 = 0$: the expected (i.e., <u>mean</u>) value of `Temp` when `Wind` = 0 
 
 $\beta_1 = -1.33$: for each 1-unit increase in `Wind`, we expect `Temp` to *decrease* by $1.33$. Same as before.
 
+:::
 
 :::
 
 ::: {.column width = '33%'}
+
+::: {.fragment fragment-index=3}
 
 <center> **Standardized** </center>
 
@@ -620,18 +686,32 @@ $\beta_0 = 0$: the expected (i.e., <u>mean</u>) value of `Temp` when `Wind` = 0.
 $\beta_1 = -0.5$: for each 1 <u>standard deviation increase</u> in `Wind`, we expect `Temp` to *decrease* by 0.5 <u>standard deviations</u>. By "standard deviations" I mean what is known as [Z-scores](https://mathbitsnotebook.com/Algebra2/Statistics/STzScores.html){target='_blank'}.
 
 :::
+
+:::
 ::::
 
 ## Hypothesis Tests
 
 So far we have talked about the interpretation of regression coefficients. However, we are often interested in gaining insight from our sample to make inferences about the population! Usually, we want to know whether there is a relation between some variables *in the population*, not the sample. In regression terms this is equivalent to asking:
 
+
+::: {.fragment fragment-index=1}
+
 <center> **is the slope of our regression *not* 0?** </center>
+
+:::
+
+::: {.fragment fragment-index=2}
 
 One way this can be done is by using *p*-values, which I am not going to go into details about (mostly because I think they are a bit useless 🫣)
 
+:::
+
 :::: {.columns}
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=3}
+
 ```{r}
 #| eval: true
 #| echo: true 
@@ -646,11 +726,17 @@ $b_0 = 91.02$, $t(109) = 38.77, p < .001$
 $b_1 = -1.33$, $t(109) = -5.98, p < .001$
 
 :::
+
+:::
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=4}
 
 The summary provides the $t$-statistic and the associated $p$-value. The degrees of freedom are given by $n - k - 1 = 111 - 1 - 1 = 109$, where $n$ is the sample size and $k$ is the number of predictors.
 
 We don't care much about the intercept. We care about the slope, and here we conclude that it is "*significantly different from 0*" because $p < .05$.
+
+:::
 
 :::
 ::::
@@ -661,6 +747,8 @@ We don't care much about the intercept. We care about the slope, and here we con
 
 :::: {.columns}
 ::: {.column width = '40%'}
+
+::: {.fragment fragment-index=1}
 
 The $t$-statistics associated with the slopes are exactly the same. 
 
@@ -706,13 +794,30 @@ round(summary(reg_std)$coef, 3)
 ```
 
 :::
+
+:::
 ::: {.column width = '60%'}
+
+
+::: {.fragment fragment-index=2}
 
 In other words, we are testing the exact same hypotheses, and, as I mentioned some slides ago, regardless of how we linearly transform our variables, we conclude that there is a significant raletion between `Wind` and `Temp`.
 
+:::
+
+
+::: {.fragment fragment-index=3}
+
 Then which regression is best to report? 🤔 I am of the opinion that in the vast majority of cases, the standardized regression is the way to go. That is because the slope always has the exact same interpretation and scale. 
 
+:::
+
+
+::: {.fragment fragment-index=4}
+
 The "practical problem" with unstandardized slopes is that the interpretation becomes hard if one is not familiar with the units of the variable. For example, I am European, so I don't have a good sense of whether a change in 1.33 degrees Fahrenheit is a lot or not 🤷
+
+:::
 
 :::
 ::::
@@ -725,6 +830,7 @@ Confidence intervals are essentially equivalent to *p*-values. Given that the co
 :::: {.columns}
 ::: {.column width = '60%'}
 
+::: {.fragment fragment-index=1}
 
 ```{r}
 #| eval: true
@@ -755,13 +861,27 @@ confint(reg_std)
 ```
 
 :::
+
+:::
 ::: {.column width = '40%'}
+
+::: {.fragment fragment-index=2}
 
 Confidence intervals are always symmetric and do not include 0 if the value is significantly different from 0.
 
+:::
+
+::: {.fragment fragment-index=3}
+
 If the value *is not* significantly different from 0, then they will include 0 (for example, look at the intercept for the mean-centered regression).
 
+:::
+
+::: {.fragment fragment-index=4}
+
 You can use the `level =` argument to change the percentage of the confidence interval (e.g., `confint(reg_std, level = .99)` for $99 \%$ CI). 
+
+:::
 
 :::
 ::::
