@@ -106,7 +106,7 @@ This lab introduces linear transformations such as mean-centering and standardiz
 
 
 <span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab Activities/Lab_1_Activity.pdf" download="Lab 2 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
+<a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab Activities/Lab_2_Activity.pdf" download="Lab 2 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-02-04T13:00:00Z" data-file="/PSYC7804_Spring_2026/Lab Activities/Lab_2_Activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
