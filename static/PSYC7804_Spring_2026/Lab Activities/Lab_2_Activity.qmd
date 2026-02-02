@@ -149,7 +149,7 @@ summary(reg_std)
 ```
 
 
-**6.** Assuming that some variable is roughly normally distributed, standardization transforms the variable into Z-scores (see [here](https://vitalflux.com/z-score-z-statistics-concepts-formula-examples/){target='_blank'}). In the case of a Z-score, we know that a value of 0 generally represents the $50^{th}$ percentile, while a value of 1 (i.e., *1 standard deviation above the mean*) represents the $84^{th}$ percentile. The `pnorm()` function returns the correspodning percentile given any Z-score:
+**6.** Assuming that some variable is roughly normally distributed, standardization transforms the variable into Z-scores (see [here](https://vitalflux.com/z-score-z-statistics-concepts-formula-examples/){target='_blank'}). In the case of a Z-score, we know that a value of 0 generally represents the $50^{th}$ percentile, while a value of 1 (i.e., *1 standard deviation above the mean*) represents the $84^{th}$ percentile. The `pnorm()` function returns the corresponding percentile given any Z-score:
 
 ```{r}
 pnorm(0)
