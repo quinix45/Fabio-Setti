@@ -115,7 +115,7 @@ This lab introduces linear transformations such as mean-centering and standardiz
 
 <h3> 3. Two-Predictor Regression </h3>
 
-Coming soon!
+This Lab introduces regression with multiple predictors. The slides include interactive 3D visualization of a scatterplot among three variables, as well as the regression plane that is described by the two-predictor regression equation. R<sup>2</sup> is also introduced and is framed as an effect size that capture the reduction in uncertainty about the dependent variable given a set of independent variables.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 3.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

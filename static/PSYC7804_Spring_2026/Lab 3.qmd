@@ -6,7 +6,7 @@ subtitle: "PSYC 7804 - Regression with Lab"
 bibliography: Additional files/R packages.bib
 csl: Additional files/apa.csl
 notice: |
-  @Fox_etal_2024
+  @Becker_etal_2024a
   @Wickham_RStudio_2023
 title-slide-attributes:
   data-transition: "zoom"
@@ -29,6 +29,11 @@ editor: source
 ---
 ## Today's Packages and Data 🤗
 
+
+:::: {.columns}
+::: {.column width="50%"}
+
+
 ```{r}
 #| code-fold: true
 #| eval: false
@@ -37,29 +42,1085 @@ editor: source
 #| code-summary: "Install Packages Code"
 #| classes: code-150
 
+install.packages("GGally")
 install.packages("devtools")
+install.packages("flextable")
 # requires devtools
 devtools::install_github("quinix45/FabioFun")
 
 ```
 
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+library(tidyverse)
+library(GGally)
+library(FabioFun)
+theme_set(theme_classic(base_size = 16, accent = "#3492eb", base_family = 'serif'))
+```
+
+
+</br>
+
 <div style="font-size: 26px">
 
 ::: {.panel-tabset}
 
+### `GGally`
+
+The `GGally` package [@Schloerke_etal_2024] builds upon `ggplot2` and includes many functions for creating complex plots. 
+
 ### `devtools`
 
-The `devtools` package [@Wickham_etal_2022] helps developing R packages. It is more commonly used to download R packages from [github](https://github.com){target='_blank'}.
+The `devtools` package [@Wickham_etal_2022] helps developing R packages. It is generally used to download R packages from [github](https://github.com){target='_blank'}.
 
 ### `FabioFun`
 
 This is my personal package where I save functions that I use for research/teaching/convenience. You can run `devtools::install_github("quinix45/FabioFun")` to install it. 
 
+### `flextable`
+
+The `flextable` package [@Gohel_etal_2024] allows to create highly customizable tables. The function that I use to create APA style Word tables makes heavy use of this package.
+
+:::
+
+</div>
+
+:::
 
 
+::: {.column width="50%"}
+
+<center style="padding-bottom: 21px;"> [Data]{.data-title} </center>
+
+
+Today we'll be looking at data from the [2024 World Happiness report](https://www.worldhappiness.report/ed/2024/){target='_blank'}. 
+ 
+```{r}
+#| eval: true
+#| echo: true 
+#| message: false
+#| code-line-numbers: false
+#| classes: code-125
+
+dat <- rio::import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
+```
+
+```{r}
+library(FabioFun)
+
+
+labels <- c("Country name",
+            "Region of the World",
+            "Country happiness score. Corresponds to the sum of the other variables",
+            "Log of country Gross Domestic Product (GDP)",
+            "Perceived Social Support in the Country",
+            "Country Healthy life Expectancy",
+            "Perceived Freedom in the Country",
+            "Perceived Generosity in the Country",
+            "Perceived Corruption of the Country")
+
+labels_react <- reactbl_col.desc(names = colnames(dat),
+                                 desc =  labels,
+                                 style = "cursor: pointer; text-decoration: none;",
+                                 info_color = "#7a0b80")
+
+reactable::reactable(dat,
+                     defaultColDef = colDef(minWidth = 170),
+                     style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+                     pagination = FALSE, highlight = TRUE, height = 300, columns = labels_react)
+```
+
+:::
+
+::::
+
+
+## Predicting Country Happiness
+
+In our data we have many variables that are likely related to happiness. I will just pick 2 of them for the purpose of this Lab. Let's say that we want to evaluate how `Freedom` and `Corruption` predict `Happiness`. If we run two separate regressions, we find that both have reasonably high $R^2$ values:
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-115
+
+reg_free <- lm(Happiness_score ~ Freedom, dat)
+summary(reg_free)
+```
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-115
+
+reg_corr <- lm(Happiness_score ~ Corruption, dat)
+summary(reg_corr)
+```
+
+:::
+
+:::
+::::
+
+
+## Well, That's just the correlation 🤷
+
+As we have learned, regression with one predictor is just a contrived way of calculating correlations among variables. We can better visualize the relation among out 3 variables with the `ggpairs()` function from `GGally`:
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width = '35%'}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# here I am selecting the 3 columns that I wantr to plot
+GGally::ggpairs(dat[,c(3, 7,9)])
+```
+
+- **Lower part:** scatterplot between variables
+- **Diagonal:** variable distribution
+- **Upper part:** correlation between variables
+
+Notably, `Freedom` and `Corruption` are also correlated.
+
+:::
+::: {.column width = '65%'}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+ggpairs(dat[,c(3, 7,9)])
+```
+
+:::
+::::
+
+:::
+
+::: {.fragment fragment-index=2}
+
+Separate regressions miss the points that our predictors share information! 
+
+:::
+
+## Multiple Independent Variables
+
+:::: {.columns}
+::: {.column width = '52%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_multi <- lm(Happiness_score ~ Freedom + Corruption, dat)
+summary(reg_multi)
+```
+
+:::
+::: {.column width = '48%'}
+
+We can include both predictors in our regression by adding variables in the `lm()` function like so `lm(DV ~ IV1 + IV2 + ..., dat)`. 
+
+
+::: {.fragment fragment-index=1}
+Note that both slopes have changed and are not as large as they were in the individual regressions. The regression equations is now:
+
+ <p style='font-size: 20px'>   $$\mathrm{Happiness} = 5.09 + 4.03 \times \mathrm{Freedom} - 2.44 \times \mathrm{Corruption}$$ </p>
+
+:::
+
+::: {.fragment fragment-index=2}
+What is going on here? 🤔 a graphical illustration may provide some intuition!
+:::
+
+:::
+::::
+
+
+## Individual regression plots
+
+Below I plot the individual regression lines for `Freedom` and `Corruption` predicting `Happiness`. 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat,  
+ aes(x = Freedom, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE)
+```
+
+:::
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat,  
+ aes(x = Corruption, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE)
+```
+
+
+
+:::
+::::
+
+::: {.fragment fragment-index=1}
+
+Now, what happens if we try to overlay the regression lines that we got from our multiple regression? Will they "fit the data" better that the regression lines shown here?
+
+:::
+
+
+
+## Adding Multiple regression Lines
+
+if we add our multiple regression lines to the plot... (🥁 *drum roll*)
+
+::: {.fragment fragment-index=1}
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat,  
+ aes(x = Freedom, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE) +
+    geom_abline(intercept = coef(reg_multi)[1], 
+                slope = coef(reg_multi)[2])
+
+```
+
+:::
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+#| code-fold: true
+#| code-summary: "Plot Code"
+
+ggplot(dat,  
+ aes(x = Corruption, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE)+
+    geom_abline(intercept = coef(reg_multi)[1], 
+                slope = coef(reg_multi)[3])
+
+```
+
+:::
+::::
+
+:::
+
+::: {.fragment fragment-index=2}
+
+Wait, we are way off now 🤨 And here I thought multiple regression would be better 😑 ...Unsurprisingly, the multiple regression is fine, our *perspective* is the problem!
+
+:::
+
+## A better Perspective
+
+We have *3* variables, `Freedom`, `Corruption`, and `Happiness`, but we are looking at them in *2* dimensions with the individual scatterplots. We need a **3D** scatterplot!
+
+
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+
+# run "devtools::install_github("quinix45/FabioFun")" if you haven't installed the package yet
+library(FabioFun)
+
+nice_3D_plot(y = dat$Happiness_score,
+             x1 = dat$Freedom,
+             x2 = dat$Corruption,
+             dot_labels = dat$Country_name,
+             axis_names = c("Happiness", 
+                            "Freedom", 
+                            "Corruption"))
+```
+
+What is happening is that the scatterplots are *only the sides* of this box ‼️
+
+:::
+
+::: {.fragment fragment-index=2}
+Multiple regression works on this plot on the right, not the individual ones; multiple regression *operates on a different dimension*.
+:::
+
+:::
+::: {.column width = '60%'}
+
+::: {.fragment fragment-index=1}
+
+```{r out.width = "100%"}
+
+library(FabioFun)
+
+
+nice_3D_plot(y = dat$Happiness_score,
+             x1 = dat$Freedom,
+             x2 = dat$Corruption,
+             dot_labels = dat$Country_name,
+             axis_names = c("Happiness", 
+                            "Freedom", 
+                            "Corruption")) %>%  
+                    bslib::card(full_screen = TRUE)
+```
+
+:::
+
+:::
+::::
+
+## The Regression *Plane*
+
+The results from multiple regression create a **regression plane**, which is the 3D version of a regression line. 
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = dat$Happiness_score,
+             x1 = dat$Freedom,
+             x2 = dat$Corruption,
+             dot_labels = dat$Country_name,
+             axis_names = c("Happiness", 
+                            "Freedom", 
+                            "Corruption"),
+             reg_plane = TRUE)
+```
+
+
+The plane works exactly as the regression line. its surface is the best predition of `happiness` given a value of `Freedom` and `Corruption`. The residuals are now the distance from any of the dots to the plane! 
+
+:::
+
+
+::: {.fragment fragment-index=2}
+**Question:** What would the plot look like with one extra variable?
+:::
+
+:::
+
+::: {.column width = '60%'}
+
+::: {.fragment fragment-index=1}
+
+```{r out.width = "100%"}
+
+nice_3D_plot(y = dat$Happiness_score,
+             x1 = dat$Freedom,
+             x2 = dat$Corruption,
+             dot_labels = dat$Country_name,
+             axis_names = c("Happiness", 
+                            "Freedom", 
+                            "Corruption"),
+             reg_plane = TRUE) %>%  
+                    bslib::card(full_screen = TRUE)
+```
+
+:::
+
+:::
+::::
+
+
+## Interpreting Multiple Regression
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg_multi)
+```
+
+
+:::
+::: {.column width = '50%'}
+
+Now that we have looked at our results graphically for a while, let's interpret the numbers that we get.
+
+::: {.fragment fragment-index=1}
+
+- **intercept**: the expected value of `Happiness` when both `Freedom` and `Corruption` are at 0.
+
+
+- **Slope of `Freedom`**: the expected change in `Happiness` for 1-unit increase in `Freedom`, controlling for `Corruption`. 
+
+- **Slope of `corruption`**: the expected change in `Happiness` for 1-unit increase in `Corruption`, controlling for `Freedom`.
+
+:::
+
+:::
+::::
+
+::: {.fragment fragment-index=5}
+**Note:** Instead of "controlling for", you may also hear "accounting for" or "holding constant". They are all the same thing. 
+:::
+
+## Variance as what we cannot predict
+
+At this point, a quick detour about variance is in order. In Psychology we work with **random variables**. The word <u>*random*</u> is important because it means that there is something that we cannot predict about the variable (e.g., we cannot perfectly predict depression, nor will we ever be able to).
+
+:::: {.columns}
+::: {.column width = '40%'}
+
+::: {.fragment fragment-index=1}
+However, given a sample, we can quantify the unpredictability of a variable. The **variance** (or equivalently the SD) measure how uncertain a variable is!
+:::
+
+::: {.fragment fragment-index=2}
+
+We can see that the red distribution has a larger variance than the blue distribution. That is, the red distributrion has more unpredictability.
+
+:::
+
+::: {.fragment fragment-index=3}
+
+(by the way, generally [Entropy](https://en.wikipedia.org/wiki/Entropy_(information_theory)){target='_blank'} is used to quantify unpredictability of a random variable)
+
+:::
+
+:::
+::: {.column width = '60%'}
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-fold: true
+#| code-summary: Plot code
+ 
+ggplot() +
+ geom_function(fun = dnorm, 
+               args = list(mean = -4,
+                           sd = 1), color = "blue") + 
+ geom_function(fun = dnorm, 
+               args = list(mean = 4,
+                           sd = 2), color = "red") +
+                        theme(axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank(),
+        axis.line.y =  element_blank()) + xlim(c(-10, 10))
+```
+
+:::
+
+:::
+::::
+
+
+## R<sup>2</sup> as Uncertainty Explained
+
+After running a regression we can calculate a statistic called $R^2$, which quantifies the predictive power of the regression. $R^2$ is also often termed "variance explained". Let's figure out why:
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+::: {.fragment fragment-index=1}
+
+Our regression where $Y =$ `Happiness` had an $R^2$ of:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg_multi)$r.squared
+```
+
+:::
+
+::: {.fragment fragment-index=2}
+
+Now, the variance of `Happiness_score` originally was:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+var(dat$Happiness_score)
+```
+
+:::
+
+::: {.fragment fragment-index=3}
+
+Additionally, we can think of the **variance of the residuals** as quantifying what we could not predict:
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+var(reg_multi$resid)
+```
+
+:::
+
+:::
+::: {.column width = '30%'}
+
+::: {.fragment fragment-index=4}
+
+So, we can see that the variance of our $Y$ variable, `Happiness`, has been reduced by 
+
+$$ 1 - \frac{0.73}{1.395} = 0.475\%  = R^2 $$
+
+:::
+
+
+::: {.fragment fragment-index=5}
+
+$R^2$ is an effect size and it tells us how much uncertainty in the $Y$ variable has been reduced by the predictors.
+
+:::
+
+:::
+::::
+
+
+## A graphical look at  R<sup>2</sup> 
+
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+We can plot the density of `Happiness` and the residuals just like we plotted the two distributions a few slides ago.
+
+
+::: {.fragment fragment-index=1}
+
+Just as before, you can see that the two distributions vidibly differ in variance. The residuals (blue density) have less variance, $47.5\%$ less to be precise.
+
+:::
+
+::: {.fragment fragment-index=2}
+
+**Question:** What would it mean if the residuals had no variance at all? 🤔
+
+:::
+
+:::
+::: {.column width = '70%'}
+
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-fold: true
+#| code-summary: Plot code
+ 
+ggplot(dat) +
+  geom_density(
+    aes(x = Happiness_score, color = "Happiness (Original Variable)")
+  ) +
+  geom_density(
+    aes(x = reg_multi$resid, color = "Regression residuals")
+  ) +
+  scale_color_manual(
+    name = "",
+    values = c(
+      "Happiness (Original Variable)" = "red",
+      "Regression residuals" = "blue"
+    )
+  ) +
+  theme(
+    axis.title.y = element_blank(),
+    axis.text.y  = element_blank(),
+    axis.ticks.y = element_blank(),
+    axis.line.y  = element_blank(),
+    legend.position = "bottom"
+  ) +
+  xlim(c(-5, 10))
+
+```
+
+:::
+::::
+
+## APA Style Table for Regression Results
+
+because I hate creating tables manually, at some point I made function that does that for me ✨ Also, creating big tables by hand is generally not a good idea: you waste time and likely make typos.
+
+:::: {.columns}
+::: {.column width = '70%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_tab <- FabioFun::regression_flextable(reg_multi, 
+                                var_names = c("Freedom", "Corruption"), 
+                                intercept = TRUE)
+reg_tab
+```
+
+:::
+
+::: {.fragment fragment-index=2}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+# save to Word document (will be saved to current working directory)
+flextable::save_as_docx(reg_tab, path = "table.docx")
+```
+
+
+Feel free to use this instead of creating regression tables manually.
+
+:::
+
+:::
+::: {.column width = '30%'}
+
+::: {.fragment fragment-index=1}
+the `regression_flextable()` function I made takes in an `lm()` object and has some optional arguments (see help page). Here I rename the regression coefficients with the `var_names =` argument.
+
+:::
+
+
+::: {.fragment fragment-index=2}
+You can save the table as a `.docx` file (Word document) by using the `save_as_docx()` function from the `flextable()` package. You specify the file name in the `path =` argument.
+:::
+
+:::
+::::
 
 ## References 
 
 <div id="refs"> </div>
 
 
+# Appendix: `nice_3D_plot()` Showcase
+
+
+## Example with World Happiness Data
+
+You can also add groups to the dots of the 3D plot. Here I am using `Region`.
+
+:::: {.columns}
+::: {.column width="50%"}
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+#| classes: code-125
+
+# selecting just the variables of interest makes code cleaner later
+reg_vars <- dat[, c("Happiness_score", "Log_GDP", "Freedom")]
+
+nice_3D_plot(y = reg_vars$Happiness_score,
+             x1 = reg_vars$Log_GDP,
+             x2 = reg_vars$Freedom,
+             dot_labels = dat$Country_name,
+             # add groups
+             groups = dat$Region,
+             axis_names = c("Happiness", 
+                            "GDP", 
+                            "Freedom"),
+             plane_res = 20,
+             reg_plane = FALSE)
+
+```
+
+
+There are a bit too many regions, so this is not very practical in this case, but this just an example.
+
+:::
+
+
+::: {.column width="50%"}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+reg_vars <- dat[, c("Happiness_score", "Log_GDP", "Freedom")]
+
+nice_3D_plot(y = reg_vars$Happiness_score,
+                            x1 = reg_vars$Log_GDP,
+                            x2 = reg_vars$Freedom,
+                            dot_labels = dat$Country_name,
+                            groups = dat$Region,
+                              axis_names = c("Happiness", 
+                                             "GDP", 
+                                             "Freedom"),
+                              plane_res = 20,
+                              reg_plane = FALSE) %>%  
+                    bslib::card(full_screen = TRUE)
+
+```
+
+:::
+::::
+
+## Example with iris Data
+
+A more practical example with the [iris](https://en.wikipedia.org/wiki/Iris_flower_data_set){target="_blank"} dataset, Let's start with just providing 3 variables.
+
+:::: {.columns}
+::: {.column width="40%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width)
+```
+
+
+
+:::
+::: {.column width="60%"}
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width) %>%  
+  bslib::card(full_screen = TRUE)
+```
+
+:::
+::::
+
+
+## Name Axes
+
+Let's name our axes:
+
+:::: {.columns}
+::: {.column width="40%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width,
+             axis_names = c("SL", "PL", "PW"))
+```
+
+
+
+:::
+::: {.column width="60%"}
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width,
+             axis_names = c("SL", "PL", "PW")) %>%  
+  bslib::card(full_screen = TRUE)
+```
+
+:::
+::::
+
+
+
+
+## Add Groups 
+
+Let's add colors for the 3 different species of flowers:
+
+:::: {.columns}
+::: {.column width="40%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width,
+             axis_names = c("SL", "PL", "PW"),
+             groups = iris$Species)
+```
+
+
+:::
+::: {.column width="60%"}
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width,
+             groups = iris$Species,
+             axis_names = c("SL", "PL", "PW")) %>%  
+  bslib::card(full_screen = TRUE)
+```
+
+:::
+::::
+
+## Add Regression Plane
+
+Let's add a regression plane:
+
+:::: {.columns}
+::: {.column width="40%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width,
+             axis_names = c("SL", "PL", "PW"),
+             groups = iris$Species,
+             reg_plane = TRUE)
+```
+
+
+:::
+::: {.column width="60%"}
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width,
+             groups = iris$Species,
+             axis_names = c("SL", "PL", "PW"),
+             reg_plane = TRUE)%>%  
+  bslib::card(full_screen = TRUE)
+```
+
+:::
+::::
+
+
+## Pass Arguments to `plot_ly()`
+
+You can also pass arguments to the `plot_ly()` function. Let's make the dots more transparent by passing the `opacity =` argument to `plot_ly()`:
+
+:::: {.columns}
+::: {.column width="40%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width,
+             axis_names = c("SL", "PL", "PW"),
+             groups = iris$Species,
+             reg_plane = TRUE,
+             opacity = .3)
+```
+
+
+See [here](https://www.r-bloggers.com/2015/02/r-three-dots-ellipsis/){target="_blank"} for what "passing arguments" to a function within a function means in R. 
+
+
+:::
+::: {.column width="60%"}
+
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width,
+             axis_names = c("SL", "PL", "PW"),
+             groups = iris$Species,
+             reg_plane = TRUE,
+             opacity = .3)%>%  
+  bslib::card(full_screen = TRUE)
+```
+
+:::
+::::
+
+
+## Add Interaction Term to Regression Plane
+
+You can also specify an interaction between the two predictors and get an interaction plane. You will see that the reression plane now bends:
+
+:::: {.columns}
+::: {.column width="40%"}
+
+```{r}
+#| eval: false
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width,
+             axis_names = c("SL", "PL", "PW"),
+             groups = iris$Species,
+             reg_plane = TRUE,
+             opacity = .3,
+             interaction = TRUE)
+```
+
+See [Lab 9](https://raw.githack.com/quinix45/PSYC-7804-Regression-Lab-Slides/main/Slides%20Files/Lab%209.html#/title-slide){target="_blank"} if you are curious to know what is happening. 
+
+
+:::
+::: {.column width="60%"}
+
+```{r}
+#| eval: true
+#| echo: false
+#| code-line-numbers: false
+#| classes: code-125
+
+
+nice_3D_plot(y = iris$Sepal.Length,
+             x1 = iris$Petal.Length,
+             x2 = iris$Petal.Width,
+             axis_names = c("SL", "PL", "PW"),
+             groups = iris$Species,
+             reg_plane = TRUE,
+             opacity = .3,
+             interaction = TRUE)%>%  
+  bslib::card(full_screen = TRUE)
+```
+
+:::
+::::

@@ -5,194 +5,147 @@ date: "Spring-2026"
 output: html_document
 ---
 
-## Data for Today
+## Today's Packages and Data 🤗
 
 ```{r}
-WH_2024 <- rio::import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/World_happiness_2024.csv")
-
-# let's peak at our variables
-str(WH_2024, vec.len = 2)
+install.packages("GGally")
+install.packages("devtools")
+install.packages("flextable")
+# requires devtools
+devtools::install_github("quinix45/FabioFun")
 ```
-
-```{r}
-# not needed, but makes things cleaner
-
-reg_vars <- WH_2024[, c("Happiness_score",
-                        "Log_GDP",
-                        "Freedom")]
-```
-
 
 ```{r}
 library(tidyverse)
-theme_set(theme_classic(base_size = 14, 
-                        base_family = 'serif'))
-```
-
-
-## Partial regression coefficients
-
-
-```{r}
-reg_full <- lm(Happiness_score ~ Log_GDP + Freedom, 
-          reg_vars)
-
-coef(reg_full)
+library(GGally)
+library(FabioFun)
+theme_set(theme_classic(base_size = 16, accent = "#3492eb", base_family = 'serif'))
 ```
 
 ```{r}
-reg_free <- lm(Happiness_score ~ Freedom, 
-              reg_vars)
-coef(reg_free)
-
-
-reg_GDP <- lm(Happiness_score ~ Log_GDP, 
-              reg_vars)
-coef(reg_GDP)
-```
-## Calculate partial regression coefficients "By Hand"
-
-```{r}
-resid_happy_Free <- residuals(lm(Happiness_score ~ Freedom, 
-               reg_vars))
-
-resid_GDP <- residuals(lm(Log_GDP ~ Freedom, 
-              reg_vars))
-
-# the 0 + takes out the intercept, which is exactly 0 anyway in this case 
-coef(lm(resid_happy_Free ~ 0 + resid_GDP))
-```
-
-```{r}
-resid_happy_GDP <- residuals(lm(Happiness_score ~ Log_GDP, 
-               reg_vars))
-
-resid_Free <- residuals(lm(Freedom ~ Log_GDP, 
-              reg_vars))
-
-# the 0 + takes out the intercept, which is exactly 0 anyway in this case 
-coef(lm(resid_happy_GDP ~ 0 + resid_Free))
-```
-
-## Added variable plots 
-
-```{r}
-ggplot() +
-  geom_point(aes(y = resid_happy_Free, 
-                 x = resid_GDP))
-```
-
-
-```{r}
-
-ggplot() +
-  geom_point(aes(y = resid_happy_GDP, 
-                 x = resid_Free))
+dat <- rio::import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
 ```
 
 
 
-## The Quick way: `avPlots()` function from `car`  
+## Predicting Country Happiness
+
 
 ```{r}
-car::avPlots(reg_full)
+reg_free <- lm(Happiness_score ~ Freedom, dat)
+summary(reg_free)
 ```
 
-## Another Look at the 3D plane
+```{r}
+reg_corr <- lm(Happiness_score ~ Corruption, dat)
+summary(reg_corr)
+```
+
+
+## Well, That's just the correlation 🤷
+
 
 ```{r}
+GGally::ggpairs(dat[,c(3, 7,9)])
+```
+
+
+## Multiple Independent Variables
+
+```{r}
+reg_multi <- lm(Happiness_score ~ Freedom + Corruption, dat)
+summary(reg_multi)
+```
+
+## Individual regression plots
+
+```{r}
+ggplot(dat,  
+ aes(x = Freedom, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE)
+```
+
+
+```{r}
+ggplot(dat,  
+ aes(x = Corruption, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE)
+```
+
+## Adding Multiple regression Lines
+
+
+```{r}
+
+ggplot(dat,  
+ aes(x = Freedom, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE) +
+    geom_abline(intercept = coef(reg_multi)[1], 
+                slope = coef(reg_multi)[2])
+```
+
+
+```{r}
+ggplot(dat,  
+ aes(x = Corruption, y = Happiness_score)) +
+ geom_point() + 
+    geom_smooth(method = "lm",  
+                se = FALSE)+
+    geom_abline(intercept = coef(reg_multi)[1], 
+                slope = coef(reg_multi)[3])
+```
+
+## A better Perspective
+
+
+```{r}
+# run "devtools::install_github("quinix45/FabioFun")" if you haven't installed the package yet
 library(FabioFun)
 
-nice_3D_plot(y = reg_vars$Happiness_score,
-             x1 = reg_vars$Log_GDP,
-             x2 = reg_vars$Freedom,
+nice_3D_plot(y = dat$Happiness_score,
+             x1 = dat$Freedom,
+             x2 = dat$Corruption,
+             dot_labels = dat$Country_name,
              axis_names = c("Happiness", 
-                            "GDP", 
-                            "Freedom"),
-             reg_plane = TRUE) 
+                            "Freedom", 
+                            "Corruption"))
+
 ```
 
 
+## The Regression *Plane*
 
-## "By Hand" Example of Bootstrapping
+```{r}
+
+nice_3D_plot(y = dat$Happiness_score,
+             x1 = dat$Freedom,
+             x2 = dat$Corruption,
+             dot_labels = dat$Country_name,
+             axis_names = c("Happiness", 
+                            "Freedom", 
+                            "Corruption"),
+             reg_plane = TRUE)
+```
+
+## APA Style Table for Regression Results
 
 
 ```{r}
-r_squared <- c()
 
-set.seed(34677)
-
-for(i in 1:2000){
-
-# sample from data 
-sample <- sample(1:nrow(reg_vars), 
-                 replace = TRUE)  
-
-dat_boot <- reg_vars[sample,]
-
-# Run regression
-reg_boot <- lm(Happiness_score ~ Log_GDP + Freedom, 
-               dat_boot)  
-
-# Save R^2
-r_squared[i] <- summary(reg_boot)$r.squared
-}
+reg_tab <- FabioFun::regression_flextable(reg_multi, 
+                                var_names = c("Freedom", "Corruption"), 
+                                intercept = TRUE)
+reg_tab
 ```
 
 
 ```{r}
-hist(r_squared)
-quantile(r_squared, c(.025, .5, .975))
+# save to Word document (will be saved to current working directory)
+flextable::save_as_docx(reg_tab, path = "table.docx")
 ```
-
-```{r}
-summary(reg_full)$r.squared
-```
-
-## The Quick way: `Boot()` function from `car`  
-
-
-```{r}
-set.seed(875)
-boot_model <- car::Boot(reg_full, R = 2000)
-
-confint(boot_model, type = "perc")
-```
-
-```{r}
-confint(reg_full)
-```
-## Visualizing Bootstrap Results
-
-```{r}
-hist(boot_model, 
-     parm = "Log_GDP")
-```
-
-```{r}
-hist(boot_model, 
-     parm = "Freedom")
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

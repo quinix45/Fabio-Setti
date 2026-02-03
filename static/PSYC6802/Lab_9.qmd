@@ -102,7 +102,7 @@ library(FabioFun)
 
 labels <- c("Country name",
             "Region of the World",
-            "Country happiness score. COrresponds to the sum of the other variables",
+            "Country happiness score. Corresponds to the sum of the other variables",
             "Log of country Gross Domestic Product (GDP)",
             "Perceived Social Support in the Country",
             "Country Healthy life Expectancy",
