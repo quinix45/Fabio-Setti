@@ -726,6 +726,68 @@ ggplot(dat) +
 :::
 ::::
 
+## Significance Test for R<sup>2</sup> 
+
+We have seen that we can individually test whether each of the regression coefficients are significantly different from 0 with *t*-tests. However, this may become a bit cumbersome when we introduce many predictors in our regression.
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg_multi)$coef
+```
+
+
+:::
+::: {.column width = '50%'}
+
+
+::: {.fragment fragment-index=1}
+
+If you are not as interested to every individual variable, another approach is to test whether the regression $R^2$ is significantly different from 0.
+
+:::
+
+
+:::
+::::
+
+::: {.fragment fragment-index=2}
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+```{r}
+#| eval: true
+#| echo: true 
+#| code-line-numbers: false
+#| classes: code-125
+
+summary(reg_multi)$r.squared
+
+summary(reg_multi)$fstatistic
+
+pf(62.05882, 2, 137, lower.tail = FALSE)
+```
+
+
+:::
+::: {.column width = '50%'}
+
+The significance test for the regression $R^2$ is also found at the end of the `summary()` output. Here we have that $R^2 = .48, F(2, 137) = 62.06, p < .001$.
+
+This means that our regression model explains a statistically significant proportion of variance in the outcome, `Happiness`.
+
+:::
+::::
+
+:::
+
 ## APA Style Table for Regression Results
 
 because I hate creating tables manually, at some point I made function that does that for me ✨ Also, creating big tables by hand is generally not a good idea: you waste time and likely make typos.

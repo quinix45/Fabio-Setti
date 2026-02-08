@@ -86,7 +86,22 @@ car::S(reg_full)
 # only the slope of complaints is significant now. Further, the slope of privileges is now negative (!). This happens because complaints is positively correlated with privileges. 
 ```
 
-**6.** Visualize your regression model with an interactive 3D plot that includes a regression plane. Note that this plot will not be visible in a PDF once you knit (why? PDFs are not interactive). If you are wondering why the slope of `privileges` is now negative, looking at the plot from a specific angle may give you some insight.
+**6.** what are the $R^2$ values for the individual regressions and the multiple regression? Do the $R^2$ values from the two individual regression sum up to that of the multiple regression? If not, why do you think that is the case?
+
+
+```{r}
+summary(reg_priv)$r.squared
+
+summary(reg_compl)$r.squared
+
+summary(reg_full)$r.squared
+
+# the two R^2 do not add up because the two predictors share information, so, some of the variance that is explained by one predictor is also explained by the other. Further, privileges is likely not very important as a predictor
+```
+
+
+
+**7.** Visualize your regression model with an interactive 3D plot that includes a regression plane. Note that this plot will not be visible in a PDF once you knit (why? PDFs are not interactive). If you are wondering why the slope of `privileges` is now negative, looking at the plot from a specific angle may give you some insight.
 
 ```{r}
 library(FabioFun)

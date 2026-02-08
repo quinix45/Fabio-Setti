@@ -145,7 +145,7 @@ print(paste(round(reg_cnt$coefficients[1], 2), "+", round(reg_cnt$coefficients[2
 reg_std <- lm(charges_std ~ bmi_std, dat)
 summary(reg_std)
 
-# the correaltion is roughly .198
+# the correlation is roughly .198
 ```
 
 
