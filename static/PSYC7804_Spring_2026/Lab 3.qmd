@@ -678,7 +678,7 @@ We can plot the density of `Happiness` and the residuals just like we plotted th
 
 ::: {.fragment fragment-index=1}
 
-Just as before, you can see that the two distributions vidibly differ in variance. The residuals (blue density) have less variance, $47.5\%$ less to be precise.
+Just as before, you can see that the two distributions visibly differ in variance. The residuals (blue density) have less variance, $47.5\%$ less to be precise.
 
 :::
 
