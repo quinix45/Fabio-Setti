@@ -135,7 +135,7 @@ This Lab introduces regression with multiple predictors. The slides include inte
 
 <h3> 4. Added Variable Plots and Bootstrapping </h3>
 
-Coming soon!
+This lab introduces added variable plots as a way of visualizing partial regression coefficients. The idea of bootstrapping and its applications in the context of linear regression are also discussed. For learning purposes, this Lab also includes raw code that details the steps to create added variable plots, as well as bootstrapped confidence intervals for <i>R</i><sup>2</sup>.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 4.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

@@ -61,6 +61,7 @@ DA$contribution.average
 
 
 ```
+
 -  Does `inequality` conditionally dominate `midpeasant`? Motivate your answer based on the appropriate dominance matrix.
 
 

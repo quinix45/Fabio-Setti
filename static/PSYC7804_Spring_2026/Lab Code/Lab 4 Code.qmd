@@ -1,166 +1,185 @@
 ---
-title: "Lab 6 Code"
+title: "Lab 4 Code"
 author: "Fabio Setti"
-date: "Spring-2025"
+date: "Spring-2026"
 output: html_document
 ---
 
+## Today's Packages and Data 🤗
 
-
-```{r}
-install.packages("ppcor")
-# install.packages("tidyverse")
-```
 
 
 ```{r}
-library(ppcor)
 library(tidyverse)
-theme_set(theme_classic(base_size = 14, 
-                        base_family = 'serif'))
+library(car)
+theme_set(theme_classic(base_size = 16, 
+          accent = "#3492eb", 
+          base_family = 'serif'))
 ```
 
 
 ```{r}
-# Data from https://library.virginia.edu/data/articles/hierarchical-linear-regression
-
-dat <- rio::import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/Hierarc_data.csv")
-
-
-# let's peak at our variables
-str(dat, vec.len = 2)
+dat <- rio::import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
 ```
 
 
-## Our Predictors
+## Partial regression coefficients
 
 
 ```{r}
-cor(dat[,1:3])
-```
-
-
-## Partial Correlation "by hand"
-
-```{r}
-r_xy <- cor(dat$age, dat$happiness)
-r_xz <- cor(dat$age, dat$friends)
-r_yz <- cor(dat$happiness, dat$friends)
-```
-
-
-```{r}
-(r_xy - r_xz*r_yz)/(sqrt(1 - r_xz^2) * sqrt(1 - r_yz^2))
-```
-
-```{r}
-
-resid_y_z <- residuals(lm(happiness ~ friends, dat))
-resid_x_z <- residuals(lm(age ~ friends, dat))
-
-cor(resid_x_z, resid_y_z)
-```
-
-## Semi-Partial Correlation "by hand"
-
-
-```{r}
-(r_xy - r_xz*r_yz)/(sqrt(1 - r_xz^2))
-```
-```{r}
-(r_xy - r_xz*r_yz)/(sqrt(1 - r_yz^2))
-```
-```{r}
-cor(dat$happiness, resid_x_z)
-```
-
-
-```{r}
-cor(dat$age, resid_y_z)
-```
-
-
-
-## Using `ppcor` Functions
-
-
-```{r}
-partial_cor <- pcor(dat[,1:3])
-partial_cor$estimate
-partial_cor$p.value
+reg_full <- lm(Happiness_score ~ Corruption + Freedom, dat)
+coef(reg_full)
 ```
 
 
 
 ```{r}
-semipartial_cor <- spcor(dat[,1:3])
-semipartial_cor$estimate
-semipartial_cor$p.value
+reg_free <- lm(Happiness_score ~ Freedom, dat)
+coef(reg_free)
+
+reg_corr <- lm(Happiness_score ~ Corruption, dat)
+coef(reg_corr)
 ```
 
-## Model Comparison: Gain in Prediction
+## Partial regression coefficients "By Hand"
 
 
 ```{r}
-reg_age <- lm(happiness ~ age, dat)
+resid_happy_Free <- resid(lm(Happiness_score ~ Freedom, 
+               dat))
 
-summary(reg_age)$r.squared
+resid_corr <- resid(lm(Corruption ~ Freedom, dat))
+
+# the 0 +  the intercept, which is exactly 0 anyway in this case 
+coef(lm(resid_happy_Free ~ 0 + resid_corr))
 ```
-```{r}
-reg_age_fr <- lm(happiness ~ age + friends, dat)
-
-summary(reg_age_fr)$r.squared
-```
-## The catch With $R^2$
-
-```{r}
-# generate random variable
-set.seed(8879)
-dat$random_var <- rnorm(nrow(dat))
-
-reg_age_fr_rand <- lm(happiness ~ age + friends + random_var, dat)
-
-# before
-summary(reg_age_fr)$r.squared
-
-# after 
-summary(reg_age_fr_rand)$r.squared 
-```
-
-
-## Testing gain in prediction: $\Delta R^2$
 
 
 
 ```{r}
-anova(reg_age, reg_age_fr)
-```
+resid_happy_corr <- resid(lm(Happiness_score ~ Corruption, 
+               dat))
 
-```{r}
-anova(reg_age_fr, reg_age_fr_rand)
-```
+resid_Free <- resid(lm(Freedom ~ Corruption, dat))
 
-## The `AIC()` and `BIC()` Functions
-
-
-```{r}
-AIC(reg_age, reg_age_fr, reg_age_fr_rand)
-```
-
-```{r}
-BIC(reg_age,reg_age_fr, reg_age_fr_rand)
+# the 0 + removes the intercept, which is exactly 0 anyway in this case 
+coef(lm(resid_happy_corr ~ 0 + resid_Free))
 ```
 
 
-
-## Caveats With AIC and BIC
+## Added variable plots 
 
 
 ```{r}
-AIC(reg_age)
-extractAIC(reg_age)[2]
+ggplot() +
+  geom_point(aes(y = resid_happy_Free, 
+                 x = resid_corr))
+```
+
+
+```{r}
+ggplot() +
+  geom_point(aes(y = resid_happy_corr, 
+                 x = resid_Free))
+```
+
+
+## The Quick way: `car::avPlots()`   
+
+
+```{r}
+car::avPlots(reg_full)
+```
+
+
+## Another Look at the 3D plane
+
+
+```{r}
+library(FabioFun)
+
+nice_3D_plot(y = dat$Happiness_score,
+             x1 = dat$Corruption,
+             x2 = dat$Freedom,
+             axis_names = c("Happiness", 
+                            "Corruption", 
+                            "Freedom"),
+             reg_plane = TRUE)
+```
+
+
+## "By Hand" Example of Bootstrapping
+
+```{r}
+# empty element to save R^2 to
+r_squared <- c()
+
+reg_vars <- dat[, c("Happiness_score",
+                        "Corruption",
+                        "Freedom")]
+
+set.seed(34677)
+
+for(i in 1:2000){
+
+# sample from data 
+sample <- sample(1:nrow(reg_vars), 
+                 replace = TRUE)  
+
+dat_boot <- reg_vars[sample,]
+
+# Run regression
+reg_boot <- lm(Happiness_score ~ Corruption + Freedom, 
+               dat_boot)  
+
+# Save R^2
+r_squared[i] <- summary(reg_boot)$r.squared
+}
 ```
 
 
 
+```{r}
+summary(reg_full)$r.squared
+```
 
+
+```{r}
+hist(r_squared)
+```
+
+
+```{r}
+quantile(r_squared, c(.025, .5, .975))
+```
+
+
+## The Quick way: `Boot()` function from `car`  
+
+
+```{r}
+set.seed(875)
+boot_model <- car::Boot(reg_full, R = 2000)
+
+confint(boot_model, type = "perc")
+```
+
+
+```{r}
+confint(reg_full)
+```
+
+## Visualizing Bootstrap Results
+
+
+```{r}
+hist(boot_model, 
+     parm = "Corruption")
+```
+
+
+```{r}
+
+hist(boot_model, 
+     parm = "Freedom")
+```
