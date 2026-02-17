@@ -174,7 +174,7 @@ hist(boot_2000,
 
 
 
-- What differences do you see in the distributions of the bootstrapped slopes? Based on the confidence intervals, would you make any different conclusions about the significance of the slopes (the answer may vary depedning on the chosen seed)?
+- What differences do you see in the distributions of the bootstrapped slopes? Based on the confidence intervals, would you make any different conclusions about the significance of the slopes (the ansqwer may vary depedning on the chosen seed)?
 
 ```{r}
 #| echo: false

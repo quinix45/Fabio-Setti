@@ -171,7 +171,7 @@ Personally, the concept of **partial regression coefficients** starts making sen
 
 ::: {.fragment fragment-index=1}
 
-Partial regression coefficient for `Log_GDP`
+Partial regression coefficient for `Happiness`
 
 ```{r}
 #| eval: true
