@@ -8,3 +8,126 @@ header-includes:
 ---
 
 \onehalfspacing
+
+
+We will be using the same data from Lab 6. Click [here](https://quinix45.github.io/PSYC-7804-Regression-Lab-Slides/Slides%20Files/Lab%206.html#/todays-packages-and-data){target="_blank"} and copy the code from the chunk on the right and run it to load the data.
+ 
+```{r}
+dat <- rio::import("https://fabio-setti.netlify.app/data/Hierarc_data.csv")
+```
+
+
+Our variables of interest are once again:
+
+- `y = happiness` 
+- `x = age` 
+- `z = friends`. 
+
+**1.** In Lab 5 we observed that the partial correlation between two variables accounting for a third variable is the correlation of the residuals from `x ~ z` and `y ~ z`: 
+
+```{r}
+#| eval: false
+#| echo: false
+
+resid_y_z <- residuals(lm(happiness ~ friends, dat))
+resid_x_z <- residuals(lm(age ~ friends, dat))
+
+cor(resid_x_z, resid_y_z)
+```
+
+- What is the resulting regression coefficient if we run a regression predicting the residuals of `y` with the residuals of `x`? How is this type of regression coefficient called? (This was discussed in Lab 4)
+
+```{r}
+#| eval: false
+#| echo: false
+
+# partial regression coefficient between y and x accounting for z
+
+reg_resYX <- lm(resid_y_z ~ resid_x_z)
+
+round(coef(reg_resYX), 3)
+```
+
+- Calculate the partial correlation between `y` and `x`. 
+
+
+```{r}
+#| eval: false
+#| echo: false
+
+
+ppcor::pcor(dat[, c("happiness", "age", "friends")])
+
+
+```
+
+- can you transform the residuals of `y` and the residuals of `x` such that running a regression between the two will give a slope that equals the partial correlation? 
+
+```{r}
+#| eval: false
+#| echo: false
+
+# if you standardize both residuals, the slope will be equal to the partial correlation.
+
+reg_resYX_std <- lm(scale(resid_y_z) ~ scale(resid_x_z))
+
+round(coef(reg_resYX_std), 3)
+```
+
+
+**2.** Run a regression model with `friends` predicting `happiness`. Then, run an additional model that also includes `age` as a predictor. Is the improvement in $R^2$ significant when adding `age` to the model?
+
+```{r}
+#| eval: false
+#| echo: false
+
+reg_fr <- lm(happiness ~ friends, dat)
+reg_age_fr <- lm(happiness ~ friends + age, dat)
+
+# R^2 change is not significant
+anova(reg_fr, reg_age_fr)
+```
+
+- Calculate $\Delta R^2$.
+
+```{r}
+#| eval: false
+#| echo: false
+
+summary(reg_age_fr)$r.squared - summary(reg_fr)$r.squared
+```
+
+**3.** Compare the two models from the previous question with both AIC and BIC. What model should you select according to each? Do they "agree" with each other? 
+
+```{r}
+#| eval: false
+#| echo: false
+
+AIC(reg_fr, reg_age_fr)
+
+# model with both variables
+```
+
+
+```{r}
+#| eval: false
+#| echo: false
+
+BIC(reg_fr, reg_age_fr)
+
+# simpler model with only friends
+```
+
+
+- Do either the BIC or the AIC "agree" with the $\Delta R^2$ significance test from the previous question?
+
+```{r}
+#| eval: false
+#| echo: false
+
+# The BIC agrees with it, the AIC doesn't.
+```
+
+
+
+

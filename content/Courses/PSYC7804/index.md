@@ -156,7 +156,7 @@ This lab introduces added variable plots as a way of visualizing partial regress
 
 <h3> 5. Semi-partial, Partial-correlations, and Model Comparison </h3>
 
-Coming soon!
+This Lab introduces semi-partials and partial-correlations, and contrasts them with correlation. This lab also discusses model comparison with hierarchical regression and information criteria methods such as AIC and BIC.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 5.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
