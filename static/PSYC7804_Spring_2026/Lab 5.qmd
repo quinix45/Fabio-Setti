@@ -249,7 +249,7 @@ cor(resid_x_z, resid_y_z)
 
 ::: {.fragment fragment-index=4}
 
-So, $r_{xy.z}-.16$ is the correlation between `happiness` and `age` after taking out the proportion of variance explained by `friends` in both variables. 
+So, $r_{xy.z}-.16$ is the correlation between `happiness` and `age` after removing the proportion of variance explained by `friends` from both variables. 
 
 :::
 
@@ -318,9 +318,9 @@ cor(dat$age, resid_y_z)
 
 ::: {.fragment fragment-index=3}
 
-- $r_{y(x.z)} = -.15$ represents the relationship between $y$ and $x$ after the taking out of $x$ the variance explained by $z$.  
+- $r_{y(x.z)} = -.15$ represents the relationship between $y$ and $x$ after the removing the variance explained by $z$ from $x$.  
 
-- $r_{x(y.z)} = -.16$ represents the relationship between $x$ and $y$ after the taking out of $y$ the variance explained by $z$.  
+- $r_{x(y.z)} = -.16$ represents the relationship between $x$ and $y$ after removing  the variance explained by $z$ from $y$.  
 
 :::
 
