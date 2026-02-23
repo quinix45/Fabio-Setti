@@ -572,7 +572,7 @@ Both AIC and BIC calculate model fit, and then penalize it based on model comple
 
 ::: {.fragment fragment-index=2}
 
-$$AIC = N \times ln(\frac{SS_{\mathrm{resisuals}}}{N}) + 2p$$ 
+$$AIC = N \times ln(\frac{SS_{\mathrm{residuals}}}{N}) + 2p$$ 
 
 $N =$ sample size
 
@@ -590,13 +590,13 @@ $ln() =$ stands for the natural log
 
 ::: {.fragment fragment-index=2}
 
-$$BIC =  N \times ln(\frac{SS_{\mathrm{resisuals}}}{N}) + p\times ln(N)$$
+$$BIC =  N \times ln(\frac{SS_{\mathrm{residuals}}}{N}) + p\times ln(N)$$
 
 :::
 
 ::: {.fragment fragment-index=3}
 
-The $N \times ln(\frac{SS_{\mathrm{resisuals}}}{N})$ part, which is shared by both formulas, measures model fit. In contrast $2p$ is the AIC penalty, while $p\times ln(N)$ is the BIC penalty. The BIC penalty is stricter.
+The $N \times ln(\frac{SS_{\mathrm{residuals}}}{N})$ part, which is shared by both formulas, measures model fit. In contrast $2p$ is the AIC penalty, while $p\times ln(N)$ is the BIC penalty. The BIC penalty is stricter.
 :::
 
 :::
@@ -673,12 +673,14 @@ extractAIC(reg_age)[2]
 The `AIC()` function adds a $N \times \mathrm{ln}(2\pi) + N$ to the AIC (for math reasons), but other functions may not. So always use the same function/software to calculate AIC and BIC. 
 
 
+
 </li>
 
 :::
 
 ::: {.fragment fragment-index=2}
 <li> AIC and BIC do not tell you *how much better* a model fits over another. So, you may reject a model that practically is quite similar to the model you chose, but you will not know that by looking at AIC and BIC alone. Your theory should also guide the model selection choices that you make. </li>
+
 :::
 
 </ul>
