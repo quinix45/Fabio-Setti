@@ -210,7 +210,7 @@ car::S(reg_coll, brief = TRUE)
 :::
 ::::
 
-## Visulazing Multicollinearity
+## Visualizing Multicollinearity
 
 When strange things happen, visualizing your data (if possible) is always a good idea. 
 
@@ -228,7 +228,7 @@ library(FabioFun)
 nice_3D_plot(y = music$Intense,
              x1 = music$Advnt,
              x2 = music$Intel,
-             axis_names = c("Intese", 
+             axis_names = c("Intense", 
                             "Adventurousness", 
                             "Intellect"),
              reg_plane = TRUE)
@@ -258,9 +258,10 @@ library(FabioFun)
 nice_3D_plot(y = music$Intense,
              x1 = music$Advnt,
              x2 = music$Intel,
-             axis_names = c("Intese", "Adventurousness", "Intellect"),
+             axis_names = c("Intense", "Adventurousness", "Intellect"),
              reg_plane = TRUE) %>%  
   bslib::card(full_screen = TRUE)
+
 ```
 
 :::

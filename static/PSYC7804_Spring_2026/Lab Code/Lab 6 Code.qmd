@@ -6,3 +6,172 @@ output: html_document
 ---
 
 
+
+
+## Today's Packages and Data 🤗
+
+
+```{r}
+install.packages("dominanceanalysis")
+install.packages("pwr")
+```
+
+
+
+```{r}
+library(dominanceanalysis)
+library(pwr)
+library(tidyverse)
+```
+
+
+```{r}
+music <- rio::import("https://fabio-setti.netlify.app/data/music.csv") |> 
+  na.omit()
+```
+
+## Regression coefficients Weirdness 
+
+
+```{r}
+round(cor(music[,1:3]), 2)
+```
+
+
+```{r}
+reg_coll <- lm(Intense ~ Advnt + Intel, data = music)
+
+# car function for shorter regression summary 
+car::S(reg_coll, brief = TRUE)
+```
+
+
+```{r}
+library(FabioFun)
+
+nice_3D_plot(y = music$Intense,
+             x1 = music$Advnt,
+             x2 = music$Intel,
+             axis_names = c("Intense", 
+                            "Adventurousness", 
+                            "Intellect"),
+             reg_plane = TRUE)
+
+```
+
+
+
+## Back to Semi-Partial Correlations
+
+
+```{r}
+ppcor::spcor(music[,1:3])[1]
+```
+
+
+```{r}
+cor(music[,1:3])[1,]
+```
+
+
+## Variance Inflation Factor
+
+
+```{r}
+car::vif(reg_coll)
+```
+
+## Another Perspective: Residuals
+
+
+```{r}
+resid_Advnt <- residuals(lm(Advnt ~ Intel, music))
+
+var(resid_Advnt)
+```
+
+
+```{r}
+resid_Intel <- residuals(lm(Intel ~ Advnt, music))
+
+var(resid_Intel)
+```
+
+
+## Example with our Data
+
+
+```{r}
+reg_da <- lm(Intense ~ Advnt + Intel + Uncon, music) 
+DA <- dominanceAnalysis(reg_da)
+summary(DA)
+```
+
+
+
+```{r}
+summary(reg_da)$r.squared
+```
+
+
+## Additional Dominance Patterns
+
+
+```{r}
+dominanceMatrix(DA, type = "conditional")
+```
+
+
+```{r}
+dominanceMatrix(DA, type = "complete")
+```
+
+
+```{r}
+set.seed(2341)
+DA_boot <- bootDominanceAnalysis(reg_da, R = 1000)
+summary(DA_boot)
+```
+
+
+## Power for Correlation
+
+```{r}
+# we'll need 85 participants (you round up n)
+pwr::pwr.r.test(r = .3, sig.level = .05, power = .8)
+```
+
+
+```{r}
+
+# around .41 (41%) power
+pwr::pwr.r.test(r = .2, sig.level = .05, n = 75)
+```
+
+
+## Power For $R^2$
+
+
+```{r}
+(f2 <- .15/(1-.15))
+```
+
+
+```{r}
+pwr::pwr.f2.test(u = 3,  f2 = f2, sig.level = 0.05, power = 0.8)
+```
+
+
+## Power For $\Delta R^2$
+
+
+
+```{r}
+(f2 <- .05/(1-.20))
+```
+
+
+```{r}
+pwr::pwr.f2.test(u = 1,  f2 = f2, 
+                 sig.level = 0.05, power = 0.8)
+```

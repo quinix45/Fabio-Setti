@@ -175,10 +175,9 @@ This Lab introduces semi-partials and partial-correlations, and contrasts them w
 <hr class="fancy"></hr>
 
 
-
 <h3> 6. Multicollinearity, Dominance Analysis, and Power </h3>
 
-Coming soon!
+This Lab touches upon multicollinearity in linear regression and its consequences. Dominance analysis is also discussed as a method to evaluate relative importance of predictors in a regression. Power in regression and criticisms of practices related to power are discussed.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 6.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
@@ -560,7 +559,7 @@ This Lab introduces the use of categorical predictors in linear regression. Diff
 
 <h3> 11. Interactions with Categorical Predictors </h3> 
 
-This lab introduces Interactions involving categorical predicotrs. Methods for probing interactions between categorical and continuous predictors are discussed.
+This lab introduces Interactions involving categorical predictors. Methods for probing interactions between categorical and continuous predictors are discussed.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804/Slides Files/Lab 11.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

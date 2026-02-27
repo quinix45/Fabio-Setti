@@ -77,7 +77,9 @@ dominanceMatrix(DA, type = "complete")
 
 # inconclusive (.5 in the row)
 ```
+
 **3.** Although `tradition`, on average, was the second predictor that contributed the most to $R^2$, it was not significant in the full regression. Conduct a retrospective power analysis to evaluate how much power there was to detect a significant effect of `tradition`. Follow the steps below:
+
 
 - Calculate the $\Delta R^2$ between the full regression and the regression without `tradition`.
 
