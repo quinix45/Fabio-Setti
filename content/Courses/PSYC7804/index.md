@@ -198,7 +198,8 @@ This Lab touches upon multicollinearity in linear regression and its consequence
 
 <h3> 7. Quadratic regression and non-linear alternatives </h3> 
 
-Coming soon!
+This Lab goes over quadratic regression and detailed interpretations of its regression coefficients. This Lab also includes a brief introduction to piecewise regression.
+
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 7.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
