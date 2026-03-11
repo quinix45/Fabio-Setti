@@ -170,7 +170,7 @@ It is interesting to note that dates in `R` are interpreted as the *days* that h
 #| code-line-numbers: false
 #| classes: code-125
 
-as.numeric(NY_waeth$time[1])/365
+as.numeric(NY_waeth$time[1])
 ```
 
 :::
@@ -477,6 +477,7 @@ geom_smooth(method = "loess",
 Temp_avg_2021$time2 <- as.numeric(Temp_avg_2021$time)^2
 
 ```
+
 :::
 
 
@@ -735,7 +736,7 @@ If you think about it, in linear regression, the slope, $b_1$, is also the slope
 ```{r}
 #| eval: true
 #| echo: false
-#| code-line-numbers: false
+#| #| code-line-numbers: false
 
 ggplot(Temp_avg_2021,
        aes(x = time, y = Temp_F)) +
@@ -795,14 +796,20 @@ $$b_2 = - 0.001$$
 
 <div style="font-size: 24px"> $b_2$ lets us calculate the slope of the tangent line at *any* point of the curve. The value of $b_2$, describes the change of the slope of the tangent line per 1-unit change in `time`. More formally, 
 
+$$b_{\mathrm{tang}} = b_1 + 2b_2 X$$ 
+</div>
 
-$$b_{\mathrm{tang}} = b_1 + 2b_2 X$$ </div>
+
 
 ::: {.fragment fragment-index=1}
+
 <div style="font-size: 22px"> For example, if `time` = 100, then the slope of the tangent line is given by $b_{\mathrm{tang}} = .06 + 2\times -.001 \times100 = -.14$. Indeed, the tangent line goes downwards, as its slope suggests. </div>
-:::
 
 :::
+
+
+:::
+
 ::: {.column width="70%"}
 
 ```{r}
@@ -1016,6 +1023,7 @@ geom_segment(x = mean(Temp_avg_2021$time) -130,
 
 ::: {.fragment fragment-index=3}
 <div style="font-size: 22px; padding-top: 12px;"> This concept of ["finding the top (or bottom)"](https://en.wikipedia.org/wiki/Mathematical_optimization){target="_blank"} happens to be the foundation of almost all estimation algorithms in statistics. </div>
+
 :::
 
 ## Bootsrap CI for Maximum/Minimum point
@@ -1038,6 +1046,7 @@ We can create a 95% CI for the `time` value at which we expect the maximum tempe
 
 boot_quad <- car::Boot(quad_reg, R = 1000)
 ```
+
 <div style="font-size: 24px; padding-top: 12px;"> Then we need to calculate $-\frac{b_1}{2b_2}$ for all our 1000 bootstrap samples (very easy actually!). The bootstrap samples are saved in the `t` element of `boot_quad`:  </div>
 
 ```{r}
@@ -1070,6 +1079,7 @@ top_boot <- -boot_quad$t[,2]/(2*boot_quad$t[,3])
 
 quantile(top_boot, c(.025, .975))
 ```
+
 <div style="font-size: 24px;"> And the full distribution </div>
 
 ```{r}
@@ -1081,6 +1091,7 @@ quantile(top_boot, c(.025, .975))
 
 plot(density(top_boot))
 ```
+
 :::
 
 :::
@@ -1121,6 +1132,7 @@ reg_cube <- lm(Temp_F ~ poly(time, 3), data = Temp_avg_2021)
 reg_fourth <- lm(Temp_F ~ poly(time, 4), data = Temp_avg_2021) 
 reg_fifth <- lm(Temp_F ~ poly(time, 5), data = Temp_avg_2021) 
 ```
+
 :::
 
 :::
@@ -1163,6 +1175,7 @@ c(summary(reg_lin)$r.squared,
   summary(reg_fifth)$r.squared)
 
 ```
+
 The 5<sup>th</sup> degree polynomial offers essentially no improvement. 
 
 :::
@@ -1334,6 +1347,7 @@ geom_segment(xend = max(Temp_avg_2021$time_cent) + mean(Temp_avg_2021$time),
   theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 
 ```
+
 :::
 :::
 ::::
@@ -1399,6 +1413,7 @@ We will use the `ifelse()` function to make our life easier.
 # an example
 ifelse(c(2,3) > 2.5, "bigger", "smaller")
 ```
+
 :::
 
 :::
@@ -1471,6 +1486,7 @@ Now we can simply run our piecewise regression by using $D_1$ and $D_2$ as predi
 piece_reg <- lm(Temp_F ~ D1 + D2, data = Temp_avg_2021)
 summary(piece_reg)
 ```
+
 :::
 ::: {.column width="30%"}
 
@@ -1491,7 +1507,7 @@ summary(piece_reg)
 :::: {.columns}
 ::: {.column width="40%"}
 
-The 3D visualization of a piecewise regression is actually kinda funny:
+The 3D visualization of a piecewise regression is kinda funny:
 
 
 ```{r}

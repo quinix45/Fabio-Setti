@@ -1,5 +1,5 @@
 ---
-title: "Lab 9 Code"
+title: "Lab 7 Code"
 author: "Fabio Setti"
 date: "Spring-2025"
 output: html_document
@@ -11,249 +11,444 @@ output: html_document
 
 
 ```{r}
-# devtools::install_github("quinix45/FabioFun")
-# install.packages("interactions")
+# install.packages("tidyverse")
+install.packages("lubridate")
 ```
 
 ```{r}
 library(tidyverse)
-library(interactions)
-library(FabioFun)
 theme_set(theme_classic(base_size = 14, 
                         base_family = 'serif'))
+library(lubridate)
 ```
 
 
 
 ```{r}
-dat <- rio::import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/Attend.dta")
+NY_waeth <- rio::import("https://fabio-setti.netlify.app/data/NYC_Weather_2016_2022.csv")
 
-# select only the variables we are interested in
-grade_fin <- dat[,c("final", "attend", "priGPA")]
-
-str(grade_fin, give.attr = FALSE)
+str(NY_waeth, vec.len = 2) 
 ```
 
-
-## Our hypothesis
+## Working with Dates
 
 
 ```{r}
-# we use "*" to specify an interaction effect between two variables
-reg_int <- lm(final ~ attend*priGPA, data = grade_fin)
-summary(reg_int)
+NY_waeth$time[1:3]
 ```
 
 
-## Visualizing Interactions
+```{r}
+# substr() takes a string and extracts characters from (1 here) to (10 here)
+NY_waeth$time <- substr(NY_waeth$time, 1, 10)
+NY_waeth$time[1:3]
+```
+
+
+## Useful Fact: How computers count time
 
 
 ```{r}
-library(plotly)
-
-FabioFun::nice_3D_plot(y = grade_fin$final,
-                       x1 = grade_fin$priGPA,
-                       x2 = grade_fin$attend,
-                       axis_names = c("Final",
-                                      "Prior GPA",
-                                      "Attendance"),
-                       reg_plane = TRUE,
-             opacity = 0.3) %>% 
-   layout(title = 'Regression Plane with no Interaction')
+NY_waeth$time <- lubridate::ymd(NY_waeth$time)
+class(NY_waeth$time)
 ```
 
 
 
 ```{r}
-FabioFun::nice_3D_plot(y = grade_fin$final,
-                       x1 = grade_fin$priGPA,
-                       x2 = grade_fin$attend,
-                       axis_names = c("Final",
-                                      "Prior GPA",
-                                      "Attendance"),
-                       reg_plane = TRUE, 
-                       interaction = TRUE,
-             opacity = 0.3)%>% 
-  layout(title = 'Regression Plane with Interaction')
+as.numeric(NY_waeth$time[1])
+
+# to years
+as.numeric(NY_waeth$time[1])/365
 ```
 
-
-## Regression Planes Bend?
+## Summarizing and Filtering the Data
 
 
 ```{r}
-FabioFun::nice_3D_plot(y = grade_fin$final,
-                       x1 = grade_fin$priGPA,
-                       x2 = grade_fin$attend,
-                       axis_names = c("Final",
-                                      "Prior GPA",
-                                      "Attendance"),
-                       reg_plane = TRUE,
-             opacity = 0.3) %>% 
-   layout(title = 'Regression Plane with no Interaction')
+Temp_avg <- NY_waeth |> 
+              select(time, `temperature_2m (°C)`) |>
+                group_by(time) |> 
+          summarise(Temp_C = mean(`temperature_2m (°C)`))
+
+str(Temp_avg)
 ```
 
-
-
-## Regression Planes Bend Indeed!
-
+## Changing Temperature to Fahrenheit 😔
 
 ```{r}
-
-FabioFun::nice_3D_plot(y = grade_fin$final,
-                       x1 = grade_fin$priGPA,
-                       x2 = grade_fin$attend,
-                       axis_names = c("Final",
-                                      "Prior GPA",
-                                      "Attendance"),
-                       reg_plane = TRUE,
-                       interaction = TRUE,
-             opacity = 0.3) %>% 
-   layout(title = 'Regression Plane with no Interaction')
-```
-
-
-
-## What about the Regression coefficients?
-
-
-```{r}
-min(grade_fin$attend)
-min(grade_fin$priGPA)
-```
-
-
-## Mean Centering 
-
-
-```{r}
-# the scale() function is a bit strange as previously mentioned, so we need to add the [,1] (see what happens to the column name if you don't)
-# `scale = FALSE` tells the fucntion to not standardize the variable (i.e., do not make the standard deviation 1)
-
-grade_fin$attend_cnt <- scale(grade_fin$attend, scale = FALSE)[,1]
-grade_fin$priGPA_cnt <- scale(grade_fin$priGPA, scale = FALSE)[,1]
+Temp_avg$Temp_F <- (Temp_avg$Temp_C * 9/5) + 32 
 ```
 
 
 
 ```{r}
-round(rbind(apply(grade_fin[, 2:3], 2, mean),
-            apply(grade_fin[, 2:3], 2, sd)), 2)
+Temp_avg_2021 <- Temp_avg |> 
+                  filter(time >= "2021-01-01", 
+                         time <= "2021-12-30")
+
+```
+
+
+## Plot The Data
+
+
+```{r}
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point()
 ```
 
 
 ```{r}
-round(rbind(apply(grade_fin[, 4:5], 2, mean),
-            apply(grade_fin[, 4:5], 2, sd)), 2)
-```
 
-
-## Mean Centering Graphically
-
-
-
-```{r}
-grade_fin %>% 
-  ggplot(aes(x = attend)) +
-  geom_density(col = "red") +
-  geom_density(aes(x = attend_cnt), col = "blue") +
-  xlim(-30, 40) +
-  xlab("Centerd and Uncentered Distribution of `attend`")
-```
-## Uncentered and Centered Results
-
-```{r}
-
-#uncentered
-reg_int <- lm(final ~ attend*priGPA, data = grade_fin)
-summary(reg_int)
-
-```
-
-
-
-```{r}
-# centered
-reg_int_cnt <- lm(final ~ attend_cnt*priGPA_cnt, data = grade_fin)
-summary(reg_int_cnt)
-```
-
-
-## Graphical comparison
-
-
-```{r}
-
-FabioFun::nice_3D_plot(y = grade_fin$final,
-                       x1 = grade_fin$priGPA,
-                       x2 = grade_fin$attend,
-                       axis_names = c("Final",
-                                      "Prior GPA",
-                                      "Attendance"),
-                       reg_plane = TRUE, 
-                       interaction = TRUE,
-             opacity = 0.2)%>% 
-  layout(title = 'Uncentered')
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point() +
+geom_smooth(method = "lm", 
+            formula = y ~ poly(x, 2), 
+            se = FALSE)
 ```
 
 
 ```{r}
-FabioFun::nice_3D_plot(y = grade_fin$final,
-                       x1 = grade_fin$priGPA_cnt,
-                       x2 = grade_fin$attend_cnt,
-                       axis_names = c("Final",
-                                      "Prior GPA",
-                                      "Attendance"),
-                       reg_plane = TRUE, 
-                       interaction = TRUE,
-             opacity = 0.2)%>% 
-  layout(title = 'Centered')
+
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point()  +
+geom_smooth(method = "lm", 
+           formula = y ~ poly(x, 2), 
+           se = FALSE) +
+geom_smooth(method = "loess", 
+            col = "red",
+           se = FALSE)
+```
+
+
+## Quadratic Regression: Centering Variables
+
+```{r}
+Temp_avg_2021$time2 <- as.numeric(Temp_avg_2021$time)^2
 ```
 
 
 
-## Probing Interactions: Simple Slopes
-
-
 ```{r}
-# you need to provide specify which variable is the focal predictor and which is the moderator!
-
-sim_slopes <- interactions::sim_slopes(reg_int_cnt, 
-                                       modx = "priGPA_cnt",
-                                       pred = "attend_cnt")
-
-# rounding to 3 decimal places for nicer output
-round(sim_slopes$slopes,3)
-```
-
-
-
-
-## Plotting Simple Slopes
-
-
-```{r}
-interact_plot(reg_int_cnt, 
-              modx = "priGPA_cnt",
-              pred = "attend_cnt")
+cor(Temp_avg_2021$time2, as.numeric(Temp_avg_2021$time))
 ```
 
 
 ```{r}
-# choose values of the moderator
+Temp_avg_2021$time_cent <- Temp_avg_2021$time - mean(Temp_avg_2021$time)
+# btw, check out what the time_cent variable looks like now!
 
-interact_plot(reg_int_cnt, 
-     modx = "priGPA_cnt",
-     pred = "attend_cnt",
-     modx.values = c(-4, 3, 4))
+# we create the quadratic term by squaring the centered variable
+Temp_avg_2021$time_cent2 <- as.numeric(Temp_avg_2021$time_cent)^2
 ```
-
-
-## The johnson-neyman Plot
 
 ```{r}
-johnson_neyman(reg_int_cnt, 
-              modx = "priGPA_cnt",
-              pred = "attend_cnt")
+cor(Temp_avg_2021$time_cent2, 
+    as.numeric(Temp_avg_2021$time_cent))
+
 ```
 
+
+## Quadratic Regression
+
+
+```{r}
+quad_reg <- lm(Temp_F ~ time_cent + time_cent2, 
+               data = Temp_avg_2021)
+summary(quad_reg)
+```
+
+## $b_0$ in Quadratic Regression
+
+
+```{r}
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point(alpha = .5, shape = 1)  +
+  geom_point( aes(y = coef(quad_reg)[1], 
+                  x = mean(Temp_avg_2021$time)),
+              size = 3.5,
+              col = "red") +
+geom_smooth(method = "lm", 
+           formula = y ~ poly(x, 2), 
+           se = FALSE) +
+geom_segment(x = 0, 
+               xend = mean(Temp_avg_2021$time), 
+               y = coef(quad_reg)[1],
+               yend = coef(quad_reg)[1],
+               linetype = 2) +
+geom_segment(x = mean(Temp_avg_2021$time), 
+             xend = mean(Temp_avg_2021$time), 
+             y = 0,
+             yend = coef(quad_reg)[1],
+             linetype = 2)
+
+```
+
+
+## $b_1$ in Quadratic Regression
+
+```{r}
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point(alpha = .5, shape = 1)  +
+geom_smooth(method = "lm", 
+            formula = y ~ poly(x, 2), 
+            se = FALSE) +
+geom_segment(x = mean(Temp_avg_2021$time) - 130, 
+             xend = mean(Temp_avg_2021$time) + 130, 
+             y = coef(quad_reg)[1] - coef(quad_reg)[2]*130,
+             yend = coef(quad_reg)[1] + coef(quad_reg)[2]*130,
+             linetype = 1,
+             linewidth = .7,
+             col = "red")
+```
+
+
+## $b_2$ in Quadratic Regression
+
+```{r}
+x_val <- 100
+
+# accurate calculations, there is rounding error in the equation on the slides
+slope_new <- coef(quad_reg)[2] + 2*coef(quad_reg)[3]*x_val
+
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point(alpha = .5, shape = 1)  +
+geom_smooth(method = "lm", 
+            formula = y ~ poly(x, 2), 
+            se = FALSE) +
+geom_segment(x = (mean(Temp_avg_2021$time) + x_val) - 130, 
+             xend = (mean(Temp_avg_2021$time) + x_val) + 130, 
+             y =  (coef(quad_reg)[1] + coef(quad_reg)[2]*x_val + coef(quad_reg)[3]*x_val^2) - (slope_new*130),
+             yend = (coef(quad_reg)[1] + coef(quad_reg)[2]*x_val + coef(quad_reg)[3]*x_val^2) + (slope_new*130),
+             linetype = 1,
+             linewidth = .7,
+             col = "red") 
+```
+
+
+## Climbing to the top ☝️ (or bottom 👇)
+
+```{r}
+# accurate calculations, there is rounding error in the equation on the slides
+top <- -1*(coef(quad_reg)[2]/(2*coef(quad_reg)[3]))
+
+Y_val <- (coef(quad_reg)[1] + coef(quad_reg)[2]*top + coef(quad_reg)[3]*top^2)
+
+# this is the formula for the tangent slope. if you print this, you will see that it equals exactly 0. This means that the X value provided is the top of the curve, which is the only point where the tangent slope is exactly 0
+
+slope_new <- coef(quad_reg)[2] + 2*coef(quad_reg)[3]*top
+
+
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point(alpha = .5, shape = 1)  +
+  geom_point(aes(y = Y_val, 
+                x = mean(Temp_avg_2021$time) + top),
+              size = 3.5,
+              col = "red") +
+geom_smooth(method = "lm", 
+           formula = y ~ poly(x, 2), 
+           se = FALSE) +
+geom_segment(x = 0, 
+               xend = mean(Temp_avg_2021$time) + top, 
+               y = Y_val,
+               yend = Y_val,
+               linetype = 2) +
+geom_segment(x = mean(Temp_avg_2021$time) + top, 
+             xend = mean(Temp_avg_2021$time) + top, 
+             y = 0,
+             yend = Y_val,
+             linetype = 2) +
+geom_segment(x = mean(Temp_avg_2021$time) -130, 
+             xend = mean(Temp_avg_2021$time) + 130, 
+             y =  Y_val,
+             yend = Y_val,
+             linetype = 1,
+             linewidth = .7,
+             col = "red") 
+```
+
+
+```{r}
+-1*(coef(quad_reg)[2]/(2*coef(quad_reg)[3]))
+```
+
+
+## Bootsrap CI for Maximum/Minimum point
+
+
+```{r}
+boot_quad <- car::Boot(quad_reg, R = 1000)
+
+top_boot <- -boot_quad$t[,2]/(2*boot_quad$t[,3])
+```
+
+```{r}
+quantile(top_boot, c(.025, .975))
+```
+
+```{r}
+plot(density(top_boot))
+```
+
+
+## How Many Polynomials do I need?
+
+```{r}
+reg_lin <- lm(Temp_F ~ time, data = Temp_avg_2021)  
+reg_quad <- lm(Temp_F ~ poly(time, 2), data = Temp_avg_2021)  
+reg_cube <- lm(Temp_F ~ poly(time, 3), data = Temp_avg_2021)  
+reg_fourth <- lm(Temp_F ~ poly(time, 4), data = Temp_avg_2021) 
+reg_fifth <- lm(Temp_F ~ poly(time, 5), data = Temp_avg_2021) 
+```
+
+
+## Comparing Polynomial Regressions
+
+```{r}
+c(summary(reg_lin)$r.squared,
+  summary(reg_quad)$r.squared,
+  summary(reg_cube)$r.squared,
+  summary(reg_fourth)$r.squared,
+  summary(reg_fifth)$r.squared)
+```
+
+```{r}
+anova(reg_lin, reg_quad, reg_cube, reg_fourth, reg_fifth)
+```
+
+## Plotting polynomials
+
+```{r}
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point() +
+geom_smooth(method = "lm", 
+           formula = y ~ poly(x, 2), 
+           se = FALSE) +
+  ggtitle("Second Degree Polynomial") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+```
+
+
+```{r}
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point() +
+geom_smooth(method = "lm", 
+           formula = y ~ poly(x, 3), 
+           se = FALSE) +
+  ggtitle("Third Degree Polynomial") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+```
+
+
+```{r}
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point() +
+geom_smooth(method = "lm", 
+           formula = y ~ poly(x, 4), 
+           se = FALSE) +
+  ggtitle("Fourth Degree Polynomial") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+```
+
+```{r}
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point() +
+geom_smooth(method = "lm", 
+           formula = y ~ poly(x, 5), 
+           se = FALSE) +
+  ggtitle("Fifth Degree Polynomial") +
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+```
+
+## Piecewise Regression
+
+```{r}
+Temp_avg_2021$D1 <- ifelse(Temp_avg_2021$time_cent >= 20.34353, 0*Temp_avg_2021$time_cent, 1*Temp_avg_2021$time_cent)
+Temp_avg_2021$D2 <- ifelse(Temp_avg_2021$time_cent < 20.34353, 0*Temp_avg_2021$time_cent, 1*Temp_avg_2021$time_cent)
+
+
+
+reg_piece <- lm(Temp_F ~ D1 + D2, data = Temp_avg_2021)
+
+intercept <- coef(reg_piece)[1]
+D1 <- coef(reg_piece)[2]
+D2 <- coef(reg_piece)[3]
+
+
+ggplot(Temp_avg_2021,
+       aes(x = time, y = Temp_F)) +
+        geom_point() +
+geom_segment(x = min(Temp_avg_2021$time_cent) + mean(Temp_avg_2021$time), 
+             xend = 20.34353 + mean(Temp_avg_2021$time), 
+             y = intercept + min(Temp_avg_2021$time_cent)*D1 ,
+             yend = intercept,
+             linetype = 1,
+             linewidth = .7,
+             col = "red") +
+geom_segment(xend = max(Temp_avg_2021$time_cent) + mean(Temp_avg_2021$time), 
+             x = 20.34353 + mean(Temp_avg_2021$time), 
+             yend = intercept + max(Temp_avg_2021$time_cent)*D2 ,
+             y = intercept,
+             linetype = 1,
+             linewidth = .7,
+             col = "red") +  
+  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
+
+```
+
+
+## Creating $D_1$ and $D_2$
+
+```{r}
+Temp_avg_2021$D1 <- ifelse(Temp_avg_2021$time_cent >= 20.34353, 
+                           0, Temp_avg_2021$time_cent)
+
+```
+
+
+```{r}
+Temp_avg_2021$D2 <- ifelse(Temp_avg_2021$time_cent < 20.34353, 
+                           0, Temp_avg_2021$time_cent)
+
+```
+
+## Running The Piecewise Regression
+
+
+```{r}
+piece_reg <- lm(Temp_F ~ D1 + D2, data = Temp_avg_2021)
+summary(piece_reg)
+
+```
+
+## 3D visualization? Out of Curiosity...
+
+
+```{r}
+library(FabioFun)
+
+nice_3D_plot(y = Temp_avg_2021$Temp_F,
+             x1 = Temp_avg_2021$D1,
+             x2 = Temp_avg_2021$D2,
+             axis_names = c("Temperature", 
+                            "D1", 
+                            "D2"),
+             reg_plane = TRUE)
+
+```

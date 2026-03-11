@@ -220,7 +220,8 @@ This Lab goes over quadratic regression and detailed interpretations of its regr
 
 <h3> 8. Interactions Between Continuous Variables </h3> 
 
-Coming soon!
+
+This Lab goes over interaction effects (AKA moderation) between continuous variables. This Lab includes interpretation of interaction effects, 3D interactive representations, simple slopes interpretations and visualizations, and Johnson-Neyman plots.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 8.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
@@ -243,6 +244,8 @@ Coming soon!
 
 Coming soon!
 
+<!-- This Lab introduces the use of categorical predictors in linear regression. Different coding schemes for categorical predictors such as dummy coding and contrast coding are described. The equivalence of regression with categorical predictors and t-tests and ANOVAs is also discussed. -->
+
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 9.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
@@ -262,6 +265,8 @@ Coming soon!
 <h3> 10. Interactions with Categorical Predictors </h3> 
 
 Coming soon!
+ 
+<!-- This lab introduces Interactions involving categorical predictors. Methods for probing interactions between categorical and continuous predictors are discussed. -->
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 10.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
@@ -282,6 +287,11 @@ Coming soon!
 
 Coming soon!
 
+<!-- This lab introduces mediation analysis with path models using <a href="https://lavaan.ugent.be" target="_blank" class="inline-link">lavaan</a>. Aside from simple mediation, examples of parallel mediation and moderated mediation are also shown.  -->
+
+<!-- This lab presents a short introduction to issues related to missing data. Missing data mechanisms, as well as consequences of missing data mishandling are discussed (e.g., bias of results). Full information maximum likelihood (FIML) is introduced as a way of handling missing data. More advanced missing data methods are briefly mentioned. -->
+
+
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 11.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
 
@@ -299,6 +309,8 @@ Coming soon!
 <h3> 12. Regression Diagnostics </h3> 
 
 Coming soon!
+
+<!-- This lab discusses leverage, distance, and influence, three properties of individual data points that may impact regression results and conclusions. The regression diagnostics discussed are: hat values, studentized Residuals, DFFITS, Cook’s D, COVRATIO, and DFBETAS. Influence of outliers on regression results is also discussed. -->
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 12.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
@@ -554,8 +566,6 @@ This Lab introduces the use of categorical predictors in linear regression. Diff
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2025-01-01T00:00:00Z" data-file="/PSYC7804/Lab Activities/Lab 10 Activity.Rmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 <hr class="fancy"></hr>
-
-
 
 
 <h3> 11. Interactions with Categorical Predictors </h3> 

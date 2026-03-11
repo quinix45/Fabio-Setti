@@ -92,6 +92,7 @@ geom_smooth(method = "lm",
 
 # there seems to be an extreme point really high in education expenditures per-capita and in proportion under 18. This point is likely extremely influential and the only reason with the quadratic term in the regression is significant. Bootstrapping fails because the results are likely very dependent on how many times the extreme point is sampled.
 ```
+
 **5.** Find what state is causing the issue, remove it from the data, and run the quadratic regression again. what happens to the results? (**HINT:** the `which.max()` function will be helpful for this task.)
 
 ```{r include=FALSE}
