@@ -61,22 +61,40 @@ summary(quad_reg)
 # significant and positive quadratic term, so the line is convex (U up)
 ```
 
-**3.** Find the the turning point of the quadratic line. Then compute a $95\%$ bootstrapped confidence interval for it.
+**3.** Find the the turning point of the quadratic line. Then compute a $95\%$ bootstrapped confidence interval for it. Bootstrap the regression results twice with 2 different seeds and compare the bootstrapped results.
 
 ```{r include=FALSE}
 
 -1*(coef(quad_reg)[2]/(2*coef(quad_reg)[3]))
 
-boot_quad <- car::Boot(quad_reg, R = 1000)
 
-top_boot <- -boot_quad$t[,2]/(2*boot_quad$t[,3])
+set.seed(3445)
 
-quantile(top_boot, c(.025, .975))
+boot_quad1 <- car::Boot(quad_reg, R = 1000)
+
+top_boot1 <- -boot_quad1$t[,2]/(2*boot_quad1$t[,3])
+
+quantile(top_boot1, c(.025, .975))
+
+
+
+
+set.seed(1798)
+
+boot_quad2 <- car::Boot(quad_reg, R = 1000)
+
+top_boot2 <- -boot_quad2$t[,2]/(2*boot_quad2$t[,3])
+
+quantile(top_boot2, c(.025, .975))
+
 ```
-- Plot the density of all the bootstrapped turning points. Do you notice anything strange? 
+
+- Plot histograms of the two different bootstrapped turning points. Do you notice anything strange? 
 
 ```{r include=FALSE}
-plot(density(top_boot))
+
+hist(top_boot1)
+hist(top_boot2)
 
 # some turning points are very extreme. The bootstrapping procedure does not seem to work to well in this case.
 ```
@@ -86,6 +104,8 @@ plot(density(top_boot))
 
 
 ```{r include=FALSE}
+library(ggplot2)
+
 ggplot(dat,
        aes(x = young_cent, y = education)) +
         geom_point(alpha = .5, shape = 1) +
