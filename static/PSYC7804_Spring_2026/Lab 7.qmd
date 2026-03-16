@@ -885,7 +885,7 @@ So, $b_2$ informs us about 3 things:
 ::: {.column width="33%"}
 
 ::: {.fragment fragment-index=7}
-**3.** The direction of the bend. If the sign of $b_2$ is positive, the curve will be a bell, if the sign is negative, it will be a U, as in our case.
+**3.** The direction of the bend. If the sign of $b_2$ is negative, the curve will be a bell (as in our case), if the sign is negative, it will be a U.
 :::
 
 :::
