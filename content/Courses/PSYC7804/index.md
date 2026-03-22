@@ -242,9 +242,7 @@ This Lab goes over interaction effects (AKA moderation) between continuous varia
 
 <h3> 9. Categorical Predictors </h3> 
 
-Coming soon!
-
-<!-- This Lab introduces the use of categorical predictors in linear regression. Different coding schemes for categorical predictors such as dummy coding and contrast coding are described. The equivalence of regression with categorical predictors and t-tests and ANOVAs is also discussed. -->
+This Lab introduces the use of categorical predictors in linear regression. Different coding schemes for categorical predictors such as dummy coding and contrast coding are described. The equivalence of regression with categorical predictors and t-tests and ANOVAs is also discussed.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 9.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

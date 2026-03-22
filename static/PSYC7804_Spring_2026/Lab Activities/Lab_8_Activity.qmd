@@ -40,7 +40,7 @@ Run the following code to name the data you will be using as `dat`:
 ```{r}
 dat <- data.frame(state.x77)
 
-# Rename 2 columns that are named in slightly unusual way
+# Rename 2 columns that are named in slightly unusual ways
 colnames(dat)[c(4, 6)] <- c("Life_Exp", "HS_Grad")
 ```
 

@@ -89,7 +89,7 @@ The `interactions` package [@Long_2024] provides helpful functions to explore in
 #| code-line-numbers: false
 #| output: true
 
-dat <- rio::import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/Attend.dta")
+dat <- rio::import("https://fabio-setti.netlify.app/data/Attend.dta")
 
 # select only the variables we are interested in
 grade_fin <- dat[,c("final", "attend", "priGPA")]
@@ -712,7 +712,7 @@ So, when someone starts the class with a prior GPA of $3.5$, the relation betwee
 :::{.callout-note}
 ### Sounds Familiar? 
 
-If you remember, the interpretation of the quadratic term in [Lab 8](https://quinix45.github.io/PSYC-7804-Regression-Lab-Slides/Slides%20Files/Lab%208.html#/b_2-in-quadratic-regression){target="_blank"} is *suspiciously* similar to an interaction effect 🧐 Could it be that the quadratic term is also an interaction effect? Give it some thought 🤔 
+If you remember, the interpretation of the quadratic term in [Lab 7](https://fabio-setti.netlify.app/psyc7804_spring_2026/lab%207#/title-slide){target="_blank"} is *suspiciously* similar to an interaction effect 🧐 Could it be that the quadratic term is also an interaction effect? Give it some thought 🤔 
 :::
 :::
 
