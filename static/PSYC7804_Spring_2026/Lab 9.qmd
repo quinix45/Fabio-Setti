@@ -173,11 +173,12 @@ You can use the `lm()` function with only one variable. Meaning, you can run a r
 ```{r}
 #| eval: true
 #| echo: true 
-#| code-line-numbers: false
+#| code-line-numbers: false 
 #| classes: code-125
 
 car::S(lm(write ~ 1, data = hsb2))
 ```
+
 :::
 
 :::
@@ -266,10 +267,11 @@ We see that the means of the two groups are different.
 #| code-line-numbers: false
 #| classes: code-125
 
-hsb2 %>% 
-  group_by(gender) %>% 
+hsb2 |> 
+  group_by(gender) |> 
    summarise(Group_means = mean(write))
 ```
+
 :::
 
 ::: {.fragment fragment-index=2}
@@ -383,6 +385,7 @@ t.test(hsb2$write ~ hsb2$gender,
        var.equal = TRUE)
 
 ```
+
 :::
 
 :::
@@ -637,8 +640,8 @@ summary(reg_race)
 #| code-line-numbers: false
 #| classes: code-125
 
-hsb2 %>% 
-  group_by(race) %>% 
+hsb2 |> 
+  group_by(race) |> 
    summarise(`Group means` = mean(read))
 ```
 
@@ -656,10 +659,10 @@ hsb2 %>%
 #| code-summary: "Plot code"
 
 
-means <- hsb2 %>% 
-  group_by(race) %>% 
-   summarise(Group_means = mean(read)) %>% 
-  as.data.frame
+means <- hsb2 |> 
+  group_by(race) |> 
+   summarise(Group_means = mean(read)) |> 
+  as.data.frame()
 
 ggplot(hsb2, aes(x = race, y = read)) +
   geom_point() +
