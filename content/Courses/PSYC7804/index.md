@@ -262,9 +262,7 @@ This Lab introduces the use of categorical predictors in linear regression. Diff
 
 <h3> 10. Interactions with Categorical Predictors </h3> 
 
-Coming soon!
- 
-<!-- This lab introduces Interactions involving categorical predictors. Methods for probing interactions between categorical and continuous predictors are discussed. -->
+This lab introduces Interactions involving categorical predictors. Methods for probing interactions between categorical and continuous predictors are discussed.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 10.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
