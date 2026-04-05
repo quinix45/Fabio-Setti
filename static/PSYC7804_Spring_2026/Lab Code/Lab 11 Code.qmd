@@ -1,7 +1,7 @@
 ---
-title: "Lab 13 Code"
+title: "Lab 11 Code"
 author: "Fabio Setti"
-date: "Spring-2025"
+date: "Spring-2026"
 output: html_document
 ---
 
@@ -9,295 +9,164 @@ output: html_document
 ## Today's Packages and Data 🤗
 
 ```{r}
-install.packages("naniar")
-install.packages("missMethods")
+# install.packages("tidyverse")
+install.packages("lavaan")
+install.packages("semTools")
 ```
 
 ```{r}
-library(naniar)
-library(missMethods)
 library(tidyverse)
 theme_set(theme_classic(base_size = 16, 
                         base_family = 'serif'))
+library(lavaan)
 ```
 
 ```{r}
-dat <- rio::import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/employee.csv")
+dat <- rio::import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/mediation_dat.csv")
 ```
 
-
 ```{r}
-#lav_summary() function
+# function for cleaner lavan summary
 
 source("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Additional%20files/lavaan_summary_lab12.R")
 ```
 
-## Software Behavior With Missing Data?
+## Running a regresison in `lavaan`
 
 ```{r}
+reg_lm <- lm(opinion ~ detail, dat)
 
-climate_miss <- c(rep(NA, 300), dat$climate[301:630])
-
-# Quick way of counting missing values in a column
-sum(is.na(climate_miss))
+car::S(reg_lm)
 ```
 
 ```{r}
-reg_miss <- lm(empower ~ lmx + worksat + climate_miss, dat)
-length(resid(reg_miss))
-```
+mod_lv <-"opinion ~ detail"
 
-## Example of Bias: The Population
+reg_lv <- sem(mod_lv, dat)
 
-```{r}
-set.seed(20345)
-
-# generate some data that would show bias due to restriction of range
-
-X <- rnorm(1000)
-Y <- rnorm(1000, mean = ifelse(X > .7, .2*X, .4*X), sd = .4)
-
-bias_dat <- data.frame("Graduate_GPA" = Y,
-                       "GRE_Score" = X)
-```
-
-```{r}
-cor(bias_dat$Graduate_GPA, bias_dat$GRE_Score)
-```
-
-```{r}
-ggplot(bias_dat,aes(x = GRE_Score, y = Graduate_GPA))+
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  theme_classic() +
-         labs(title = "Unbiased Sample of the Population") +
-   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 16))
-```
-
-## Example of Bias: Biased Sample 
-
-
-```{r}
-cor(bias_dat[bias_dat$GRE_Score > 0,])[2]
+lav_summary(reg_lv)
 ```
 
 
-```{r}
-ggplot(bias_dat[bias_dat$GRE_Score > 0,] , aes(x = GRE_Score, y = Graduate_GPA))+
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +
-  theme_classic() +
-         labs(title = "Biased Sample of the Population",
-            y= "GPA", 
-            x = "Test Score") +
-   theme(plot.title = element_text(hjust = 0.5, face = "bold", size = 16))
-```
-
-
-## Little's MCAR test
+## Mediation "By hand"
 
 
 ```{r}
-# random missingness
-library(missMethods)
+# Y ~ X (c path)
+reg_1 <- lm(opinion ~ detail, dat)
 
-set.seed(78984)
-# 30% missing
-dat_miss_MCAR <- delete_MCAR(dat, p = .3)
-```
-
-
-```{r}
-# run test (need to run code above first)
-mcar_test(dat_miss_MCAR)
+coef(reg_1)[-1]
 ```
 
 ```{r}
-set.seed(467)
-# Probabilities of missingness based on `worksat` 
-mis_prob <- 1 - plogis(dat$worksat, location = mean(dat$worksat), scale = sd(dat$worksat))
-dat_miss_MAR <- dat
+# M ~ X (a path)
+reg_2 <- lm(feeling ~ detail, dat)
 
-# MAR process for other variables
-for(i in 1:4){
-  dat_miss_MAR[,colnames(dat)[-3][i]] <- ifelse(rbinom(nrow(dat), 1, mis_prob) == "1", NA, dat[,colnames(dat)[-3][i]])
-}
+coef(reg_2)[-1]
 ```
 
 ```{r}
-# run test (need to run code above first)
-# `worksat` taken out because I left it complete on purpose
-mcar_test(dat_miss_MAR[,-3])
-```
+# Y ~ X + M (c' and b path)
+reg_3 <- lm(opinion ~ detail + feeling, dat)
 
-## Non-Significant Little's Test?
-
-```{r}
-
-reg <- lm(worksat ~ empower + lmx + climate + cohesion, dat)
-
-round(coef(reg), 3)
-
-```
-
-
-## MCAR VS MAR with `lm()`
-
-
-```{r}
-# MCAR sim
-
-
-set.seed(78984)
-
-MCAR_list <- c()
-
-for (i in 1:2000) 
-  {
-  dat_miss_MCAR <- delete_MCAR(dat, p = .3, cols_mis = colnames(dat)[-3])  
-  
-  MCAR_list[[i]] <-  coef(lm(worksat ~ empower + lmx + climate + cohesion, dat_miss_MCAR))
-  
-  }
-
-MCAR_res <- bind_rows(MCAR_list)
-
+coef(reg_3)[-1]
 ```
 
 ```{r}
-round(colMeans(MCAR_res), 3)
-```
-
-
-```{r}
-
-# MAR sim
-
-set.seed(4627)
-
-
-MAR_list <- list()
-mis_prob <- 1 - plogis(dat$worksat, location = mean(dat$worksat), scale = sd(dat$worksat))  
-  
-for(i in 1:2000){
-
-dat_miss_MAR <- dat
-
-# MAR process for other variables
-for(j in 1:4){
-  dat_miss_MAR[,colnames(dat)[-3][j]] <- ifelse(rbinom(nrow(dat), 1, mis_prob) == "1", NA, dat[,colnames(dat)[-3][j]])
-}
-
-MAR_list[[i]] <-  coef(lm(worksat ~ empower + lmx + climate + cohesion, dat_miss_MAR))
-
-}
-
-MAR_res <- bind_rows(MAR_list)
-```
-
-
-```{r}
-round(colMeans(MAR_res), 3)
-```
-
-## FIML with `lavaan`
-
-```{r}
-library(lavaan)
-reg_mod <- "worksat ~ empower + lmx + climate + cohesion"
-
-fit_miss <- sem(reg_mod, dat_miss_MAR, meanstructure = TRUE, 
-                fixed.x = FALSE, missing = "fiml")
-
-# parameterestimates(fit_miss)[16, 4] gets the intercept for this specific model (do not copy and paste this line and expect it to print the intercept for other models, it will not work; you need to look for it through the lavaan summary yourself usually)
-round(c(parameterestimates(fit_miss)[16, 4], 
-        lav_summary(fit_miss)[,4]), 3)
+.4237 + .41147*.5517
 ```
 
 
 
-```{r}
-# compare to original values
 
-round(coef(reg), 3)
+## Mediation in `lavaan`
+
+```{r}
+mod_med <- "opinion ~ c*detail + b*feeling
+            feeling ~ a*detail
+            indirect := a*b 
+            total := c + a*b"
+
+# may take 5 to 15 seconds to run (ignore warnings about convergence of bootstraps for regression models, the developer said so)
+lav_med <- sem(mod_med, dat, 
+              se = "boot", bootstrap = 2000,
+              parallel ="snow", ncpus = 4)
+
+lav_summary(lav_med)
 ```
 
-## Comparing `lm()` and `lavaan` With MAR data
+## Monte Carlo Confidence Intervals
 
 
 ```{r}
-round(coef(reg), 3)
+semTools::monteCarloCI(lav_med)
 ```
 
-
 ```{r}
-set.seed(4627)
-
-
-MAR_list_lm <- list()
-mis_prob <- 1 - plogis(dat$worksat, location = mean(dat$worksat), scale = sd(dat$worksat))  
-  
-for(i in 1:2000){
-
-dat_miss_MAR <- dat
-
-
-# MAR process for other variables
-for(j in 1:4){
-  dat_miss_MAR[,colnames(dat)[-3][j]] <- ifelse(rbinom(nrow(dat), 1, mis_prob) == "1", NA, dat[,colnames(dat)[-3][j]])
-}
-
-MAR_list_lm[[i]] <-  coef(lm(worksat ~ empower + lmx + climate + cohesion, dat_miss_MAR))
-
-}
-
-MAR_res_lm <- bind_rows(MAR_list_lm)
+# you can get the standard errors from here
+parameterestimates(lav_med)
 ```
 
 
 ```{r}
-round(colMeans(MAR_res_lm),3)
+# to get standard errors look at the output of parameterestimates(lav_med)
+a_path <- rnorm(10000, mean = 0.552, sd = 0.045)
+b_path <- rnorm(10000, mean = 0.411, sd = 0.080)
 ```
-
 
 
 ```{r}
-# this will take around 10 minutes to run (could be faster if I parallelized loops)
-# make sure the lav_summary() function is loaded
+ind_MC <- a_path*b_path
 
-
-library(lavaan)
-
-set.seed(4627)
-
-MAR_list_fiml <- list()
-mis_prob <- 1 - plogis(dat$worksat, location = mean(dat$worksat), scale = sd(dat$worksat))  
-lav_mod <- "worksat ~ empower + lmx + climate + cohesion"
-  
-for(i in 1:2000){
-
-dat_miss_MAR <- dat
-
-# MAR process for other variables
-for(j in 1:4){
-  dat_miss_MAR[,colnames(dat)[-3][j]] <- ifelse(rbinom(nrow(dat), 1, mis_prob) == "1", NA, dat[,colnames(dat)[-3][j]])
-}
-
-
-fit_miss <- lavaan::sem(lav_mod, dat_miss_MAR, meanstructure = TRUE, fixed.x = FALSE, missing = "fiml")
-
-MAR_list_fiml[[i]] <-  c(parameterestimates(fit_miss)[16, 4], lav_summary(fit_miss)[,4])
-
-print(paste("iter", i))
-
-}
-
-MAR_res_fiml <- matrix(unlist(MAR_list_fiml), ncol = 5, byrow = TRUE)
+quantile(ind_MC, c(.025, .975))
 ```
+
+
+## Effect Sizes
 
 ```{r}
-round(colMeans(MAR_res_fiml), 3)
+mod_med_eff <- "opinion ~ c*detail + b*feeling
+                feeling ~ a*detail
+                indirect := a*b 
+                total := c + a*b
+                ind_tot := indirect/total
+                ind_dir := indirect/c"
+
+lav_med_eff <- sem(mod_med_eff, dat, se = "boot", 
+                   bootstrap = 2000, parallel ="snow", ncpus = 4)
+
+lav_summary(lav_med_eff)
 ```
 
 
+## Multiple mediators
+
+```{r}
+mod_med2 <- "opinion ~ c*detail + b1*feeling + b2*impact
+            feeling ~ a1*detail
+            impact ~ a2*detail
+            indirect1 := a1*b1 
+            indirect2 := a2*b2 
+            total := c + a1*b1 + a2*b2"
+
+lav_med2 <- sem(mod_med2, dat, se = "boot", bootstrap = 2000,
+              parallel ="snow", ncpus = 4)
+
+lav_summary(lav_med2)
+```
+
+
+## Moderated Mediation
+
+```{r}
+mod_medmd <- "opinion ~ c*detail + b*feeling + z2*gender + bz*feeling:gender
+              feeling ~ a*detail + z1*gender + az*detail:gender
+              indirect_female := (a + az)*(b + bz)
+              indirect_male := a*b"
+
+reg_medm <- sem(mod_medmd, dat, se = "boot", bootstrap = 2000,
+              parallel ="snow", ncpus = 4)
+
+lav_summary(reg_medm)
+```
 

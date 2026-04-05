@@ -279,11 +279,9 @@ This lab introduces Interactions involving categorical predictors. Methods for p
 <hr class="fancy"></hr>
 
 
-<h3> 11. Mediation Analysis and Missing Data </h3> 
+<h3> 11. Mediation Analysis</h3> 
 
-Coming soon!
-
-<!-- This lab introduces mediation analysis with path models using <a href="https://lavaan.ugent.be" target="_blank" class="inline-link">lavaan</a>. Aside from simple mediation, examples of parallel mediation and moderated mediation are also shown.  -->
+This lab introduces mediation analysis with path models using <a href="https://lavaan.ugent.be" target="_blank" class="inline-link">lavaan</a>. Aside from simple mediation, examples of parallel mediation and moderated mediation are also shown. 
 
 <!-- This lab presents a short introduction to issues related to missing data. Missing data mechanisms, as well as consequences of missing data mishandling are discussed (e.g., bias of results). Full information maximum likelihood (FIML) is introduced as a way of handling missing data. More advanced missing data methods are briefly mentioned. -->
 

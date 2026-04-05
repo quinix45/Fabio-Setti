@@ -608,13 +608,9 @@ $Y = c'\times X + b \times M$
 
 
 <center style="padding-top: 12px;"> $c = c' + b \times a$ ✅ </center> 
+
 :::
 
-</br>
-
-::: {.fragment fragment-index=3}
-<div style="font-size: 22px;"> I will also point out that direct and indirect effects are mathematical concepts based on full and partial derivatives 🧐 You can find an example in [Figure 8.4](https://math.stackexchange.com/questions/1996096/do-partial-derivatives-consider-also-indirect-effects-function-of-a-function){target="_blank"} of @Chiang_1984, a popular math for economics introductory book. Although discussed in @Hayes_Preacher_2010, it is my sense that this is actually not very well-known in Psychology, and that we focus so much on the "practical" interpretation of mediation that at some point we start misrepresenting and overemphasizing what mediation actually does 🤷 </div>
-:::
 
 ## Mediation "By hand"
 
@@ -804,28 +800,6 @@ lav_summary(lav_med)
 
 :::
 ::::
-
-
-
-## More on Interpretation and Causality
-
-<div style="font-size: 24px; padding-bottom: 16px;">  The interpretation of the indirect effect, $.23$, is that when accounting for how severe participants thought the crime was (`feeling`) after hearing details about the crime (`detail`), the effect of `detail` on how many months participants thought the criminal should spend in prison *was reduced by* $.23$.  </div>
-
-::: {.fragment fragment-index=1}
-<center> The indirect effect is the difference between $c$ and $c'$ ($a \times b = c - c'$) after the mediator is controlled for. </center>
-:::
-
-::: {.fragment fragment-index=2}
-<div style="font-size: 24px; padding-bottom: 16px; padding-top: 16px;"> Mathematically, that line above is all mediation does. However, mediation tends to be associated with *causality*, as it was originally developed to describe causal chains of events. Let's say that in our experiment we *(1)* give details about the crime, then *(2)* ask participants how severe they think the crime is, and finally *(3)* we ask them how many months they think the criminal should spend in prison. </div>
-:::
-
-::: {.fragment fragment-index=3}
-<div style="font-size: 24px; padding-bottom: 16px;"> Because we are running an experiment and all the measured variables happen in sequence, we should be able to claim that higher `detail` *causes* higher `feeling` which in turn *causes* higher `opinion` (all slopes were positive). </div>
-:::
-
-::: {.fragment fragment-index=4}
-<div style="font-size: 24px"> However, mediation is often run on non-experimental data (e.g., survey at time 1 and time 2). In that case, claiming *true causality* more or less requires that you somehow control for *all possible confounders* (impossible!). There are more sophisticated statistical methods that get you closer to showing *causality*, but they all make some strong assumptions. So, if you run mediation on non-experimental data, I would steer clear of any *causality* claims, unless you really want to get into a nigh unwinnable argument with reviewer 2 on your paper 🙃 </div> <span style="font-size: 16px"> (apologies for the wall of text 😶)</span>
-:::
 
 
 ## Monte Carlo Confidence Intervals
