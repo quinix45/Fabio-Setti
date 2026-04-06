@@ -1,12 +1,9 @@
 ---
-title: "Lab 14 Code"
+title: "Lab 12 Code"
 author: "Fabio Setti"
-date: "Spring-2025"
+date: "Spring-2026"
 output: html_document
 ---
-
-
-## Today's Packages and Data 🤗
 
 
 ```{r}
@@ -17,7 +14,7 @@ theme_set(theme_classic(base_size = 16,
 ```
 
 ```{r}
-WH_2024 <- rio::import("https://github.com/quinix45/PSYC-7804-Regression-Lab-Slides/raw/refs/heads/main/Slides%20Files/Data/World_happiness_2024.csv")
+WH_2024 <- rio::import("https://fabio-setti.netlify.app/data/World_happiness_2024.csv")
 
 rownames(WH_2024) <- WH_2024$Country_name
 ```

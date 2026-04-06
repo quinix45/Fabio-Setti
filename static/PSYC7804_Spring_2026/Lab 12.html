@@ -6,8 +6,8 @@
 <script src="Lab 12_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Lab 12_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Lab 12_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Lab 12_files/libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.26">
+<link href="Lab 12_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.8.27">
 
   <meta name="author" content="Fabio Setti">
   <title>Lab 12: Regression Diagnostics</title>
@@ -28,6 +28,72 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     /* CSS for citations */
     div.csl-bib-body { }
     div.csl-entry {
@@ -143,6 +209,13 @@
       margin-right: 0; 
     }
   </style>
+  <script src="Lab 12_files/libs/core-js-2.5.3/shim.min.js"></script>
+  <script src="Lab 12_files/libs/react-18.2.0/react.min.js"></script>
+  <script src="Lab 12_files/libs/react-18.2.0/react-dom.min.js"></script>
+  <script src="Lab 12_files/libs/reactwidget-2.0.0/react-tools.js"></script>
+  <script src="Lab 12_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+  <link href="Lab 12_files/libs/reactable-0.4.5/reactable.css" rel="stylesheet">
+  <script src="Lab 12_files/libs/reactable-binding-0.4.5/reactable.js"></script>
   <script src="Fabio_theme/Fabio_theme.js"></script>
 </head>
 <body class="quarto-light">
@@ -167,10 +240,668 @@ Fabio Setti
 </section>
 <section id="todays-packages-and-data" class="slide level2">
 <h2>Today’s Packages and Data 🤗</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>No new packages for today!</p>
+<div class="cell code-150">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(car)</span>
+<span id="cb1-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_classic</span>(<span class="at">base_size =</span> <span class="dv">16</span>, </span>
+<span id="cb1-4"><a href="" aria-hidden="true" tabindex="-1"></a>                        <span class="at">base_family =</span> <span class="st">'serif'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Load the data:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="" aria-hidden="true" tabindex="-1"></a>WH_2024 <span class="ot">&lt;-</span> rio<span class="sc">::</span><span class="fu">import</span>(<span class="st">"https://fabio-setti.netlify.app/data/World_happiness_2024.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s also name the rows with the country names. This helps later when we need to identify problematic data points:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">rownames</span>(WH_2024) <span class="ot">&lt;-</span> WH_2024<span class="sc">$</span>Country_name</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</div><div class="column" style="width:50%;">
+<center style="padding-bottom: 12px;">
+<span class="data-title">Data</span>
+</center>
+<p>We will use the <a href="https://worldhappiness.report/ed/2024/" target="_blank">2024 world happiness report</a> data, which we have already used in <a href="https://fabio-setti.netlify.app/psyc7804_spring_2026/lab%203#/title-slide" target="_blank">Lab 3</a>. You can see that the rows are now named according to the country:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-0cf4cfbfc9af4371de8d" class="reactable html-widget" style="width:auto;height:300px;"></div>
+<script type="application/json" data-for="htmlwidget-0cf4cfbfc9af4371de8d">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Finland","Denmark","Iceland","Sweden","Israel","Netherlands","Norway","Luxembourg","Switzerland","Australia","New Zealand","Costa Rica","Kuwait","Austria","Canada","Belgium","Ireland","Czechia","Lithuania","United Kingdom","Slovenia","United Arab Emirates","United States","Germany","Mexico","Uruguay","France","Saudi Arabia","Kosovo","Singapore","Taiwan Province of China","Romania","El Salvador","Estonia","Poland","Spain","Serbia","Chile","Panama","Malta","Italy","Guatemala","Nicaragua","Brazil","Slovakia","Latvia","Uzbekistan","Argentina","Kazakhstan","Cyprus","Japan","South Korea","Philippines","Vietnam","Portugal","Hungary","Paraguay","Thailand","Malaysia","China","Honduras","Croatia","Greece","Bosnia and Herzegovina","Libya","Jamaica","Peru","Dominican Republic","Mauritius","Moldova","Russia","Bolivia","Ecuador","Kyrgyzstan","Montenegro","Mongolia","Colombia","Venezuela","Indonesia","Bulgaria","Armenia","South Africa","North Macedonia","Algeria","Hong Kong S.A.R. of China","Albania","Congo (Brazzaville)","Mozambique","Georgia","Iraq","Nepal","Laos","Gabon","Ivory Coast","Guinea","Turkiye","Senegal","Iran","Azerbaijan","Nigeria","Cameroon","Ukraine","Namibia","Morocco","Pakistan","Niger","Burkina Faso","Mauritania","Gambia","Chad","Kenya","Tunisia","Benin","Uganda","Myanmar","Cambodia","Ghana","Liberia","Mali","Madagascar","Togo","Jordan","India","Egypt","Sri Lanka","Bangladesh","Ethiopia","Tanzania","Comoros","Yemen","Zambia","Eswatini","Malawi","Botswana","Zimbabwe","Congo (Kinshasa)","Sierra Leone","Lesotho","Lebanon","Afghanistan"],"Country_name":["Finland","Denmark","Iceland","Sweden","Israel","Netherlands","Norway","Luxembourg","Switzerland","Australia","New Zealand","Costa Rica","Kuwait","Austria","Canada","Belgium","Ireland","Czechia","Lithuania","United Kingdom","Slovenia","United Arab Emirates","United States","Germany","Mexico","Uruguay","France","Saudi Arabia","Kosovo","Singapore","Taiwan Province of China","Romania","El Salvador","Estonia","Poland","Spain","Serbia","Chile","Panama","Malta","Italy","Guatemala","Nicaragua","Brazil","Slovakia","Latvia","Uzbekistan","Argentina","Kazakhstan","Cyprus","Japan","South Korea","Philippines","Vietnam","Portugal","Hungary","Paraguay","Thailand","Malaysia","China","Honduras","Croatia","Greece","Bosnia and Herzegovina","Libya","Jamaica","Peru","Dominican Republic","Mauritius","Moldova","Russia","Bolivia","Ecuador","Kyrgyzstan","Montenegro","Mongolia","Colombia","Venezuela","Indonesia","Bulgaria","Armenia","South Africa","North Macedonia","Algeria","Hong Kong S.A.R. of China","Albania","Congo (Brazzaville)","Mozambique","Georgia","Iraq","Nepal","Laos","Gabon","Ivory Coast","Guinea","Turkiye","Senegal","Iran","Azerbaijan","Nigeria","Cameroon","Ukraine","Namibia","Morocco","Pakistan","Niger","Burkina Faso","Mauritania","Gambia","Chad","Kenya","Tunisia","Benin","Uganda","Myanmar","Cambodia","Ghana","Liberia","Mali","Madagascar","Togo","Jordan","India","Egypt","Sri Lanka","Bangladesh","Ethiopia","Tanzania","Comoros","Yemen","Zambia","Eswatini","Malawi","Botswana","Zimbabwe","Congo (Kinshasa)","Sierra Leone","Lesotho","Lebanon","Afghanistan"],"Region":["Western Europe","Western Europe","Western Europe","Western Europe","Middele East","Western Europe","Western Europe","Western Europe","Western Europe","Oceania","Oceania","South America","Middele East","Western Europe","North America","Western Europe","Western Europe","Eastern Europe","Eastern Europe","Western Europe","Eastern Europe","Middele East","North America","Western Europe","North America","South America","Western Europe","Middele East","Eastern Europe","Asia","Asia","Eastern Europe","North America","Eastern Europe","Eastern Europe","Western Europe","Eastern Europe","South America","North America","Western Europe","Western Europe","North America","North America","South America","Eastern Europe","Eastern Europe","Asia","South America","Asia","Western Europe","Asia","Asia","Asia","Asia","Western Europe","Eastern Europe","South America","Asia","Asia","Asia","North America","Eastern Europe","Western Europe","Eastern Europe","Africa","Caribbean","South America","Caribbean","Africa","Eastern Europe","Eastern Europe","South America","South America","Asia","Eastern Europe","Asia","South America","South America","Asia","Eastern Europe","Eastern Europe","Africa","Eastern Europe","Africa","Asia","Eastern Europe","Africa","Africa","Eastern Europe","Middele East","Asia","Asia","Africa","Africa","Africa","Western Europe","Africa","Middele East","Eastern Europe","Africa","Africa","Eastern Europe","Africa","Africa","Middele East","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Asia","Asia","Africa","Africa","Africa","Africa","Africa","Middele East","Asia","Africa","Asia","Asia","Africa","Africa","Africa","Middele East","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Africa","Middele East","Middele East"],"Happiness_score":[7.741,7.583,7.525,7.344,7.341,7.319,7.302,7.122,7.06,7.057,7.029,6.955,6.951,6.905,6.9,6.894,6.838,6.822,6.818,6.749,6.743,6.733,6.725,6.719,6.678,6.611,6.609,6.594,6.561,6.523,6.503,6.491,6.469,6.448,6.442,6.421,6.411,6.36,6.358,6.346,6.324,6.287,6.284,6.272,6.257,6.234,6.195,6.188,6.188,6.068,6.06,6.058,6.048,6.043,6.03,6.017,5.977,5.976,5.975,5.973,5.968,5.942,5.934,5.877,5.866,5.842,5.841,5.823,5.816,5.816,5.785,5.784,5.725,5.714,5.707,5.696,5.695,5.607,5.568,5.463,5.455,5.422,5.369,5.364,5.316,5.304,5.221,5.216,5.185,5.166,5.158,5.139,5.106,5.08,5.023,4.975,4.969,4.923,4.893,4.881,4.874,4.873,4.832,4.795,4.657,4.556,4.548,4.505,4.485,4.471,4.47,4.422,4.377,4.372,4.354,4.341,4.289,4.269,4.232,4.228,4.214,4.186,4.054,3.977,3.898,3.886,3.861,3.781,3.566,3.561,3.502,3.502,3.421,3.383,3.341,3.295,3.245,3.186,2.707,1.721],"Log_GDP":[1.844,1.908,1.881,1.878,1.803,1.901,1.952,2.141,1.97,1.854,1.81,1.561,1.845,1.885,1.84,1.868,2.129,1.783,1.766,1.822,1.786,1.983,1.939,1.871,1.521,1.596,1.818,1.842,1.364,2.118,1.842,1.699,1.265,1.752,1.738,1.766,1.538,1.616,1.702,1.827,1.8,1.26,1.097,1.43,1.706,1.7,1.212,1.562,1.622,1.794,1.786,1.815,1.232,1.331,1.728,1.722,1.398,1.484,1.646,1.497,1.091,1.71,1.684,1.465,1.526,1.28,1.371,1.517,1.57,1.385,1.642,1.217,1.315,1.054,1.571,1.353,1.437,0,1.361,1.629,1.444,1.389,1.475,1.324,1.909,1.438,0.892,0.56,1.467,1.249,0.965,1.208,1.403,1.08,0.831,1.702,0.927,1.435,1.433,1.042,0.943,1.35,1.266,1.213,1.069,0.573,0.756,1.078,0.75,0.603,1.037,1.306,0.914,0.772,0.978,1.011,1.077,0.619,0.747,0.628,0.758,1.262,1.166,1.37,1.361,1.122,0.792,0.82,0.896,0.671,0.899,1.255,0.617,1.445,0.748,0.534,0.654,0.771,1.377,0.628],"Social_support":[1.572,1.52,1.617,1.501,1.513,1.462,1.517,1.355,1.425,1.461,1.527,1.373,1.364,1.336,1.459,1.44,1.39,1.511,1.454,1.326,1.502,1.164,1.392,1.39,1.241,1.431,1.348,1.361,1.277,1.361,1.346,1.236,1.08,1.527,1.417,1.471,1.391,1.369,1.392,1.444,1.328,1.169,1.263,1.269,1.54,1.508,1.394,1.381,1.457,1.217,1.354,1.178,1.146,1.267,1.368,1.528,1.408,1.347,1.143,1.239,1.035,1.445,1.276,1.318,1.1,1.324,1.18,1.272,1.358,1.277,1.351,1.179,1.151,1.477,1.318,1.511,1.241,1.321,1.184,1.469,1.154,1.369,1.277,1.191,1.184,0.924,0.622,0.883,0.99,0.996,0.99,0.846,1.038,0.578,0.622,1.175,0.751,1.136,0.876,1.075,0.856,1.315,1.212,0.471,0.6,0.677,0.685,0.705,0.684,0.805,0.895,0.955,0.128,1.151,0.988,1.019,0.747,0.673,0.688,0.823,0.586,0.983,0.653,0.996,1.179,0.249,0.915,0.706,0.328,1.281,0.809,0.925,0.41,0.969,0.85,0.665,0.566,0.851,0.577,0],"Healthy_life_expectancy":[0.695,0.699,0.718,0.724,0.74,0.706,0.704,0.708,0.747,0.692,0.673,0.661,0.661,0.696,0.701,0.69,0.7,0.638,0.598,0.672,0.695,0.563,0.542,0.702,0.544,0.592,0.727,0.511,0.599,0.769,0.65,0.583,0.549,0.657,0.639,0.729,0.585,0.673,0.633,0.707,0.72,0.467,0.542,0.548,0.638,0.564,0.539,0.585,0.556,0.744,0.785,0.77,0.441,0.539,0.699,0.596,0.549,0.62,0.54,0.629,0.502,0.637,0.696,0.587,0.55,0.567,0.662,0.511,0.49,0.542,0.531,0.488,0.64,0.588,0.587,0.4,0.648,0.491,0.472,0.567,0.603,0.322,0.569,0.568,0.857,0.638,0.306,0.156,0.524,0.498,0.443,0.423,0.344,0.288,0.236,0.631,0.392,0.571,0.496,0.256,0.288,0.513,0.307,0.495,0.321,0.293,0.274,0.4,0.33,0.199,0.353,0.579,0.284,0.373,0.436,0.442,0.36,0.301,0.267,0.333,0.32,0.594,0.417,0.488,0.586,0.513,0.42,0.38,0.37,0.293,0.264,0.176,0.349,0.241,0.232,0.262,0.253,0,0.556,0.242],"Freedom":[0.859,0.823,0.819,0.838,0.641,0.725,0.835,0.801,0.759,0.756,0.746,0.797,0.827,0.703,0.73,0.729,0.758,0.787,0.533,0.713,0.789,0.815,0.586,0.7,0.722,0.775,0.65,0.787,0.739,0.743,0.649,0.717,0.816,0.805,0.6,0.619,0.663,0.651,0.72,0.727,0.513,0.735,0.793,0.685,0.566,0.666,0.835,0.681,0.733,0.529,0.632,0.555,0.826,0.843,0.757,0.581,0.788,0.756,0.829,0.704,0.72,0.469,0.337,0.621,0.592,0.647,0.615,0.73,0.641,0.695,0.551,0.719,0.606,0.834,0.632,0.501,0.644,0.518,0.779,0.62,0.65,0.537,0.58,0.247,0.485,0.69,0.523,0.728,0.68,0.425,0.653,0.796,0.516,0.547,0.521,0.202,0.607,0.366,0.668,0.566,0.521,0.631,0.47,0.631,0.542,0.615,0.483,0.343,0.459,0.411,0.519,0.254,0.567,0.587,0.45,0.863,0.623,0.546,0.586,0.25,0.453,0.593,0.767,0.49,0.583,0.775,0.441,0.709,0.172,0.362,0.727,0.284,0.571,0.567,0.487,0.473,0.469,0.523,0.173,0],"Generosity":[0.142,0.204,0.258,0.221,0.153,0.247,0.224,0.146,0.173,0.225,0.226,0.109,0.2,0.214,0.23,0.17,0.205,0.177,0.044,0.267,0.157,0.209,0.223,0.174,0.086,0.106,0.112,0.114,0.254,0.168,0.068,0.041,0.083,0.166,0.081,0.119,0.2,0.117,0.063,0.25,0.112,0.105,0.133,0.13,0.096,0.127,0.251,0.087,0.149,0.124,0.023,0.126,0.099,0.094,0.047,0.123,0.131,0.283,0.226,0.132,0.175,0.064,0.018,0.246,0.111,0.089,0.078,0.086,0.123,0.077,0.138,0.1,0.087,0.225,0.11,0.237,0.072,0.192,0.399,0.083,0.051,0.078,0.194,0.091,0.147,0.138,0.124,0.158,0,0.141,0.209,0.17,0.045,0.12,0.21,0.068,0.152,0.235,0.112,0.201,0.126,0.285,0.069,0.042,0.144,0.145,0.173,0.133,0.324,0.218,0.282,0.024,0.112,0.178,0.401,0.17,0.183,0.178,0.12,0.172,0.127,0.059,0.174,0.025,0.144,0.14,0.27,0.191,0.128,0.08,0.168,0.059,0.135,0.014,0.096,0.189,0.181,0.082,0.068,0.091],"Corruption":[0.454,0.452,0.818,0.476,0.807,0.628,0.516,0.568,0.502,0.677,0.52,0.877,0.828,0.695,0.632,0.689,0.582,0.932,0.884,0.649,0.869,0.742,0.831,0.632,0.873,0.78,0.719,0.812,0.927,0.425,0.798,0.994,0.747,0.599,0.825,0.823,0.899,0.925,0.957,0.875,0.926,0.922,0.749,0.858,0.942,0.922,0.785,0.92,0.88,0.951,0.781,0.842,0.864,0.84,0.965,0.933,0.935,0.976,0.881,0.836,0.919,0.957,0.907,1,0.796,0.972,0.971,0.804,0.882,0.956,0.879,0.939,0.922,0.97,0.868,0.945,0.941,0.914,0.945,0.994,0.827,0.966,0.985,0.8,0.598,0.951,0.862,0.804,0.826,0.952,0.885,0.833,0.9,0.836,0.893,0.885,0.931,0.877,0.801,0.981,0.94,0.975,0.939,0.918,0.926,0.853,0.821,0.802,0.952,0.887,0.931,0.982,0.748,0.946,0.826,0.929,0.972,0.925,0.91,0.877,0.844,0.811,0.878,0.741,0.969,0.833,0.899,0.743,0.84,0.887,0.891,0.884,0.864,0.918,0.869,0.928,0.947,0.915,0.971,0.912]},"columns":[{"id":".rownames","name":"","type":"character","minWidth":170,"sortable":false,"filterable":false,"rowHeader":true},{"id":"Country_name","name":"Country_name","type":"character","minWidth":170,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Country name"},"children":["Country_name",{"name":"span","attribs":{"title":"Country name","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Region","name":"Region","type":"character","minWidth":170,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Region of the World"},"children":["Region",{"name":"span","attribs":{"title":"Region of the World","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Happiness_score","name":"Happiness_score","type":"numeric","minWidth":170,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Country happiness score. Corresponds to the sum of the other variables"},"children":["Happiness_score",{"name":"span","attribs":{"title":"Country happiness score. Corresponds to the sum of the other variables","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Log_GDP","name":"Log_GDP","type":"numeric","minWidth":170,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Log of country Gross Domestic Product (GDP)"},"children":["Log_GDP",{"name":"span","attribs":{"title":"Log of country Gross Domestic Product (GDP)","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Social_support","name":"Social_support","type":"numeric","minWidth":170,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Perceived Social Support in the Country"},"children":["Social_support",{"name":"span","attribs":{"title":"Perceived Social Support in the Country","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Healthy_life_expectancy","name":"Healthy_life_expectancy","type":"numeric","minWidth":170,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Country Healthy life Expectancy"},"children":["Healthy_life_expectancy",{"name":"span","attribs":{"title":"Country Healthy life Expectancy","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Freedom","name":"Freedom","type":"numeric","minWidth":170,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Perceived Freedom in the Country"},"children":["Freedom",{"name":"span","attribs":{"title":"Perceived Freedom in the Country","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Generosity","name":"Generosity","type":"numeric","minWidth":170,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Perceived Generosity in the Country"},"children":["Generosity",{"name":"span","attribs":{"title":"Perceived Generosity in the Country","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Corruption","name":"Corruption","type":"numeric","minWidth":170,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Perceived Corruption of the Country"},"children":["Corruption",{"name":"span","attribs":{"title":"Perceived Corruption of the Country","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"1rem"},"height":"300px","dataKey":"54426911d5de1f122a320f5ada32f047"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div></div>
+</section>
+<section id="regression-diagnostics" class="slide level2">
+<h2>Regression Diagnostics</h2>
+<p>Regressions diagnostics are an umbrella term for methods that help you identify <em>individual data points</em> that may have an undue influence on the regression results. More often than not, these data points would be considered <strong>outliers</strong> (although, see info box below).</p>
+<div class="fragment" data-fragment-index="1">
+<p>Before going over the many regression diagnostics that exist, I want to show how <em>sample size</em> is an important consideration when evaluating how concerned you should be about these regression diagnostics.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p><strong>When should you be careful?</strong> In general, outliers influence results more than other data points. Thus, when you have a <strong>small sample size</strong> (I would say <span class="math inline">\(N &lt; 100\)</span>?), you want to be extra careful about interpreting your results if some regression diagnostics are off.</p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<div class="callout callout-note callout-titled callout-style-default">
+<div class="callout-body">
+<div class="callout-title">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<p><strong>What is an outlier?</strong></p>
+</div>
+<div class="callout-content">
+<p>Determining whether a data point is an outlier is very subjective. Statistical methods may help you identify potential outliers, but <em>you</em> 🫵 have to ultimately decide what to do with those data points. Given what <em>you</em> know about your variables, would <em>you</em> considered those data points outliers? Do <em>you</em> want to remove them? If yes, why remove them? If not, why keep them? Statistics can point you in a direction, but <em>you</em> have to decide what to do and justify it.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="simulating-some-data" class="slide level2">
+<h2>Simulating some Data</h2>
+<p>Let’s say that I simulate some <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> variables that have a correlation of <span class="math inline">\(r = .2\)</span>. I do this for both a sample size of <span class="math inline">\(N = 50\)</span> and <span class="math inline">\(N = 500\)</span> and plot the regression lines:</p>
+<center>
+<div class="cell code-125">
+<details class="code-fold">
+<summary>simulate data</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">28567</span>)</span>
+<span id="cb4-2"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="" aria-hidden="true" tabindex="-1"></a>cor_mat <span class="ot">&lt;-</span> <span class="fu">rbind</span>(<span class="fu">c</span>(<span class="dv">1</span>, .<span class="dv">2</span>),</span>
+<span id="cb4-4"><a href="" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">c</span>(.<span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb4-5"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="" aria-hidden="true" tabindex="-1"></a>sim_dat_50 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n =</span> <span class="dv">50</span>, <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">Sigma =</span> cor_mat, <span class="at">empirical =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-7"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(sim_dat_50) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="st">"X"</span>)</span>
+<span id="cb4-8"><a href="" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="" aria-hidden="true" tabindex="-1"></a>sim_dat_500 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(MASS<span class="sc">::</span><span class="fu">mvrnorm</span>(<span class="at">n =</span> <span class="dv">500</span>, <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="at">Sigma =</span> cor_mat, <span class="at">empirical =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb4-10"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(sim_dat_500) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Y"</span>, <span class="st">"X"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+</center>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-6-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="1">
+<p>The regression line is the exact same for both plots, bet let’s see what happens once we add a pesky outlier…</p>
+</div>
+</section>
+<section id="adding-a-single-outlier" class="slide level2">
+<h2>Adding a Single Outlier</h2>
+<div style="font-size: 24px">
+Now, let’s introduce a single outlier point that has extreme values on both variable, <span class="math inline">\(Y = 4\)</span> and <span class="math inline">\(X = -4\)</span>. Check out what happens to the two regression lines:
+</div>
+<div class="fragment" data-fragment-index="1">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">Outlier (<span class="math inline">\(N = 50\)</span>)</a></li><li><a href="#tabset-1-2">No Outlier (<span class="math inline">\(N = 50\)</span>)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-9-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-1-2">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-10-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="panel-tabset">
+<ul id="tabset-2" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-2-1">Outlier (<span class="math inline">\(N = 500\)</span>)</a></li><li><a href="#tabset-2-2">No Outlier (<span class="math inline">\(N = 500\)</span>)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-2-1">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-11-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-2-2">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-12-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>A single outlier flips the relation between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> when <span class="math inline">\(N = 50\)</span> 😱 but it doesn’t do much when <span class="math inline">\(N = 500\)</span> 😇</p>
+</div>
+</section>
+<section id="moral-of-the-story" class="slide level2">
+<h2>Moral of the story?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>So, what’s the moral of the story?</p>
+<div class="fragment" data-fragment-index="1">
+<p><strong>Small sample sizes:</strong> In small sample sizes, you should <em>always</em> check regression diagnostics, and carefully evaluate how extreme points may be influencing your results. If leaving or removing a single extreme point changes your results significantly, I would not have much faith in the robustness of the results.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p><strong>Large sample sizes:</strong> The larger the sample size, the less influential extreme points will be. you still want to check residual plots, but you (usually) don’t need to be as concerned about the impact that extreme points may have on your results (assuming you don’t have that many extreme points).</p>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-13-1.png" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-14-1.png" style="width:85.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="but-wait-not-all-outliers-ruin-your-fun" class="slide level2">
+<h2>But wait! Not All Outliers Ruin your fun</h2>
+<p>Let’s try a different outlier, that has values of <span class="math inline">\(Y = 4\)</span> and <span class="math inline">\(X = 0\)</span>. Check out what happens to the two regression lines now:</p>
+<div class="fragment" data-fragment-index="1">
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="panel-tabset">
+<ul id="tabset-3" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-3-1">Outlier (<span class="math inline">\(N = 50\)</span>)</a></li><li><a href="#tabset-3-2">No Outlier (<span class="math inline">\(N = 50\)</span>)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-3-1">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-15-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-3-2">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-16-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="panel-tabset">
+<ul id="tabset-4" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-4-1">Outlier (<span class="math inline">\(N = 500\)</span>)</a></li><li><a href="#tabset-4-2">No Outlier (<span class="math inline">\(N = 500\)</span>)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-4-1">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-17-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div id="tabset-4-2">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-18-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>Ah, this outlier doesn’t do much to either regression 🤔 Actually, the only thing it does is slightly change the intercept, which is not a big deal usually.</p>
+</div>
+</section>
+<section id="back-to-regression-diagnostics" class="slide level2">
+<h2>Back to Regression Diagnostics</h2>
+<p>As we saw from the previous examples, there are outliers that are more or less “dangerous”. <strong>Regression diagnostics</strong> give us different information (some more useful than other) about our data points. There are 3 general categories of regression diagnostics:</p>
+<div class="columns">
+<div class="column" style="width:33%;">
+<div class="fragment" data-fragment-index="1">
+<center>
+<p><strong>Leverage</strong></p>
+<div style="font-size: 24px">
+Leverage measures quantifies how unusual a certain observation given the full set of predictors. For example, if our predictors are <em>age</em> and whether a person is <em>pregnant</em>, it would not be unusual to separately see someone whose age is 55 and some pregnant individuals. However, it would be unusual to see someone who is <em>both</em> 55 and pregnant. Such an observation would have high leverage.
+</div>
+</center>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="fragment" data-fragment-index="2">
+<center>
+<p><strong>Distance</strong></p>
+<div style="font-size: 24px">
+Distance measures how far away the observed value of <span class="math inline">\(Y\)</span> is from the predicted value <span class="math inline">\(\hat{Y}\)</span>. Residuals are a measure of distance. However, raw residuals, <span class="math inline">\(Y - \hat{Y}\)</span>, are not the best way of measuring distance, so we will see more general measures later. Regardless, high distance is more concerning than high leverage.
+</div>
+</center>
+</div>
+</div><div class="column" style="width:33%;">
+<div class="fragment" data-fragment-index="3">
+<center>
+<p><strong>Influence</strong></p>
+<div style="font-size: 24px">
+In my opinion, the most important category of regression diagnostics. For each observation, influence measures tell you how much the values of your slopes would change <em>if</em> you removed that data point. The first outlier I created a few slides back had really large influence in the <span class="math inline">\(N = 50\)</span> case, as it completely changed the slope when introduced.
+</div>
+</center>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="4">
+<p>You may see slightly different definitions for these 3 terms. I am drawing my definitions/examples from chapter 16 of <span class="citation" data-cites="Darlington_Hayes_2016">Darlington &amp; Hayes (<a href="#/references" role="doc-biblioref" onclick="">2016</a>)</span>.</p>
+</div>
+</section>
+<section id="quick-regression-diagnostics-summary" class="slide level2">
+<h2>Quick Regression Diagnostics Summary</h2>
+<div style="font-size: 26px">
+Here is a quick summary of the regression diagnostics that we will look at today. In general, influence measures are more useful, because, for each data point, they tell you <em>what would happen to your results if you deleted that data point</em>.
+</div>
+<div class="columns">
+<div class="column" style="width:50%;">
+<ul style="font-size: 26px">
+<div class="fragment" data-fragment-index="1">
+<li>
+<strong>Hat values:</strong> measure how unusual an observation is compared to the average observation. (leverage)
+</li>
+</div>
+<div class="fragment" data-fragment-index="2">
+<li>
+<strong>Studentized Residuals:</strong> For each data point, it measures how large the residual is on a standardized scale (distance).
+</li>
+</div>
+<div class="fragment" data-fragment-index="3">
+<li>
+<strong>DFFITS:</strong> For each data point, it measures how large the change in the predictions, <span class="math inline">\(\hat{Y}\)</span>, would be <em>if</em> that data point was removed (influence).
+</li>
+</div>
+</ul>
+</div><div class="column" style="width:50%;">
+<ul style="font-size: 24px">
+<div class="fragment" data-fragment-index="4">
+<li>
+<strong>Cook’s <em>D</em>:</strong> This is <em>very</em> similar to DFFITS, because it also measures how large the change in the predictions, <span class="math inline">\(\hat{Y}\)</span>, would be <em>if</em> a data point was removed (influence).
+</li>
+</div>
+<div class="fragment" data-fragment-index="5">
+<li>
+<strong>COVRATIO:</strong> For each data point, it measures how large the average change in all the standard errors of the regression coefficients would be <em>if</em> that data point was removed (influence).
+</li>
+</div>
+<div class="fragment" data-fragment-index="6">
+<li>
+<strong>DFBETAS:</strong> For each data point, it measures how much <em>each individuals regression coefficient</em> will change if that data point would be <em>if</em> that data point was removed (influence).
+</li>
+</div>
+</ul>
+</div></div>
+<div class="fragment" data-fragment-index="7">
+<div style="font-size: 26px">
+<strong>DFBETAS</strong> (<img src="Images/pacha_meme.png" style="width:2%; vertical-align: -14px;">) is my favorite measure because for each data point, it tells you how much each regression coefficient will change if that data point is removed. Other measures give some average, which, for most purposes, is not as informative in my opinion.
+</div>
+</div>
+</section>
+<section id="our-model" class="slide level2">
+<h2>Our model</h2>
+<p>Let’s say that we want to look at how <code>log_GDP</code> and <code>Social_support</code> predict <code>Happiness_score</code> for each country. Let’s look at the added variables plots directly:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="" aria-hidden="true" tabindex="-1"></a>reg <span class="ot">&lt;-</span> <span class="fu">lm</span>(Happiness_score <span class="sc">~</span> Log_GDP <span class="sc">+</span> Social_support, WH_2024)</span>
+<span id="cb5-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">avPlots</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div style="font-size: 24px">
+Graphical inspection is always a good start, and often is all you need to see that something may be off. Both variables positively predict Happiness, but there are some extreme points.
+</div>
+<div class="fragment" data-fragment-index="1">
+<div style="font-size: 24px">
+As mentioned all the way back in Lab 5, the <code>avPlots()</code> function also identifies the 2 points with the largest residuals and the largest leverage (for the single plot).
+</div>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-21-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="hat-values" class="slide level2">
+<h2>Hat values</h2>
+<p><strong>Hat values</strong> measure how unusual an observation is compared to the average observation. They measure leverage, and the higher the values, the more unusual the observation given the set of predictors.</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<p>To compute hat values for all your observations you use the <code>hatvalues()</code> function. Here I only print the 5 largest values</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="" aria-hidden="true" tabindex="-1"></a>hatvals <span class="ot">&lt;-</span> <span class="fu">hatvalues</span>(reg)</span>
+<span id="cb6-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(hatvals, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Venezuela Afghanistan       Benin  Bangladesh       Yemen 
+ 0.21265378  0.09809391  0.09120859  0.08473355  0.06862403 </code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<center>
+<p>Here are all the hat values:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-b89f7f98cedd7eec4956" class="reactable html-widget" style="width:300px;height:250px;"></div>
+<script type="application/json" data-for="htmlwidget-b89f7f98cedd7eec4956">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Country":["Finland","Denmark","Iceland","Sweden","Israel","Netherlands","Norway","Luxembourg","Switzerland","Australia","New Zealand","Costa Rica","Kuwait","Austria","Canada","Belgium","Ireland","Czechia","Lithuania","United Kingdom","Slovenia","United Arab Emirates","United States","Germany","Mexico","Uruguay","France","Saudi Arabia","Kosovo","Singapore","Taiwan Province of China","Romania","El Salvador","Estonia","Poland","Spain","Serbia","Chile","Panama","Malta","Italy","Guatemala","Nicaragua","Brazil","Slovakia","Latvia","Uzbekistan","Argentina","Kazakhstan","Cyprus","Japan","South Korea","Philippines","Vietnam","Portugal","Hungary","Paraguay","Thailand","Malaysia","China","Honduras","Croatia","Greece","Bosnia and Herzegovina","Libya","Jamaica","Peru","Dominican Republic","Mauritius","Moldova","Russia","Bolivia","Ecuador","Kyrgyzstan","Montenegro","Mongolia","Colombia","Venezuela","Indonesia","Bulgaria","Armenia","South Africa","North Macedonia","Algeria","Hong Kong S.A.R. of China","Albania","Congo (Brazzaville)","Mozambique","Georgia","Iraq","Nepal","Laos","Gabon","Ivory Coast","Guinea","Turkiye","Senegal","Iran","Azerbaijan","Nigeria","Cameroon","Ukraine","Namibia","Morocco","Pakistan","Niger","Burkina Faso","Mauritania","Gambia","Chad","Kenya","Tunisia","Benin","Uganda","Myanmar","Cambodia","Ghana","Liberia","Mali","Madagascar","Togo","Jordan","India","Egypt","Sri Lanka","Bangladesh","Ethiopia","Tanzania","Comoros","Yemen","Zambia","Eswatini","Malawi","Botswana","Zimbabwe","Congo (Kinshasa)","Sierra Leone","Lesotho","Lebanon","Afghanistan"],"Hat_Values":[0.02,0.019,0.022,0.018,0.017,0.018,0.021,0.037,0.021,0.017,0.018,0.011,0.016,0.018,0.016,0.017,0.034,0.017,0.014,0.015,0.016,0.035,0.02,0.017,0.008,0.013,0.015,0.016,0.01,0.034,0.016,0.012,0.008,0.017,0.013,0.015,0.012,0.011,0.012,0.016,0.015,0.009,0.022,0.009,0.018,0.016,0.026,0.011,0.014,0.017,0.014,0.02,0.009,0.011,0.012,0.017,0.017,0.011,0.013,0.008,0.011,0.014,0.011,0.01,0.01,0.016,0.007,0.008,0.01,0.01,0.011,0.011,0.008,0.05,0.009,0.028,0.008,0.213,0.008,0.015,0.007,0.014,0.009,0.008,0.027,0.015,0.024,0.04,0.013,0.008,0.015,0.013,0.009,0.031,0.025,0.014,0.017,0.007,0.019,0.014,0.015,0.013,0.01,0.053,0.029,0.033,0.024,0.02,0.024,0.033,0.012,0.01,0.091,0.04,0.014,0.014,0.017,0.03,0.024,0.031,0.028,0.009,0.027,0.01,0.008,0.085,0.023,0.021,0.055,0.069,0.017,0.01,0.042,0.013,0.024,0.036,0.031,0.022,0.05,0.098]},"columns":[{"id":"Country","name":"Country","type":"character"},{"id":"Hat_Values","name":"Hat_Values","type":"numeric"}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"0.975rem"},"width":"300px","height":"250px","dataKey":"9cb6096551861f87bf15f673045b8175"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</center>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="2">
+<p>Leverage is just a way of determining whether an observation is unusual, but it does not necessarily mean that the observation is problematic. I generally don’t like guidelines of “how big is too big” for regression diagnostics because they don’t generalize well to real world cases. Here, <em>Venezuela</em>’s hat value is more than twice as large as the second largest one, so somewhat big relative to all other data points.</p>
+</div>
+</section>
+<section id="studentized-residuals" class="slide level2">
+<h2>Studentized Residuals</h2>
+<p><strong>Studentized Residuals</strong> measure how large each residual is on a standardized scale (a <em>t</em> scale really, but makes no difference in practice). This is a measure of distance.</p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="fragment" data-fragment-index="1">
+<p>To compute hat values for all your observations you use the <code>rstudent()</code> function. Here I only print the 3 largest and smallest values</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="" aria-hidden="true" tabindex="-1"></a>rstud <span class="ot">&lt;-</span> <span class="fu">rstudent</span>(reg)</span>
+<span id="cb8-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sort</span>(rstud,)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>],</span>
+<span id="cb8-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(rstud, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           Botswana             Lebanon           Sri Lanka               Benin 
+          -3.186036           -2.984894           -2.820828            2.157962 
+          Venezuela Congo (Brazzaville) 
+           2.131176            1.945239 </code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<div class="fragment" data-fragment-index="1">
+<center>
+<p>Here are all the residuals:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-fd456b83c4ae8c6db386" class="reactable html-widget" style="width:300px;height:250px;"></div>
+<script type="application/json" data-for="htmlwidget-fd456b83c4ae8c6db386">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Country":["Finland","Denmark","Iceland","Sweden","Israel","Netherlands","Norway","Luxembourg","Switzerland","Australia","New Zealand","Costa Rica","Kuwait","Austria","Canada","Belgium","Ireland","Czechia","Lithuania","United Kingdom","Slovenia","United Arab Emirates","United States","Germany","Mexico","Uruguay","France","Saudi Arabia","Kosovo","Singapore","Taiwan Province of China","Romania","El Salvador","Estonia","Poland","Spain","Serbia","Chile","Panama","Malta","Italy","Guatemala","Nicaragua","Brazil","Slovakia","Latvia","Uzbekistan","Argentina","Kazakhstan","Cyprus","Japan","South Korea","Philippines","Vietnam","Portugal","Hungary","Paraguay","Thailand","Malaysia","China","Honduras","Croatia","Greece","Bosnia and Herzegovina","Libya","Jamaica","Peru","Dominican Republic","Mauritius","Moldova","Russia","Bolivia","Ecuador","Kyrgyzstan","Montenegro","Mongolia","Colombia","Venezuela","Indonesia","Bulgaria","Armenia","South Africa","North Macedonia","Algeria","Hong Kong S.A.R. of China","Albania","Congo (Brazzaville)","Mozambique","Georgia","Iraq","Nepal","Laos","Gabon","Ivory Coast","Guinea","Turkiye","Senegal","Iran","Azerbaijan","Nigeria","Cameroon","Ukraine","Namibia","Morocco","Pakistan","Niger","Burkina Faso","Mauritania","Gambia","Chad","Kenya","Tunisia","Benin","Uganda","Myanmar","Cambodia","Ghana","Liberia","Mali","Madagascar","Togo","Jordan","India","Egypt","Sri Lanka","Bangladesh","Ethiopia","Tanzania","Comoros","Yemen","Zambia","Eswatini","Malawi","Botswana","Zimbabwe","Congo (Kinshasa)","Sierra Leone","Lesotho","Lebanon","Afghanistan"],"Residuals":[1.449,1.242,0.889,0.959,1.045,1.002,0.715,0.611,0.578,0.656,0.48,1.262,0.801,0.747,0.431,0.433,0.056,0.239,0.438,0.63,0.134,0.844,0.188,0.299,1.289,0.462,0.341,0.236,1.255,-0.349,0.135,0.698,1.897,-0.364,-0.009,-0.257,0.359,0.213,-0.006,-0.398,-0.028,1.322,1.309,0.695,-0.637,-0.564,0.555,-0.011,-0.348,-0.089,-0.513,-0.019,1.05,0.498,-0.506,-1.019,-0.159,-0.116,0.24,0.191,1.512,-0.859,-0.302,-0.155,0.399,0.082,0.372,-0.187,-0.555,0.009,-0.705,0.544,0.369,-0.221,-0.608,-0.865,-0.163,2.131,-0.064,-1.585,-0.293,-0.924,-0.867,-0.352,-1.417,0.185,1.945,1.692,-0.261,0.057,0.544,0.548,-0.429,1.526,1.719,-1.586,1.048,-1.085,-0.324,-0.299,0.537,-1.589,-1.185,1.174,0.773,1.219,0.861,0.179,0.771,0.623,-0.397,-1.118,2.158,-0.917,-0.776,-0.95,-0.3,0.678,0.351,0.126,0.622,-1.519,-0.543,-2.099,-2.821,0.536,-1.04,-0.563,0.138,-2.578,-1.478,-2.475,0.119,-3.186,-1.62,-0.746,-0.721,-1.923,-2.985,-1.455]},"columns":[{"id":"Country","name":"Country","type":"character"},{"id":"Residuals","name":"Residuals","type":"numeric"}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"0.975rem"},"width":"300px","height":"250px","dataKey":"da0753ad1b218fab2f5f6da138efac5f"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</center>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="2">
+<p>We are talking about residuals, so they can be both positive (above the regression line) and negative (below the regression line). Because the residuals are on a standardize scale, around 0 is an average residual, where anything above 2 (2 standard deviations above the mean) is somewhat high.</p>
+</div>
+</section>
+<section id="studentized-residuals-qqplot-them" class="slide level2">
+<h2>Studentized Residuals? QQplot them</h2>
+<p>Studentized residuals are just the values of the standardized residuals. Some large residuals are expected and are usually not that big of a deal. The <code>car</code> package has a quick function to create a QQplot of studentized residuals</p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">qqPlot</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-27-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<p><em>Botswana</em> and <em>Lebanon</em> have somewhat low residuals, but there aren’t many residuals outside the confidence band.</p>
+<div class="fragment" data-fragment-index="1">
+<p>The lower end of the residuals is a bit suspicious, but I wouldn’t be super concerned just by looking at this.</p>
+</div>
+</div></div>
+</section>
+<section id="dffits" class="slide level2">
+<h2>DFFITS</h2>
+<p><strong>DFFITS</strong> measure how large the change in the predictions, <span class="math inline">\(\hat{Y}\)</span>, would be on average <em>if</em> that data point was removed (influence).</p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="fragment" data-fragment-index="1">
+<p>To compute DFFITS for all your observations you use the <code>dffits()</code> function. Here I only print the 3 largest and smallest values:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="" aria-hidden="true" tabindex="-1"></a>dffits <span class="ot">&lt;-</span> <span class="fu">dffits</span>(reg)</span>
+<span id="cb11-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sort</span>(dffits)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>],</span>
+<span id="cb11-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(dffits, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Yemen     Lebanon Afghanistan   Venezuela       Benin  Mozambique 
+ -0.6998446  -0.6820855  -0.4798498   1.1075748   0.6836434   0.3463596 </code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<center>
+<div class="fragment" data-fragment-index="1">
+<p>Here are all the residuals:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-4bfff88f337b60d1ce5c" class="reactable html-widget" style="width:300px;height:250px;"></div>
+<script type="application/json" data-for="htmlwidget-4bfff88f337b60d1ce5c">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Country":["Finland","Denmark","Iceland","Sweden","Israel","Netherlands","Norway","Luxembourg","Switzerland","Australia","New Zealand","Costa Rica","Kuwait","Austria","Canada","Belgium","Ireland","Czechia","Lithuania","United Kingdom","Slovenia","United Arab Emirates","United States","Germany","Mexico","Uruguay","France","Saudi Arabia","Kosovo","Singapore","Taiwan Province of China","Romania","El Salvador","Estonia","Poland","Spain","Serbia","Chile","Panama","Malta","Italy","Guatemala","Nicaragua","Brazil","Slovakia","Latvia","Uzbekistan","Argentina","Kazakhstan","Cyprus","Japan","South Korea","Philippines","Vietnam","Portugal","Hungary","Paraguay","Thailand","Malaysia","China","Honduras","Croatia","Greece","Bosnia and Herzegovina","Libya","Jamaica","Peru","Dominican Republic","Mauritius","Moldova","Russia","Bolivia","Ecuador","Kyrgyzstan","Montenegro","Mongolia","Colombia","Venezuela","Indonesia","Bulgaria","Armenia","South Africa","North Macedonia","Algeria","Hong Kong S.A.R. of China","Albania","Congo (Brazzaville)","Mozambique","Georgia","Iraq","Nepal","Laos","Gabon","Ivory Coast","Guinea","Turkiye","Senegal","Iran","Azerbaijan","Nigeria","Cameroon","Ukraine","Namibia","Morocco","Pakistan","Niger","Burkina Faso","Mauritania","Gambia","Chad","Kenya","Tunisia","Benin","Uganda","Myanmar","Cambodia","Ghana","Liberia","Mali","Madagascar","Togo","Jordan","India","Egypt","Sri Lanka","Bangladesh","Ethiopia","Tanzania","Comoros","Yemen","Zambia","Eswatini","Malawi","Botswana","Zimbabwe","Congo (Kinshasa)","Sierra Leone","Lesotho","Lebanon","Afghanistan"],"DFFITS":[0.206,0.174,0.135,0.13,0.137,0.136,0.104,0.119,0.085,0.085,0.064,0.133,0.102,0.102,0.055,0.057,0.01,0.031,0.053,0.079,0.017,0.161,0.027,0.039,0.116,0.053,0.042,0.03,0.128,-0.066,0.017,0.077,0.167,-0.048,-0.001,-0.032,0.04,0.022,-0.001,-0.05,-0.003,0.127,0.195,0.065,-0.086,-0.073,0.09,-0.001,-0.042,-0.012,-0.061,-0.003,0.101,0.052,-0.056,-0.135,-0.021,-0.012,0.027,0.017,0.16,-0.101,-0.032,-0.015,0.04,0.01,0.032,-0.017,-0.057,0.001,-0.073,0.057,0.033,-0.051,-0.059,-0.147,-0.015,1.108,-0.006,-0.194,-0.025,-0.111,-0.081,-0.032,-0.236,0.023,0.306,0.346,-0.03,0.005,0.067,0.064,-0.04,0.274,0.273,-0.19,0.14,-0.094,-0.045,-0.036,0.066,-0.179,-0.122,0.277,0.132,0.225,0.134,0.026,0.121,0.115,-0.044,-0.112,0.684,-0.187,-0.094,-0.112,-0.04,0.12,0.055,0.023,0.105,-0.142,-0.09,-0.207,-0.246,0.163,-0.158,-0.083,0.033,-0.7,-0.192,-0.254,0.025,-0.365,-0.253,-0.143,-0.13,-0.291,-0.682,-0.48]},"columns":[{"id":"Country","name":"Country","type":"character"},{"id":"DFFITS","name":"DFFITS","type":"numeric"}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"0.975rem"},"width":"300px","height":"250px","dataKey":"571819dd44c7e2247b226bd52b145d41"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</center>
+</div></div>
+<div class="fragment" data-fragment-index="2">
+<p>Predictions can change either positively or negatively, so we should look at extreme values both ways. You can think of DFFITS as a measure that summarizes how much the whole regression model changes when a data point is removed.</p>
+</div>
+</section>
+<section id="cooks-d" class="slide level2">
+<h2>Cook’s <em>D</em></h2>
+<p><strong>Cook’s <em>D</em></strong> is very similar to DFFITS because it also summarizes the change in the predictions, <span class="math inline">\(\hat{Y}\)</span>, given any data point <em>if</em> that data point was removed (influence). The differencer is that Cook’s D is always positive, and large values imply larger influence.</p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="fragment" data-fragment-index="1">
+<p>To compute Cook’s distance for all your observations you use the <code>cooks.distance()</code> function. Here I only print the 5 largest values:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="" aria-hidden="true" tabindex="-1"></a>cookD <span class="ot">&lt;-</span> <span class="fu">cooks.distance</span>(reg)</span>
+<span id="cb13-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">sort</span>(cookD, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Venezuela       Yemen       Benin     Lebanon Afghanistan 
+ 0.39860207  0.15679733  0.15173923  0.14661548  0.07613119 </code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<div class="fragment" data-fragment-index="1">
+<center>
+<p>Here are all the values:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-ee8f84de785345823c40" class="reactable html-widget" style="width:300px;height:250px;"></div>
+<script type="application/json" data-for="htmlwidget-ee8f84de785345823c40">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Country":["Finland","Denmark","Iceland","Sweden","Israel","Netherlands","Norway","Luxembourg","Switzerland","Australia","New Zealand","Costa Rica","Kuwait","Austria","Canada","Belgium","Ireland","Czechia","Lithuania","United Kingdom","Slovenia","United Arab Emirates","United States","Germany","Mexico","Uruguay","France","Saudi Arabia","Kosovo","Singapore","Taiwan Province of China","Romania","El Salvador","Estonia","Poland","Spain","Serbia","Chile","Panama","Malta","Italy","Guatemala","Nicaragua","Brazil","Slovakia","Latvia","Uzbekistan","Argentina","Kazakhstan","Cyprus","Japan","South Korea","Philippines","Vietnam","Portugal","Hungary","Paraguay","Thailand","Malaysia","China","Honduras","Croatia","Greece","Bosnia and Herzegovina","Libya","Jamaica","Peru","Dominican Republic","Mauritius","Moldova","Russia","Bolivia","Ecuador","Kyrgyzstan","Montenegro","Mongolia","Colombia","Venezuela","Indonesia","Bulgaria","Armenia","South Africa","North Macedonia","Algeria","Hong Kong S.A.R. of China","Albania","Congo (Brazzaville)","Mozambique","Georgia","Iraq","Nepal","Laos","Gabon","Ivory Coast","Guinea","Turkiye","Senegal","Iran","Azerbaijan","Nigeria","Cameroon","Ukraine","Namibia","Morocco","Pakistan","Niger","Burkina Faso","Mauritania","Gambia","Chad","Kenya","Tunisia","Benin","Uganda","Myanmar","Cambodia","Ghana","Liberia","Mali","Madagascar","Togo","Jordan","India","Egypt","Sri Lanka","Bangladesh","Ethiopia","Tanzania","Comoros","Yemen","Zambia","Eswatini","Malawi","Botswana","Zimbabwe","Congo (Kinshasa)","Sierra Leone","Lesotho","Lebanon","Afghanistan"],"cookD":[0.014,0.01,0.006,0.006,0.006,0.006,0.004,0.005,0.002,0.002,0.001,0.006,0.003,0.003,0.001,0.001,0,0,0.001,0.002,0,0.009,0,0.001,0.004,0.001,0.001,0,0.005,0.001,0,0.002,0.009,0.001,0,0,0.001,0,0,0.001,0,0.005,0.013,0.001,0.002,0.002,0.003,0,0.001,0,0.001,0,0.003,0.001,0.001,0.006,0,0,0,0,0.008,0.003,0,0,0.001,0,0,0,0.001,0,0.002,0.001,0,0.001,0.001,0.007,0,0.399,0,0.012,0,0.004,0.002,0,0.018,0,0.031,0.039,0,0,0.002,0.001,0.001,0.025,0.024,0.012,0.006,0.003,0.001,0,0.001,0.011,0.005,0.025,0.006,0.017,0.006,0,0.005,0.004,0.001,0.004,0.152,0.012,0.003,0.004,0.001,0.005,0.001,0,0.004,0.007,0.003,0.014,0.019,0.009,0.008,0.002,0,0.157,0.012,0.021,0,0.042,0.021,0.007,0.006,0.028,0.147,0.076]},"columns":[{"id":"Country","name":"Country","type":"character"},{"id":"cookD","name":"cookD","type":"numeric"}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"0.975rem"},"width":"300px","height":"250px","dataKey":"7b9cc67a2d9428f1dcac2d249f1f35e7"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</center>
+</div>
+</div></div>
+<div class="fragment" data-fragment-index="2">
+<p>Data points with large DFFITS (in magnitude) will have large Cook’s <em>D</em>, so the interpretation is similar. Because Cook’s distance is always positive, it may be easier to interpret from some. You can confirm that the the countries on this slide are the same countries with the largest DFFITS in magnitude on the previous slide.</p>
+</div>
+</section>
+<section id="covratio" class="slide level2">
+<h2>COVRATIO</h2>
+<p><strong>COVRATIO</strong> measures how large the average change in all the standard errors of the regression coefficients would be <em>if</em> that data point was removed. It’s a measure of influence.</p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="fragment" data-fragment-index="1">
+<p>To compute COVRATIO values for all your observations you use the <code>dffits()</code> function. Here I only print the 5 largest and smallest values</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="" aria-hidden="true" tabindex="-1"></a>covrat <span class="ot">&lt;-</span> <span class="fu">covratio</span>(reg)</span>
+<span id="cb15-2"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="fu">sort</span>(covrat)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>],</span>
+<span id="cb15-3"><a href="" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sort</span>(covrat, <span class="at">decreasing =</span> <span class="cn">TRUE</span>)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Botswana   Sri Lanka     Lebanon    Eswatini       Egypt   Venezuela 
+  0.8345086   0.8684843   0.8891520   0.9051094   0.9379370   1.1764633 
+ Bangladesh Afghanistan     Comoros  Kyrgyzstan 
+  1.1097978   1.0820780   1.0814376   1.0743889 </code></pre>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<center>
+<div class="fragment" data-fragment-index="1">
+<p>Here are all the values:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-550195244a7857fd3331" class="reactable html-widget" style="width:300px;height:250px;"></div>
+<script type="application/json" data-for="htmlwidget-550195244a7857fd3331">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Country":["Finland","Denmark","Iceland","Sweden","Israel","Netherlands","Norway","Luxembourg","Switzerland","Australia","New Zealand","Costa Rica","Kuwait","Austria","Canada","Belgium","Ireland","Czechia","Lithuania","United Kingdom","Slovenia","United Arab Emirates","United States","Germany","Mexico","Uruguay","France","Saudi Arabia","Kosovo","Singapore","Taiwan Province of China","Romania","El Salvador","Estonia","Poland","Spain","Serbia","Chile","Panama","Malta","Italy","Guatemala","Nicaragua","Brazil","Slovakia","Latvia","Uzbekistan","Argentina","Kazakhstan","Cyprus","Japan","South Korea","Philippines","Vietnam","Portugal","Hungary","Paraguay","Thailand","Malaysia","China","Honduras","Croatia","Greece","Bosnia and Herzegovina","Libya","Jamaica","Peru","Dominican Republic","Mauritius","Moldova","Russia","Bolivia","Ecuador","Kyrgyzstan","Montenegro","Mongolia","Colombia","Venezuela","Indonesia","Bulgaria","Armenia","South Africa","North Macedonia","Algeria","Hong Kong S.A.R. of China","Albania","Congo (Brazzaville)","Mozambique","Georgia","Iraq","Nepal","Laos","Gabon","Ivory Coast","Guinea","Turkiye","Senegal","Iran","Azerbaijan","Nigeria","Cameroon","Ukraine","Namibia","Morocco","Pakistan","Niger","Burkina Faso","Mauritania","Gambia","Chad","Kenya","Tunisia","Benin","Uganda","Myanmar","Cambodia","Ghana","Liberia","Mali","Madagascar","Togo","Jordan","India","Egypt","Sri Lanka","Bangladesh","Ethiopia","Tanzania","Comoros","Yemen","Zambia","Eswatini","Malawi","Botswana","Zimbabwe","Congo (Kinshasa)","Sierra Leone","Lesotho","Lebanon","Afghanistan"],"COVRATIO":[0.996,1.008,1.028,1.02,1.015,1.018,1.032,1.052,1.037,1.03,1.035,0.998,1.024,1.029,1.035,1.035,1.058,1.038,1.033,1.029,1.039,1.043,1.042,1.038,0.994,1.031,1.035,1.037,0.998,1.055,1.038,1.024,0.952,1.037,1.036,1.036,1.032,1.032,1.035,1.035,1.037,0.993,1.006,1.02,1.032,1.032,1.042,1.034,1.034,1.04,1.03,1.044,1.007,1.028,1.029,1.017,1.039,1.033,1.034,1.03,0.983,1.02,1.032,1.032,1.029,1.039,1.027,1.03,1.026,1.032,1.022,1.027,1.027,1.074,1.024,1.035,1.03,1.176,1.03,0.982,1.028,1.018,1.014,1.028,1.005,1.037,0.965,1,1.034,1.031,1.031,1.029,1.027,1.003,0.983,0.981,1.016,1.004,1.039,1.035,1.031,0.98,1.002,1.047,1.039,1.023,1.03,1.042,1.034,1.048,1.031,1.005,1.017,1.045,1.024,1.016,1.038,1.043,1.045,1.055,1.042,0.98,1.044,0.938,0.868,1.11,1.021,1.037,1.081,0.951,0.991,0.905,1.066,0.835,0.989,1.047,1.043,0.965,0.889,1.082]},"columns":[{"id":"Country","name":"Country","type":"character"},{"id":"COVRATIO","name":"COVRATIO","type":"numeric"}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"0.975rem"},"width":"300px","height":"250px","dataKey":"19223ddb762c8aa73347f5d785fb62aa"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</center>
+</div></div>
+<div class="fragment" data-fragment-index="2">
+<p>You may notice that COVRATIO values hover around 1. In fact, <span class="math inline">\(\mathrm{COVRATIO} = 1\)</span> means that removing the point has no impact whatsoever on the standard errors. On the other hand, <span class="math inline">\(\mathrm{COVRATIO} &lt; 1\)</span> means that removing the point will make standard errors smaller, while <span class="math inline">\(\mathrm{COVRATIO} &gt; 1\)</span> means that removing the point will make standard errors larger.</p>
+</div>
+</section>
+<section id="dfbetas" class="slide level2">
+<h2>DFBETAS</h2>
+<p><strong>DFBETAS</strong> represent the change in the intercept and slopes if <em>if</em> that data point was removed (influence).</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>To compute DFBETAS we use the <code>dfbetas()</code> function:</p>
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">dfbetas</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-40ee4869c631325729f7" class="reactable html-widget" style="width:600px;height:350px;"></div>
+<script type="application/json" data-for="htmlwidget-40ee4869c631325729f7">{"x":{"tag":{"name":"Reactable","attribs":{"data":{".rownames":["Finland","Denmark","Iceland","Sweden","Israel","Netherlands","Norway","Luxembourg","Switzerland","Australia","New Zealand","Costa Rica","Kuwait","Austria","Canada","Belgium","Ireland","Czechia","Lithuania","United Kingdom","Slovenia","United Arab Emirates","United States","Germany","Mexico","Uruguay","France","Saudi Arabia","Kosovo","Singapore","Taiwan Province of China","Romania","El Salvador","Estonia","Poland","Spain","Serbia","Chile","Panama","Malta","Italy","Guatemala","Nicaragua","Brazil","Slovakia","Latvia","Uzbekistan","Argentina","Kazakhstan","Cyprus","Japan","South Korea","Philippines","Vietnam","Portugal","Hungary","Paraguay","Thailand","Malaysia","China","Honduras","Croatia","Greece","Bosnia and Herzegovina","Libya","Jamaica","Peru","Dominican Republic","Mauritius","Moldova","Russia","Bolivia","Ecuador","Kyrgyzstan","Montenegro","Mongolia","Colombia","Venezuela","Indonesia","Bulgaria","Armenia","South Africa","North Macedonia","Algeria","Hong Kong S.A.R. of China","Albania","Congo (Brazzaville)","Mozambique","Georgia","Iraq","Nepal","Laos","Gabon","Ivory Coast","Guinea","Turkiye","Senegal","Iran","Azerbaijan","Nigeria","Cameroon","Ukraine","Namibia","Morocco","Pakistan","Niger","Burkina Faso","Mauritania","Gambia","Chad","Kenya","Tunisia","Benin","Uganda","Myanmar","Cambodia","Ghana","Liberia","Mali","Madagascar","Togo","Jordan","India","Egypt","Sri Lanka","Bangladesh","Ethiopia","Tanzania","Comoros","Yemen","Zambia","Eswatini","Malawi","Botswana","Zimbabwe","Congo (Kinshasa)","Sierra Leone","Lesotho","Lebanon","Afghanistan"],"X.Intercept.":[-0.124,-0.103,-0.085,-0.074,-0.076,-0.074,-0.062,-0.048,-0.043,-0.045,-0.036,-0.037,-0.043,-0.039,-0.029,-0.029,-0.005,-0.017,-0.026,-0.029,-0.009,-0.03,-0.012,-0.018,-0.008,-0.019,-0.017,-0.012,0.003,0.027,-0.007,-0.015,0.078,0.026,0,0.016,-0.011,-0.007,0,0.026,0.001,0.037,0.037,-0.002,0.043,0.035,-0.001,0,0.017,0.002,0.024,0,0.036,0.003,0.022,0.069,0.003,0.002,-0.001,-0.001,0.096,0.046,0.008,0.002,0.006,0,0.006,0.002,0.016,0,0.024,0.016,0.01,0,0.013,0.028,-0,0.276,-0.001,0.08,-0.004,0.013,0.006,-0.007,0.045,0.009,0.282,0.229,-0.01,0.003,0.044,0.045,-0.015,0.206,0.258,0.019,0.127,-0.019,-0.019,-0.018,0.056,0.004,-0.025,0.166,0.103,0.202,0.127,0.021,0.114,0.089,-0.036,-0.063,0.489,-0.069,-0.062,-0.069,-0.033,0.11,0.052,0.017,0.101,-0.085,-0.063,-0.094,-0.049,0.101,-0.113,-0.078,0.027,-0.167,-0.17,-0.162,0.024,-0.134,-0.198,-0.127,-0.126,-0.231,-0.329,-0.399],"Log_GDP":[0.025,0.063,0.014,0.045,0.022,0.064,0.046,0.101,0.055,0.033,0.009,-0.014,0.059,0.07,0.02,0.026,0.009,0.004,0.012,0.049,0.003,0.144,0.018,0.022,0.016,-0.008,0.024,0.017,-0.054,-0.055,0.011,0.046,-0.035,-0.001,-0,-0.006,-0.008,0.001,-0,-0.019,-0.002,-0.058,-0.154,-0.015,0.009,0.004,-0.067,0,0.006,-0.009,-0.031,-0.002,-0.048,-0.025,-0.02,0.006,0.011,0.003,0.018,0.001,-0.086,-0.011,-0.015,0.004,0.021,-0.007,-0.005,-0.001,0.003,-0,-0.013,-0.032,-0.009,0.042,-0.004,0.096,0.002,-1.083,0.001,0.028,-0.004,0.056,0.009,0.011,-0.202,0.014,-0.007,-0.294,-0.017,-0,-0.045,0.015,-0.014,0.098,-0.037,-0.132,-0.03,-0.017,-0.028,0.025,-0.028,0.091,0.064,0.157,0.042,-0.138,-0.052,0.005,-0.048,-0.087,0.014,-0.031,0.308,0.169,0.06,0.072,-0.005,-0.066,-0.022,-0.017,-0.021,-0.01,-0.037,-0.073,0.049,0.092,0.117,0.027,0.011,0.655,0.077,-0.051,-0.003,-0.204,0.175,0.09,0.042,0.195,-0.458,-0.134],"Social_support":[0.094,0.039,0.065,0.029,0.053,0.011,0.015,-0.049,-0.01,0.014,0.026,0.063,-0.011,-0.024,0.01,0.004,-0.004,0.013,0.016,-0.014,0.007,-0.1,-0.004,-0.003,0.012,0.03,-0.005,-0.003,0.071,0.026,-0.003,-0.021,0.007,-0.024,-0,-0.011,0.022,0.008,-0,-0.008,0,0.05,0.142,0.027,-0.052,-0.04,0.074,-0.001,-0.024,0.005,0.002,0.001,0.037,0.03,-0.007,-0.075,-0.016,-0.007,-0.013,0.003,0.036,-0.039,0.004,-0.008,-0.018,0.008,0.007,-0.004,-0.024,0,-0.018,0.028,0.007,-0.044,-0.017,-0.127,-0.004,0.865,-0.001,-0.114,0.002,-0.079,-0.028,-0.012,0.134,-0.017,-0.171,0.138,0.019,-0.001,0.019,-0.039,0.018,-0.222,-0.129,0.085,-0.049,0.012,0.035,-0.015,-0.006,-0.117,-0.063,-0.254,-0.104,0.001,-0.03,-0.017,-0.027,0.026,0.007,0.057,-0.622,-0.126,-0.024,-0.033,0.024,-0.007,-0.011,0.006,-0.045,0.048,0.073,0.104,-0.058,-0.154,-0.045,0.023,-0.028,-0.544,0.029,0.128,-0.013,0.241,-0.046,-0.003,0.042,-0.045,0.631,0.401]},"columns":[{"id":".rownames","name":"","type":"character","sortable":false,"filterable":false,"rowHeader":true},{"id":"X.Intercept.","name":"X.Intercept.","type":"numeric"},{"id":"Log_GDP","name":"Log_GDP","type":"numeric"},{"id":"Social_support","name":"Social_support","type":"numeric"}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"0.975rem"},"width":"600px","height":"350px","dataKey":"a46d16c873b46336644aec5c08a5eea6"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<p>DFBETAS provide more information than the other measures. Removing a data point may have stronger influence on one of the slopes, but not as much influence on another slope or the intercept.</p>
+<div class="fragment" data-fragment-index="1">
+<p>You can click on the column names in the table on the left to order the table by each column and see the more extreme values for each column.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>The change is in standard deviation units, so, for example, removing <em>Venezuela</em> changes the slope of <code>Log_GDP</code> by -1.083 standard deviations and that of <code>Social_support</code> by .865 standard deviations. This is a pretty large change.</p>
+</div>
+</div></div>
+</section>
+<section id="influence-plot-with-car" class="slide level2">
+<h2>Influence plot with <code>car</code></h2>
+<p>The <code>influencePlot</code> function from the <code>car</code> package also offers a nice visualization for studentized residuals, hat values, and Cook’s D at the same time</p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="" aria-hidden="true" tabindex="-1"></a>car<span class="sc">::</span><span class="fu">influencePlot</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-37-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<div class="fragment" data-fragment-index="1">
+<p>So, compared to the other countries, <em>Venezuela</em> is really high in all of these measures. If you look at the <code>log_GDP</code> and <code>Happiness_score</code> values for <em>Venezuela</em> you may find something a bit strange (maybe proof that money is not needed for happiness)</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>I also feel like the function is not very aptly named because only Cook’s D is a measure of influence 🫣</p>
+</div>
+</div></div>
+</section>
+<section id="another-neat-car-plot" class="slide level2">
+<h2>Another Neat <code>car</code> Plot</h2>
+<p>The <code>influenceIndexPlot</code> function offers a visualization of a bunch of regression diagnostics. This helps visualizing what observations are extreme relative to other observations</p>
+<div class="columns">
+<div class="column" style="width:70%;">
+<div class="cell code-125">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">influenceIndexPlot</span>(reg)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Lab-12_files/figure-revealjs/unnamed-chunk-39-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div><div class="column" style="width:30%;">
+<div class="fragment" data-fragment-index="1">
+<p>With a good deal of these measures, I would not look at “suggested cutoffs”. Following cutoffs blindly <em>(1)</em> leads you to not think about what you are doing, and <em>(2)</em> leads you to make bad decisions and mistakes in many scenarios.</p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p>Especially for some of these measures, you want to look at how large they are <em>relative to all other observations</em>.</p>
+</div>
+</div></div>
 </section>
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-Darlington_Hayes_2016" class="csl-entry" role="listitem">
+Darlington, R. B., &amp; Hayes, A. F. (2016). <em>Regression analysis and linear models: Concepts, applications, and implementation</em>. Guilford Publications.
+</div>
 <div id="ref-Fox_etal_2024" class="csl-entry" role="listitem">
 Fox, J., Weisberg, S., Price, B., Adler, D., Bates, D., Baud-Bovy, G., Bolker, B., Ellison, S., Firth, D., Friendly, M., Gorjanc, G., Graves, S., Heiberger, R., Krivitsky, P., Laboissiere, R., Maechler, M., Monette, G., Murdoch, D., Nilsson, H., … R-Core. (2024). <em>Car: <span>Companion</span> to <span>Applied Regression</span></em>.
 </div>
@@ -397,6 +1128,44 @@ Wickham, H., &amp; RStudio. (2023). <em>Tidyverse: <span>Easily Install</span> a
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
