@@ -302,9 +302,7 @@ This lab introduces mediation analysis with path models using <a href="https://l
 
 <h3> 12. Regression Diagnostics </h3> 
 
-Coming soon!
-
-<!-- This lab discusses leverage, distance, and influence, three properties of individual data points that may impact regression results and conclusions. The regression diagnostics discussed are: hat values, studentized Residuals, DFFITS, Cook’s D, COVRATIO, and DFBETAS. Influence of outliers on regression results is also discussed. -->
+This lab discusses leverage, distance, and influence, three properties of individual data points that may impact regression results and conclusions. The regression diagnostics discussed are: hat values, studentized Residuals, DFFITS, Cook’s D, COVRATIO, and DFBETAS. Influence of outliers on regression results is also discussed.
 
 <span class=" post-header">
 <a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 12.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>

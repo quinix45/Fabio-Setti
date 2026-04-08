@@ -223,8 +223,6 @@ The regression line is the exact same for both plots, bet let's see what happens
 
 ```{r}
 reg_p <- lm(Y ~ X, sim_dat_50)
-
-
 ```
 
 

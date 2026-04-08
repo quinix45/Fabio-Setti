@@ -8,3 +8,124 @@ header-includes:
 ---
 
 \onehalfspacing
+
+
+
+The data comes from an [unpublished master’s paper by Carl Hoffstedt](https://mdl.mndot.gov/items/m17327){target='_blank'}. They relate the automobile accident rate, in accidents per million vehicle miles to several potential terms. The data include 39 sections of large highways in the state of Minnesota in 1973. Here is a description of the variables:
+
+```{r}
+#| echo: false
+#| warning: false
+
+library(carData)
+library(tidyverse)
+
+dat <- Highway1
+
+
+info <- tibble(Variable = colnames(dat),
+               Description = c("1973 accident rate per million vehicle miles",
+                               " length of the Highway1 segment in miles",
+                               "average daily traffic count in thousands",
+                               "truck volume as a percent of the total volume",
+                               "(number of signalized interchanges per mile times len + 1)/len, the number of signals per mile of roadway, adjusted to have no zero values.",  
+                               "speed limit in 1973",
+                               "width in feet of outer shoulder on the roadway",
+                               "total number of lanes of traffic",
+                               "number of access points per mile",
+                               "number of freeway-type interchanges per mile",
+                               " lane width, in feet",
+                               "An indicator of the type of roadway or the source of funding for the road, either MC, FAI, PA, or MA"))
+
+library(kableExtra)
+
+kable(info) %>% 
+  column_spec(column = 2, width = "350px") %>% 
+  row_spec(0, bold = T) %>% 
+  column_spec(1, bold = T)
+```
+
+
+Run the following code to name the data you will be using as `dat`:
+
+```{r}
+library(carData)
+dat <- Highway1
+```
+
+
+**1.** Run a multiple linear regression with `len`, `slim`, and `acpt` predicting `rate`. What are the significant predictors of `rate` and what is the direction of the relation?
+
+```{r}
+#| echo: false
+#| eval: false
+
+reg <- lm(rate ~ len + slim + acpt , dat)
+summary(reg)
+```
+
+
+
+**2.** Calculate DFBETAS. Is there any observation where the absolute value exceeds $1$? If so, which observation/s and for what variables do the absolute values of DFBETAS exceed $1$? (the `which()` function may help; run `?which` to bring up the help menu and see what it does)
+
+```{r}
+#| echo: false
+#| eval: false
+
+row_cols <- which(abs(dfbetas(reg)) > 1, arr.ind = TRUE)
+
+colnames(dfbetas(reg))[row_cols[2]]
+dfbetas(reg)[row_cols[1],]
+
+# observation 25 for acpt 
+```
+
+
+**3.** Calculate both DFFITS and Hat Values. For both, find the datapoint with the largest regression diagnostics for both values for both. Is this the same data point that you found in the previous question? 
+
+```{r}
+#| echo: false
+#| eval: false
+
+which.max(hatvalues(reg))
+which.max(abs(dffits(reg)))
+
+# yes still datapoint 25
+```
+
+
+
+**4.** Run the same linear regression as before, but remove the outlier that you identified in the previous questions. Do the results change or are they practically the same? 
+
+```{r}
+#| echo: false
+#| eval: false
+
+reg2 <- lm(rate ~ len + slim + acpt , dat[-25, ])
+summary(reg2)
+
+# the conclusions are more or less the same. All coefficients are still significant and the effects are in thee same direction.
+```
+
+**5.** Create two added variable plots for `acpt` for:
+
+- The regression in question 2.
+- The regression in question 4.
+
+Do you think that overall the regressions are similar even when removing the largest outlier?
+
+```{r}
+#| echo: false
+#| eval: false
+
+car::avPlots(reg, "acpt")
+```
+
+
+```{r}
+#| echo: false
+#| eval: false
+
+# Yes, the regressions are very similar
+car::avPlots(reg2, "acpt")
+```
