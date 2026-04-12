@@ -76,7 +76,7 @@ coef(reg)[1] + coef(reg)[3]*15
 coef(reg)[1] + (coef(reg)[3] + coef(reg)[4])*15 + coef(reg)[2] 
 ```
 
-**3.** Test whether predicted salaries of professors in applied and theoretical departments differ significantly at different values of years fo service. Test this at `yrs.service` = 0, 15, 30 and 45.
+**3.** Test whether predicted salaries of professors in applied and theoretical departments differ significantly at different values of years of service. Test this at `yrs.service` = 0, 15, 30 and 45.
 
 ```{r include=FALSE}
 mylist <- list(yrs.service=c(0, 15, 30, 45))

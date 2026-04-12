@@ -77,7 +77,7 @@ library(emmeans)
 
 <center style="padding-bottom: 41px;"> [Data]{.data-title} </center>
 
-<div style="font-size: 22px"> We'll continue with the `hsb2` dataset from [Lab 10](https://quinix45.github.io/PSYC-7804-Regression-Lab-Slides/Slides%20Files/Lab%2010.html#/todays-packages-and-data){target="_blank"}. 
+<div style="font-size: 22px"> We'll continue with the `hsb2` dataset from [Lab 9](https://fabio-setti.netlify.app/PSYC7804_Spring_2026/Lab%209.html){target="_blank"}. 
  </div>
  
  
@@ -106,7 +106,7 @@ reactable::reactable(hsb2,
 
 ## What are we looking at Today?
 
-In Lab 10 we looked at categorical predictors and a bunch of coding schemes for categorical variables, but we will stick to [dummy coding](https://quinix45.github.io/PSYC-7804-Regression-Lab-Slides/Slides%20Files/Lab%2010.html#/creating-dummy-coded-columns){target="_blank"} for this lab.
+In Lab 9 we looked at categorical predictors and a bunch of coding schemes for categorical variables, but we will stick to [dummy coding](https://fabio-setti.netlify.app/psyc7804_spring_2026/lab%209#/dummy-coding){target="_blank"} for this lab.
 
 
 ::: {.fragment fragment-index=1}
@@ -175,7 +175,7 @@ So for the dummy coded `gender` variable, $0 =$ *female* and $1 =$ *male*
 
 ## Starting from The Top
 
-First let's start with a regression with the `gender` only predicting `write` score. We saw this in Lab 10 already.
+First let's start with a regression with the `gender` only predicting `write` score. We saw this in Lab 9 already.
   
 
 :::: {.columns}
@@ -356,7 +356,7 @@ ggplot(hsb2, aes(x = socst_cent, y = write, colour = gender)) +
 If we think that the relationship between `socst` and `write` should change depending on `gender`, we can test this hypothesis by including an interaction effect.
 
 :::: {.columns}
-::: {.column width="55%"}
+::: {.column width="60%"}
 
 
 ```{r}
@@ -372,7 +372,7 @@ summary(reg_int)
 
 :::
 
-::: {.column width="45%"}
+::: {.column width="40%"}
 
 
 ::: {.fragment fragment-index=1}
@@ -404,7 +404,7 @@ we add the $.2 \times \mathrm{gender} \times \mathrm{socst}$ term to the equatio
 
 ## Interpreting the Interaction Term
 
-When we have a categorical moderator, interpreting the interaction terms boils down at looking how the slopes of the groups change.
+When we have a categorical moderator, interpreting the interaction terms boils down to looking at how the slopes of the groups differ.
 
 :::: {.columns}
 ::: {.column width="50%"}
