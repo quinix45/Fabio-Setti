@@ -319,28 +319,6 @@ This lab discusses leverage, distance, and influence, three properties of indivi
 <a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-04-29T13:00:00Z" data-file="/PSYC7804_Spring_2026/Lab Activities/Lab_12_Activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
 
 
-<hr class="fancy"></hr>
-
-<h3> 13. Generalized Linear Models </h3> 
-
-Coming soon!
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab 13.html" target="_blank" rel="noopener"><i class="fas fa-chalkboard-teacher"></i> Slides</a></span>
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab Code/Lab 13 Code.qmd" download="Lab_12_Code.qmd" target="_blank" rel="noopener"><i class="fas fa-code"></i> Code</a></span>
-
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib" href="/PSYC7804_Spring_2026/Lab Activities/Lab_13_Activity.pdf" download="Lab 13 Activity.pdf" target="_blank" rel="noopener"><i class="fas fa-bullseye"></i> Activity</a></span>
-
-
-<span class=" post-header">
-<a class="btn-links mr2 ba dib delayed-download" data-available-after="2026-04-29T13:00:00Z" data-file="/PSYC7804_Spring_2026/Lab Activities/Lab_13_Activity.qmd" target="_blank" rel="noopener"><i class="fas fa-check"></i> Activity Solution</a></span>
-
-
-
 <hr></hr>
 
 
