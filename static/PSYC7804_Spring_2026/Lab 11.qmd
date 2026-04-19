@@ -134,7 +134,7 @@ Before we begin, I would be remiss not to mention other packages for running med
 ::: {.fragment fragment-index=2}
 <ul style="font-size: 22px">  
 
-<li> The `mediation` package [@Tingley_etal_2019]: This package implements the *causal mediation framework* described in @Imai_etal_2010a. It is a very flexible package, and it accommodates both multilevel mediation and non-linear mediation. @Tingley_etal_2014 describe many of the `mediation` package functionalities in detail. The one "problem" is that it is not very easy to specify multiple mediators and moderators. It is also more geared towards experimental designs. </li>
+<li> The `mediation` package [@Tingley_etal_2019]: This package implements the *causal mediation framework* described in @Imai_etal_2010. It is a very flexible package, and it accommodates both multilevel mediation and non-linear mediation. @Tingley_etal_2014 describe many of the `mediation` package functionalities in detail. The one "problem" is that it is not very easy to specify multiple mediators and moderators. It is also more geared towards experimental designs. </li>
 
 </ul>
 :::
@@ -149,7 +149,7 @@ Before we begin, I would be remiss not to mention other packages for running med
 :::
 
 ::: {.fragment fragment-index=4}
-As we will see, mediation is nothing but two or more regression models. You certainly *do not need* SEM turn run mediation; however, `lavaan` makes it quite straightforward.
+As we will see, mediation is nothing but two or more regression models. You certainly *do not need* SEM to run mediation; however, `lavaan` makes it quite straightforward.
 :::
 
 ## More on today's data
@@ -372,7 +372,7 @@ lav_summary(reg_lv)
 </br>
 
 :::{.fragment fragment-index=3}
-<li> Now we have added another dependent variable. Our path diagram now implies tow separate regression models. $Z$ is a moderator, and it moderates the relation between $X_1$ and $Y_2$. Thus the equation predicting $Y_2$ will be $Y_2 \sim  X_1 + X_2 + Z + X_2 \times Z$. </li>
+<li> Now we have added another dependent variable. Our path diagram now implies two separate regression models. $Z$ is a moderator, and it moderates the relation between $X_1$ and $Y_2$. Thus the equation predicting $Y_2$ will be $Y_2 \sim  X_1 + X_2 + Z + X_1 \times Z$. </li>
 :::
 
 </ol>

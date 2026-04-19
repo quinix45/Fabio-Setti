@@ -6,8 +6,8 @@
 <script src="Lab 11_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Lab 11_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Lab 11_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Lab 11_files/libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.8.27">
+<link href="Lab 11_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="Fabio Setti">
   <title>Lab 11: Mediation Analysis and Missing Data</title>
@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="Lab 11_files/libs/revealjs/dist/reset.css">
   <link rel="stylesheet" href="Lab 11_files/libs/revealjs/dist/reveal.css">
   <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -115,7 +118,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="Lab 11_files/libs/revealjs/dist/theme/quarto-60f14cd0614b98e80d8f9b8c8e302a8a.css">
+  <link rel="stylesheet" href="Lab 11_files/libs/revealjs/dist/theme/quarto-1107ab43c2477c894d771621a839a38b.css">
   <link href="Lab 11_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Lab 11_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Lab 11_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -214,8 +217,8 @@
   <script src="Lab 11_files/libs/react-18.2.0/react-dom.min.js"></script>
   <script src="Lab 11_files/libs/reactwidget-2.0.0/react-tools.js"></script>
   <script src="Lab 11_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-  <link href="Lab 11_files/libs/reactable-0.4.5/reactable.css" rel="stylesheet">
-  <script src="Lab 11_files/libs/reactable-binding-0.4.5/reactable.js"></script>
+  <link href="Lab 11_files/libs/reactable-0.4.4/reactable.css" rel="stylesheet">
+  <script src="Lab 11_files/libs/reactable-binding-0.4.4/reactable.js"></script>
   <script src="Fabio_theme/Fabio_theme.js"></script>
 </head>
 <body class="quarto-light">
@@ -264,7 +267,7 @@ Fabio Setti
 <div class="tab-content">
 <div id="tabset-1-1">
 <div style="font-size: 22px">
-The <code>lavaan</code> package <span class="citation" data-cites="Rosseel_etal_2024">(<a href="#/references" role="doc-biblioref" onclick="">Rosseel et al., 2024</a>)</span> is the most popular package to run SEM models in R. We will use it to run mediation analysis, which the SEM framework accommodates nicely.
+The <code>lavaan</code> package <span class="citation" data-cites="Rosseel_etal_2024">(<a href="#/references" role="doc-biblioref" onclick=""><strong>Rosseel_etal_2024?</strong></a>)</span> is the most popular package to run SEM models in R. We will use it to run mediation analysis, which the SEM framework accommodates nicely.
 </div>
 </div>
 <div id="tabset-1-2">
@@ -305,7 +308,7 @@ The <code>PROCESS</code> macro: <a href="https://www.processmacro.org/index.html
 <div class="fragment" data-fragment-index="2">
 <ul style="font-size: 22px">
 <li>
-The <code>mediation</code> package <span class="citation" data-cites="Tingley_etal_2019">(<a href="#/references" role="doc-biblioref" onclick="">Tingley et al., 2019</a>)</span>: This package implements the <em>causal mediation framework</em> described in <span class="citation" data-cites="Imai_etal_2010a">Imai et al. (<a href="#/references" role="doc-biblioref" onclick="">2010</a>)</span>. It is a very flexible package, and it accommodates both multilevel mediation and non-linear mediation. <span class="citation" data-cites="Tingley_etal_2014">Tingley et al. (<a href="#/references" role="doc-biblioref" onclick="">2014</a>)</span> describe many of the <code>mediation</code> package functionalities in detail. The one “problem” is that it is not very easy to specify multiple mediators and moderators. It is also more geared towards experimental designs.
+The <code>mediation</code> package <span class="citation" data-cites="Tingley_etal_2019">(<a href="#/references" role="doc-biblioref" onclick="">Tingley et al., 2019</a>)</span>: This package implements the <em>causal mediation framework</em> described in <span class="citation" data-cites="Imai_etal_2010">Imai et al. (<a href="#/references" role="doc-biblioref" onclick="">2010</a>)</span>. It is a very flexible package, and it accommodates both multilevel mediation and non-linear mediation. <span class="citation" data-cites="Tingley_etal_2014">Tingley et al. (<a href="#/references" role="doc-biblioref" onclick="">2014</a>)</span> describe many of the <code>mediation</code> package functionalities in detail. The one “problem” is that it is not very easy to specify multiple mediators and moderators. It is also more geared towards experimental designs.
 </li>
 </ul>
 </div>
@@ -315,7 +318,7 @@ The <code>mediation</code> package <span class="citation" data-cites="Tingley_et
 <p><code>lavaan</code> is a package for <a href="https://en.wikipedia.org/wiki/Structural_equation_modeling" target="_blank">structural equation modeling</a> (SEM). SEM is a general framework that aims to explain how the observed correlation matrix among a set of variables arises by essentially running many regressions.</p>
 </div>
 <div class="fragment" data-fragment-index="4">
-<p>As we will see, mediation is nothing but two or more regression models. You certainly <em>do not need</em> SEM turn run mediation; however, <code>lavaan</code> makes it quite straightforward.</p>
+<p>As we will see, mediation is nothing but two or more regression models. You certainly <em>do not need</em> SEM to run mediation; however, <code>lavaan</code> makes it quite straightforward.</p>
 </div>
 </section>
 <section id="more-on-todays-data" class="slide level2">
@@ -345,8 +348,8 @@ The <code>mediation</code> package <span class="citation" data-cites="Tingley_et
 </div><div class="column" style="width:50%;">
 <div class="cell">
 <div class="cell-output-display">
-<div id="htmlwidget-73b00a30a9b9c9951c82" class="reactable html-widget" style="width:auto;height:300px;"></div>
-<script type="application/json" data-for="htmlwidget-73b00a30a9b9c9951c82">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"gender":[1,0,0,0,0,1,0,0,1,0,1,0,0,1,1,0,1,1,0,0,1,0,1,1,1,0,1,0,1,1,1,0,0,1,0,0,0,1,0,0,0,0,1,0,1,1,1,1,1,1,1,0,1,0,1,0,0,1,1,0,1,0,1,1,0,1,1,1,1,1,1,1,0,0,1,1,1,1,0,0,0,1,0,0,1,1,1,0,0,0,1,1,0,1,1,1,0,1,0,1,0,1,1,0,0,1,1,1,1,0,1,0,1,0,1,0,0,1,1,1,1,1,1,1,0,0,1,1,1,1,0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,1,0,1,1,1,1,1,0,0,1,0,1,1,1,1,0,0,1,0,0,1,1,1,0,1,1,1,1,0,1,0,0,0,1,1,1,0,0,0,1,1,0,0,1,1,0,0,1,0],"detail":[34,34,39,37,39,42,31,50,39,34,34,39,47,36,35,44,28,42,34,34,42,37,41,44,47,44,44,44,47,44,47,47,47,47,44,42,50,41,42,47,42,50,45,50,39,42,47,39,47,44,50,55,44,45,44,42,47,36,47,44,42,50,47,43,48,47,42,52,50,39,42,47,52,57,42,47,46,50,44,50,36,39,47,52,50,50,47,55,50,55,50,43,63,57,50,55,47,50,60,57,44,57,52,42,63,61,60,52,52,57,47,57,55,52,47,47,55,63,57,60,57,52,47,47,47,52,50,52,55,55,63,55,63,65,52,47,60,54,63,60,60,52,57,63,53,55,57,52,63,63,55,63,57,68,50,57,65,60,63,47,52,65,63,60,68,68,60,55,63,68,55,73,57,50,68,68,65,65,57,76,63,65,65,68,73,66,68,65,65,68,71,68,68,73,76,63,63,73,71,73],"feeling":[35,33,39,37,31,36,36,31,41,37,44,33,31,44,35,44,46,46,46,49,39,44,47,44,37,38,49,44,41,50,44,39,40,46,41,39,33,59,41,47,31,42,55,40,44,54,46,54,42,49,41,41,44,57,52,49,41,57,62,33,54,40,52,57,49,46,57,49,52,53,54,57,41,52,57,54,52,52,44,46,49,54,52,44,49,46,54,39,59,45,52,54,44,50,62,59,52,52,46,41,52,52,55,41,49,59,54,54,59,55,62,54,54,54,59,57,61,52,59,62,60,59,65,61,59,59,59,59,65,57,59,49,49,59,62,59,54,63,43,54,52,57,57,57,61,62,62,65,57,59,59,62,65,62,62,62,54,62,65,62,67,65,60,59,59,59,65,62,65,59,59,61,65,67,65,65,67,65,62,52,63,59,65,59,67,67,60,67,62,54,65,62,59,60,63,65,63,67,65,62],"impact":[29,36,26,33,39,31,39,34,42,39,39,47,36,42,51,34,44,36,39,42,42,39,39,40,42,39,35,39,40,39,42,42,45,33,50,56,44,34,50,42,47,36,34,49,44,42,47,47,39,39,44,44,47,31,44,50,42,50,34,58,47,55,48,50,44,48,50,44,39,50,50,44,53,47,47,50,44,50,50,58,61,53,50,55,47,53,53,53,53,58,58,55,53,51,55,42,53,55,53,55,63,61,54,72,66,44,50,53,55,50,53,47,42,55,58,58,49,50,50,50,53,53,50,63,53,61,61,61,50,58,55,61,66,46,47,66,55,55,65,58,61,58,58,58,57,58,58,56,58,55,58,55,63,50,63,55,58,50,63,69,63,63,54,61,55,63,61,63,53,63,69,55,54,66,55,59,55,58,61,64,61,63,61,74,58,61,69,66,66,66,58,69,66,61,67,69,72,63,66,69],"opinion":[26,36,42,32,51,39,46,31,41,31,41,41,36,41,33,46,51,46,36,56,41,46,51,31,46,46,51,51,41,51,36,26,31,41,26,46,36,51,41,51,51,61,41,47,48,41,61,36,51,51,56,41,51,56,51,56,56,41,46,31,46,56,61,51,51,46,43,61,56,41,52,41,56,57,61,56,56,56,46,61,36,41,56,41,46,66,61,46,61,51,36,46,56,58,31,56,61,56,61,52,61,56,61,31,41,66,51,51,61,51,61,51,56,51,46,46,61,51,56,51,37,66,56,31,46,61,61,51,61,61,71,56,46,66,46,61,66,46,44,61,61,56,56,51,56,61,66,51,41,56,51,61,61,51,51,41,56,56,56,66,61,66,66,51,71,61,66,66,61,66,46,66,56,56,61,56,71,71,61,61,61,51,66,66,66,66,66,71,66,66,71,61,56,71,66,71,66,66,56,66]},"columns":[{"id":"gender","name":"gender","type":"numeric"},{"id":"detail","name":"detail","type":"numeric"},{"id":"feeling","name":"feeling","type":"numeric"},{"id":"impact","name":"impact","type":"numeric"},{"id":"opinion","name":"opinion","type":"numeric"}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"1.105rem"},"height":"300px","dataKey":"8f0a9f0bfff27e575a233d0432f23b6b"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-2bb8968659ec2e8b6ec1" class="reactable html-widget" style="width:auto;height:300px;"></div>
+<script type="application/json" data-for="htmlwidget-2bb8968659ec2e8b6ec1">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"gender":[1,0,0,0,0,1,0,0,1,0,1,0,0,1,1,0,1,1,0,0,1,0,1,1,1,0,1,0,1,1,1,0,0,1,0,0,0,1,0,0,0,0,1,0,1,1,1,1,1,1,1,0,1,0,1,0,0,1,1,0,1,0,1,1,0,1,1,1,1,1,1,1,0,0,1,1,1,1,0,0,0,1,0,0,1,1,1,0,0,0,1,1,0,1,1,1,0,1,0,1,0,1,1,0,0,1,1,1,1,0,1,0,1,0,1,0,0,1,1,1,1,1,1,1,0,0,1,1,1,1,0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,1,1,1,0,0,0,1,0,1,1,1,1,1,0,0,1,0,1,1,1,1,0,0,1,0,0,1,1,1,0,1,1,1,1,0,1,0,0,0,1,1,1,0,0,0,1,1,0,0,1,1,0,0,1,0],"detail":[34,34,39,37,39,42,31,50,39,34,34,39,47,36,35,44,28,42,34,34,42,37,41,44,47,44,44,44,47,44,47,47,47,47,44,42,50,41,42,47,42,50,45,50,39,42,47,39,47,44,50,55,44,45,44,42,47,36,47,44,42,50,47,43,48,47,42,52,50,39,42,47,52,57,42,47,46,50,44,50,36,39,47,52,50,50,47,55,50,55,50,43,63,57,50,55,47,50,60,57,44,57,52,42,63,61,60,52,52,57,47,57,55,52,47,47,55,63,57,60,57,52,47,47,47,52,50,52,55,55,63,55,63,65,52,47,60,54,63,60,60,52,57,63,53,55,57,52,63,63,55,63,57,68,50,57,65,60,63,47,52,65,63,60,68,68,60,55,63,68,55,73,57,50,68,68,65,65,57,76,63,65,65,68,73,66,68,65,65,68,71,68,68,73,76,63,63,73,71,73],"feeling":[35,33,39,37,31,36,36,31,41,37,44,33,31,44,35,44,46,46,46,49,39,44,47,44,37,38,49,44,41,50,44,39,40,46,41,39,33,59,41,47,31,42,55,40,44,54,46,54,42,49,41,41,44,57,52,49,41,57,62,33,54,40,52,57,49,46,57,49,52,53,54,57,41,52,57,54,52,52,44,46,49,54,52,44,49,46,54,39,59,45,52,54,44,50,62,59,52,52,46,41,52,52,55,41,49,59,54,54,59,55,62,54,54,54,59,57,61,52,59,62,60,59,65,61,59,59,59,59,65,57,59,49,49,59,62,59,54,63,43,54,52,57,57,57,61,62,62,65,57,59,59,62,65,62,62,62,54,62,65,62,67,65,60,59,59,59,65,62,65,59,59,61,65,67,65,65,67,65,62,52,63,59,65,59,67,67,60,67,62,54,65,62,59,60,63,65,63,67,65,62],"impact":[29,36,26,33,39,31,39,34,42,39,39,47,36,42,51,34,44,36,39,42,42,39,39,40,42,39,35,39,40,39,42,42,45,33,50,56,44,34,50,42,47,36,34,49,44,42,47,47,39,39,44,44,47,31,44,50,42,50,34,58,47,55,48,50,44,48,50,44,39,50,50,44,53,47,47,50,44,50,50,58,61,53,50,55,47,53,53,53,53,58,58,55,53,51,55,42,53,55,53,55,63,61,54,72,66,44,50,53,55,50,53,47,42,55,58,58,49,50,50,50,53,53,50,63,53,61,61,61,50,58,55,61,66,46,47,66,55,55,65,58,61,58,58,58,57,58,58,56,58,55,58,55,63,50,63,55,58,50,63,69,63,63,54,61,55,63,61,63,53,63,69,55,54,66,55,59,55,58,61,64,61,63,61,74,58,61,69,66,66,66,58,69,66,61,67,69,72,63,66,69],"opinion":[26,36,42,32,51,39,46,31,41,31,41,41,36,41,33,46,51,46,36,56,41,46,51,31,46,46,51,51,41,51,36,26,31,41,26,46,36,51,41,51,51,61,41,47,48,41,61,36,51,51,56,41,51,56,51,56,56,41,46,31,46,56,61,51,51,46,43,61,56,41,52,41,56,57,61,56,56,56,46,61,36,41,56,41,46,66,61,46,61,51,36,46,56,58,31,56,61,56,61,52,61,56,61,31,41,66,51,51,61,51,61,51,56,51,46,46,61,51,56,51,37,66,56,31,46,61,61,51,61,61,71,56,46,66,46,61,66,46,44,61,61,56,56,51,56,61,66,51,41,56,51,61,61,51,51,41,56,56,56,66,61,66,66,51,71,61,66,66,61,66,46,66,56,56,61,56,71,71,61,61,61,51,66,66,66,66,66,71,66,66,71,61,56,71,66,71,66,66,56,66]},"columns":[{"id":"gender","name":"gender","type":"numeric"},{"id":"detail","name":"detail","type":"numeric"},{"id":"feeling","name":"feeling","type":"numeric"},{"id":"impact","name":"impact","type":"numeric"},{"id":"opinion","name":"opinion","type":"numeric"}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"1.105rem"},"height":"300px","dataKey":"8f0a9f0bfff27e575a233d0432f23b6b"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div></div>
@@ -468,7 +471,7 @@ This path diagram represents a multiple regression of <span class="math inline">
 <p><br> <br> <br></p>
 <div class="fragment" data-fragment-index="3">
 <li>
-Now we have added another dependent variable. Our path diagram now implies tow separate regression models. <span class="math inline">\(Z\)</span> is a moderator, and it moderates the relation between <span class="math inline">\(X_1\)</span> and <span class="math inline">\(Y_2\)</span>. Thus the equation predicting <span class="math inline">\(Y_2\)</span> will be <span class="math inline">\(Y_2 \sim  X_1 + X_2 + Z + X_2 \times Z\)</span>.
+Now we have added another dependent variable. Our path diagram now implies two separate regression models. <span class="math inline">\(Z\)</span> is a moderator, and it moderates the relation between <span class="math inline">\(X_1\)</span> and <span class="math inline">\(Y_2\)</span>. Thus the equation predicting <span class="math inline">\(Y_2\)</span> will be <span class="math inline">\(Y_2 \sim  X_1 + X_2 + Z + X_1 \times Z\)</span>.
 </li>
 </div>
 </ol>
@@ -769,8 +772,8 @@ We can use the <code>monteCarloCI()</code> function from <code>semTools</code> t
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="" aria-hidden="true" tabindex="-1"></a>semTools<span class="sc">::</span><span class="fu">monteCarloCI</span>(lav_med)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>           est ci.lower ci.upper
-indirect 0.227    0.135    0.327
-total    0.651    0.546    0.755</code></pre>
+indirect 0.227    0.136    0.327
+total    0.651    0.548    0.755</code></pre>
 </div>
 </div>
 </div>
@@ -800,7 +803,7 @@ Then just multiply the 2 vectors (<span class="math inline">\(a \times b\)</span
 <span id="cb23-3"><a href="" aria-hidden="true" tabindex="-1"></a><span class="fu">quantile</span>(ind_MC, <span class="fu">c</span>(.<span class="dv">025</span>, .<span class="dv">975</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>     2.5%     97.5% 
-0.1389562 0.3249386 </code></pre>
+0.1353728 0.3232149 </code></pre>
 </div>
 </div>
 <div style="font-size: 24px">
@@ -1125,7 +1128,7 @@ Example of an interesting path model I found <a href="https://www.researchgate.n
 <section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
-<div id="ref-Imai_etal_2010a" class="csl-entry" role="listitem">
+<div id="ref-Imai_etal_2010" class="csl-entry" role="listitem">
 Imai, K., Keele, L., &amp; Tingley, D. (2010). A general approach to causal mediation analysis. <em>Psychological Methods</em>, <em>15</em>(4), 309–334. <a href="https://doi.org/10.1037/a0020761">https://doi.org/10.1037/a0020761</a>
 </div>
 <div id="ref-Jorgensen_etal_2025" class="csl-entry" role="listitem">
@@ -1133,9 +1136,6 @@ Jorgensen, T. D., Pornprasertmanit, S., Schoemann, A. M., Rosseel, Y., Miller, P
 </div>
 <div id="ref-Preacher_Kelley_2011" class="csl-entry" role="listitem">
 Preacher, K. J., &amp; Kelley, K. (2011). Effect size measures for mediation models: Quantitative strategies for communicating indirect effects. <em>Psychological Methods</em>, <em>16</em>(2), 93–115. <a href="https://doi.org/10.1037/a0022658">https://doi.org/10.1037/a0022658</a>
-</div>
-<div id="ref-Rosseel_etal_2024" class="csl-entry" role="listitem">
-Rosseel, Y., Jorgensen, T. D., Wilde, L. D., Oberski, D., Byrnes, J., Vanbrabant, L., Savalei, V., Merkle, E., Hallquist, M., Rhemtulla, M., Katsikatsou, M., Barendse, M., Rockwood, N., Scharf, F., Du, H., Jamil, H., &amp; Classe, F. (2024). <em>Lavaan: <span>Latent Variable Analysis</span></em>.
 </div>
 <div id="ref-Tingley_etal_2014" class="csl-entry" role="listitem">
 Tingley, D., Yamamoto, T., Hirose, K., Keele, L., &amp; Imai, K. (2014). Mediation: <span>R Package</span> for <span>Causal Mediation Analysis</span>. <em>Journal of Statistical Software</em>, <em>59</em>, 1–38. <a href="https://doi.org/10.18637/jss.v059.i05">https://doi.org/10.18637/jss.v059.i05</a>
