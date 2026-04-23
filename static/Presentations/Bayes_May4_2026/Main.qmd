@@ -1,0 +1,158 @@
+---
+title: "Measuring Forecasting Proficiency: A Psychometric Approach"
+author: "Fabio Setti"
+institute: "Spring 2026"
+subtitle: "PSYC Placeholder"
+bibliography: Additional files/R packages.bib
+csl: Additional files/apa.csl
+title-slide-attributes:
+  data-transition: "zoom"
+  data-visibility: "uncounted"
+format:
+   revealjs:
+      footer: "Lab 1: Descriptive Techniques and One-Predictor Regression"
+      width: 1280
+      height: 720
+      chalkboard: true
+      slide-number: c/t 
+      theme: Fabio_theme/Fabio_theme.scss
+      navigation-mode: linear
+      controls: false
+      auto-stretch: false
+      header-includes:
+        - <script src="Fabio_theme/Fabio_theme.js"></script>
+
+editor: source
+---
+
+
+
+##
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+<center>
+**Survey link**
+
+![](Additional%20files/Images/SurveyQR.svg){width=500}
+</center>
+
+
+:::
+::: {.column width = '50%'}
+
+</br>
+
+<center>  
+
+![](Additional%20files/Images/Google_survey.png){width=436.2612}
+
+</center>
+
+:::
+::::
+
+
+
+##
+
+
+<div style="position: absolute; top:25%; left:0%; width:"1300px">
+  <img src="Additional files/Images/diagram_1.png">
+</div>
+
+## 
+
+
+<div style="position: absolute; top:25%; left:0%; width:"1400px">
+  <img src="Additional files/Images/diagram_2.png">
+</div>
+
+## 
+
+<div style="position: absolute; top:15%; left:0%; width:"1400px">
+  <img src="Additional files/Images/diagram_3.png">
+</div>
+
+
+## Comparison of PEF and QEF Question
+
+<center>  
+![](Additional%20files/Images/Figure_1.png){width="1080"}
+</center>
+
+## Model Graph From `pymc`
+
+
+:::: {.columns}
+::: {.column width = '20%'}
+
+
+:::
+::: {.column width = '80%'}
+
+<center>  
+![](Additional%20files/Images/model_graph.png){width="880"}
+</center>
+
+:::
+::::
+
+
+
+## Estimated Item Parameters
+
+![](Additional%20files/Images/Figure_S1.png){width="880"}
+
+## Posterior Predictive Checks
+
+:::: {.columns}
+::: {.column width = '20%'}
+
+
+:::
+::: {.column width = '80%'}
+
+<center>  
+![](Additional%20files/Images/Figure_4.png){width="980"}
+</center> 
+
+:::
+::::
+
+
+
+## $\theta$ Distribution
+
+
+:::: {.columns}
+::: {.column width = '20%'}
+
+
+:::
+::: {.column width = '80%'}
+
+<center>  
+![](Additional%20files/Images/Figure_6.png){width="880"}
+</center>
+
+:::
+::::
+
+## References and Slides QR
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+<div id="refs"> </div>
+
+:::
+::: {.column width = '50%'}
+
+
+
+:::
+::::
