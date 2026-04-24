@@ -1,8 +1,11 @@
 ---
 title: "Measuring Forecasting Proficiency: A Psychometric Approach"
-author: "Fabio Setti"
-institute: "Spring 2026"
+author: "<sup>1</sup>Fabio Setti, <sup>1</sup>Leah Feuerstahler, <sup>2,6</sup>Sophie Ma Zhu, <sup>3,6</sup>Nikolay Petrov, <sup>4,6</sup>Ezra Karger, <sup>5,6</sup>Mark Himmelstein"
+
+institute: "<sup>1</sup>Fordham University, <sup>2</sup>University of British Columbia, <sup>3</sup>University of Cambridge, <sup>4</sup>Federal Reserve Bank of Chicago, <sup>5</sup>Georgia Institute of Technology, <sup>6</sup>Forecasting Research Institute"
+
 subtitle: "PSYC Placeholder"
+
 bibliography: Additional files/R packages.bib
 csl: Additional files/apa.csl
 title-slide-attributes:
@@ -25,7 +28,13 @@ format:
 editor: source
 ---
 
+```{r}
+library(ggplot2)
 
+theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
+                        base_family = 'serif'))
+
+```
 
 ##
 
@@ -82,6 +91,161 @@ editor: source
 <center>  
 ![](Additional%20files/Images/Figure_1.png){width="1080"}
 </center>
+
+
+## Historical Standardization 
+
+Responses to FPT quantile forecast items are on very different scales (e.g. dollars/gallon, thousands of dollars, percentages,...). We define the outcome measure, *historically scaled signed error*, as
+
+
+
+$$
+Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
+$$
+
+:::: {.columns}
+::: {.column width="55%"}
+
+
+<ul style="font-size: 26px">  
+
+<li>  $\hat{Y}_i$: Reported forecast for item $i$ at any quantile.   </li>
+
+<li>  $Y_{\mathrm{res},i}$: The resolution for item $i$.   </li>
+
+<li>  $SD_{Y_{\mathrm{hist},i}}$: The $SD$ of the historical time series of item $i$.    </li>
+
+</ul>
+
+
+:::
+::: {.column width="45%"}
+
+::: {.fragment fragment-index=1}
+
+$Y_i$: SD units away from the resolution.
+
+:::
+
+::: {.r-stack}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+ggplot() +
+  xlim(c(-3, 3)) +
+  ylim(c(0, 5)) +
+  xlab(expression(Y[i])) +
+   geom_segment(aes(x = 0, xend = 0, y = 0, yend = 4), linetype = 2, 
+                col = "#1b305c",
+                size = 2)+
+  annotate("text", x = -2, y = 1, label = "Perfect Forecast",
+           size = 7) +
+  theme(axis.ticks.y = element_blank(),
+        axis.title.y =element_blank(),
+        axis.line.y = element_blank(),
+        axis.text.y =  element_blank())
+
+```
+:::
+
+::: {.fragment fragment-index=2}
+
+```{r}
+ggplot() +
+  xlim(c(-3, 3)) +
+  ylim(c(0, 5)) +
+  xlab(expression(Y[i])) +
+   geom_segment(aes(x = 2, xend = 2, y = 0, yend = 4), linetype = 2,
+                col = "#1b305c",
+                size = 2)+
+  annotate("text", x = 0, y = 1, label = "2 SD Above \n Resolution",
+           size = 7) +
+  theme(axis.ticks.y = element_blank(),
+        axis.title.y =element_blank(),
+        axis.line.y = element_blank(),
+        axis.text.y =  element_blank())
+
+
+```
+
+:::
+
+::: {.fragment fragment-index=3}
+
+```{r}
+ggplot() +
+  xlim(c(-3, 3)) +
+  ylim(c(0, 5)) +
+  xlab(expression(Y[i])) +
+   geom_segment(aes(x = -1, xend = -1, y = 0, yend = 4), linetype = 2,
+                col = "#1b305c",
+                size = 2)+
+  annotate("text", x = 0, y = 1, label = "1 SD Below \n Resolution",
+           size = 7) +
+  theme(axis.ticks.y = element_blank(),
+        axis.title.y =element_blank(),
+        axis.line.y = element_blank(),
+        axis.text.y =  element_blank())
+
+
+```
+
+:::
+
+:::
+:::
+::::
+
+
+## Modeling Signed Error
+
+
+We model $Y_{jiq}$, the signed error of person $j$ to item $i$ at quantile $q$. 
+
+
+:::: {.columns}
+::: {.column width="40%"}
+
+$$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+\mu_{iq} = b_i + Q_q \times d_i \\
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}$$
+
+
+<ul style="font-size: 22px">  
+
+::: {.fragment fragment-index=1}
+<li>  $b_i$: item bias (*irreducible uncertainty*) </li>
+:::
+
+::: {.fragment fragment-index=2}
+<li>  $d_i$: expected quantile distance. $Q_q$ is a vector of constants that ensures monotonicity of $\mu_{iq}$  </li>
+:::
+
+::: {.fragment fragment-index=3}
+<li>  $\sigma_i$: item difficulty </li>
+:::
+
+::: {.fragment fragment-index=4}
+<li>  $\theta_j$: Forecasting ability, the only **person parameter** in the model </li>
+:::
+
+::: {.fragment fragment-index=5}
+<li>  $a_i$: item discrimination (i.e. the magnitude of the effect of $\theta_j$ on $\sigma_i$)  </li>
+:::
+
+</ul>
+
+
+:::
+::: {.column width="60%"}
+
+<iframe class="stretch" width="100%" height="550px" src="https://quinix45.github.io/shinylive_apps/t_model/"> </iframe>
+
+:::
+::::
+
+
 
 ## Model Graph From `pymc`
 
@@ -152,6 +316,11 @@ editor: source
 :::
 ::: {.column width = '50%'}
 
+<center>
+**Survey link**
+
+![](Additional%20files/Images/SlidesQR.svg){width=500}
+</center>
 
 
 :::

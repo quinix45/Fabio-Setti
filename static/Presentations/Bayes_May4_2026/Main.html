@@ -6,10 +6,10 @@
 <script src="Main_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Main_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Main_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Main_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.37">
+<link href="Main_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
-  <meta name="author" content="Fabio Setti">
+  <meta name="author" content="1Fabio Setti, 1Leah Feuerstahler, 2,6Sophie Ma Zhu, 3,6Nikolay Petrov, 4,6Ezra Karger, 5,6Mark Himmelstein">
   <title>Measuring Forecasting Proficiency: A Psychometric Approach</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -51,7 +51,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="Main_files/libs/revealjs/dist/theme/quarto-1107ab43c2477c894d771621a839a38b.css">
+  <link rel="stylesheet" href="Main_files/libs/revealjs/dist/theme/quarto-87324092abf4d1037bd5b0285e47b89d.css">
   <link href="Main_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Main_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Main_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -158,10 +158,10 @@
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Fabio Setti 
+<sup>1</sup>Fabio Setti, <sup>1</sup>Leah Feuerstahler, <sup>2,6</sup>Sophie Ma Zhu, <sup>3,6</sup>Nikolay Petrov, <sup>4,6</sup>Ezra Karger, <sup>5,6</sup>Mark Himmelstein 
 </div>
         <p class="quarto-title-affiliation">
-            Spring 2026
+            <sup>1</sup>Fordham University, <sup>2</sup>University of British Columbia, <sup>3</sup>University of Cambridge, <sup>4</sup>Federal Reserve Bank of Chicago, <sup>5</sup>Georgia Institute of Technology, <sup>6</sup>Forecasting Research Institute
           </p>
     </div>
 </div>
@@ -205,6 +205,106 @@ Fabio Setti
 <center>
 <img data-src="Additional%20files/Images/Figure_1.png" width="1080">
 </center>
+</section>
+<section id="historical-standardization" class="slide level2">
+<h2>Historical Standardization</h2>
+<p>Responses to FPT quantile forecast items are on very different scales (e.g.&nbsp;dollars/gallon, thousands of dollars, percentages,…). We define the outcome measure, <em>historically scaled signed error</em>, as</p>
+<p><span class="math display">\[
+Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
+\]</span></p>
+<div class="columns">
+<div class="column" style="width:55%;">
+<ul style="font-size: 26px">
+<li>
+<span class="math inline">\(\hat{Y}_i\)</span>: Reported forecast for item <span class="math inline">\(i\)</span> at any quantile.
+</li>
+<li>
+<span class="math inline">\(Y_{\mathrm{res},i}\)</span>: The resolution for item <span class="math inline">\(i\)</span>.
+</li>
+<li>
+<span class="math inline">\(SD_{Y_{\mathrm{hist},i}}\)</span>: The <span class="math inline">\(SD\)</span> of the historical time series of item <span class="math inline">\(i\)</span>.
+</li>
+</ul>
+</div><div class="column" style="width:45%;">
+<div class="fragment" data-fragment-index="1">
+<p><span class="math inline">\(Y_i\)</span>: SD units away from the resolution.</p>
+</div>
+<div class="r-stack">
+<div class="fragment" data-fragment-index="1">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Main_files/figure-revealjs/unnamed-chunk-2-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment" data-fragment-index="2">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Main_files/figure-revealjs/unnamed-chunk-3-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<div class="fragment" data-fragment-index="3">
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img data-src="Main_files/figure-revealjs/unnamed-chunk-4-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="modeling-signed-error" class="slide level2">
+<h2>Modeling Signed Error</h2>
+<p>We model <span class="math inline">\(Y_{jiq}\)</span>, the signed error of person <span class="math inline">\(j\)</span> to item <span class="math inline">\(i\)</span> at quantile <span class="math inline">\(q\)</span>.</p>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p><span class="math display">\[Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+\mu_{iq} = b_i + Q_q \times d_i \\
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}\]</span></p>
+<ul style="font-size: 22px">
+<div class="fragment" data-fragment-index="1">
+<li>
+<span class="math inline">\(b_i\)</span>: item bias (<em>irreducible uncertainty</em>)
+</li>
+</div>
+<div class="fragment" data-fragment-index="2">
+<li>
+<span class="math inline">\(d_i\)</span>: expected quantile distance. <span class="math inline">\(Q_q\)</span> is a vector of constants that ensures monotonicity of <span class="math inline">\(\mu_{iq}\)</span>
+</li>
+</div>
+<div class="fragment" data-fragment-index="3">
+<li>
+<span class="math inline">\(\sigma_i\)</span>: item difficulty
+</li>
+</div>
+<div class="fragment" data-fragment-index="4">
+<li>
+<span class="math inline">\(\theta_j\)</span>: Forecasting ability, the only <strong>person parameter</strong> in the model
+</li>
+</div>
+<div class="fragment" data-fragment-index="5">
+<li>
+<span class="math inline">\(a_i\)</span>: item discrimination (i.e.&nbsp;the magnitude of the effect of <span class="math inline">\(\theta_j\)</span> on <span class="math inline">\(\sigma_i\)</span>)
+</li>
+</div>
+</ul>
+</div><div class="column" style="width:60%;">
+<iframe class="stretch" width="100%" height="550px" src="https://quinix45.github.io/shinylive_apps/t_model/">
+</iframe>
+</div></div>
 </section>
 <section id="model-graph-from-pymc" class="slide level2">
 <h2>Model Graph From <code>pymc</code></h2>
@@ -251,7 +351,10 @@ Fabio Setti
 
 </div>
 </div><div class="column" style="width:50%;">
-
+<center>
+<p><strong>Survey link</strong></p>
+<img data-src="Additional%20files/Images/SlidesQR.svg" width="500">
+</center>
 </div></div>
 
 </section>
@@ -472,6 +575,44 @@ Fabio Setti
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
