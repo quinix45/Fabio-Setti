@@ -6,8 +6,8 @@
 <script src="Main_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Main_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Main_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Main_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.36">
+<link href="Main_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="1Fabio Setti, 1Leah Feuerstahler, 2,6Sophie Ma Zhu, 3,6Nikolay Petrov, 4,6Ezra Karger, 5,6Mark Himmelstein">
   <title>Measuring Forecasting Proficiency: A Psychometric Approach</title>
@@ -172,7 +172,9 @@
 <div class="columns">
 <div class="column" style="width:50%;">
 <center>
-<p><strong>Survey link</strong></p>
+<p style="font-size: 40px">
+<strong>Survey link</strong>
+</p>
 <img data-src="Additional%20files/Images/SurveyQR.svg" width="500">
 </center>
 </div><div class="column" style="width:50%;">
@@ -205,6 +207,59 @@
 <center>
 <img data-src="Additional%20files/Images/Figure_1.png" width="1080">
 </center>
+</section>
+<section id="psychometrics" class="slide level2">
+<h2>Psychometrics?</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<br>
+<center>
+<div style="font-size: 32px">
+One of the goals of <em>psychometrics</em> is uncovering the probabilistic process that <u><strong>causes</strong></u> item responses.
+</div>
+</center>
+<p><br></p>
+<div class="fragment" data-fragment-index="1">
+<p>In general, (most) psychometric models are statistical models that predict item responses, and have the following properties:</p>
+<ul>
+<li>Include parameters defining <strong>item properties</strong></li>
+<li>Include parameters defining <strong>person properties</strong></li>
+<li>Allow for some <strong>randomness</strong> in item responses (random measurement error)</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="2">
+<center>
+<div style="padding-top:24px;">
+<strong>Item response theory</strong> (IRT) models include all of these components.
+</div>
+</center>
+</div>
+</div><div class="column" style="width:40%;">
+<center>
+<img data-src="Additional%20files/Images/Probabilistic_process.png" style="width:60.0%">
+</center>
+</div></div>
+</section>
+<section id="a-classical-irt-model" class="slide level2">
+<h2>A Classical IRT Model</h2>
+<p>According to this IRT model, the <em>probability</em> of a correct response to a binary item <span class="math inline">\(i\)</span> for person <span class="math inline">\(j\)</span> (<span class="math inline">\(Y_{ij} = 1\)</span>) is:</p>
+<div class="columns">
+<div class="column" style="width:60%;">
+<iframe class="stretch" width="100%" height="470px" src="https://quinix45.github.io/shinylive_apps/2PL_interactive/">
+</iframe>
+</div><div class="column" style="width:40%;">
+<p><span class="math display">\[P(Y_{ij} = 1|a_i,b_i,\theta_j) = \mathrm{logit}(a_i(\theta_j - b_i))\]</span></p>
+<div class="fragment" data-fragment-index="1">
+<ul>
+<li><span class="math inline">\(\theta_j\)</span> is an unobserved person trait that explains why responses from the same individuals are similar to each other (i.e., <strong>ability</strong>)</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li><span class="math inline">\(a_i\)</span> and <span class="math inline">\(b_i\)</span> are characteristics that vary across items (e.g., items can be more or less difficult)</li>
+</ul>
+</div>
+</div></div>
 </section>
 <section id="historical-standardization" class="slide level2">
 <h2>Historical Standardization</h2>
@@ -306,6 +361,42 @@ Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
 </iframe>
 </div></div>
 </section>
+<section id="priors" class="slide level2">
+<h2>Priors</h2>
+<p><br></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="r-stack">
+<div class="fragment" data-fragment-index="1">
+<p><img data-src="Additional%20files/Images/Priors/b_prior.png"></p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p><img data-src="Additional%20files/Images/Priors/dlog_prior.png"></p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p><img data-src="Additional%20files/Images/Priors/alog_prior.png"></p>
+</div>
+<div class="fragment" data-fragment-index="4">
+<p><img data-src="Additional%20files/Images/Priors/logsigma_prior.png"></p>
+</div>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="r-stack">
+<div class="fragment" data-fragment-index="1">
+<p><img data-src="Additional%20files/Images/Priors/df_prior.png"></p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p><img data-src="Additional%20files/Images/Priors/d_prior.png"></p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p><img data-src="Additional%20files/Images/Priors/a_prior.png"></p>
+</div>
+<div class="fragment" data-fragment-index="4">
+<p><img data-src="Additional%20files/Images/Priors/sigma_prior.png"></p>
+</div>
+</div>
+</div></div>
+</section>
 <section id="model-graph-from-pymc" class="slide level2">
 <h2>Model Graph From <code>pymc</code></h2>
 <div class="columns">
@@ -343,6 +434,21 @@ Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
 </center>
 </div></div>
 </section>
+<section id="predicting-out-of-sample-accuracy" class="slide level2">
+<h2>Predicting Out of Sample Accuracy</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<div style="font-size: 26px">
+As per the study pre-registration, Waves 1 and 7 responses were treated as <em>outcome</em> and Waves 2,4, 6 were treated as <em>predictors</em>.
+</div>
+<p><br> <br></p>
+<div style="font-size: 24px; padding-top: 14px;">
+* <strong>SS</strong> stands for <strong>S-Score</strong>
+</div>
+</div><div class="column" style="width:70%;">
+<p><img data-src="Additional%20files/Images/Figure_7.png" style="width:95.0%"></p>
+</div></div>
+</section>
 <section id="references-and-slides-qr" class="slide level2 smaller scrollable">
 <h2>References and Slides QR</h2>
 <div class="columns">
@@ -352,7 +458,9 @@ Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
 </div>
 </div><div class="column" style="width:50%;">
 <center>
-<p><strong>Survey link</strong></p>
+<p style="font-size: 40px">
+<strong>Slides link</strong>
+</p>
 <img data-src="Additional%20files/Images/SlidesQR.svg" width="500">
 </center>
 </div></div>

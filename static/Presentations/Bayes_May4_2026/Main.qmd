@@ -43,7 +43,7 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
 ::: {.column width = '50%'}
 
 <center>
-**Survey link**
+<p style='font-size: 40px'> **Survey link** </p>
 
 ![](Additional%20files/Images/SurveyQR.svg){width=500}
 </center>
@@ -86,11 +86,87 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
 </div>
 
 
+
+
 ## Comparison of PEF and QEF Question
 
 <center>  
 ![](Additional%20files/Images/Figure_1.png){width="1080"}
 </center>
+
+
+## Psychometrics?
+
+:::: {.columns}
+::: {.column width="60%"}
+
+
+
+</br>
+<center> <div style="font-size: 32px"> One of the goals of *psychometrics* is uncovering the probabilistic process that <u>**causes**</u> item responses. </div> </center>
+
+</br>
+
+::: {.fragment fragment-index=1}
+
+
+In general, (most) psychometric models are statistical models that predict item responses, and have the following properties:
+
+- Include parameters defining **item properties**
+- Include parameters defining **person properties**
+- Allow for some **randomness** in item responses (random measurement error)
+:::
+
+::: {.fragment fragment-index=2}
+<center>
+
+<div style="padding-top:24px;"> **Item response theory** (IRT) models include all of these components. </div>
+
+
+</center>
+
+:::
+
+:::
+::: {.column width="40%"}
+
+<center>
+
+![](Additional files/Images/Probabilistic_process.png){width="60%"}
+</center>
+
+:::
+::::
+
+
+
+## A Classical IRT Model
+
+According to this IRT model, the *probability* of a correct response to a binary item $i$ for person $j$ ($Y_{ij} = 1$) is: 
+
+:::: {.columns}
+::: {.column width="60%"}
+
+<iframe class="stretch" width="100%" height="470px" src="https://quinix45.github.io/shinylive_apps/2PL_interactive/"> </iframe>
+
+:::
+
+::: {.column width="40%"}
+
+$$P(Y_{ij} = 1|a_i,b_i,\theta_j) = \mathrm{logit}(a_i(\theta_j - b_i))$$
+
+:::{.fragment fragment-index=1}
+- $\theta_j$ is an unobserved person trait that explains why responses from the same individuals are similar to each other (i.e., **ability**)
+:::
+
+:::{.fragment fragment-index=2}
+
+- $a_i$ and $b_i$ are characteristics that vary across items (e.g., items can be more or less difficult)
+
+:::
+
+:::
+::::
 
 
 ## Historical Standardization 
@@ -147,6 +223,8 @@ ggplot() +
         axis.text.y =  element_blank())
 
 ```
+
+
 :::
 
 ::: {.fragment fragment-index=2}
@@ -191,14 +269,18 @@ ggplot() +
 
 ```
 
+
+
 :::
 
 :::
 :::
+
 ::::
 
 
 ## Modeling Signed Error
+
 
 
 We model $Y_{jiq}$, the signed error of person $j$ to item $i$ at quantile $q$. 
@@ -215,32 +297,120 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 <ul style="font-size: 22px">  
 
 ::: {.fragment fragment-index=1}
+
 <li>  $b_i$: item bias (*irreducible uncertainty*) </li>
+
 :::
 
 ::: {.fragment fragment-index=2}
+
 <li>  $d_i$: expected quantile distance. $Q_q$ is a vector of constants that ensures monotonicity of $\mu_{iq}$  </li>
+
 :::
 
 ::: {.fragment fragment-index=3}
+
 <li>  $\sigma_i$: item difficulty </li>
+
 :::
 
 ::: {.fragment fragment-index=4}
+
 <li>  $\theta_j$: Forecasting ability, the only **person parameter** in the model </li>
+
 :::
 
 ::: {.fragment fragment-index=5}
+
 <li>  $a_i$: item discrimination (i.e. the magnitude of the effect of $\theta_j$ on $\sigma_i$)  </li>
+
 :::
 
 </ul>
 
-
 :::
+
 ::: {.column width="60%"}
 
+
+
 <iframe class="stretch" width="100%" height="550px" src="https://quinix45.github.io/shinylive_apps/t_model/"> </iframe>
+
+:::
+::::
+
+
+## Priors 
+
+</br>
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+::: {.r-stack}
+
+::: {.fragment fragment-index=1}
+
+![](Additional%20files/Images/Priors/b_prior.png)
+
+:::
+
+::: {.fragment fragment-index=2}
+
+![](Additional%20files/Images/Priors/dlog_prior.png)
+
+:::
+
+
+::: {.fragment fragment-index=3}
+
+![](Additional%20files/Images/Priors/alog_prior.png)
+
+:::
+
+::: {.fragment fragment-index=4}
+
+![](Additional%20files/Images/Priors/logsigma_prior.png)
+
+:::
+
+
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.r-stack}
+
+::: {.fragment fragment-index=1}
+
+![](Additional%20files/Images/Priors/df_prior.png)
+
+:::
+
+::: {.fragment fragment-index=2}
+
+![](Additional%20files/Images/Priors/d_prior.png)
+
+:::
+
+
+::: {.fragment fragment-index=3}
+
+![](Additional%20files/Images/Priors/a_prior.png)
+
+:::
+
+::: {.fragment fragment-index=4}
+
+![](Additional%20files/Images/Priors/sigma_prior.png)
+
+:::
+
+:::
+
 
 :::
 ::::
@@ -305,6 +475,31 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 :::
 ::::
 
+## Predicting Out of Sample Accuracy
+
+
+:::: {.columns}
+::: {.column width="30%"}
+
+<div style="font-size: 26px"> As per the study pre-registration, Waves 1 and 7 responses were treated as *outcome* and Waves 2,4, 6 were treated as *predictors*. </div>
+
+</br>
+</br>
+
+<div style="font-size: 24px; padding-top: 14px;"> \* **SS** stands for **S-Score**  </div>
+
+
+
+:::
+::: {.column width="70%"}
+
+![](Additional%20files/Images/Figure_7.png){width=95%}
+
+:::
+::::
+
+
+
 ## References and Slides QR
 
 
@@ -317,7 +512,8 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 ::: {.column width = '50%'}
 
 <center>
-**Survey link**
+
+ <p style='font-size: 40px'>  **Slides link** </p>
 
 ![](Additional%20files/Images/SlidesQR.svg){width=500}
 </center>
