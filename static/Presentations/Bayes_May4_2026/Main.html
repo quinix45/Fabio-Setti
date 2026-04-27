@@ -6,8 +6,8 @@
 <script src="Main_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Main_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Main_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Main_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.37">
+<link href="Main_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content="1Fabio Setti, 1Leah Feuerstahler, 2,6Sophie Ma Zhu, 3,6Nikolay Petrov, 4,6Ezra Karger, 5,6Mark Himmelstein">
   <title>Measuring Forecasting Proficiency: A Psychometric Approach</title>
@@ -35,6 +35,7 @@
     div.csl-bib-body { }
     div.csl-entry {
       clear: both;
+      margin-bottom: 0em;
     }
     .hanging-indent div.csl-entry {
       margin-left:2em;
@@ -153,7 +154,7 @@
 
 <section id="title-slide" data-transition="zoom" data-visibility="uncounted" class="quarto-title-block center">
   <h1 class="title">Measuring Forecasting Proficiency: A Psychometric Approach</h1>
-  <p class="subtitle">PSYC Placeholder</p>
+  <p class="subtitle">May 4, 2026</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -166,6 +167,42 @@
     </div>
 </div>
 
+</section>
+<section class="slide level2">
+
+<!-- link: https://fabio-setti.netlify.app/presentations/bayes_may4_2026/main -->
+</section>
+<section id="the-forecasting-proficiency-test-fpt" class="slide level2">
+<h2>The Forecasting Proficiency Test (FPT)</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<p>The Forecasting proficiency test <span class="citation" data-cites="Himmelstein_etal_2025">(<a href="#/section-5" role="doc-biblioref" onclick="">Himmelstein et al., 2025</a>)</span></p>
+</div><div class="column" style="width:40%;">
+<center>
+<div style="display:flex; font-size:26px;">
+<figure>
+<img src="Additional files/Images/Mark.jpg" style="width:320px">
+<figcaption>
+Mark Himmelstein, assistant professor <br> at Georgia Tech, PQP graduate
+</figcaption>
+</figure>
+</div>
+</center>
+</div></div>
+</section>
+<section id="comparison-of-pef-and-qef-question" class="slide level2">
+<h2>Comparison of PEF and QEF Question</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+Probability elicitation format
+</center>
+</div><div class="column" style="width:50%;">
+<p>Quantile elicitation format</p>
+</div></div>
+<center>
+<img data-src="Additional%20files/Images/Figure_1.png" width="1000">
+</center>
 </section>
 <section id="section" class="slide level2">
 <h2></h2>
@@ -186,27 +223,38 @@
 </section>
 <section id="section-1" class="slide level2">
 <h2></h2>
+<div class="columns">
+<div class="column" style="width:55%;">
+<p><br> <br> <br> <br> <br></p>
+<center>
+<p style="font-size: 142px">
+Thoughts?
+</p>
+</center>
+</div><div class="column" style="width:45%;">
+<p><br></p>
+<center>
+<p><img data-src="Additional%20files/Images/thinking.png" width="420"></p>
+</center>
+</div></div>
+</section>
+<section id="section-2" class="slide level2">
+<h2></h2>
 <div style="position: absolute; top:25%; left:0%; width:" 1300px"="">
   <img src="Additional files/Images/diagram_1.png">
 </div>
 </section>
-<section id="section-2" class="slide level2">
+<section id="section-3" class="slide level2">
 <h2></h2>
 <div style="position: absolute; top:25%; left:0%; width:" 1400px"="">
   <img src="Additional files/Images/diagram_2.png">
 </div>
 </section>
-<section id="section-3" class="slide level2">
+<section id="section-4" class="slide level2">
 <h2></h2>
 <div style="position: absolute; top:15%; left:0%; width:" 1400px"="">
   <img src="Additional files/Images/diagram_3.png">
 </div>
-</section>
-<section id="comparison-of-pef-and-qef-question" class="slide level2">
-<h2>Comparison of PEF and QEF Question</h2>
-<center>
-<img data-src="Additional%20files/Images/Figure_1.png" width="1080">
-</center>
 </section>
 <section id="psychometrics" class="slide level2">
 <h2>Psychometrics?</h2>
@@ -397,14 +445,20 @@ Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
 </div>
 </div></div>
 </section>
-<section id="model-graph-from-pymc" class="slide level2">
-<h2>Model Graph From <code>pymc</code></h2>
+<section id="software" class="slide level2">
+<h2>Software</h2>
 <div class="columns">
-<div class="column" style="width:20%;">
-
-</div><div class="column" style="width:80%;">
+<div class="column" style="width:30%;">
+<p>All models were estimated in <code>python</code> (Version 3.11) with <code>pymc</code> <span class="citation" data-cites="Abril-Pla_etal_2023">(<a href="#/section-5" role="doc-biblioref" onclick="">Abril-Pla et al., 2023</a>)</span> by using <code>nutpie</code>, an HMC sampler written in <code>rust</code> that improves on <code>stan</code>’s sampling algorithm <span class="citation" data-cites="Seyboldt_etal_2026">(<a href="#/section-5" role="doc-biblioref" onclick="">Seyboldt et al., 2026</a>)</span>.</p>
+<p>Plotting and analyses where done in <code>R</code> (Version 4.5.2).</p>
+</div><div class="column" style="width:70%;">
 <center>
-<img data-src="Additional%20files/Images/model_graph.png" width="880">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="Additional%20files/Images/model_graph.png" width="880"></p>
+<figcaption>Model graph from <code>pymc</code></figcaption>
+</figure>
+</div>
 </center>
 </div></div>
 </section>
@@ -449,12 +503,25 @@ As per the study pre-registration, Waves 1 and 7 responses were treated as <em>o
 <p><img data-src="Additional%20files/Images/Figure_7.png" style="width:95.0%"></p>
 </div></div>
 </section>
-<section id="references-and-slides-qr" class="slide level2 smaller scrollable">
-<h2>References and Slides QR</h2>
+<section id="section-5" class="slide level2 smaller scrollable">
+<h2></h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div id="refs" role="list">
-
+<center>
+<p style="font-size: 40px">
+<strong>References</strong>
+</p>
+</center>
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
+<div id="ref-Abril-Pla_etal_2023" class="csl-entry" role="listitem">
+Abril-Pla, O., Andreani, V., Carroll, C., Dong, L., Fonnesbeck, C. J., Kochurov, M., Kumar, R., Lao, J., Luhmann, C. C., Martin, O. A., Osthege, M., Vieira, R., Wiecki, T., &amp; Zinkov, R. (2023). <span>PyMC</span>: A modern, and comprehensive probabilistic programming framework in <span>Python</span>. <em>PeerJ Computer Science</em>, <em>9</em>, e1516. <a href="https://doi.org/10.7717/peerj-cs.1516">https://doi.org/10.7717/peerj-cs.1516</a>
+</div>
+<div id="ref-Himmelstein_etal_2025" class="csl-entry" role="listitem">
+Himmelstein, M., Zhu, S. M., Petrov, N., Karger, E., Helmer, J., Livnat, S., Bennett, A., Hedley, P., &amp; Tetlock, P. (2025). <em>The <span>Forecasting Proficiency Test</span>: <span>A General Use Assessment</span> of <span>Forecasting Ability</span></em>. OSF. <a href="https://doi.org/10.31234/osf.io/a7kdx_v2">https://doi.org/10.31234/osf.io/a7kdx_v2</a>
+</div>
+<div id="ref-Seyboldt_etal_2026" class="csl-entry" role="listitem">
+Seyboldt, A., Carlson, E. L., &amp; Carpenter, B. (2026). <em>Preconditioning <span>Hamiltonian Monte Carlo</span> by minimizing <span>Fisher Divergence</span></em> (No. arXiv:2603.18845). arXiv. <a href="https://doi.org/10.48550/arXiv.2603.18845">https://doi.org/10.48550/arXiv.2603.18845</a>
+</div>
 </div>
 </div><div class="column" style="width:50%;">
 <center>
@@ -469,7 +536,7 @@ As per the study pre-registration, Waves 1 and 7 responses were treated as <em>o
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
-<p>Lab 1: Descriptive Techniques and One-Predictor Regression</p>
+<p>Measuring Forecasting Proficiency: A Psychometric Approach</p>
 </div>
 </div></div>
 

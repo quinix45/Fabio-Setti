@@ -4,16 +4,16 @@ author: "<sup>1</sup>Fabio Setti, <sup>1</sup>Leah Feuerstahler, <sup>2,6</sup>S
 
 institute: "<sup>1</sup>Fordham University, <sup>2</sup>University of British Columbia, <sup>3</sup>University of Cambridge, <sup>4</sup>Federal Reserve Bank of Chicago, <sup>5</sup>Georgia Institute of Technology, <sup>6</sup>Forecasting Research Institute"
 
-subtitle: "PSYC Placeholder"
+subtitle: "May 4, 2026"
 
-bibliography: Additional files/R packages.bib
+bibliography: Additional files/References.bib
 csl: Additional files/apa.csl
 title-slide-attributes:
   data-transition: "zoom"
   data-visibility: "uncounted"
 format:
    revealjs:
-      footer: "Lab 1: Descriptive Techniques and One-Predictor Regression"
+      footer: "Measuring Forecasting Proficiency: A Psychometric Approach"
       width: 1280
       height: 720
       chalkboard: true
@@ -28,6 +28,8 @@ format:
 editor: source
 ---
 
+<!-- link: https://fabio-setti.netlify.app/presentations/bayes_may4_2026/main -->
+
 ```{r}
 library(ggplot2)
 
@@ -35,6 +37,62 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
                         base_family = 'serif'))
 
 ```
+
+
+## The Forecasting Proficiency Test (FPT)
+
+:::: {.columns}
+::: {.column width = '60%'}
+
+
+The Forecasting proficiency test [@Himmelstein_etal_2025]
+
+:::
+::: {.column width = '40%'}
+
+<center>
+
+
+<div style="display:flex; font-size:26px;">
+<figure>
+  <img src="Additional files/Images/Mark.jpg" style="width:320px">
+  <figcaption>Mark Himmelstein, assistant professor </br> at Georgia Tech, PQP graduate </figcaption>
+</figure>
+</div>
+
+</center>
+
+:::
+::::
+
+
+
+## Comparison of PEF and QEF Question
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+<center>
+Probability elicitation format
+</center>
+
+:::
+::: {.column width = '50%'}
+
+
+
+Quantile elicitation format
+
+
+
+:::
+::::
+
+<center>  
+![](Additional%20files/Images/Figure_1.png){width="1000"}
+</center>
+
+
 
 ##
 
@@ -64,6 +122,38 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
 ::::
 
 
+##
+
+:::: {.columns}
+::: {.column width = '55%'}
+
+
+</br>
+</br>
+</br>
+</br>
+</br>
+
+<center>
+
+ <p style='font-size: 142px'>   Thoughts?   </p>
+
+</center>
+
+:::
+::: {.column width = '45%'}
+
+</br>
+
+<center>
+
+![](Additional%20files/Images/thinking.png){width=420}
+
+</center>
+
+:::
+::::
+
 
 ##
 
@@ -86,13 +176,6 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
 </div>
 
 
-
-
-## Comparison of PEF and QEF Question
-
-<center>  
-![](Additional%20files/Images/Figure_1.png){width="1080"}
-</center>
 
 
 ## Psychometrics?
@@ -281,8 +364,6 @@ ggplot() +
 
 ## Modeling Signed Error
 
-
-
 We model $Y_{jiq}$, the signed error of person $j$ to item $i$ at quantile $q$. 
 
 
@@ -417,18 +498,20 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 
 
 
-## Model Graph From `pymc`
-
+## Software 
 
 :::: {.columns}
-::: {.column width = '20%'}
+::: {.column width = '30%'}
 
+All models were estimated in `python` (Version 3.11) with `pymc` [@Abril-Pla_etal_2023] by using `nutpie`, an HMC sampler written in `rust` that improves on `stan`'s sampling algorithm [@Seyboldt_etal_2026].
+
+Plotting and analyses where done in `R` (Version 4.5.2). 
 
 :::
-::: {.column width = '80%'}
+::: {.column width = '70%'}
 
 <center>  
-![](Additional%20files/Images/model_graph.png){width="880"}
+![Model graph from `pymc`](Additional%20files/Images/model_graph.png){width="880"}
 </center>
 
 :::
@@ -500,11 +583,16 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 
 
 
-## References and Slides QR
+## 
 
 
 :::: {.columns}
 ::: {.column width = '50%'}
+
+<center>
+ <p style='font-size: 40px'>  **References** </p>
+
+</center>
 
 <div id="refs"> </div>
 
