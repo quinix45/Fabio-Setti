@@ -6,6 +6,9 @@ institute: "<sup>1</sup>Fordham University, <sup>2</sup>University of British Co
 
 subtitle: "May 4, 2026"
 
+filters:
+   - more-fragments
+
 bibliography: Additional files/References.bib
 csl: Additional files/apa.csl
 title-slide-attributes:
@@ -28,6 +31,10 @@ format:
 editor: source
 ---
 
+
+
+## The Forecasting Proficiency Test (FPT)
+
 <!-- link: https://fabio-setti.netlify.app/presentations/bayes_may4_2026/main -->
 
 ```{r}
@@ -38,14 +45,33 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
 
 ```
 
-
-## The Forecasting Proficiency Test (FPT)
-
 :::: {.columns}
 ::: {.column width = '60%'}
 
 
-The Forecasting proficiency test [@Himmelstein_etal_2025]
+The Forecasting proficiency test [FPT\; @Himmelstein_etal_2025] is test designed to identify skilled forecasters 🔮 
+
+In general forecasting involves asking individuals to make predictions about future events and evaluating how accurate they are!
+
+The FPT lasts around 1 hour and presents both cognitive tasks and forecasting questions (the focus of this presentation).
+
+</br>
+
+<center>
+
+<p style='font-size: 32px'> Turns out there are many ways of asking for forecasts 🤔 </p>
+
+</br>
+
+ <p style='font-size: 32px'> **quantile elicitation format (QEF)** VS probability elicitation format (PEF). </p>
+
+
+
+</center>
+
+
+
+
 
 :::
 ::: {.column width = '40%'}
@@ -91,6 +117,9 @@ Quantile elicitation format
 <center>  
 ![](Additional%20files/Images/Figure_1.png){width="1000"}
 </center>
+
+
+
 
 
 
@@ -176,6 +205,48 @@ Quantile elicitation format
 </div>
 
 
+## 
+
+
+![](Additional files/Images/Probabilistic_process.png){.absolute top=250 left=500 width="250" height="350"}
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+<center>
+
+::: {.fragment fragment-index=1 .slideInLeft .slow}
+
+![](Additional%20files/Images/mark_question.png){width=700}
+
+:::
+
+</center>
+
+:::
+::: {.column width = '50%'}
+
+
+<center>
+
+::: {.fragment fragment-index=2 .slideInRight .slower}
+
+![](Additional%20files/Images/fabio_interested.png){width=700}
+
+:::
+
+
+</center>
+
+:::
+::::
+
+
+
+
+
+
 
 
 ## Psychometrics?
@@ -252,19 +323,44 @@ $$P(Y_{ij} = 1|a_i,b_i,\theta_j) = \mathrm{logit}(a_i(\theta_j - b_i))$$
 ::::
 
 
+##
+
+</br>
+
+<div style="width:"1300px">
+  <img src="Additional files/Images/diagram_4.png">
+</div>
+
+
+</br>
+
+
+**GOAL:** in IRT fashion, proposing a model that predict forecasts by accounting for both *person* and *item* features
+
+
 ## Historical Standardization 
 
-Responses to FPT quantile forecast items are on very different scales (e.g. dollars/gallon, thousands of dollars, percentages,...). We define the outcome measure, *historically scaled signed error*, as
+Responses to FPT quantile forecast items are on very different scales (e.g. dollars/gallon, thousands of dollars, percentages,...). But to compare item properties, the forecasts must be on the same scale.
 
 
 
-$$
-Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
-$$
+
+
+
 
 :::: {.columns}
-::: {.column width="55%"}
+::: {.column width="40%"}
 
+::: {.fragment fragment-index=1}
+
+<center>
+
+**historically scaled signed error** 
+
+</center>
+
+
+$$ Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}$$
 
 <ul style="font-size: 26px">  
 
@@ -276,19 +372,23 @@ $$
 
 </ul>
 
+:::
 
 :::
-::: {.column width="45%"}
+::: {.column width="60%"}
 
-::: {.fragment fragment-index=1}
+::: {.fragment fragment-index=2}
+<center>
 
 $Y_i$: SD units away from the resolution.
+
+</center>
 
 :::
 
 ::: {.r-stack}
 
-::: {.fragment fragment-index=1}
+::: {.fragment fragment-index=2}
 
 ```{r}
 ggplot() +
@@ -310,7 +410,7 @@ ggplot() +
 
 :::
 
-::: {.fragment fragment-index=2}
+::: {.fragment fragment-index=3}
 
 ```{r}
 ggplot() +
@@ -332,7 +432,7 @@ ggplot() +
 
 :::
 
-::: {.fragment fragment-index=3}
+::: {.fragment fragment-index=4}
 
 ```{r}
 ggplot() +
@@ -412,7 +512,6 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 :::
 
 ::: {.column width="60%"}
-
 
 
 <iframe class="stretch" width="100%" height="550px" src="https://quinix45.github.io/shinylive_apps/t_model/"> </iframe>
@@ -496,14 +595,60 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 :::
 ::::
 
+## Data Collection
 
+Item forecasts were collected across 5 waves of a 7 Wave study. 
+
+:::: {.columns}
+::: {.column width="30%"}
+
+</br>
+
+<ul style="font-size: 28px">  
+
+<li>  **32 items** divided across 6 forms (A, B, C, D, E, X)  and **1194 participants** </li>
+
+
+::: {.fragment fragment-index=1}
+
+<li> Diverse item domains: Financial, political, technology, energy... </li>
+
+:::
+
+::: {.fragment fragment-index=2}
+
+<li> 1 week interval between waves, and 1 month from resolution at wave 7  </li>
+
+:::
+</ul>
+
+
+</br>
+
+
+
+
+:::
+::: {.column width="70%"}
+
+
+![](Additional files/Images/Design_Waves.png)
+
+
+<div style="font-size: 16px"> *note*. The full experimental designed is detailed in both @Zhu_etal_2025 and @Himmelstein_etal_2025.</div>
+
+:::
+::::
 
 ## Software 
 
 :::: {.columns}
 ::: {.column width = '30%'}
 
-All models were estimated in `python` (Version 3.11) with `pymc` [@Abril-Pla_etal_2023] by using `nutpie`, an HMC sampler written in `rust` that improves on `stan`'s sampling algorithm [@Seyboldt_etal_2026].
+All models were estimated in `python` (Version 3.11) with `pymc` [@Abril-Pla_etal_2023] by using `nutpie`, an HMC sampler written in `rust` that improves on `stan`'s sampling algorithm [@Seyboldt_etal_2026 \;].
+
+![](Additional%20files/Images/Bob_post.png){width="320"}
+
 
 Plotting and analyses where done in `R` (Version 4.5.2). 
 
@@ -521,20 +666,45 @@ Plotting and analyses where done in `R` (Version 4.5.2).
 
 ## Estimated Item Parameters
 
+:::: {.columns}
+::: {.column width = '70%'}
+
 ![](Additional%20files/Images/Figure_S1.png){width="880"}
+
+:::
+::: {.column width = '30%'}
+
+$$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+\mu_{iq} = b_i + Q_q \times d_i \\
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}$$
+
+
+
+- The *dashed lines* represent the median of the item parameters.
+
+- The *horizontal lines* represent the posterior SD.
+
+:::
+::::
 
 ## Posterior Predictive Checks
 
 :::: {.columns}
-::: {.column width = '20%'}
-
-
-:::
 ::: {.column width = '80%'}
+
 
 <center>  
 ![](Additional%20files/Images/Figure_4.png){width="980"}
 </center> 
+
+:::
+::: {.column width = '20%'}
+
+- The model predicts item responses fairly well across items
+
+- The distribution of item responses varies greatly across items and the model accounts for that
+
+- some bimodal strangeness 😧 (e.g., [Bitcoin Graph](https://www.blockchain.com/explorer/charts/hash-ratelink){target='_blank'})
 
 :::
 ::::
@@ -545,21 +715,125 @@ Plotting and analyses where done in `R` (Version 4.5.2).
 
 
 :::: {.columns}
-::: {.column width = '20%'}
-
-
-:::
-::: {.column width = '80%'}
+::: {.column width = '70%'}
 
 <center>  
 ![](Additional%20files/Images/Figure_6.png){width="880"}
 </center>
 
 :::
+
+::: {.column width = '30%'}
+
+On top of the regular sample, 47 "super forecasters" were invited to complete all the FPT questions. 
+
+<center>  
+![](Additional%20files/Images/G_diff_crop.png){width="110"}
+</center>
+
+$\bar{\theta}_{\mathrm{SF}} - \bar{\theta}_{\mathrm{REG}} = 0.75, 95\% \, \mathrm{HDI} [0.49; 1.00]$
+
+
+
+:::
 ::::
 
-## Predicting Out of Sample Accuracy
+## Who gets Higher $\theta s$?
 
+Forecasters who consistently approach the expected forecasts get higher $\theta$ values.
+
+:::: {.columns}
+::: {.column width="75%"}
+
+<center>
+![](Additional files/Images/Figure_3.png){width=75%}
+</center>
+
+:::
+::: {.column width="25%"}
+
+<center>
+
+Also, note that the <span style="color: blue;"> item expected forecasts </span> are defined in the models as 
+
+</center>
+
+$$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+\color{blue}{\mu_{iq} = b_i + Q_q \times d_i} \\
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}$$
+
+:::
+::::
+
+<div style="font-size: 22px"> *note*. In the case of the two top panels, missing person forecast were outside the $Y_{jiq} = [-9; 9]$ range.</div>
+
+
+## Different Approaches to Scoring
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+The forecasting folks are perfectly fine with this:
+
+![No statistical model is involved here!](Additional files/Images/diagram_1.png)
+
+
+Psychometric folks prefer this: 
+
+![](Additional files/Images/diagram_5.png)
+
+
+
+
+
+:::
+
+::: {.column width = '50%'}
+
+In the case of item like the ones on the FPT, one popular scoring rule is the S-score [@Jose_Winkler_2009]
+
+
+::: {.panel-tabset}
+
+### 5%
+
+![](Additional files/Images/S-scores/S_score_05.png){width=95%}
+
+### 25%
+
+![](Additional files/Images/S-scores/S_score_25.png){width=95%}
+
+### 50%
+
+![](Additional files/Images/S-scores/S_score_50.png){width=95%}
+
+### 75%
+
+![](Additional files/Images/S-scores/S_score_75.png){width=95%}
+
+### 95%
+
+![](Additional files/Images/S-scores/S_score_95.png){width=95%}
+
+:::
+
+
+:::
+::::
+
+
+
+
+
+
+
+
+
+
+
+
+
+## How related are $\theta$ and *S*-scores?
 
 :::: {.columns}
 ::: {.column width="30%"}
@@ -580,6 +854,52 @@ Plotting and analyses where done in `R` (Version 4.5.2).
 
 :::
 ::::
+
+
+
+
+## $\theta$ And S-scores?
+
+:::: {.columns}
+::: {.column width="50%"}
+
+
+::: {.fragment fragment-index=1}
+
+<center>
+<figure>
+  <img src="Additional files/Images/Magnus-Carlsen.png" style="width:70%;">
+  <figcaption style="font-size: 30px"> Magnus Carlsen, the best chess player in the world (highest $\theta$) </figcaption>
+</figure>
+</center>
+
+:::
+
+:::
+::: {.column width="50%"}
+
+::: {.fragment fragment-index=2}
+<center>
+<figure>
+  <div class="tenor-gif-embed" 
+       data-postid="16228483763522153196" 
+       data-share-method="host" 
+       data-aspect-ratio="1.1267" 
+       data-width="80%">
+    <a href="https://tenor.com/view/magnus-carlsen-magnus-slam-table-slam-angry-gif-16228483763522153196">
+      Magnus Carlsen Slam GIF
+    </a> 
+    from 
+    <a href="https://tenor.com/search/magnus+carlsen-gifs">Magnus Carlsen GIFs</a>
+  </div>
+  <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+  <figcaption style="font-size: 30px">Magnus still loses every once in a while (i.e., lower S-score in some instances) </figcaption>
+</figure>
+</center>
+:::
+:::
+::::
+
 
 
 

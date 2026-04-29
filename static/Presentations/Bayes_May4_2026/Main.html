@@ -6,8 +6,12 @@
 <script src="Main_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Main_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Main_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Main_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.36">
+<link href="Main_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="Main_files/libs/quarto-contrib/more-fragments-0.1.0/more-fragments.js"></script>
+<link href="Main_files/libs/quarto-contrib/more-fragments-0.1.0/animate.min.css" rel="stylesheet">
+<link href="Main_files/libs/quarto-contrib/more-fragments-0.1.0/magic.min.css" rel="stylesheet">
+<link href="Main_files/libs/quarto-contrib/more-fragments-0.1.0/more-fragments.css" rel="stylesheet"><meta charset="utf-8">
+  <meta name="generator" content="quarto-1.9.37">
 
   <meta name="author" content="1Fabio Setti, 1Leah Feuerstahler, 2,6Sophie Ma Zhu, 3,6Nikolay Petrov, 4,6Ezra Karger, 5,6Mark Himmelstein">
   <title>Measuring Forecasting Proficiency: A Psychometric Approach</title>
@@ -168,15 +172,24 @@
 </div>
 
 </section>
-<section class="slide level2">
-
-<!-- link: https://fabio-setti.netlify.app/presentations/bayes_may4_2026/main -->
-</section>
 <section id="the-forecasting-proficiency-test-fpt" class="slide level2">
 <h2>The Forecasting Proficiency Test (FPT)</h2>
+<!-- link: https://fabio-setti.netlify.app/presentations/bayes_may4_2026/main -->
 <div class="columns">
 <div class="column" style="width:60%;">
-<p>The Forecasting proficiency test <span class="citation" data-cites="Himmelstein_etal_2025">(<a href="#/section-5" role="doc-biblioref" onclick="">Himmelstein et al., 2025</a>)</span></p>
+<p>The Forecasting proficiency test <span class="citation" data-cites="Himmelstein_etal_2025">(FPT; <a href="#/section-12" role="doc-biblioref" onclick="">Himmelstein et al., 2025</a>)</span> is test designed to identify skilled forecasters 🔮</p>
+<p>In general forecasting involves asking individuals to make predictions about future events and evaluating how accurate they are!</p>
+<p>The FPT lasts around 1 hour and presents both cognitive tasks and forecasting questions (the focus of this presentation).</p>
+<p><br></p>
+<center>
+<p style="font-size: 32px">
+Turns out there are many ways of asking for forecasts 🤔
+</p>
+<p><br></p>
+<p style="font-size: 32px">
+<strong>quantile elicitation format (QEF)</strong> VS probability elicitation format (PEF).
+</p>
+</center>
 </div><div class="column" style="width:40%;">
 <center>
 <div style="display:flex; font-size:26px;">
@@ -256,6 +269,24 @@ Thoughts?
   <img src="Additional files/Images/diagram_3.png">
 </div>
 </section>
+<section id="section-5" class="slide level2">
+<h2></h2>
+<p><img data-src="Additional%20files/Images/Probabilistic_process.png" class="absolute" style="top: 250px; left: 500px; width: 250px; height: 350px; "></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<div class="fragment slideInLeft slow" data-fragment-index="1">
+<p><img data-src="Additional%20files/Images/mark_question.png" width="700"></p>
+</div>
+</center>
+</div><div class="column" style="width:50%;">
+<center>
+<div class="fragment slideInRight slower" data-fragment-index="2">
+<p><img data-src="Additional%20files/Images/fabio_interested.png" width="700"></p>
+</div>
+</center>
+</div></div>
+</section>
 <section id="psychometrics" class="slide level2">
 <h2>Psychometrics?</h2>
 <div class="columns">
@@ -309,14 +340,25 @@ One of the goals of <em>psychometrics</em> is uncovering the probabilistic proce
 </div>
 </div></div>
 </section>
+<section id="section-6" class="slide level2">
+<h2></h2>
+<p><br></p>
+<div style="width:" 1300px"="">
+  <img src="Additional files/Images/diagram_4.png">
+</div>
+<p><br></p>
+<p><strong>GOAL:</strong> in IRT fashion, proposing a model that predict forecasts by accounting for both <em>person</em> and <em>item</em> features</p>
+</section>
 <section id="historical-standardization" class="slide level2">
 <h2>Historical Standardization</h2>
-<p>Responses to FPT quantile forecast items are on very different scales (e.g.&nbsp;dollars/gallon, thousands of dollars, percentages,…). We define the outcome measure, <em>historically scaled signed error</em>, as</p>
-<p><span class="math display">\[
-Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
-\]</span></p>
+<p>Responses to FPT quantile forecast items are on very different scales (e.g.&nbsp;dollars/gallon, thousands of dollars, percentages,…). But to compare item properties, the forecasts must be on the same scale.</p>
 <div class="columns">
-<div class="column" style="width:55%;">
+<div class="column" style="width:40%;">
+<div class="fragment" data-fragment-index="1">
+<center>
+<p><strong>historically scaled signed error</strong></p>
+</center>
+<p><span class="math display">\[ Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}\]</span></p>
 <ul style="font-size: 26px">
 <li>
 <span class="math inline">\(\hat{Y}_i\)</span>: Reported forecast for item <span class="math inline">\(i\)</span> at any quantile.
@@ -328,12 +370,15 @@ Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
 <span class="math inline">\(SD_{Y_{\mathrm{hist},i}}\)</span>: The <span class="math inline">\(SD\)</span> of the historical time series of item <span class="math inline">\(i\)</span>.
 </li>
 </ul>
-</div><div class="column" style="width:45%;">
-<div class="fragment" data-fragment-index="1">
+</div>
+</div><div class="column" style="width:60%;">
+<div class="fragment" data-fragment-index="2">
+<center>
 <p><span class="math inline">\(Y_i\)</span>: SD units away from the resolution.</p>
+</center>
 </div>
 <div class="r-stack">
-<div class="fragment" data-fragment-index="1">
+<div class="fragment" data-fragment-index="2">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -344,7 +389,7 @@ Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
 </div>
 </div>
 </div>
-<div class="fragment" data-fragment-index="2">
+<div class="fragment" data-fragment-index="3">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -355,7 +400,7 @@ Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
 </div>
 </div>
 </div>
-<div class="fragment" data-fragment-index="3">
+<div class="fragment" data-fragment-index="4">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -445,11 +490,41 @@ Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
 </div>
 </div></div>
 </section>
+<section id="data-collection" class="slide level2">
+<h2>Data Collection</h2>
+<p>Item forecasts were collected across 5 waves of a 7 Wave study.</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p><br></p>
+<ul style="font-size: 28px">
+<li>
+<strong>32 items</strong> divided across 6 forms (A, B, C, D, E, X) and <strong>1194 participants</strong>
+</li>
+<div class="fragment" data-fragment-index="1">
+<li>
+Diverse item domains: Financial, political, technology, energy…
+</li>
+</div>
+<div class="fragment" data-fragment-index="2">
+<li>
+1 week interval between waves, and 1 month from resolution at wave 7
+</li>
+</div>
+</ul>
+<p><br></p>
+</div><div class="column" style="width:70%;">
+<p><img data-src="Additional%20files/Images/Design_Waves.png"></p>
+<div style="font-size: 16px">
+<em>note</em>. The full experimental designed is detailed in both <span class="citation" data-cites="Zhu_etal_2025">Zhu et al. (<a href="#/section-12" role="doc-biblioref" onclick="">2025</a>)</span> and <span class="citation" data-cites="Himmelstein_etal_2025">Himmelstein et al. (<a href="#/section-12" role="doc-biblioref" onclick="">2025</a>)</span>.
+</div>
+</div></div>
+</section>
 <section id="software" class="slide level2">
 <h2>Software</h2>
 <div class="columns">
 <div class="column" style="width:30%;">
-<p>All models were estimated in <code>python</code> (Version 3.11) with <code>pymc</code> <span class="citation" data-cites="Abril-Pla_etal_2023">(<a href="#/section-5" role="doc-biblioref" onclick="">Abril-Pla et al., 2023</a>)</span> by using <code>nutpie</code>, an HMC sampler written in <code>rust</code> that improves on <code>stan</code>’s sampling algorithm <span class="citation" data-cites="Seyboldt_etal_2026">(<a href="#/section-5" role="doc-biblioref" onclick="">Seyboldt et al., 2026</a>)</span>.</p>
+<p>All models were estimated in <code>python</code> (Version 3.11) with <code>pymc</code> <span class="citation" data-cites="Abril-Pla_etal_2023">(<a href="#/section-12" role="doc-biblioref" onclick="">Abril-Pla et al., 2023</a>)</span> by using <code>nutpie</code>, an HMC sampler written in <code>rust</code> that improves on <code>stan</code>’s sampling algorithm <span class="citation" data-cites="Seyboldt_etal_2026">(<a href="#/section-12" role="doc-biblioref" onclick="">Seyboldt et al., 2026</a> ;)</span>.</p>
+<p><img data-src="Additional%20files/Images/Bob_post.png" width="320"></p>
 <p>Plotting and analyses where done in <code>R</code> (Version 4.5.2).</p>
 </div><div class="column" style="width:70%;">
 <center>
@@ -464,32 +539,108 @@ Y_i = \frac{\hat{Y}_i - Y_{\mathrm{res},i}}{SD_{Y_{\mathrm{hist},i}}}
 </section>
 <section id="estimated-item-parameters" class="slide level2">
 <h2>Estimated Item Parameters</h2>
+<div class="columns">
+<div class="column" style="width:70%;">
 <p><img data-src="Additional%20files/Images/Figure_S1.png" width="880"></p>
+</div><div class="column" style="width:30%;">
+<p><span class="math display">\[Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+\mu_{iq} = b_i + Q_q \times d_i \\
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}\]</span></p>
+<ul>
+<li><p>The <em>dashed lines</em> represent the median of the item parameters.</p></li>
+<li><p>The <em>horizontal lines</em> represent the posterior SD.</p></li>
+</ul>
+</div></div>
 </section>
 <section id="posterior-predictive-checks" class="slide level2">
 <h2>Posterior Predictive Checks</h2>
 <div class="columns">
-<div class="column" style="width:20%;">
-
-</div><div class="column" style="width:80%;">
+<div class="column" style="width:80%;">
 <center>
 <img data-src="Additional%20files/Images/Figure_4.png" width="980">
 </center>
+</div><div class="column" style="width:20%;">
+<ul>
+<li><p>The model predicts item responses fairly well across items</p></li>
+<li><p>The distribution of item responses varies greatly across items and the model accounts for that</p></li>
+<li><p>some bimodal strangeness 😧 (e.g., <a href="https://www.blockchain.com/explorer/charts/hash-ratelink" target="_blank">Bitcoin Graph</a>)</p></li>
+</ul>
 </div></div>
 </section>
 <section id="theta-distribution" class="slide level2">
 <h2><span class="math inline">\(\theta\)</span> Distribution</h2>
 <div class="columns">
-<div class="column" style="width:20%;">
-
-</div><div class="column" style="width:80%;">
+<div class="column" style="width:70%;">
 <center>
 <img data-src="Additional%20files/Images/Figure_6.png" width="880">
 </center>
+</div><div class="column" style="width:30%;">
+<p>On top of the regular sample, 47 “super forecasters” were invited to complete all the FPT questions.</p>
+<center>
+<img data-src="Additional%20files/Images/G_diff_crop.png" width="110">
+</center>
+<p><span class="math inline">\(\bar{\theta}_{\mathrm{SF}} - \bar{\theta}_{\mathrm{REG}} = 0.75, 95\% \, \mathrm{HDI} [0.49; 1.00]\)</span></p>
 </div></div>
 </section>
-<section id="predicting-out-of-sample-accuracy" class="slide level2">
-<h2>Predicting Out of Sample Accuracy</h2>
+<section id="who-gets-higher-theta-s" class="slide level2">
+<h2>Who gets Higher <span class="math inline">\(\theta s\)</span>?</h2>
+<p>Forecasters who consistently approach the expected forecasts get higher <span class="math inline">\(\theta\)</span> values.</p>
+<div class="columns">
+<div class="column" style="width:75%;">
+<center>
+<img data-src="Additional%20files/Images/Figure_3.png" style="width:75.0%">
+</center>
+</div><div class="column" style="width:25%;">
+<center>
+<p>Also, note that the <span style="color: blue;"> item expected forecasts </span> are defined in the models as</p>
+</center>
+<p><span class="math display">\[Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+\color{blue}{\mu_{iq} = b_i + Q_q \times d_i} \\
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}\]</span></p>
+</div></div>
+<div style="font-size: 22px">
+<em>note</em>. In the case of the two top panels, missing person forecast were outside the <span class="math inline">\(Y_{jiq} = [-9; 9]\)</span> range.
+</div>
+</section>
+<section id="different-approaches-to-scoring" class="slide level2">
+<h2>Different Approaches to Scoring</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p>The forecasting folks are perfectly fine with this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="Additional%20files/Images/diagram_1.png"></p>
+<figcaption>No statistical model is involved here!</figcaption>
+</figure>
+</div>
+<p>Psychometric folks prefer this:</p>
+<p><img data-src="Additional%20files/Images/diagram_5.png"></p>
+</div><div class="column" style="width:50%;">
+<p>In the case of item like the ones on the FPT, one popular scoring rule is the S-score <span class="citation" data-cites="Jose_Winkler_2009">(<a href="#/section-12" role="doc-biblioref" onclick="">Jose &amp; Winkler, 2009</a>)</span></p>
+<div class="panel-tabset">
+<ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">5%</a></li><li><a href="#tabset-1-2">25%</a></li><li><a href="#tabset-1-3">50%</a></li><li><a href="#tabset-1-4">75%</a></li><li><a href="#tabset-1-5">95%</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1">
+<p><img data-src="Additional%20files/Images/S-scores/S_score_05.png" style="width:95.0%"></p>
+</div>
+<div id="tabset-1-2">
+<p><img data-src="Additional%20files/Images/S-scores/S_score_25.png" style="width:95.0%"></p>
+</div>
+<div id="tabset-1-3">
+<p><img data-src="Additional%20files/Images/S-scores/S_score_50.png" style="width:95.0%"></p>
+</div>
+<div id="tabset-1-4">
+<p><img data-src="Additional%20files/Images/S-scores/S_score_75.png" style="width:95.0%"></p>
+</div>
+<div id="tabset-1-5">
+<p><img data-src="Additional%20files/Images/S-scores/S_score_95.png" style="width:95.0%"></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="how-related-are-theta-and-s-scores" class="slide level2">
+<h2>How related are <span class="math inline">\(\theta\)</span> and <em>S</em>-scores?</h2>
 <div class="columns">
 <div class="column" style="width:30%;">
 <div style="font-size: 26px">
@@ -503,7 +654,41 @@ As per the study pre-registration, Waves 1 and 7 responses were treated as <em>o
 <p><img data-src="Additional%20files/Images/Figure_7.png" style="width:95.0%"></p>
 </div></div>
 </section>
-<section id="section-5" class="slide level2 smaller scrollable">
+<section id="theta-and-s-scores" class="slide level2">
+<h2><span class="math inline">\(\theta\)</span> And S-scores?</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="1">
+<center>
+<figure>
+<img src="Additional files/Images/Magnus-Carlsen.png" style="width:70%;">
+<figcaption style="font-size: 30px">
+Magnus Carlsen, the best chess player in the world (highest <span class="math inline">\(\theta\)</span>)
+</figcaption>
+</figure>
+</center>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="fragment" data-fragment-index="2">
+<center>
+<figure>
+<div class="tenor-gif-embed" data-postid="16228483763522153196" data-share-method="host" data-aspect-ratio="1.1267" data-width="80%">
+<pre><code>&lt;a href="https://tenor.com/view/magnus-carlsen-magnus-slam-table-slam-angry-gif-16228483763522153196"&gt;
+  Magnus Carlsen Slam GIF
+&lt;/a&gt; 
+from 
+&lt;a href="https://tenor.com/search/magnus+carlsen-gifs"&gt;Magnus Carlsen GIFs&lt;/a&gt;</code></pre>
+</div>
+<script type="text/javascript" async="" src="https://tenor.com/embed.js"></script>
+<figcaption style="font-size: 30px">
+Magnus still loses every once in a while (i.e., lower S-score in some instances)
+</figcaption>
+</figure>
+</center>
+</div>
+</div></div>
+</section>
+<section id="section-12" class="slide level2 smaller scrollable">
 <h2></h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -519,8 +704,14 @@ Abril-Pla, O., Andreani, V., Carroll, C., Dong, L., Fonnesbeck, C. J., Kochurov,
 <div id="ref-Himmelstein_etal_2025" class="csl-entry" role="listitem">
 Himmelstein, M., Zhu, S. M., Petrov, N., Karger, E., Helmer, J., Livnat, S., Bennett, A., Hedley, P., &amp; Tetlock, P. (2025). <em>The <span>Forecasting Proficiency Test</span>: <span>A General Use Assessment</span> of <span>Forecasting Ability</span></em>. OSF. <a href="https://doi.org/10.31234/osf.io/a7kdx_v2">https://doi.org/10.31234/osf.io/a7kdx_v2</a>
 </div>
+<div id="ref-Jose_Winkler_2009" class="csl-entry" role="listitem">
+Jose, V. R. R., &amp; Winkler, R. L. (2009). Evaluating <span>Quantile Assessments</span>. <em>Operations Research</em>, <em>57</em>(5), 1287–1297. <a href="https://doi.org/10.1287/opre.1080.0665">https://doi.org/10.1287/opre.1080.0665</a>
+</div>
 <div id="ref-Seyboldt_etal_2026" class="csl-entry" role="listitem">
 Seyboldt, A., Carlson, E. L., &amp; Carpenter, B. (2026). <em>Preconditioning <span>Hamiltonian Monte Carlo</span> by minimizing <span>Fisher Divergence</span></em> (No. arXiv:2603.18845). arXiv. <a href="https://doi.org/10.48550/arXiv.2603.18845">https://doi.org/10.48550/arXiv.2603.18845</a>
+</div>
+<div id="ref-Zhu_etal_2025" class="csl-entry" role="listitem">
+Zhu, S. M., Budescu, D., Petrov, N., Karger, E., &amp; Himmelstein, M. (2025). <em>The <span>Psychometric Properties</span> of <span>Probability</span> and <span>Quantile Forecasts</span></em> (No. 2m4ya_v2). PsyArXiv. <a href="https://doi.org/10.31234/osf.io/2m4ya_v2">https://doi.org/10.31234/osf.io/2m4ya_v2</a>
 </div>
 </div>
 </div><div class="column" style="width:50%;">
