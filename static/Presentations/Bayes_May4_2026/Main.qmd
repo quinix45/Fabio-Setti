@@ -253,12 +253,6 @@ Quantile elicitation format
 ::::
 
 
-
-
-
-
-
-
 ## Psychometrics?
 
 :::: {.columns}
@@ -351,10 +345,6 @@ $$P(Y_{ij} = 1|a_i,b_i,\theta_j) = \mathrm{logit}(a_i(\theta_j - b_i))$$
 ## Historical Standardization 
 
 Responses to FPT quantile forecast items are on very different scales (e.g. dollars/gallon, thousands of dollars, percentages,...). But to compare item properties, the forecasts must be on the same scale.
-
-
-
-
 
 
 
@@ -469,6 +459,39 @@ ggplot() +
 :::
 :::
 
+::::
+
+## Determining a "correct" Response 🤔
+
+For quantiles where $p \neq 0.5$, determining what a correct response should be is not straightforward. What is a "correct" response when $p = 0.05$? 
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=1}
+
+**wisdom of crowds** [WoC\; @Galton_1907]
+
+![](Additional%20files/Images/Galton_Ox.png)
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
+
+
+**cultural consensus theory** [e.g., @Anders_etal_2014]
+
+A framework for determining a "correct" answer through consensus when no objective correct answer exists.
+
+
+![](Additional%20files/Images/social_norms.png)
+
+:::
+
+:::
 ::::
 
 
