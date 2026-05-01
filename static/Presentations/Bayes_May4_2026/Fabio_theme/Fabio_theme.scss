@@ -227,6 +227,14 @@ figcaption {
   text-shadow: none;
 }
 
+// transparent background for fragments
+
+.transparent-bg {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
 // "Data" heading class
 
 .data-title {

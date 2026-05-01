@@ -6,12 +6,12 @@
 <script src="Main_files/libs/quarto-html/tippy.umd.min.js"></script>
 <link href="Main_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="Main_files/libs/quarto-html/light-border.css" rel="stylesheet">
-<link href="Main_files/libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="Main_files/libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="Main_files/libs/quarto-contrib/more-fragments-0.1.0/more-fragments.js"></script>
 <link href="Main_files/libs/quarto-contrib/more-fragments-0.1.0/animate.min.css" rel="stylesheet">
 <link href="Main_files/libs/quarto-contrib/more-fragments-0.1.0/magic.min.css" rel="stylesheet">
 <link href="Main_files/libs/quarto-contrib/more-fragments-0.1.0/more-fragments.css" rel="stylesheet"><meta charset="utf-8">
-  <meta name="generator" content="quarto-1.9.37">
+  <meta name="generator" content="quarto-1.9.36">
 
   <meta name="author" content="1Fabio Setti, 1Leah Feuerstahler, 2,6Sophie Ma Zhu, 3,6Nikolay Petrov, 4,6Ezra Karger, 5,6Mark Himmelstein">
   <title>Measuring Forecasting Proficiency: A Psychometric Approach</title>
@@ -56,7 +56,7 @@
     div.csl-indent {
       margin-left: 2em;
     }  </style>
-  <link rel="stylesheet" href="Main_files/libs/revealjs/dist/theme/quarto-87324092abf4d1037bd5b0285e47b89d.css">
+  <link rel="stylesheet" href="Main_files/libs/revealjs/dist/theme/quarto-6a2e44bb60bf4bd0513607e8873eaef3.css">
   <link href="Main_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="Main_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="Main_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -150,6 +150,13 @@
       margin-right: 0; 
     }
   </style>
+  <script src="Main_files/libs/core-js-2.5.3/shim.min.js"></script>
+  <script src="Main_files/libs/react-18.2.0/react.min.js"></script>
+  <script src="Main_files/libs/react-18.2.0/react-dom.min.js"></script>
+  <script src="Main_files/libs/reactwidget-2.0.0/react-tools.js"></script>
+  <script src="Main_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+  <link href="Main_files/libs/reactable-0.4.5/reactable.css" rel="stylesheet">
+  <script src="Main_files/libs/reactable-binding-0.4.5/reactable.js"></script>
   <script src="Fabio_theme/Fabio_theme.js"></script>
 </head>
 <body class="quarto-light">
@@ -177,18 +184,26 @@
 <!-- link: https://fabio-setti.netlify.app/presentations/bayes_may4_2026/main -->
 <div class="columns">
 <div class="column" style="width:60%;">
-<p>The Forecasting proficiency test <span class="citation" data-cites="Himmelstein_etal_2025">(FPT; <a href="#/section-12" role="doc-biblioref" onclick="">Himmelstein et al., 2025</a>)</span> is test designed to identify skilled forecasters 🔮</p>
+<p>The Forecasting proficiency test <span class="citation" data-cites="Himmelstein_etal_2025">(FPT; <a href="#/section-13" role="doc-biblioref" onclick="">Himmelstein et al., 2025</a>)</span> is test designed to identify skilled forecasters 🔮</p>
+<div class="fragment" data-fragment-index="1">
 <p>In general forecasting involves asking individuals to make predictions about future events and evaluating how accurate they are!</p>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>The FPT lasts around 1 hour and presents both cognitive tasks and forecasting questions (the focus of this presentation).</p>
+</div>
 <p><br></p>
 <center>
+<div class="fragment" data-fragment-index="3">
 <p style="font-size: 32px">
 Turns out there are many ways of asking for forecasts 🤔
 </p>
+</div>
 <p><br></p>
+<div class="fragment" data-fragment-index="4">
 <p style="font-size: 32px">
 <strong>quantile elicitation format (QEF)</strong> VS probability elicitation format (PEF).
 </p>
+</div>
 </center>
 </div><div class="column" style="width:40%;">
 <center>
@@ -225,7 +240,12 @@ Probability elicitation format
 <p style="font-size: 40px">
 <strong>Survey link</strong>
 </p>
-<img data-src="Additional%20files/Images/SurveyQR.svg" width="500">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="Additional%20files/Images/SurveyQR.svg" width="500"></p>
+<figcaption><a href="https://shorturl.at/wLaIw" target="_blank">https://shorturl.at/wLaIw</a></figcaption>
+</figure>
+</div>
 </center>
 </div><div class="column" style="width:50%;">
 <p><br></p>
@@ -419,9 +439,11 @@ One of the goals of <em>psychometrics</em> is uncovering the probabilistic proce
 <p>We model <span class="math inline">\(Y_{jiq}\)</span>, the signed error of person <span class="math inline">\(j\)</span> to item <span class="math inline">\(i\)</span> at quantile <span class="math inline">\(q\)</span>.</p>
 <div class="columns">
 <div class="column" style="width:40%;">
-<p><span class="math display">\[Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+<p><span class="math display">\[
+Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 \mu_{iq} = b_i + Q_q \times d_i \\
-\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}\]</span></p>
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}
+\]</span></p>
 <ul style="font-size: 22px">
 <div class="fragment" data-fragment-index="1">
 <li>
@@ -515,7 +537,7 @@ Diverse item domains: Financial, political, technology, energy…
 </div><div class="column" style="width:70%;">
 <p><img data-src="Additional%20files/Images/Design_Waves.png"></p>
 <div style="font-size: 16px">
-<em>note</em>. The full experimental designed is detailed in both <span class="citation" data-cites="Zhu_etal_2025">Zhu et al. (<a href="#/section-12" role="doc-biblioref" onclick="">2025</a>)</span> and <span class="citation" data-cites="Himmelstein_etal_2025">Himmelstein et al. (<a href="#/section-12" role="doc-biblioref" onclick="">2025</a>)</span>.
+<em>note</em>. The full experimental designed is detailed in both <span class="citation" data-cites="Zhu_etal_2025">Zhu et al. (<a href="#/section-13" role="doc-biblioref" onclick="">2025</a>)</span> and <span class="citation" data-cites="Himmelstein_etal_2025">Himmelstein et al. (<a href="#/section-13" role="doc-biblioref" onclick="">2025</a>)</span>.
 </div>
 </div></div>
 </section>
@@ -523,9 +545,13 @@ Diverse item domains: Financial, political, technology, energy…
 <h2>Software</h2>
 <div class="columns">
 <div class="column" style="width:30%;">
-<p>All models were estimated in <code>python</code> (Version 3.11) with <code>pymc</code> <span class="citation" data-cites="Abril-Pla_etal_2023">(<a href="#/section-12" role="doc-biblioref" onclick="">Abril-Pla et al., 2023</a>)</span> by using <code>nutpie</code>, an HMC sampler written in <code>rust</code> that improves on <code>stan</code>’s sampling algorithm <span class="citation" data-cites="Seyboldt_etal_2026">(<a href="#/section-12" role="doc-biblioref" onclick="">Seyboldt et al., 2026</a> ;)</span>.</p>
+<p>All models were estimated in <code>python</code> (Version 3.11) with <code>pymc</code> <span class="citation" data-cites="Abril-Pla_etal_2023">(<a href="#/section-13" role="doc-biblioref" onclick="">Abril-Pla et al., 2023</a>)</span> by using <code>nutpie</code>, an HMC sampler written in <code>rust</code> that improves on <code>stan</code>’s sampling algorithm <span class="citation" data-cites="Seyboldt_etal_2026">(<a href="#/section-13" role="doc-biblioref" onclick="">Seyboldt et al., 2026</a> ;)</span>.</p>
+<div class="fragment" data-fragment-index="1">
 <p><img data-src="Additional%20files/Images/Bob_post.png" width="320"></p>
+</div>
+<div class="fragment" data-fragment-index="2">
 <p>Plotting and analyses where done in <code>R</code> (Version 4.5.2).</p>
+</div>
 </div><div class="column" style="width:70%;">
 <center>
 <div class="quarto-figure quarto-figure-center">
@@ -537,19 +563,56 @@ Diverse item domains: Financial, political, technology, energy…
 </center>
 </div></div>
 </section>
+<section id="posterior-and-convergence-statistics" class="slide level2">
+<h2>Posterior and Convergence Statistics</h2>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p>MCMC settings:</p>
+<ul>
+<li><p>4 chains</p>
+<ul>
+<li><p>800 warmup iterations</p></li>
+<li><p>5000 draws</p></li>
+</ul></li>
+</ul>
+<div class="fragment" data-fragment-index="1">
+<p>Around 16 minutes for the full model! (1,354 estimated parameters)</p>
+</div>
+<p><br></p>
+<div class="fragment" data-fragment-index="2">
+<p>Good convergence, although <span class="math inline">\(\sigma_i\)</span> parameters seem a bit harder to sample.</p>
+</div>
+</div><div class="column" style="width:70%;">
+<div class="fragment" data-fragment-index="1">
+<div class="cell">
+<div class="cell-output-display">
+<div id="htmlwidget-1f65dc3d1581c6fa2f18" class="reactable html-widget" style="width:auto;height:600px;"></div>
+<script type="application/json" data-for="htmlwidget-1f65dc3d1581c6fa2f18">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"Parameter":["b[3]","b[12]","b[29]","b[11]","b[1]","b[2]","b[5]","b[18]","b[24]","b[30]","b[0]","b[8]","b[14]","b[20]","b[27]","b[7]","b[9]","b[13]","b[23]","b[6]","b[17]","b[25]","b[15]","b[10]","b[16]","b[19]","b[26]","b[31]","b[4]","b[21]","b[22]","b[28]","d[3]","d[12]","d[29]","d[11]","d[1]","d[2]","d[5]","d[18]","d[24]","d[30]","d[0]","d[8]","d[14]","d[20]","d[27]","d[7]","d[9]","d[13]","d[23]","d[6]","d[17]","d[25]","d[15]","d[10]","d[16]","d[19]","d[26]","d[31]","d[4]","d[21]","d[22]","d[28]","a[3]","a[12]","a[29]","a[11]","a[1]","a[2]","a[5]","a[18]","a[24]","a[30]","a[0]","a[8]","a[14]","a[20]","a[27]","a[7]","a[9]","a[13]","a[23]","a[6]","a[17]","a[25]","a[15]","a[10]","a[16]","a[19]","a[26]","a[31]","a[4]","a[21]","a[22]","a[28]","G_diff","theta[74]","theta[735]","theta[733]","theta[705]","theta[527]","theta[710]","theta[897]","theta[804]","theta[934]","theta[887]","theta[1043]","theta[912]","theta[506]","theta[193]","theta[378]","theta[216]","theta[676]","theta[699]","theta[44]","theta[1158]","theta[242]","theta[759]","theta[82]","theta[443]","theta[929]","theta[1040]","theta[838]","theta[1116]","theta[1]","theta[326]","theta[692]","theta[3]","theta[493]","theta[775]","theta[519]","theta[845]","theta[277]","theta[1169]","theta[12]","theta[249]","theta[245]","theta[64]","theta[511]","theta[1190]","theta[77]","theta[1180]","theta[150]","theta[1049]","theta[238]","theta[57]","theta[764]","theta[175]","theta[1000]","theta[756]","theta[761]","theta[959]","theta[789]","theta[67]","theta[304]","theta[63]","theta[768]","theta[1095]","theta[795]","theta[465]","theta[796]","theta[1091]","theta[106]","theta[66]","theta[276]","theta[855]","theta[1047]","theta[146]","theta[510]","theta[145]","theta[318]","theta[1083]","theta[703]","theta[938]","theta[1014]","theta[313]","theta[964]","theta[984]","theta[1160]","theta[1109]","theta[429]","theta[1135]","theta[1152]","theta[508]","theta[169]","theta[628]","theta[930]","theta[482]","theta[961]","theta[1148]","theta[98]","theta[736]","theta[536]","theta[987]","theta[862]","theta[99]","theta[1079]","theta[244]","theta[601]","theta[129]","theta[639]","theta[941]","theta[84]","theta[973]","theta[359]","theta[841]","theta[389]","theta[380]","theta[14]","theta[1141]","theta[750]","theta[472]","theta[656]","theta[412]","theta[125]","theta[4]","theta[97]","theta[1099]","theta[723]","theta[1088]","theta[707]","theta[777]","theta[597]","theta[37]","theta[452]","theta[272]","theta[999]","theta[1035]","theta[438]","theta[672]","theta[279]","theta[981]","theta[546]","theta[1134]","theta[370]","theta[334]","theta[394]","theta[818]","theta[932]","theta[107]","theta[156]","theta[514]","theta[490]","theta[274]","theta[450]","theta[455]","theta[896]","theta[555]","theta[466]","theta[158]","theta[808]","theta[889]","theta[62]","theta[444]","theta[662]","theta[826]","theta[484]","theta[224]","theta[588]","theta[255]","theta[827]","theta[954]","theta[641]","theta[147]","theta[258]","theta[43]","theta[290]","theta[572]","theta[60]","theta[421]","theta[365]","theta[257]","theta[1084]","theta[386]","theta[177]","theta[839]","theta[446]","theta[312]","theta[1021]","theta[1114]","theta[952]","theta[602]","theta[520]","theta[300]","theta[92]","theta[165]","theta[9]","theta[507]","theta[522]","theta[908]","theta[403]","theta[58]","theta[343]","theta[430]","theta[898]","theta[268]","theta[560]","theta[558]","theta[1011]","theta[677]","theta[112]","theta[305]","theta[877]","theta[517]","theta[181]","theta[598]","theta[117]","theta[41]","theta[652]","theta[1136]","theta[659]","theta[923]","theta[801]","theta[456]","theta[689]","theta[875]","theta[748]","theta[179]","theta[760]","theta[715]","theta[241]","theta[39]","theta[374]","theta[401]","theta[734]","theta[1122]","theta[992]","theta[976]","theta[144]","theta[869]","theta[1147]","theta[1052]","theta[745]","theta[626]","theta[1151]","theta[586]","theta[632]","theta[532]","theta[608]","theta[939]","theta[751]","theta[786]","theta[660]","theta[726]","theta[90]","theta[155]","theta[543]","theta[317]","theta[414]","theta[974]","theta[87]","theta[728]","theta[405]","theta[407]","theta[539]","theta[1055]","theta[410]","theta[524]","theta[849]","theta[888]","theta[478]","theta[681]","theta[925]","theta[1005]","theta[772]","theta[686]","theta[27]","theta[1092]","theta[1078]","theta[640]","theta[956]","theta[157]","theta[457]","theta[851]","theta[891]","theta[435]","theta[476]","theta[474]","theta[554]","theta[1191]","theta[42]","theta[80]","theta[162]","theta[173]","theta[848]","theta[220]","theta[483]","theta[690]","theta[163]","theta[619]","theta[61]","theta[730]","theta[71]","theta[766]","theta[8]","theta[834]","theta[892]","theta[416]","theta[924]","theta[344]","theta[989]","theta[574]","theta[903]","theta[295]","theta[634]","theta[807]","theta[1103]","theta[566]","theta[194]","theta[531]","theta[217]","theta[828]","theta[1056]","theta[570]","theta[1074]","theta[449]","theta[310]","theta[159]","theta[54]","theta[614]","theta[990]","theta[746]","theta[512]","theta[400]","theta[212]","theta[251]","theta[350]","theta[709]","theta[675]","theta[927]","theta[262]","theta[271]","theta[164]","theta[914]","theta[550]","theta[285]","theta[292]","theta[1173]","theta[233]","theta[535]","theta[206]","theta[379]","theta[1032]","theta[1137]","theta[1017]","theta[331]","theta[1053]","theta[200]","theta[668]","theta[790]","theta[170]","theta[693]","theta[11]","theta[1167]","theta[497]","theta[26]","theta[739]","theta[281]","theta[998]","theta[886]","theta[197]","theta[1082]","theta[494]","theta[1026]","theta[1019]","theta[1142]","theta[321]","theta[328]","theta[182]","theta[831]","theta[865]","theta[486]","theta[803]","theta[23]","theta[360]","theta[368]","theta[1063]","theta[644]","theta[1033]","theta[201]","theta[1172]","theta[116]","theta[785]","theta[288]","theta[307]","theta[256]","theta[806]","theta[740]","theta[946]","theta[1150]","theta[595]","theta[207]","theta[584]","theta[540]","theta[518]","theta[88]","theta[791]","theta[819]","theta[704]","theta[178]","theta[21]","theta[627]","theta[126]","theta[578]","theta[782]","theta[349]","theta[1164]","theta[477]","theta[931]","theta[341]","theta[874]","theta[22]","theta[576]","theta[1018]","theta[439]","theta[489]","theta[1065]","theta[541]","theta[651]","theta[237]","theta[575]","theta[606]","theta[585]","theta[154]","theta[988]","theta[423]","theta[711]","theta[872]","theta[5]","theta[1029]","theta[647]","theta[629]","theta[70]","theta[398]","theta[227]","theta[419]","theta[654]","theta[406]","theta[850]","theta[314]","theta[135]","theta[339]","theta[411]","theta[1129]","theta[798]","theta[180]","theta[706]","theta[46]","theta[556]","theta[513]","theta[684]","theta[1107]","theta[830]","theta[75]","theta[770]","theta[755]","theta[187]","theta[1080]","theta[915]","theta[462]","theta[620]","theta[1022]","theta[246]","theta[569]","theta[247]","theta[29]","theta[424]","theta[811]","theta[534]","theta[1132]","theta[980]","theta[332]","theta[918]","theta[19]","theta[17]","theta[1105]","theta[1101]","theta[166]","theta[646]","theta[564]","theta[810]","theta[942]","theta[228]","theta[93]","theta[1004]","theta[752]","theta[749]","theta[89]","theta[440]","theta[753]","theta[623]","theta[922]","theta[837]","theta[335]","theta[552]","theta[856]","theta[975]","theta[51]","theta[311]","theta[250]","theta[377]","theta[121]","theta[958]","theta[1062]","theta[404]","theta[53]","theta[727]","theta[528]","theta[183]","theta[784]","theta[669]","theta[1146]","theta[479]","theta[366]","theta[218]","theta[375]","theta[420]","theta[687]","theta[842]","theta[30]","theta[996]","theta[459]","theta[663]","theta[1149]","theta[222]","theta[215]","theta[1127]","theta[425]","theta[963]","theta[96]","theta[916]","theta[325]","theta[594]","theta[774]","theta[79]","theta[658]","theta[56]","theta[589]","theta[329]","theta[205]","theta[95]","theta[141]","theta[978]","theta[431]","theta[631]","theta[545]","theta[399]","theta[442]","theta[917]","theta[2]","theta[780]","theta[1176]","theta[402]","theta[721]","theta[970]","theta[747]","theta[273]","theta[232]","theta[725]","theta[926]","theta[738]","theta[363]","theta[40]","theta[1159]","theta[1060]","theta[724]","theta[737]","theta[1089]","theta[562]","theta[682]","theta[783]","theta[847]","theta[655]","theta[464]","theta[1042]","theta[742]","theta[947]","theta[168]","theta[32]","theta[1130]","theta[260]","theta[434]","theta[642]","theta[716]","theta[35]","theta[581]","theta[1028]","theta[68]","theta[345]","theta[104]","theta[1117]","theta[960]","theta[361]","theta[1125]","theta[248]","theta[498]","theta[549]","theta[940]","theta[1086]","theta[371]","theta[607]","theta[499]","theta[957]","theta[385]","theta[1050]","theta[649]","theta[18]","theta[1145]","theta[821]","theta[717]","theta[857]","theta[208]","theta[866]","theta[415]","theta[136]","theta[1010]","theta[883]","theta[781]","theta[1058]","theta[73]","theta[203]","theta[863]","theta[720]","theta[1066]","theta[920]","theta[773]","theta[951]","theta[899]","theta[698]","theta[1002]","theta[306]","theta[1156]","theta[105]","theta[296]","theta[103]","theta[997]","theta[993]","theta[876]","theta[805]","theta[537]","theta[286]","theta[143]","theta[621]","theta[78]","theta[283]","theta[487]","theta[1192]","theta[982]","theta[797]","theta[757]","theta[688]","theta[732]","theta[890]","theta[323]","theta[1108]","theta[161]","theta[553]","theta[1185]","theta[387]","theta[475]","theta[526]","theta[473]","theta[1187]","theta[579]","theta[854]","theta[765]","theta[123]","theta[538]","theta[219]","theta[977]","theta[333]","theta[338]","theta[630]","theta[142]","theta[393]","theta[111]","theta[894]","theta[139]","theta[816]","theta[1048]","theta[944]","theta[815]","theta[1111]","theta[1188]","theta[985]","theta[612]","theta[609]","theta[673]","theta[902]","theta[994]","theta[882]","theta[269]","theta[853]","theta[1110]","theta[812]","theta[694]","theta[1057]","theta[1051]","theta[20]","theta[769]","theta[587]","theta[130]","theta[895]","theta[1001]","theta[263]","theta[81]","theta[573]","theta[432]","theta[355]","theta[342]","theta[293]","theta[1020]","theta[870]","theta[787]","theta[776]","theta[133]","theta[119]","theta[592]","theta[461]","theta[822]","theta[530]","theta[485]","theta[509]","theta[613]","theta[330]","theta[467]","theta[1143]","theta[525]","theta[48]","theta[45]","theta[1112]","theta[758]","theta[860]","theta[836]","theta[674]","theta[309]","theta[480]","theta[1045]","theta[670]","theta[610]","theta[1100]","theta[433]","theta[252]","theta[488]","theta[516]","theta[369]","theta[559]","theta[471]","theta[390]","theta[1144]","theta[418]","theta[428]","theta[618]","theta[966]","theta[382]","theta[1097]","theta[1030]","theta[266]","theta[779]","theta[599]","theta[15]","theta[718]","theta[137]","theta[1124]","theta[933]","theta[364]","theta[226]","theta[521]","theta[1034]","theta[691]","theta[362]","theta[185]","theta[563]","theta[844]","theta[299]","theta[109]","theta[503]","theta[778]","theta[469]","theta[445]","theta[867]","theta[741]","theta[799]","theta[906]","theta[316]","theta[664]","theta[172]","theta[413]","theta[174]","theta[611]","theta[186]","theta[864]","theta[265]","theta[590]","theta[680]","theta[149]","theta[496]","theta[1085]","theta[151]","theta[953]","theta[935]","theta[633]","theta[833]","theta[1094]","theta[505]","theta[1054]","theta[1153]","theta[234]","theta[198]","theta[140]","theta[1041]","theta[1061]","theta[38]","theta[383]","theta[638]","theta[719]","theta[1003]","theta[884]","theta[542]","theta[196]","theta[367]","theta[1120]","theta[950]","theta[565]","theta[202]","theta[832]","theta[637]","theta[118]","theta[36]","theta[969]","theta[33]","theta[1175]","theta[417]","theta[683]","theta[131]","theta[409]","theta[221]","theta[225]","theta[604]","theta[500]","theta[1165]","theta[910]","theta[153]","theta[937]","theta[1093]","theta[52]","theta[596]","theta[712]","theta[291]","theta[122]","theta[671]","theta[515]","theta[1038]","theta[1126]","theta[152]","theta[873]","theta[491]","theta[261]","theta[1046]","theta[878]","theta[392]","theta[1070]","theta[1069]","theta[1170]","theta[16]","theta[823]","theta[962]","theta[373]","theta[1006]","theta[1064]","theta[824]","theta[986]","theta[25]","theta[134]","theta[320]","theta[59]","theta[1166]","theta[447]","theta[1171]","theta[340]","theta[184]","theta[1075]","theta[879]","theta[972]","theta[358]","theta[297]","theta[160]","theta[391]","theta[128]","theta[1131]","theta[900]","theta[76]","theta[695]","theta[603]","theta[885]","theta[7]","theta[50]","theta[1174]","theta[624]","theta[696]","theta[275]","theta[971]","theta[34]","theta[968]","theta[1119]","theta[1186]","theta[195]","theta[1113]","theta[284]","theta[859]","theta[132]","theta[13]","theta[919]","theta[701]","theta[1168]","theta[1182]","theta[529]","theta[754]","theta[102]","theta[567]","theta[322]","theta[1067]","theta[426]","theta[1138]","theta[171]","theta[945]","theta[101]","theta[643]","theta[1009]","theta[190]","theta[665]","theta[1077]","theta[280]","theta[636]","theta[955]","theta[905]","theta[1118]","theta[239]","theta[650]","theta[583]","theta[731]","theta[114]","theta[700]","theta[568]","theta[354]","theta[481]","theta[991]","theta[49]","theta[86]","theta[533]","theta[645]","theta[829]","theta[648]","theta[327]","theta[548]","theta[458]","theta[110]","theta[397]","theta[336]","theta[1016]","theta[1098]","theta[743]","theta[657]","theta[702]","theta[591]","theta[820]","theta[1157]","theta[793]","theta[211]","theta[236]","theta[55]","theta[124]","theta[802]","theta[965]","theta[28]","theta[666]","theta[453]","theta[1162]","theta[580]","theta[582]","theta[1184]","theta[267]","theta[995]","theta[817]","theta[441]","theta[298]","theta[6]","theta[600]","theta[0]","theta[209]","theta[451]","theta[868]","theta[448]","theta[301]","theta[492]","theta[176]","theta[835]","theta[893]","theta[901]","theta[495]","theta[199]","theta[1025]","theta[1161]","theta[282]","theta[1013]","theta[722]","theta[678]","theta[214]","theta[1102]","theta[376]","theta[713]","theta[1128]","theta[913]","theta[948]","theta[825]","theta[395]","theta[1139]","theta[253]","theta[551]","theta[315]","theta[388]","theta[138]","theta[270]","theta[679]","theta[408]","theta[1155]","theta[653]","theta[763]","theta[809]","theta[24]","theta[1071]","theta[852]","theta[210]","theta[1181]","theta[264]","theta[278]","theta[557]","theta[254]","theta[1123]","theta[1068]","theta[94]","theta[113]","theta[1037]","theta[337]","theta[460]","theta[83]","theta[470]","theta[1012]","theta[800]","theta[1059]","theta[616]","theta[204]","theta[69]","theta[294]","theta[324]","theta[577]","theta[605]","theta[243]","theta[1096]","theta[240]","theta[108]","theta[372]","theta[617]","theta[1106]","theta[813]","theta[100]","theta[308]","theta[231]","theta[1024]","theta[767]","theta[1008]","theta[840]","theta[685]","theta[357]","theta[708]","theta[346]","theta[381]","theta[189]","theta[192]","theta[1090]","theta[762]","theta[213]","theta[437]","theta[1183]","theta[794]","theta[880]","theta[622]","theta[1121]","theta[625]","theta[1073]","theta[188]","theta[547]","theta[303]","theta[523]","theta[983]","theta[904]","theta[907]","theta[615]","theta[1072]","theta[1007]","theta[1177]","theta[979]","theta[504]","theta[85]","theta[635]","theta[661]","theta[1140]","theta[47]","theta[928]","theta[463]","theta[792]","theta[351]","theta[1036]","theta[1193]","theta[1179]","theta[744]","theta[396]","theta[501]","theta[356]","theta[259]","theta[352]","theta[943]","theta[148]","theta[843]","theta[427]","theta[967]","theta[1087]","theta[235]","theta[561]","theta[1015]","theta[1189]","theta[1031]","theta[846]","theta[814]","theta[167]","theta[571]","theta[91]","theta[1154]","theta[347]","theta[1023]","theta[593]","theta[65]","theta[1163]","theta[229]","theta[911]","theta[861]","theta[1133]","theta[191]","theta[10]","theta[949]","theta[127]","theta[881]","theta[502]","theta[468]","theta[1115]","theta[223]","theta[319]","theta[697]","theta[436]","theta[115]","theta[384]","theta[1081]","theta[1027]","theta[667]","theta[909]","theta[1044]","theta[302]","theta[1076]","theta[230]","theta[921]","theta[1178]","theta[729]","theta[714]","theta[72]","theta[454]","theta[289]","theta[771]","theta[422]","theta[544]","theta[788]","theta[936]","theta[287]","theta[31]","theta[120]","theta[871]","theta[353]","theta[348]","theta[1039]","theta[1104]","theta[858]","sigma[3]","sigma[12]","sigma[29]","sigma[11]","sigma[1]","sigma[2]","sigma[5]","sigma[18]","sigma[24]","sigma[30]","sigma[0]","sigma[8]","sigma[14]","sigma[20]","sigma[27]","sigma[7]","sigma[9]","sigma[13]","sigma[23]","sigma[6]","sigma[17]","sigma[25]","sigma[15]","sigma[10]","sigma[16]","sigma[19]","sigma[26]","sigma[31]","sigma[4]","sigma[21]","sigma[22]","sigma[28]","nu_log__[0]","nu_log__[1]","nu_log__[2]","nu_log__[3]","nu_log__[4]","nu_log__[5]","nu_log__[6]","nu_log__[7]","nu_log__[8]","nu_log__[9]","nu_log__[10]","nu_log__[11]","nu_log__[12]","nu_log__[13]","nu_log__[14]","nu_log__[15]","nu_log__[16]","nu_log__[17]","nu_log__[18]","nu_log__[19]","nu_log__[20]","nu_log__[21]","nu_log__[22]","nu_log__[23]","nu_log__[24]","nu_log__[25]","nu_log__[26]","nu_log__[27]","nu_log__[28]","nu_log__[29]","nu_log__[30]","nu_log__[31]","nu[3]","nu[12]","nu[29]","nu[11]","nu[1]","nu[2]","nu[5]","nu[18]","nu[24]","nu[30]","nu[0]","nu[8]","nu[14]","nu[20]","nu[27]","nu[7]","nu[9]","nu[13]","nu[23]","nu[6]","nu[17]","nu[25]","nu[15]","nu[10]","nu[16]","nu[19]","nu[26]","nu[31]","nu[4]","nu[21]","nu[22]","nu[28]"],"Mean":[0.215,1.131,0.06,-0.262,0.528,0.245,0.28,-0.928,0.237,0.291,1.459,0.105,-1.184,0.134,0.101,-1.418,1.621,0.478,-0.522,-0.034,-0.91,0.539,1.006,0.352,0.278,0.15,-0.18,-0.728,-0.358,-1.191,0.966,1.215,-0.762,-0.391,-2.577,-1.24,-0.566,-0.376,-1.539,-0.61,-1.595,-0.753,-0.481,-1.504,0.551,-1.569,-1.038,0.05,0.059,0.131,-0.286,-2.379,-0.137,-0.714,-0.728,-0.564,-0.374,-2.068,-0.412,-0.926,-0.169,0.735,-0.785,-0.219,-0.435,-0.328,-0.174,-1.97,-0.288,-0.813,-0.522,-0.011,-0.045,-0.208,-1.118,0.137,-0.984,-1.093,-0.355,-0.014,-0.329,-0.1,-0.304,-0.368,-0.084,-0.233,-0.563,-0.89,-0.233,-0.522,-0.209,-0.243,-0.358,-0.673,-1.104,-0.385,0.746,-1.178,0.476,-0.123,-0.86,0.409,0.127,0.526,0.037,-0.971,-0.637,0.413,0.522,0.436,-2.789,0.738,-0.091,-0.841,0.881,-0.162,0.557,-0.242,-0.152,0.05,0.868,0.576,0.453,1.182,-0.502,1.2,0.324,1.045,-0.256,-0.01,0.503,0.646,-0.214,0.847,0.203,-0.689,-0.259,0.545,0.564,0.373,-0.496,-0.366,0.958,1.415,0.326,0.477,-1.622,0.735,0.694,-0.016,-0.418,-0.522,-1.46,0.781,-0.571,0.51,-2.987,0.38,-0.136,0.966,-0.763,-0.294,0.991,-0.393,0.441,0.838,-0.354,0.924,-0.583,-0.361,0.706,0.452,0.571,0.82,0.512,1.173,-1.262,0.662,0.891,-1.53,-0.075,0.134,0.487,-0.483,-1.087,-0.475,-0.278,0.884,-2.339,1.202,-0.16,-0.339,-0.108,0.543,-0.434,-2.627,-2.116,-0.274,-2.451,-0.677,0.889,0.811,-1.541,-2.507,-2.491,0.864,-1.175,-0.551,-0.079,-0.414,0.569,1.039,-1.429,0.597,-0.511,0.289,0.644,-2.396,0.095,-0.924,-0.241,1.462,0.84,0.222,1.089,-1.402,0.93,-0.649,-1.718,-0.859,-0.058,1.375,0.741,0.344,0.398,0.079,1.114,-0.194,-2.433,1.312,-1.723,0.469,-0.345,1.43,-0.521,1.306,0.621,-2.3,-0.519,-0.258,-0.977,0.238,0.631,0.233,-2.491,-0.263,-0.782,0.759,1.149,-0.853,1.107,-0.698,1.053,0.638,1.162,1.149,1.162,-2.465,0.018,0.24,-0.405,0.535,0.782,0.567,0.055,-2.593,0.527,0.912,0.793,0.194,-0.057,-0.823,0.76,1.046,0.767,-0.53,-2.837,-0.277,0.834,-1.439,-0.123,0.851,-2.922,0.485,-0.042,0.813,0.388,0.11,0.877,0.471,1.208,-1.719,0.503,1.028,1.359,-1.663,0.693,-0.276,-0.958,0.864,0.516,-0.344,0.467,0.943,0.102,0.979,0.363,0.774,1,0.044,0.2,-2.97,1.173,-2.053,0.124,-0.595,0.375,-0.44,0.075,0.743,-1.15,0.694,0.632,1.395,-0.978,0.815,-0.973,0.84,-2.73,-0.217,0.939,0.413,0.71,-1.108,0.666,-2.955,-0.276,-0.085,-0.115,0.214,0.001,0.077,0.808,0.6,0.162,0.746,-1.075,0.036,0.987,-0.353,1.154,-0.364,0.45,0.024,-0.194,1.152,-2.3,-0.358,0.437,1.026,-0.836,-1.353,0.304,-0.059,0.846,0.926,-2.537,0.487,0.089,0.843,0.288,-1.197,0.975,1.378,-2.029,-0.239,-0.903,-1.996,-1.998,-0.543,0.847,0.469,0.359,1.131,0.908,-2.03,-1.909,0.464,0.46,0.195,1.658,0.773,0.645,0.777,0.306,0.673,0.064,0.346,0.851,-1.36,-1.172,0.412,0.221,1.052,-1.81,0.418,0.139,0.274,0.771,0.325,0.689,-1.976,0.563,0.108,0.709,-0.526,-0.604,-1.092,0.251,-0.438,-1.115,-0.756,1.303,-0.422,0.568,0.718,0.066,0.974,-0.028,1.035,-0.124,0.819,-0.547,-1.566,-0.639,0.476,-0.426,0.398,0.831,-0.607,0.758,-0.459,1.119,-1.824,0.445,0.919,0.925,-0.626,0.946,-0.037,0.678,-1.161,0.611,0.454,-0.811,0.848,-0.71,0.172,-0.133,0.663,0.658,-0.711,-0.001,-1.58,0.586,0.332,-0.165,0.97,0.825,0.597,-2.257,0.408,0.904,0.301,0.368,-0.508,-0.065,-0.61,-2.306,-0.367,0.939,-1.356,-1.001,0.278,0.456,-2.647,0.371,0.886,0.174,0.431,-0.765,-0.13,0.205,0.509,-1.191,0.847,0.245,0.976,0.174,-0.04,0.136,-1.483,-0.769,-0.148,0.892,-1.397,-0.895,-2.146,0.544,-0.719,0.825,-0.525,0.711,-1.39,0.454,-1.456,-0.861,-0.759,1.032,-0.058,0.898,0.213,-0.226,0.309,0.053,-0.821,-1.678,0.434,-1.248,0.473,-2.956,0.488,-0.881,-0.466,0.788,0.703,-2.075,0.449,0.622,-0.306,0.865,0.917,0.196,-0.686,-1.76,-0.183,-0.212,-1.414,-1.327,0.682,-0.41,-1.004,0.955,0.86,0.751,-0.175,0.476,-0.389,-2.312,-0.529,0.529,-1.106,0.652,-0.006,0.652,1.166,0.998,0.714,-1.684,-0.208,-0.107,1.115,0.766,0.763,1.024,0.614,0.083,0.146,0.807,0.3,1.181,0.295,-1.841,-0.006,0.144,0.746,-0.066,0.392,-0.038,1.1,-0.044,-0.07,-1.647,-0.575,-2.774,-1.591,-0.196,0.645,0.705,0.509,-1.043,-2.592,1.122,0.563,0.257,-0.863,0.039,-0.891,1.143,-0.546,-1.969,0.693,-0.236,0.84,0.14,0.885,-0.985,0.908,0.465,0.584,-0.316,-0.094,0.524,1.039,-0.91,-2.192,0.813,1.126,0.857,0.334,0.976,-1.185,-0.394,-3.404,0.09,-0.111,0.761,-0.12,-0.494,0.944,1.062,0.144,0.206,0.518,0.488,0.979,-0.138,0.518,0.393,-0.308,0.801,0.772,0.279,0.517,0.216,0.478,0.582,-0.788,0.172,0.398,-0.201,-1.595,0.423,-0.252,-1.714,-0.264,1.043,0.182,-2.18,0.654,0.078,1.036,0.14,-1.39,-1.057,0.448,0.298,0.41,1.085,0.191,-0.419,0.619,0.194,1.051,-0.905,0.619,0.631,0.783,0.327,-1.429,-0.19,0.257,1.227,-1.474,0.066,0.881,-1.695,-1.602,0.685,0.066,-0.61,0.606,-2.765,-0.409,-0.544,-2.576,0.534,-0.721,1.563,0.18,-1.096,0.232,0.072,1.066,0.883,-0.213,-0.121,0.131,-0.199,0.193,-0.471,0.2,0.411,0.243,0.698,0.165,-0.454,0.68,0.429,0.006,1.288,0.324,0.441,-0.706,-0.091,-2.6,-0.036,-0.295,1.1,0.607,-0.594,-1.324,0.574,-2.611,-0.341,0.681,-1.879,-0.755,-1.57,-1.268,-0.059,-1.5,-0.211,-1.409,1.163,0.846,-0.052,-0.149,0.286,0.116,-1.414,-1.174,-3.074,-0.897,-0.169,0.211,-0.637,0.421,0.076,-1.969,1.103,-0.021,0.9,1.271,0.292,0.529,-2.155,-0.751,1.065,0.968,-1.276,-1.305,1.181,0.443,-0.758,0.263,-1.17,1.123,0.426,0.598,-0.585,-3.068,-0.793,-0.016,-1.319,0.582,0.069,-0.917,1.06,0.961,0.812,0.651,-0.563,-0.626,0.682,0.353,-0.512,-0.374,0.901,0.637,0.631,0.254,0.518,0.314,-0.773,-0.31,0.459,-0.232,1.102,0.655,-1.744,0.866,-2.094,0.861,-0.916,0.21,-1.009,0.3,0.403,-1.796,-0.328,-0.926,0.518,-0.441,0.165,1.053,1.077,-0.588,0.149,-0.411,-0.383,0.375,-0.402,-1.833,-0.692,0.856,0.555,0.059,-0.637,-3.1,-0.15,-0.222,0.515,-0.974,0.721,-0.602,0.306,0.08,-0.413,0.746,0.838,-0.376,-0.823,0.285,1.031,-2.432,0.804,-1.184,0.341,0.152,-1.033,-0.094,-1.393,1.122,0.34,-0.278,-0.93,-2.282,1.356,-0.467,0.846,0.683,0.865,-1.195,-0.44,-2.718,-2.195,0.784,0.774,0.988,0.64,0.943,-0.032,-0.381,0.642,0.984,-0.322,1.023,0.074,-0.178,-0.586,1.049,0.038,-0.622,-2.633,0.508,0.387,-0.848,0.708,0.395,-0.367,-0.368,-1.91,1.154,0.976,0.273,0.172,-0.038,0.502,0.446,1.786,0.398,0.016,1.256,-2.842,-0.038,-0.207,0.665,0.499,0.976,0.272,0.269,-0.164,0.572,-0.437,0.24,0.312,-2.201,0.501,0.918,1.149,0.271,0.597,0.781,-0.321,-0.335,0.688,-0.663,-1.111,0.566,-0.8,-1.058,0.705,1.431,-2.146,0.538,0.104,-0.736,0.995,0.527,-0.366,1.091,0.752,0.614,1.199,0.532,1.024,0.947,0.632,0.335,-0.901,0.444,-2.101,0.962,-0.097,0.667,-0.122,-0.56,0.086,1.353,0.398,-0.01,1.01,0.645,0.207,0.674,-1.153,0.742,0.816,0.929,-2.585,0.701,-0.932,1.299,0.725,0.309,0.543,1.181,0.915,-1.231,0.189,-0.825,0.778,0.897,0.792,0.075,-0.394,-0.478,-1.551,0.177,0.64,0.599,1.081,1.249,-0.649,0.809,0.776,-0.053,-0.993,0.554,0.128,1.147,0.666,0.78,0.713,-2.236,0.371,0.534,0.145,1.469,0.402,1.085,0.653,0.778,0.758,0.767,-0.244,0.503,0.288,0.403,0.71,1.109,-2.909,0.752,0.76,-0.641,1.306,0.67,-0.123,0.413,-1.043,0.677,0.839,0.246,-0.427,-0.329,0.093,0.495,0.519,0.524,0.933,-2.145,1.467,0.881,1.293,-0.554,-0.356,0.438,0.303,0.283,-0.193,0.634,0.76,0.762,-0.713,0.69,0.808,0.386,0.646,-0.867,-0.843,1.121,0.512,0.77,1.131,0.532,-0.21,0.173,0.185,0.872,-1.091,0.749,0.596,0.022,0.433,0.21,1.009,-0.772,-0.019,-2.267,-2.84,-0.214,0.893,-2.858,-0.481,0.186,-0.74,1.058,0.882,-1.738,0.919,1.146,0.356,-0.23,-0.042,0.315,0.516,-0.135,0.792,1.046,0.804,0.819,-0.186,-2.019,0.158,0.344,1.298,0.839,-1.529,-0.207,-0.064,1.031,-0.958,-0.633,0.824,1.344,-0.301,0.318,0.826,1.277,-0.385,0.673,0.962,0.008,0.074,0.665,-0.198,0.638,-2.766,0.669,1.275,0.14,-0.633,0.002,0.352,0.866,-0.363,-1.185,0.181,0.332,0.992,-0.697,-0.167,1.156,-0.666,1.177,0.718,0.112,0.712,0.587,0.686,-1.105,0.653,0.055,-0.264,0.085,-0.013,-0.112,0.693,0.062,0.122,-0.763,0,0.487,0.718,-0.477,-0.283,-2.43,-2.761,-0.314,0.712,1.324,0.326,0.849,-0.28,-0.771,1.163,-1.993,-0.352,-0.091,0.291,0.283,-0.304,0.207,0.995,0.063,1.445,0.772,-0.062,-0.37,1.078,0.607,0.81,0.821,-0.394,-0.162,0.274,-2.993,-0.56,0.295,0.257,0.317,-1.741,0.957,-0.361,1.259,-0.825,0.449,0.855,1.384,0.208,0.23,1.141,1.116,1.281,1.237,0.95,1.2,0.963,0.943,1.006,1.159,0.879,0.224,1.126,0.503,1.076,0.41,1.009,1.243,0.375,0.858,0.637,0.124,1.249,0.226,0.699,1.2,0.325,1.174,0.68,0.699,0.945,-0.702,0.919,0.341,0.757,1.012,1.161,0.525,1.01,0.757,0.785,0.833,1.077,0.245,0.468,0.824,0.656,1.424,1.307,-0.384,-0.059,-1.791,0.354,-0.421,-0.024,-1.107,0.695,-0.055,-0.234,0.361,-0.141,1.182,-0.872,0.065,0.489,0.338,0.879,0.181,-2.063,0.332,-0.277,-0.207,-0.081,0.038,-1.22,0.297,0.5,-0.101,1.522,-0.87,-0.659,0.003,0.41,-0.571,1.599,-0.407,-0.16,-0.127,0.06,-0.153,-0.169,1.007,-0.602,0.893,0.522,-0.345,0.11,0.185,0.431,-0.35,0.075,0.569,-0.59,1.079,0.884,-0.735,0.378,0.176,0.033,0.121,1.265,-0.087,-0.455,1.004,1.508,0.565,4.951,0.666,0.853,0.881,1.062,0.859,0.844,2.74,0.548,2.445,1.687,0.708,1.117,1.204,1.54,0.705,1.079,1.767,0.555,2.943,2.423,0.48,1.46,1.193,1.034,1.129,3.547,0.917,0.635],"SD":[0.012,0.013,0.003,0.026,0.012,0.02,0.005,0.025,0.012,0.01,0.029,0.01,0.053,0.007,0.021,0.02,0.021,0.027,0.019,0.002,0.016,0.013,0.011,0.015,0.019,0.005,0.019,0.022,0.014,0.062,0.008,0.008,0.02,0.014,0.029,0.058,0.014,0.019,0.021,0.032,0.043,0.016,0.029,0.038,0.022,0.026,0.041,0.014,0.015,0.021,0.019,0.015,0.013,0.021,0.018,0.019,0.031,0.029,0.019,0.039,0.013,0.022,0.014,0.007,0.045,0.032,0.039,0.104,0.046,0.057,0.051,0.032,0.033,0.038,0.06,0.032,0.052,0.058,0.052,0.034,0.035,0.033,0.042,0.044,0.029,0.045,0.034,0.05,0.047,0.047,0.033,0.034,0.042,0.039,0.07,0.046,0.135,0.463,0.151,0.161,0.189,0.157,0.157,0.156,0.149,0.194,0.167,0.162,0.187,0.283,0.16,0.15,0.165,0.152,0.154,0.238,0.139,0.199,0.175,0.147,0.166,0.148,0.164,0.149,0.361,0.146,0.158,0.155,0.186,0.18,0.151,0.15,0.182,0.16,0.155,0.214,0.22,0.636,0.143,0.153,0.178,0.156,0.141,0.143,0.155,0.154,0.473,0.146,0.207,0.168,0.176,0.158,0.221,0.149,0.181,0.142,0.304,0.154,0.169,0.15,0.225,0.165,0.146,0.159,0.163,0.146,0.164,0.159,0.173,0.184,0.145,0.16,0.144,0.14,0.164,0.146,0.163,0.141,0.167,0.147,0.192,0.175,0.152,0.176,0.172,0.225,0.159,0.149,0.263,0.147,0.156,0.179,0.206,0.15,0.157,0.165,0.148,0.15,0.217,0.182,0.148,0.181,0.152,0.156,0.174,0.146,0.16,0.163,0.158,0.155,0.146,0.144,0.177,0.169,0.17,0.16,0.145,0.248,0.18,0.157,0.154,0.159,0.188,0.15,0.164,0.478,0.167,0.157,0.178,0.173,0.183,0.149,0.212,0.159,0.155,0.16,0.146,0.16,0.389,0.178,0.396,0.162,0.214,0.154,0.175,0.149,0.159,0.288,0.255,0.181,0.164,0.159,0.147,0.167,1.003,0.165,0.185,0.164,0.156,0.158,0.166,0.159,0.167,0.162,0.157,0.157,0.148,0.227,0.157,0.167,0.581,0.272,0.165,0.151,0.165,0.479,0.16,0.156,0.152,0.17,0.152,0.21,0.145,0.147,0.189,0.164,0.221,0.158,0.15,0.208,0.175,0.143,0.174,0.15,0.162,0.162,0.154,0.174,0.155,0.162,0.154,0.264,0.201,0.15,0.153,0.153,0.167,0.186,0.155,0.151,0.151,0.162,0.147,0.158,0.164,0.165,0.157,0.148,0.159,0.158,0.163,0.2,0.148,0.298,0.181,0.183,0.15,0.225,0.172,0.144,0.159,0.271,0.159,0.15,0.178,0.155,0.157,0.146,0.199,0.153,0.172,0.173,0.15,0.168,0.147,0.175,0.165,0.184,0.187,0.171,0.15,0.149,0.147,0.156,0.174,0.144,0.659,0.167,0.162,0.185,0.15,0.173,0.172,0.245,0.157,0.165,0.328,0.157,0.178,0.156,0.173,0.17,0.16,0.149,0.153,0.149,0.181,0.157,0.162,0.147,0.161,0.274,0.147,0.154,0.38,0.181,0.196,0.183,0.398,0.187,0.152,0.167,0.156,0.15,0.154,0.17,0.161,0.155,0.175,0.154,0.159,0.156,0.169,0.155,0.167,0.158,0.15,0.155,0.153,0.151,0.158,0.158,0.154,0.148,0.271,0.166,0.181,0.16,0.153,0.15,0.155,0.208,0.173,0.188,0.158,0.159,0.157,0.155,0.145,0.217,0.149,0.168,0.155,0.199,0.154,0.188,0.156,0.14,0.318,0.157,0.167,0.157,0.16,0.201,0.202,0.155,0.314,0.15,0.145,0.182,0.15,0.167,0.15,0.259,0.152,0.141,0.145,0.158,0.142,0.152,0.15,0.168,0.148,0.151,0.155,0.154,0.187,0.154,0.179,0.159,0.16,0.201,0.181,0.436,0.145,0.153,0.154,0.157,0.155,0.151,0.388,0.154,0.154,0.158,0.152,0.233,0.558,0.175,0.164,0.243,0.149,0.191,0.236,0.162,0.167,0.186,0.153,0.153,0.174,0.157,0.177,0.165,0.175,0.146,0.175,0.155,0.146,0.199,0.176,0.168,0.17,0.178,0.299,0.17,0.149,0.169,0.181,0.172,0.152,0.213,0.152,0.149,0.154,0.277,0.152,0.184,0.201,0.165,0.155,0.356,0.144,0.184,0.162,0.16,0.173,0.215,0.226,0.169,0.154,0.155,0.273,0.158,0.352,0.321,0.164,0.154,0.365,0.17,0.148,0.164,0.148,0.145,0.149,0.321,0.349,0.158,0.209,0.23,0.174,0.149,0.16,0.175,0.154,0.148,0.151,0.156,0.168,0.191,0.183,0.316,0.158,0.453,0.153,0.214,0.159,0.158,0.152,0.149,0.202,0.155,0.156,0.141,0.158,0.153,0.163,0.154,0.153,0.188,0.157,0.158,0.146,0.155,0.232,0.166,0.173,0.16,0.398,0.159,0.159,0.149,0.177,0.156,0.262,0.176,0.195,0.168,0.248,0.209,0.161,0.151,0.164,0.216,0.15,0.161,0.154,0.169,0.149,0.225,0.164,0.181,0.337,0.172,0.223,0.147,0.158,0.158,0.29,0.157,0.177,0.152,0.181,0.167,0.154,0.149,0.205,0.266,0.164,0.159,0.167,0.172,0.163,0.163,0.155,0.314,0.154,0.291,0.16,0.479,0.182,0.145,0.151,0.168,0.158,0.15,0.165,0.151,0.169,0.139,0.147,0.186,0.144,0.141,0.174,0.165,0.174,0.146,0.161,0.156,0.165,0.155,0.146,0.21,0.152,0.166,0.187,0.192,0.146,0.174,0.257,0.16,0.178,0.146,0.174,0.168,0.177,0.165,0.153,0.149,0.15,0.18,0.162,0.163,0.157,0.187,0.181,0.164,0.163,0.161,0.156,0.242,0.368,0.215,0.156,0.166,0.159,0.157,0.221,0.149,0.162,0.171,0.191,0.17,0.178,0.164,0.246,0.665,0.164,0.154,0.155,0.166,0.169,0.162,0.163,0.155,0.165,0.153,0.166,0.163,0.169,0.155,0.163,0.16,0.166,0.172,0.149,0.182,0.176,0.166,0.161,0.172,0.147,0.168,0.161,0.199,0.173,0.16,0.172,0.186,0.142,0.157,0.164,0.15,0.21,0.226,0.157,0.166,0.159,0.152,0.219,0.298,0.167,0.396,0.19,0.149,0.172,0.167,0.167,0.162,0.149,0.167,0.176,0.21,0.227,0.155,0.172,0.16,0.166,0.158,0.177,0.141,0.162,0.164,0.166,0.15,0.164,0.149,0.173,0.2,0.162,0.147,0.19,0.184,0.151,0.153,0.163,0.159,0.224,0.149,0.163,0.159,0.172,0.263,0.34,0.167,0.218,0.153,0.166,0.166,0.152,0.15,0.144,0.168,0.419,0.185,0.16,0.171,0.152,0.159,0.154,0.153,0.161,0.184,0.156,0.154,0.179,0.177,0.162,0.199,0.15,0.137,0.466,0.15,0.266,0.149,0.188,0.155,0.18,0.155,0.155,0.272,0.178,0.152,0.139,0.176,0.179,0.153,0.148,0.187,0.159,0.209,0.176,0.145,0.161,0.196,0.148,0.155,0.365,0.161,0.196,0.18,0.17,0.168,0.154,0.207,0.157,0.159,0.163,0.178,0.162,0.16,0.164,0.179,0.175,0.188,0.152,0.252,0.29,0.173,0.157,0.158,0.221,0.183,0.163,0.163,0.206,0.163,0.169,0.476,0.159,0.157,0.153,0.166,0.15,0.186,0.184,0.822,0.519,0.157,0.155,0.15,0.177,0.152,0.167,0.152,0.143,0.146,0.173,0.16,0.158,0.14,0.308,0.144,0.149,0.17,0.192,0.412,0.166,0.175,0.156,0.177,0.177,0.166,0.218,0.153,0.154,0.167,0.42,0.16,0.172,0.157,0.15,0.16,0.152,0.144,0.189,0.15,0.24,0.157,0.165,0.157,0.174,0.149,0.162,0.171,0.153,0.167,0.189,0.534,0.159,0.145,0.145,0.157,0.16,0.164,0.174,0.17,0.158,0.153,0.171,0.151,0.153,0.161,0.358,0.153,0.153,0.148,0.155,0.166,0.161,0.147,0.325,0.144,0.152,0.141,0.156,0.157,0.165,0.146,0.154,0.177,0.218,0.155,0.356,0.151,0.26,0.193,0.197,0.165,0.154,0.15,0.156,0.151,0.215,0.154,0.15,0.168,0.258,0.15,0.14,0.15,0.187,0.155,0.195,0.165,0.147,0.159,0.163,0.146,0.148,0.166,0.15,0.628,0.154,0.149,0.152,0.16,0.162,0.168,0.192,0.177,0.144,0.145,0.151,0.146,0.187,0.15,0.145,0.193,0.189,0.153,0.171,0.145,0.162,0.147,0.149,0.294,0.168,0.15,0.158,0.154,0.159,0.149,0.155,0.145,0.153,0.149,0.158,0.149,0.168,0.158,0.151,0.155,0.237,0.155,0.152,0.157,0.155,0.145,0.158,0.17,0.168,0.145,0.145,0.16,0.158,0.162,0.14,0.144,0.158,0.162,0.148,0.895,0.144,0.152,0.16,0.157,0.158,0.164,0.178,0.161,0.309,0.156,0.176,0.155,0.178,0.153,0.144,0.145,0.166,0.183,0.167,0.151,0.143,0.141,0.148,0.186,0.189,0.185,0.168,0.153,0.168,0.154,0.156,0.178,0.153,0.161,0.15,0.186,0.206,0.183,0.301,0.29,0.143,0.166,0.164,0.171,0.179,0.145,0.539,0.228,0.324,0.15,0.172,0.312,0.14,0.148,0.158,0.167,0.159,0.152,0.134,0.137,0.202,0.441,0.184,0.153,0.148,0.143,0.18,0.18,0.168,0.145,0.192,0.192,0.157,0.154,0.164,0.161,0.146,0.144,0.165,0.162,0.161,0.195,0.16,0.157,0.152,0.178,0.162,0.145,0.148,0.183,0.164,0.183,0.159,0.152,0.185,0.149,0.238,0.16,0.152,0.174,0.174,0.165,0.147,0.15,0.152,0.156,0.153,0.137,0.151,0.141,0.151,0.225,0.157,0.171,0.169,0.161,0.146,0.163,0.167,0.166,0.152,0.164,0.151,0.168,0.171,0.155,0.162,0.163,0.162,0.15,0.155,0.152,0.18,0.192,0.152,0.182,0.21,0.188,0.185,0.156,0.175,0.153,0.146,0.177,0.146,0.153,0.144,0.185,0.16,0.163,0.14,0.15,0.161,0.171,0.152,0.207,0.188,0.187,0.167,0.163,0.216,0.146,0.208,0.15,0.194,0.144,0.153,0.145,0.151,0.162,0.175,0.149,0.158,0.155,0.149,0.141,0.144,0.152,0.148,0.142,0.164,0.181,0.145,0.163,0.139,0.18,0.216,0.151,0.161,0.154,0.155,0.168,0.145,0.186,0.156,0.141,0.147,0.147,0.159,0.15,0.151,0.165,0.147,0.158,0.144,0.149,0.179,0.159,0.168,0.155,0.149,0.159,0.143,0.147,0.156,0.141,0.163,0.144,0.16,0.03,0.03,0.035,0.013,0.034,0.024,0.031,0.039,0.04,0.035,0.023,0.045,0.021,0.023,0.037,0.038,0.029,0.036,0.033,0.032,0.035,0.037,0.024,0.022,0.037,0.029,0.032,0.034,0.03,0.024,0.025,0.033,0.024,0.03,0.019,0.041,0.02,0.021,0.024,0.028,0.026,0.023,0.049,0.021,0.037,0.033,0.023,0.027,0.025,0.035,0.021,0.026,0.036,0.02,0.045,0.037,0.019,0.03,0.026,0.027,0.025,0.057,0.023,0.02,0.024,0.045,0.011,0.203,0.013,0.017,0.021,0.03,0.022,0.02,0.134,0.011,0.09,0.056,0.016,0.03,0.03,0.054,0.014,0.028,0.063,0.011,0.133,0.09,0.009,0.044,0.031,0.028,0.028,0.202,0.021,0.013],"2.5% HDI":[0.194,1.106,0.055,-0.312,0.506,0.205,0.271,-0.976,0.215,0.272,1.403,0.087,-1.279,0.12,0.062,-1.457,1.583,0.427,-0.556,-0.038,-0.938,0.515,0.984,0.324,0.242,0.14,-0.217,-0.77,-0.384,-1.306,0.951,1.199,-0.8,-0.417,-2.631,-1.347,-0.593,-0.412,-1.579,-0.67,-1.68,-0.783,-0.536,-1.575,0.51,-1.618,-1.115,0.024,0.03,0.092,-0.32,-2.407,-0.161,-0.754,-0.762,-0.599,-0.433,-2.124,-0.448,-0.999,-0.193,0.694,-0.811,-0.233,-0.52,-0.387,-0.248,-2.167,-0.376,-0.919,-0.619,-0.07,-0.107,-0.281,-1.23,0.078,-1.083,-1.203,-0.454,-0.078,-0.395,-0.163,-0.38,-0.452,-0.139,-0.318,-0.629,-0.991,-0.32,-0.611,-0.272,-0.308,-0.437,-0.744,-1.24,-0.472,0.492,-2.062,0.196,-0.416,-1.216,0.115,-0.161,0.242,-0.228,-1.331,-0.958,0.104,0.164,-0.092,-3.077,0.457,-0.402,-1.13,0.597,-0.606,0.3,-0.616,-0.485,-0.225,0.561,0.296,0.154,0.904,-1.161,0.925,0.027,0.756,-0.607,-0.337,0.223,0.356,-0.558,0.543,-0.091,-1.076,-0.679,-0.656,0.294,0.088,-0.83,-0.656,0.694,1.149,0.034,0.185,-2.522,0.465,0.314,-0.328,-0.747,-0.815,-1.883,0.507,-0.914,0.237,-3.55,0.099,-0.466,0.69,-1.17,-0.608,0.719,-0.692,0.142,0.562,-0.67,0.639,-0.904,-0.698,0.436,0.152,0.292,0.565,0.199,0.9,-1.576,0.405,0.578,-1.803,-0.441,-0.193,0.194,-0.815,-1.408,-0.908,-0.574,0.615,-2.842,0.923,-0.455,-0.677,-0.507,0.264,-0.728,-2.938,-2.395,-0.554,-2.85,-1.015,0.615,0.471,-1.83,-2.796,-2.812,0.588,-1.479,-0.869,-0.371,-0.698,0.297,0.764,-1.765,0.284,-0.828,-0.007,0.376,-2.855,-0.243,-1.216,-0.522,1.166,0.489,-0.062,0.782,-2.306,0.619,-0.945,-2.055,-1.177,-0.403,1.099,0.35,0.038,0.109,-0.217,0.838,-0.502,-3.171,0.978,-2.481,0.174,-0.756,1.131,-0.851,1.036,0.323,-2.847,-1.02,-0.598,-1.289,-0.065,0.346,-0.071,-4.352,-0.588,-1.129,0.452,0.86,-1.148,0.792,-0.997,0.734,0.327,0.854,0.862,0.885,-2.892,-0.276,-0.065,-1.48,0.026,0.474,0.279,-0.249,-3.506,0.238,0.613,0.515,-0.128,-0.343,-1.234,0.492,0.767,0.424,-0.846,-3.247,-0.581,0.558,-1.831,-0.467,0.586,-3.242,0.193,-0.361,0.508,0.094,-0.213,0.582,0.165,0.925,-2.218,0.115,0.752,1.069,-1.949,0.378,-0.625,-1.249,0.588,0.233,-0.645,0.2,0.637,-0.21,0.665,0.073,0.501,0.701,-0.248,-0.115,-3.347,0.9,-2.625,-0.213,-0.941,0.095,-0.857,-0.26,0.47,-1.458,0.189,0.33,1.115,-1.321,0.513,-1.268,0.566,-3.11,-0.51,0.616,0.091,0.434,-1.431,0.384,-3.298,-0.588,-0.436,-0.456,-0.102,-0.289,-0.201,0.535,0.3,-0.177,0.479,-2.239,-0.277,0.677,-0.703,0.863,-0.692,0.121,-0.447,-0.486,0.85,-2.935,-0.659,0.109,0.729,-1.165,-1.676,0.005,-0.337,0.565,0.644,-2.864,0.189,-0.215,0.568,-0.023,-1.708,0.695,1.086,-2.756,-0.587,-1.266,-2.347,-2.776,-0.889,0.565,0.159,0.066,0.856,0.616,-2.345,-2.211,0.163,0.141,-0.095,1.359,0.488,0.327,0.493,0.001,0.375,-0.219,0.058,0.561,-1.639,-1.47,0.116,-0.071,0.769,-2.29,0.11,-0.209,-0.037,0.483,0.062,0.396,-2.377,0.236,-0.248,0.409,-0.823,-0.89,-1.372,-0.021,-0.845,-1.39,-1.067,1.015,-0.784,0.277,0.362,-0.21,0.701,-0.65,0.742,-0.451,0.524,-0.839,-1.958,-1.023,0.186,-1.025,0.126,0.552,-0.94,0.479,-0.771,0.838,-2.316,0.155,0.651,0.645,-0.919,0.681,-0.328,0.398,-1.467,0.33,0.184,-1.095,0.553,-1.065,-0.127,-0.486,0.371,0.354,-1.086,-0.345,-2.38,0.319,0.034,-0.466,0.673,0.532,0.324,-2.991,0.106,0.624,0.003,0.076,-0.928,-1.13,-0.946,-2.623,-0.816,0.648,-1.723,-1.43,-0.026,0.15,-3.012,0.086,0.593,-0.147,0.134,-1.102,-0.439,-0.135,0.235,-1.528,0.553,-0.027,0.599,-0.163,-0.357,-0.179,-1.823,-1.335,-0.476,0.618,-1.715,-1.236,-2.476,0.263,-1.116,0.541,-0.813,0.43,-1.922,0.171,-1.791,-1.238,-1.066,0.744,-0.711,0.629,-0.132,-0.524,0.016,-0.27,-1.229,-2.103,0.122,-1.531,0.191,-3.478,0.194,-1.53,-1.092,0.493,0.414,-2.773,0.118,0.34,-0.614,0.594,0.644,-0.088,-1.28,-2.409,-0.465,-0.599,-1.853,-1.652,0.393,-0.703,-1.337,0.658,0.584,0.475,-0.466,0.152,-0.752,-2.647,-1.099,0.236,-1.954,0.371,-0.411,0.35,0.872,0.718,0.436,-2.063,-0.496,-0.404,0.837,0.463,0.467,0.725,0.32,-0.202,-0.204,0.51,0.004,0.912,0.004,-2.281,-0.314,-0.175,0.452,-0.815,0.085,-0.332,0.821,-0.377,-0.362,-2.126,-0.907,-3.13,-1.924,-0.674,0.26,0.407,0.236,-1.355,-2.99,0.839,0.267,-0.039,-1.183,-0.241,-1.305,0.825,-0.879,-2.601,0.358,-0.657,0.559,-0.16,0.583,-1.517,0.602,0.136,0.309,-0.656,-0.398,0.236,0.754,-1.308,-2.686,0.505,0.814,0.544,0.014,0.67,-1.499,-0.686,-4.006,-0.196,-0.656,0.458,-1.018,-0.841,0.67,0.787,-0.172,-0.072,0.222,0.177,0.684,-0.456,0.259,0.124,-0.659,0.529,0.503,-0.058,0.204,-0.108,0.196,0.275,-1.074,-0.143,0.118,-0.476,-2.002,0.145,-0.564,-2.085,-0.61,0.764,-0.147,-2.678,0.348,-0.258,0.76,-0.198,-1.707,-1.381,0.141,0.026,0.141,0.792,-0.138,-0.73,0.306,-0.092,0.708,-1.242,0.315,0.319,0.485,0.036,-1.884,-0.89,-0.149,0.937,-1.78,-0.236,0.577,-2.123,-1.883,0.384,-0.257,-0.98,0.286,-3.097,-0.706,-1.014,-3.788,0.231,-1.016,1.27,-0.131,-1.419,-0.07,-0.227,0.781,0.567,-0.496,-0.426,-0.173,-0.512,-0.091,-0.774,-0.103,0.087,-0.085,0.419,-0.173,-0.783,0.364,0.134,-0.311,1.018,0.003,0.13,-1.08,-0.42,-2.898,-0.362,-0.637,0.829,0.303,-0.889,-1.606,0.173,-3.026,-0.632,0.378,-2.164,-1.046,-1.983,-1.831,-0.375,-2.239,-0.581,-1.687,0.825,0.529,-0.372,-0.455,0.004,-0.194,-1.737,-1.562,-3.508,-1.189,-0.49,-0.089,-0.942,0.121,-0.268,-2.231,0.799,-0.322,0.586,0.992,-0.017,0.248,-2.481,-1.139,0.763,0.685,-1.639,-1.671,0.897,0.168,-1.072,-0.043,-1.6,0.853,0.114,0.3,-0.897,-3.571,-1.45,-0.332,-1.729,0.288,-0.245,-1.237,0.772,0.689,0.539,0.342,-1.348,-0.985,0.376,0.036,-0.805,-0.681,0.608,0.343,0.328,-0.096,0.229,0.032,-1.123,-0.651,0.156,-0.61,0.813,0.399,-2.603,0.583,-2.595,0.568,-1.278,-0.079,-1.355,0.008,0.109,-2.315,-0.668,-1.207,0.244,-0.765,-0.163,0.771,0.789,-0.941,-0.153,-0.801,-0.717,0.105,-0.71,-2.209,-0.971,0.565,-0.136,-0.233,-1.004,-3.441,-0.471,-0.531,0.218,-1.357,0.421,-0.891,-0,-0.25,-0.712,0.435,0.521,-0.718,-1.14,-0.052,0.756,-2.909,0.254,-1.501,0.054,-0.138,-1.445,-0.44,-1.698,0.814,-0.049,-0.579,-1.238,-3.169,1.062,-0.767,0.556,0.368,0.587,-1.537,-0.775,-4.224,-3.161,0.499,0.481,0.701,0.308,0.664,-0.35,-0.672,0.376,0.708,-0.639,0.721,-0.221,-0.442,-1.176,0.779,-0.241,-0.936,-2.998,-0.258,0.076,-1.169,0.408,0.069,-0.698,-0.672,-2.313,0.867,0.687,-0.038,-0.643,-0.338,0.185,0.142,1.509,0.106,-0.273,0.978,-3.196,-0.325,-0.657,0.377,0.193,0.683,-0.05,-0.011,-0.459,0.263,-0.717,-0.073,-0.048,-3.194,0.206,0.645,0.873,-0.019,0.295,0.469,-0.644,-0.647,0.386,-0.947,-1.42,0.285,-1.086,-1.364,0.01,1.137,-2.437,0.248,-0.2,-1.055,0.68,0.254,-0.971,0.816,0.474,0.35,0.898,0.229,0.712,0.681,0.343,0.002,-1.31,0.149,-2.754,0.676,-0.592,0.302,-0.506,-0.866,-0.2,1.075,0.104,-0.297,0.617,0.359,-0.077,0.365,-1.655,0.463,0.555,0.635,-2.936,0.41,-1.292,0.981,0.443,0.009,0.228,0.919,0.638,-1.539,-0.086,-1.971,0.499,0.624,0.511,-0.224,-0.688,-0.794,-1.901,-0.152,0.362,0.322,0.798,0.974,-1.002,0.533,0.51,-0.409,-1.351,0.258,-0.209,0.867,0.354,0.505,0.435,-2.786,0.059,0.254,-0.157,1.185,0.104,0.807,0.365,0.507,0.476,0.493,-0.536,0.227,-0.039,0.098,0.428,0.822,-3.353,0.466,0.469,-0.937,1.01,0.396,-0.422,0.089,-1.363,0.412,0.57,-0.061,-0.717,-0.645,-0.166,0.228,0.215,0.216,0.664,-3.777,1.196,0.595,0.987,-0.849,-0.647,0.132,-0.038,-0.018,-0.755,0.345,0.426,0.48,-1.054,0.406,0.531,0.113,0.333,-1.22,-1.169,0.828,0.239,0.507,0.853,0.193,-0.572,-0.187,-0.136,0.583,-1.408,0.457,0.303,-0.313,0.139,-0.086,0.739,-1.127,-0.401,-2.607,-3.416,-0.769,0.613,-3.163,-0.791,-0.134,-1.072,0.79,-0.113,-2.181,0.311,0.858,0.04,-0.848,-0.307,0.041,0.213,-0.446,0.504,0.764,0.56,0.575,-0.566,-2.841,-0.185,0.063,1.024,0.56,-1.875,-0.546,-0.386,0.76,-1.325,-0.999,0.52,1.039,-0.596,0.028,0.563,1.013,-0.7,0.382,0.657,-0.353,-0.244,0.362,-0.484,0.304,-3.086,0.403,1.005,-0.197,-0.937,-0.36,0.048,0.589,-0.708,-1.459,-0.27,0.034,0.705,-1.025,-0.493,0.851,-0.956,0.888,0.44,-0.177,0.43,0.327,0.396,-1.363,0.362,-0.372,-0.556,-0.23,-0.328,-0.418,0.418,-0.239,-0.197,-1.062,-0.293,0.179,0.433,-0.795,-0.605,-2.725,-3.063,-0.627,0.411,1.035,0.023,0.567,-0.637,-1.136,0.874,-2.334,-0.754,-0.437,-0.049,-0.006,-0.626,-0.085,0.71,-0.27,1.181,0.486,-0.335,-0.719,0.779,0.306,0.54,0.539,-0.696,-0.478,-0.009,-3.403,-0.925,-0.049,-0.059,0.006,-2.149,0.68,-0.749,0.978,-1.201,0.177,0.559,1.113,-0.072,-0.074,0.815,0.831,0.983,0.949,0.671,0.931,0.689,0.658,0.727,0.9,0.57,-0.121,0.854,0.189,0.817,0.064,0.602,0.954,0.079,0.575,0.351,-0.19,0.987,-0.127,0.402,0.935,0.043,0.894,0.399,0.423,0.658,-1.017,0.644,0.041,0.487,0.738,0.822,0.219,0.703,0.467,0.508,0.534,0.81,-0.026,0.175,0.555,0.359,1.155,1.005,-0.443,-0.114,-1.856,0.33,-0.486,-0.071,-1.165,0.621,-0.13,-0.299,0.317,-0.227,1.144,-0.916,-0.005,0.416,0.283,0.81,0.121,-2.125,0.268,-0.348,-0.252,-0.121,-0.032,-1.274,0.238,0.434,-0.158,1.477,-0.916,-0.72,-0.042,0.355,-0.606,1.519,-0.445,-0.197,-0.172,0.008,-0.202,-0.212,0.917,-0.642,0.825,0.461,-0.388,0.059,0.139,0.364,-0.387,0.026,0.503,-0.627,0.993,0.814,-0.769,0.321,0.128,-0.019,0.073,1.161,-0.13,-0.492,0.959,1.425,0.544,4.57,0.641,0.821,0.841,1.005,0.817,0.809,2.478,0.526,2.281,1.582,0.678,1.061,1.149,1.44,0.679,1.027,1.649,0.534,2.698,2.254,0.464,1.378,1.133,0.981,1.076,3.171,0.878,0.611],"97.5% HDI":[0.237,1.156,0.065,-0.215,0.55,0.282,0.291,-0.883,0.259,0.31,1.513,0.124,-1.082,0.148,0.141,-1.381,1.66,0.528,-0.486,-0.03,-0.88,0.562,1.027,0.381,0.313,0.159,-0.147,-0.688,-0.332,-1.074,0.98,1.231,-0.724,-0.364,-2.523,-1.13,-0.539,-0.34,-1.499,-0.551,-1.519,-0.723,-0.426,-1.434,0.591,-1.52,-0.962,0.078,0.088,0.171,-0.249,-2.351,-0.113,-0.675,-0.696,-0.528,-0.317,-2.015,-0.376,-0.852,-0.146,0.775,-0.76,-0.206,-0.35,-0.266,-0.102,-1.779,-0.203,-0.706,-0.428,0.049,0.017,-0.137,-1.003,0.198,-0.889,-0.984,-0.257,0.051,-0.263,-0.04,-0.225,-0.285,-0.029,-0.151,-0.502,-0.801,-0.144,-0.433,-0.148,-0.18,-0.279,-0.599,-0.976,-0.299,0.999,-0.331,0.758,0.195,-0.504,0.699,0.426,0.825,0.334,-0.606,-0.329,0.718,0.868,0.975,-2.484,1.023,0.223,-0.556,1.179,0.285,0.823,0.13,0.172,0.323,1.183,0.853,0.767,1.459,0.195,1.478,0.619,1.334,0.092,0.344,0.786,0.92,0.128,1.142,0.488,-0.276,0.148,1.739,0.831,0.659,-0.164,-0.076,1.224,1.684,0.617,0.763,-0.739,1.016,1.091,0.303,-0.081,-0.222,-1.053,1.062,-0.237,0.773,-2.404,0.678,0.166,1.257,-0.333,0.009,1.267,-0.097,0.753,1.111,-0.056,1.237,-0.26,-0.019,0.981,0.752,0.838,1.094,0.816,1.446,-0.961,0.933,1.206,-1.252,0.281,0.459,0.758,-0.148,-0.766,-0.063,0.023,1.176,-1.858,1.477,0.134,-0.004,0.273,0.829,-0.14,-2.315,-1.84,0.009,-2.038,-0.334,1.172,1.153,-1.258,-2.208,-2.16,1.132,-0.881,-0.253,0.221,-0.12,0.845,1.302,-1.099,0.921,-0.187,0.595,0.922,-1.923,0.433,-0.626,0.054,1.764,1.195,0.503,1.399,-0.521,1.247,-0.354,-1.383,-0.529,0.283,1.659,1.14,0.635,0.695,0.384,1.384,0.101,-1.718,1.652,-0.977,0.785,0.047,1.713,-0.193,1.589,0.921,-1.758,-0.063,0.082,-0.673,0.529,0.902,0.558,-0.601,0.035,-0.437,1.065,1.445,-0.557,1.417,-0.405,1.359,0.934,1.445,1.451,1.442,-2.036,0.315,0.562,0.712,1.05,1.098,0.848,0.37,-1.705,0.837,1.202,1.09,0.512,0.227,-0.445,1.036,1.316,1.137,-0.233,-2.413,0.017,1.119,-1.059,0.196,1.124,-2.591,0.759,0.243,1.115,0.678,0.439,1.161,0.774,1.504,-1.223,0.869,1.317,1.645,-1.376,1.004,0.073,-0.664,1.158,0.795,-0.034,0.746,1.232,0.407,1.283,0.653,1.054,1.291,0.348,0.497,-2.596,1.451,-1.503,0.464,-0.258,0.658,-0.017,0.386,1.016,-0.858,1.205,0.927,1.675,-0.652,1.096,-0.674,1.115,-2.364,0.067,1.263,0.739,0.994,-0.795,0.935,-2.636,0.03,0.252,0.248,0.538,0.273,0.36,1.086,0.887,0.474,1.018,0.2,0.352,1.284,-0.012,1.431,-0.043,0.77,0.479,0.1,1.47,-1.703,-0.068,0.777,1.313,-0.514,-1.037,0.606,0.226,1.138,1.21,-2.188,0.775,0.394,1.122,0.584,-0.681,1.248,1.663,-1.335,0.094,-0.526,-1.658,-1.273,-0.184,1.133,0.784,0.66,1.419,1.197,-1.703,-1.607,0.752,0.798,0.481,1.96,1.073,0.962,1.079,0.629,0.964,0.341,0.645,1.131,-1.071,-0.878,0.71,0.504,1.325,-1.283,0.725,0.473,0.563,1.059,0.621,0.98,-1.595,0.886,0.462,0.996,-0.225,-0.296,-0.794,0.524,-0.026,-0.834,-0.432,1.598,-0.041,0.851,1.073,0.381,1.228,0.561,1.332,0.176,1.112,-0.234,-1.199,-0.261,0.763,0.165,0.688,1.098,-0.259,1.04,-0.143,1.405,-1.34,0.722,1.178,1.188,-0.326,1.215,0.247,0.959,-0.84,0.883,0.747,-0.517,1.13,-0.366,0.454,0.187,0.968,0.952,-0.336,0.337,-0.738,0.863,0.609,0.113,1.264,1.112,0.889,-1.519,0.686,1.198,0.594,0.647,-0.048,0.947,-0.287,-2.007,0.1,1.209,-1.01,-0.544,0.583,0.781,-2.317,0.659,1.169,0.505,0.726,-0.437,0.18,0.524,0.782,-0.874,1.131,0.519,1.343,0.497,0.275,0.457,-1.152,-0.226,0.161,1.177,-1.077,-0.558,-1.829,0.834,-0.316,1.114,-0.253,1.009,-0.886,0.745,-1.093,-0.485,-0.448,1.324,0.622,1.166,0.565,0.086,0.618,0.381,-0.423,-1.25,0.756,-0.952,0.776,-2.45,0.789,-0.211,0.112,1.1,0.995,-1.399,0.76,0.894,0.004,1.151,1.192,0.468,-0.074,-1.096,0.128,0.175,-0.993,-0.999,0.953,-0.098,-0.683,1.237,1.143,1.039,0.12,0.782,-0.036,-1.956,0.092,0.822,-0.254,0.946,0.387,0.949,1.464,1.289,0.993,-1.306,0.082,0.184,1.37,1.055,1.045,1.343,0.899,0.371,0.504,1.101,0.604,1.46,0.589,-1.403,0.309,0.481,1.05,0.689,0.683,0.263,1.38,0.295,0.228,-1.149,-0.249,-2.402,-1.29,0.259,1.04,1.013,0.798,-0.737,-2.18,1.403,0.872,0.541,-0.546,0.321,-0.457,1.439,-0.197,-1.33,1.01,0.182,1.113,0.432,1.178,-0.434,1.194,0.795,0.885,0.026,0.231,0.81,1.316,-0.538,-1.694,1.121,1.412,1.169,0.651,1.278,-0.885,-0.106,-2.824,0.383,0.429,1.058,0.776,-0.164,1.216,1.353,0.468,0.524,0.791,0.794,1.25,0.18,0.78,0.671,0.034,1.07,1.039,0.6,0.821,0.545,0.744,0.886,-0.489,0.473,0.699,0.079,-1.211,0.707,0.051,-1.378,0.111,1.31,0.509,-1.71,0.95,0.415,1.31,0.458,-1.076,-0.717,0.759,0.602,0.701,1.36,0.532,-0.12,0.922,0.497,1.413,-0.563,0.929,0.935,1.09,0.623,-0.97,0.501,0.656,1.522,-1.15,0.359,1.165,-1.291,-1.326,0.994,0.386,-0.259,0.925,-2.427,-0.092,-0.082,-1.285,0.85,-0.438,1.855,0.494,-0.784,0.542,0.383,1.366,1.192,0.076,0.198,0.443,0.119,0.493,-0.166,0.499,0.708,0.561,0.978,0.511,-0.124,0.987,0.74,0.336,1.571,0.633,0.737,-0.328,0.229,-2.294,0.284,0.06,1.362,0.889,-0.275,-1.044,0.966,-2.176,-0.043,1.004,-1.569,-0.471,-1.15,-0.717,0.25,-0.745,0.135,-1.13,1.471,1.153,0.262,0.156,0.561,0.436,-1.084,-0.771,-2.662,-0.61,0.156,0.516,-0.325,0.713,0.394,-1.7,1.408,0.291,1.214,1.553,0.596,0.807,-1.83,-0.39,1.369,1.241,-0.926,-0.974,1.467,0.744,-0.461,0.559,-0.758,1.412,0.728,0.899,-0.256,-2.586,-0.182,0.295,-0.915,0.867,0.376,-0.609,1.338,1.252,1.082,0.973,0.215,-0.29,0.98,0.674,-0.235,-0.09,1.185,0.919,0.932,0.589,0.815,0.613,-0.453,0.017,0.764,0.132,1.381,0.912,-0.844,1.146,-1.596,1.131,-0.576,0.503,-0.677,0.59,0.692,-1.295,0.001,-0.637,0.771,-0.097,0.506,1.348,1.346,-0.243,0.445,-0.019,-0.054,0.647,-0.105,-1.476,-0.418,1.148,1.226,0.37,-0.276,-2.761,0.165,0.097,0.797,-0.58,1.012,-0.298,0.611,0.419,-0.105,1.038,1.137,-0.047,-0.481,0.656,1.323,-1.963,1.344,-0.858,0.643,0.456,-0.611,0.248,-1.086,1.425,0.725,0.027,-0.602,-1.374,1.661,-0.175,1.132,0.991,1.155,-0.842,-0.086,-1.144,-1.2,1.084,1.066,1.265,0.968,1.238,0.278,-0.099,0.913,1.254,0.011,1.324,0.375,0.08,-0.016,1.318,0.316,-0.303,-2.277,1.303,0.695,-0.513,0.995,0.737,-0.031,-0.052,-1.491,1.44,1.269,0.591,0.931,0.261,0.827,0.729,2.072,0.704,0.301,1.519,-2.481,0.239,0.242,0.964,0.805,1.276,0.609,0.55,0.143,0.903,-0.145,0.55,0.66,-1.183,0.798,1.19,1.421,0.565,0.898,1.084,0.009,-0.009,0.977,-0.372,-0.78,0.851,-0.512,-0.76,1.361,1.712,-1.865,0.808,0.383,-0.43,1.285,0.807,0.241,1.355,1.049,0.881,1.484,0.824,1.331,1.226,0.92,0.661,-0.496,0.737,-1.417,1.242,0.397,1.028,0.234,-0.247,0.374,1.638,0.693,0.272,1.429,0.934,0.491,1.002,-0.683,1.027,1.082,1.201,-2.231,0.984,-0.555,1.601,0.992,0.604,0.842,1.47,1.19,-0.918,0.475,0.376,1.076,1.186,1.085,0.375,-0.081,-0.167,-1.18,0.516,0.906,0.867,1.368,1.52,-0.298,1.093,1.052,0.314,-0.644,0.831,0.435,1.414,0.961,1.056,0.997,-1.685,0.694,0.818,0.434,1.765,0.705,1.363,0.951,1.053,1.046,1.05,0.054,0.788,0.597,0.695,0.993,1.406,-2.466,1.049,1.04,-0.352,1.596,0.944,0.17,0.726,-0.736,0.961,1.111,0.541,-0.129,-0.035,0.357,0.767,0.813,0.826,1.218,-0.437,1.733,1.168,1.59,-0.259,-0.056,0.742,0.631,0.589,0.409,0.929,1.086,1.061,-0.387,0.979,1.072,0.659,0.954,-0.534,-0.546,1.394,0.773,1.033,1.412,0.893,0.14,0.504,0.494,1.153,-0.778,1.033,0.893,0.354,0.717,0.51,1.3,-0.423,0.369,-1.918,-2.264,0.334,1.153,-2.543,-0.174,0.509,-0.401,1.333,1.916,-1.323,1.521,1.426,0.685,0.326,0.219,0.593,0.808,0.184,1.103,1.334,1.065,1.086,0.19,-1.183,0.503,0.635,1.579,1.098,-1.201,0.133,0.249,1.302,-0.609,-0.276,1.112,1.618,0.021,0.629,1.11,1.555,-0.084,0.991,1.264,0.383,0.36,0.948,0.091,0.974,-2.477,0.945,1.56,0.49,-0.324,0.328,0.644,1.157,-0.015,-0.903,0.624,0.634,1.273,-0.376,0.153,1.472,-0.398,1.454,1.013,0.408,1.004,0.839,0.968,-0.836,0.933,0.478,0.03,0.41,0.309,0.182,0.968,0.375,0.428,-0.434,0.275,0.798,0.993,-0.172,0.035,-2.145,-2.457,-0.02,1.019,1.597,0.608,1.139,0.046,-0.415,1.449,-1.655,0.034,0.272,0.65,0.581,0.032,0.49,1.26,0.397,1.724,1.061,0.209,-0.029,1.374,0.917,1.065,1.097,-0.093,0.161,0.561,-2.622,-0.222,0.652,0.57,0.619,-1.341,1.232,0.03,1.537,-0.461,0.717,1.131,1.661,0.493,0.537,1.472,1.393,1.58,1.53,1.231,1.456,1.228,1.23,1.283,1.438,1.185,0.564,1.398,0.803,1.336,0.745,1.416,1.524,0.682,1.154,0.932,0.441,1.531,0.574,0.985,1.462,0.59,1.445,0.997,0.986,1.23,-0.396,1.199,0.633,1.027,1.294,1.491,0.815,1.332,1.049,1.065,1.13,1.349,0.527,0.756,1.082,0.969,1.694,1.605,-0.33,-0.003,-1.723,0.378,-0.358,0.02,-1.047,0.766,0.021,-0.169,0.403,-0.055,1.222,-0.828,0.135,0.56,0.392,0.945,0.243,-2.004,0.398,-0.212,-0.16,-0.04,0.106,-1.165,0.359,0.562,-0.044,1.567,-0.823,-0.596,0.048,0.467,-0.535,1.673,-0.37,-0.12,-0.082,0.113,-0.105,-0.125,1.102,-0.563,0.961,0.586,-0.302,0.159,0.231,0.495,-0.31,0.125,0.638,-0.554,1.162,0.954,-0.699,0.435,0.225,0.083,0.168,1.373,-0.044,-0.417,1.05,1.594,0.584,5.33,0.691,0.887,0.92,1.116,0.9,0.882,2.984,0.569,2.615,1.792,0.74,1.172,1.26,1.641,0.733,1.134,1.887,0.575,3.194,2.592,0.497,1.545,1.249,1.087,1.183,3.924,0.956,0.658],"ESS Bulk":[27432,27731,29020,21282,24545,24749,31344,22843,25058,29832,13109,28070,27759,25732,16490,31244,30844,30724,28869,31486,30778,25637,29054,23421,24539,18591,27685,28320,27977,31507,28808,28117,24682,29460,29811,31802,27024,29951,25453,26820,26201,31853,17746,23699,30917,23333,17514,29835,28922,23923,30761,31760,30592,25529,28092,26242,21324,20612,31958,32388,31251,29099,27566,26340,3233,2034,2669,12376,3655,5271,3811,1792,1977,2631,5369,1894,4529,5574,3931,1997,2283,1930,3191,3157,1623,3428,2189,4162,3409,3435,2054,2113,3119,2649,7113,3940,9395,27818,9415,11311,12810,9368,10345,9718,8557,11024,11648,10124,12300,24720,4204,7908,11700,7949,8555,20071,8180,16269,12898,9662,9208,8834,11723,7361,31388,7217,9912,7237,16709,13481,9159,9280,14233,10190,11660,19161,19494,30713,8357,9890,12198,10567,7609,6670,10772,9402,30598,7495,17512,11752,12199,9117,14006,8501,13935,9025,15080,9859,11268,9338,14818,12183,7256,10794,11587,7891,12727,9017,11943,12600,7879,11784,8306,6563,9567,7275,9250,8197,10433,5929,16169,12086,8176,10201,9596,17997,11006,8397,12012,6255,9134,14261,19600,9317,10903,4135,4765,9075,8659,13380,7587,12937,6728,4290,5489,7841,7688,11826,10032,9693,8643,7043,9078,11330,12042,11375,7803,11332,12350,8214,9033,6963,11490,9079,8166,31514,11401,9470,7768,10107,14410,7155,15840,10364,10276,12300,6466,11117,24939,9344,29111,11495,17448,6390,12863,7291,9667,14816,23944,11581,8568,12629,7261,11072,29504,11930,12456,10388,8305,10490,9514,10577,9736,8771,7481,7836,6893,9756,11953,10817,32322,25639,10946,8514,12856,24933,9137,7988,8245,12847,11423,13504,7540,7116,12603,9415,7780,10073,8809,11234,16721,8110,4510,8261,16303,9850,9378,11735,7894,10477,7506,17447,15320,7292,6847,6504,10732,13806,8833,8142,9329,10390,10458,9357,11910,9502,10946,7296,8537,9660,11268,6082,7014,16918,12499,12666,8910,18351,10523,9056,8128,21334,9196,7326,11307,8096,9753,7812,6218,9081,9995,11428,8695,11104,9456,4672,11703,14245,13651,12179,10868,9874,7885,10141,10397,7687,30336,10197,10569,14489,8081,10673,12605,20631,9203,7888,17033,10531,11219,7980,12693,9470,8731,11874,8290,9375,5825,11582,10292,8245,11049,22405,7050,7678,26010,13783,13647,7923,24878,15236,9065,9839,10107,7155,7740,6250,6063,9182,11637,10007,6978,8431,10750,8419,12716,10064,9039,10399,8900,6674,7401,9056,11397,5862,18984,14740,14285,12733,8521,10382,9149,9979,11377,15161,10539,9935,9872,7760,10392,18552,8332,10491,6852,16303,10327,12518,10620,7276,29012,8371,11186,8660,11157,10640,17560,9715,28405,9998,7410,11977,8102,14684,7325,14394,9148,6894,7256,12175,6908,10593,8446,10430,8272,11048,8708,8643,14369,9712,11827,10284,10574,18536,15120,32907,8003,8821,10068,8385,8668,8710,24621,9441,7969,13087,9871,22542,32221,12407,5499,24267,7393,13707,20102,13319,11871,5545,10351,7770,12898,11554,12303,11507,15046,9193,9685,8931,8694,13518,13781,14674,11888,8740,23669,11599,7791,8050,11680,6973,10672,15999,9430,9496,8664,21255,9048,9922,12978,9435,7494,33053,7090,13213,10859,11450,10205,16291,12062,11268,8025,8688,12699,10074,26584,26103,10217,9039,25223,13073,8129,10628,7589,7364,9571,29151,22231,10176,18991,13487,9791,8034,12321,9847,8534,8621,7402,10069,11370,15491,6668,28753,11151,31859,9809,16515,10359,8230,9060,8692,11220,9692,9406,6048,9497,9527,8631,9402,9542,14047,8479,10533,7275,9709,13081,9626,12674,9489,29953,10667,11462,6535,13924,11088,15976,13198,6382,6573,24783,16209,9826,9697,9206,7754,8750,11918,10794,12200,9270,15907,8433,12516,26045,11534,18931,7558,11245,8756,28093,8546,12208,10621,15035,11160,9360,8025,15222,15549,12979,7682,9159,12589,10144,7665,10043,14246,9113,25315,10019,32523,15656,7797,7911,11094,11856,11095,11133,9059,11959,7807,9141,15426,7880,6859,11130,10036,13054,8843,10811,9121,11807,9276,10627,11301,9105,11020,10222,16639,7421,17142,13022,11824,14128,8198,12952,7593,12542,10476,10187,9423,7652,13571,13207,9736,13168,11191,12721,12078,9132,7991,9589,18010,30363,20904,8597,7362,10094,10618,13009,6321,10572,11719,14897,12641,5066,11797,23335,31761,12427,10044,6614,11434,10023,12553,12753,8011,9405,9584,12117,11595,10230,12327,9446,11976,10796,10945,9133,13000,13851,11372,10500,13303,6870,12476,10410,14967,13905,4607,14193,17685,6504,9585,10652,7236,19163,8351,10368,11944,6577,9723,11409,24437,11809,29036,11754,6629,9670,9809,11155,12562,8331,10549,8858,13813,7465,8444,15848,12372,10613,10218,13817,4726,7981,10500,9361,7293,12878,8415,6083,13600,9461,7201,11346,9359,6066,9333,9947,12568,13178,7210,11234,10758,9787,9678,28653,13523,12283,9502,13906,10908,6832,7480,8609,10580,31060,13764,10348,11749,9056,10863,7988,9009,11247,15653,11710,10044,12011,13666,8687,17896,7371,6979,27576,7829,16260,7799,12553,10245,13161,9066,11346,18571,13056,6844,7905,10393,13837,7513,7854,10770,12328,17978,11741,8281,11377,9307,8442,9088,30022,10556,12860,4287,12121,11897,9888,14082,8565,8860,10830,13595,10941,9759,11076,14168,12857,13416,8393,10458,25547,10494,9264,9935,15731,13610,8214,8161,17159,13104,11027,30663,8431,10905,8854,8303,8379,10647,12984,32768,30518,9028,10671,8278,11318,8059,10103,10070,7832,6924,11940,9383,11174,8817,29451,8124,11431,12488,6273,27953,11087,11597,9096,12224,12018,11345,10830,8427,8533,10551,31607,11804,10731,8872,5356,12601,9588,6593,6098,8956,23454,10357,10469,8847,14118,10560,9989,11407,8783,12564,11436,30655,7827,7335,6947,9864,11428,10919,11633,16685,10039,8820,11115,8447,8752,8750,30543,7329,4775,9537,12204,11213,9561,8701,28026,7217,8559,6567,7851,10321,10366,8715,10257,10810,15424,11500,26018,8567,22940,13281,13643,10351,9291,6786,9562,10238,15536,8952,10791,9784,19350,9405,7122,9134,6251,9553,12447,7760,9466,11381,11661,6968,8415,9560,10352,32352,9246,7794,8851,9736,9823,10768,9495,13775,8010,8156,7809,7764,16358,9059,7669,12128,12402,10306,13709,6628,8865,9128,7367,15853,11653,8565,11908,6948,10897,7124,9610,7342,8157,7420,10573,9489,9935,11410,7520,7097,8465,8930,9816,10317,7966,8417,12510,13064,10363,10023,7496,10937,9982,11092,9015,7883,9863,11545,7325,31246,6023,8191,7713,9388,9682,9655,12814,10888,30290,9667,10289,9055,12243,10979,9145,10012,11600,14647,10210,7234,9114,7918,7448,15844,13308,15165,10412,8322,10641,9151,9776,13189,9159,9618,7604,15567,17552,7167,16081,27080,7929,4233,11756,15704,13152,6243,31019,14524,26985,7201,13693,27011,9453,8745,10348,9662,8421,7152,7958,6489,17112,29070,15262,10074,6850,7356,8886,15543,14417,7253,11324,14750,7968,6606,11274,9832,7576,6507,9658,10245,9269,13465,11903,9784,12203,14447,4554,8570,5602,11754,10483,15130,10720,8437,12573,7411,21022,12526,8904,12421,12324,8540,8367,7409,8735,12060,9295,7056,9154,6271,9572,18555,10441,13564,11090,11813,8319,10092,11649,10641,10125,9961,9053,11257,11964,4798,4111,10030,10214,6502,10492,8948,14463,14573,7326,6748,16759,15952,15366,10141,15580,8674,7437,16655,6323,8323,9257,14551,9318,11622,7734,8466,11045,15051,12977,7028,14195,15817,11824,11299,11075,7381,14947,7686,12063,9531,8374,6693,9919,11226,10221,8072,7530,6710,7563,5696,7259,8612,6457,6838,8499,14205,6215,10191,5864,11517,13021,6756,11550,7635,9693,11261,6920,12781,8700,6875,8904,7652,9480,8550,7469,10803,7237,10768,6985,7173,9986,9873,8523,8609,8550,9691,7213,8720,9171,7371,9221,5596,6148,736,599,684,3667,819,1201,1172,589,587,642,1971,630,1163,1972,1058,566,618,644,735,818,506,865,624,1051,858,858,607,650,723,860,2469,885,19153,18149,28352,27596,21415,27727,19073,16172,17332,20850,12147,23441,19525,16300,18174,17190,21934,15230,26314,17486,14654,24437,17786,18122,25485,16404,19781,17192,20930,13245,23164,25809,19153,18149,28352,27596,21415,27727,19073,16172,17332,20850,12147,23441,19525,16300,18174,17190,21934,15230,26314,17486,14654,24437,17786,18122,25485,16404,19781,17192,20930,13245,23164,25809],"ESS Tail":[15332,14839,14197,14679,15393,15084,13225,15388,14015,14030,14822,14833,14859,14970,15754,14551,14107,15073,15081,13934,14031,15364,14255,15275,14824,15630,15367,15310,13740,14700,14591,14197,15548,14121,14985,14007,15710,14115,15377,14471,13889,14023,15434,14806,13988,15185,14278,14880,15047,15214,14492,14344,14561,15224,13671,14338,15466,15369,14478,13733,13741,13318,14962,14851,8346,5014,6739,13477,9071,10567,9408,5413,5250,6538,9923,4751,9684,10639,9599,5126,6781,4891,8016,7048,4474,8005,5927,8614,8610,9326,6154,5494,7548,6316,12124,9153,11311,13326,11064,13056,12985,12222,12441,11813,11236,12620,12443,12139,12054,11735,8833,11536,11621,11804,10717,13131,12175,13436,13405,11573,12641,12028,11634,11206,14439,11185,11972,11530,14030,12526,11516,11196,13331,11481,11660,12684,12632,12761,12627,11995,12218,12336,12409,11228,13065,11573,14330,10810,12465,12323,11763,12229,13209,11885,11814,11446,12791,10871,11910,12366,11846,13305,12162,12640,11553,10276,13288,12099,12113,13228,11401,12414,12442,11466,11784,12397,11722,12366,12658,9701,13696,11487,11674,13162,11612,14213,12444,11092,12610,10936,12514,12975,14492,12453,12403,10402,9464,12815,11499,10810,9852,12254,11639,8214,9657,12624,13327,10565,11556,11518,12220,10971,12389,11732,12563,12091,12130,11190,12890,11284,12970,10947,11866,12761,11858,13493,13242,11994,11272,11472,12262,11841,12698,11888,12957,12300,10256,12070,12153,11988,13939,12212,13675,11263,13317,10814,12411,13307,12949,13128,12238,10937,11541,12012,13421,12965,13301,11299,12466,13104,12365,11801,13822,12612,12300,12064,11455,13538,12968,12500,12962,13573,13021,12594,13356,12365,11497,11651,11269,12445,10993,13001,11773,10985,13187,12457,10677,11853,11660,11532,14371,11843,8875,12722,11073,11741,11545,13003,11724,13029,9716,12730,13223,10211,10821,9697,12119,13262,11717,10889,13343,13697,12842,12512,10594,11611,12114,11798,12756,10917,12283,9629,11498,12782,13275,13627,10965,13286,12026,12779,10363,12944,12720,11294,11940,10998,11730,11807,11187,11693,12693,13185,11349,12833,12279,9145,14067,13110,13772,12073,11231,13471,12022,11997,12927,12197,13151,11855,11958,13449,11645,13483,12477,12564,12504,10979,12328,12267,12580,11003,13174,12238,11324,11314,12850,11251,10220,12481,11729,12393,12511,14039,10074,10590,13306,12468,11468,10880,13783,12657,9508,10499,11762,9508,11598,10116,10698,12681,12617,13635,11636,11483,11750,11500,12887,11317,11371,11262,11660,12165,9364,12851,11218,11417,13281,12400,12492,12622,10960,11078,12373,12839,12963,12796,11512,11396,11899,10930,12171,12739,11411,11300,11185,12726,12969,12938,10694,12097,13679,12308,12821,12450,13605,13026,13145,11305,11761,11103,12645,12456,11940,12463,11307,12043,11308,11162,11886,13923,12045,11693,11823,12381,11655,11628,11533,11451,13103,11843,13549,10602,12894,12499,12640,14067,10398,11895,13181,11424,12504,12547,12727,13325,11347,13106,13183,13015,13179,12616,9909,12332,10541,12857,12614,12820,12658,8800,12587,10753,12301,12638,13375,12434,12841,12055,11544,11852,11896,11895,14024,13383,12570,11504,14397,11394,12061,11645,12331,9966,13449,12401,10883,12279,12336,13808,12934,11312,11426,12016,11573,12294,11562,13226,11918,12452,13120,12162,12277,13755,11609,10822,11863,11956,13622,11880,12199,10430,13193,13113,12452,11697,11590,11699,12579,12522,14063,11688,12537,13075,11608,12274,12797,10912,12210,12551,11816,11546,12893,12234,10532,13377,13172,13866,12885,13383,12474,11505,12731,11872,11819,12738,12794,11235,11365,12299,12136,13498,13320,13095,12228,11162,11981,11913,12322,12437,11768,12655,13275,11570,12132,12311,14001,12093,13796,11779,10191,9368,13219,13281,12578,12125,12106,10585,10305,12600,11303,12607,11180,12467,12392,11679,13236,11972,13111,11757,12304,12214,13615,11359,13026,12379,12809,11551,11926,12417,12767,12741,10951,11137,12555,11590,11912,12234,11958,13645,13323,13669,12321,13301,12872,10600,11398,13339,12178,12589,12716,12049,12275,11361,12086,12738,12470,11262,11955,13374,12040,11765,12249,11549,12412,11751,12684,13357,12899,12375,11891,13487,11832,12461,12965,11383,12862,12567,12749,10629,12589,12790,12666,12605,11170,11797,12344,12180,13577,11991,13191,11222,12751,13325,12698,12847,13630,13735,10049,11366,11738,12946,12470,11698,12557,12522,13232,12584,9835,13186,13551,13707,12771,12363,11062,13255,12623,12979,12710,11147,12861,13290,13731,12870,12752,11782,12843,13657,12561,13457,12070,12374,12776,11163,12732,12821,10492,12962,13374,13066,13370,9422,12943,12941,11670,12394,13177,12058,13528,11860,13074,11004,11281,11910,12585,13229,11358,12652,11989,10974,11442,12574,12906,12720,12191,11062,11906,12305,10567,11525,11961,12573,12097,12679,12719,9368,10677,13046,12511,12651,12247,10926,10274,12796,12178,10137,11781,11069,9304,12209,12512,11282,13350,11044,12781,11676,12493,11226,12819,12217,12055,12575,13874,10766,11367,11027,12631,13075,14161,13606,13281,12464,12386,13768,13005,13446,12312,13199,12434,12660,12405,12811,11498,12413,11785,9963,12904,12791,12312,11959,13090,12429,12435,11813,12336,13345,12483,11748,12003,12758,12395,11393,12424,11480,12506,12971,13807,11815,12371,11170,11531,10862,13201,11706,12000,8126,12089,12387,13791,12933,11988,10516,12612,12810,12158,11323,12474,13293,12708,12292,11384,10658,13476,10026,11783,13043,13094,12804,10886,11485,11707,13460,12792,13711,10805,11409,13137,12078,11874,12015,12396,12659,13997,11485,11449,10016,12555,10355,12007,12161,10765,11468,13541,12424,12097,11555,13777,10310,13510,12284,10929,13328,12269,13242,12610,12820,12396,11856,11965,11468,10430,13859,13875,12612,11737,13058,10381,12631,10939,11246,11130,12571,13257,12445,11254,12884,13035,12582,12851,12392,10598,12999,12213,13586,12023,10124,11405,12324,11507,11916,12554,12121,11930,12434,11120,11765,11568,12301,13595,11821,8934,11642,12946,12005,10680,13309,12562,12188,11207,11653,11067,12283,12710,11801,12705,12422,12824,12722,13087,11266,13043,12804,13084,12825,10313,11330,13581,10776,12880,13055,11314,11889,13572,12378,11834,11786,10202,11003,12388,10928,12393,12724,11922,11784,9497,10809,11788,12996,11662,10957,12016,13373,12320,12579,12721,11771,11086,13170,11347,12975,13318,11849,10821,12725,12671,13233,11040,10468,12033,11760,12061,12216,11217,11523,11624,10688,13206,10713,11397,12707,12887,12747,11792,11458,11981,11444,11010,11149,11846,11793,10151,12069,11314,10220,13144,12302,11275,12145,12160,12617,13763,12686,13338,12223,13241,11938,11427,13342,11535,10791,11711,10958,11471,12146,12965,10532,14231,11505,13340,11857,12177,12609,11244,11902,13284,11507,13437,10476,10691,13100,11479,12313,12807,13842,11919,11036,11491,11672,12172,11999,10812,11743,12491,11629,12722,10677,12828,13791,11424,7731,13124,13779,13074,11848,13673,12399,13445,11458,12108,14217,10343,11729,12128,12266,11647,11099,11886,11756,13163,12735,12123,11769,10569,10893,11385,12708,12861,10959,13196,12155,11799,10048,12463,11109,11922,11763,10719,11650,11993,13118,12218,12550,13358,13938,8360,12285,10845,13115,12765,12555,12279,11144,13008,9771,12242,12082,9464,12679,13893,12130,12381,11981,12506,12278,10983,11743,11370,10674,12047,13310,11739,11593,12093,11020,12885,12208,12833,12904,11636,12038,10787,12573,12701,9067,9413,12204,12948,12903,11587,10955,12746,13359,11629,9735,12943,13283,12990,12437,11656,13004,11953,10850,12220,11525,12222,14189,13438,12449,11690,12063,11456,11914,11619,11185,13491,14240,11296,11630,12219,11490,12322,12340,11809,12890,11349,9194,13136,11878,11484,11044,12109,10142,11617,11506,11364,12483,11400,11101,12741,12758,10729,12832,10091,12859,13339,9568,12545,12159,11907,12938,10906,12521,10670,11566,10742,11631,11904,11335,12719,13596,10863,13359,11615,11964,11760,12800,12521,10769,11028,11942,10896,12494,12475,11447,12187,10537,11361,2475,1503,1823,10169,2347,3665,3701,1539,1631,1383,6149,1308,3205,6222,3888,1189,1578,1389,2201,2122,1044,2182,1874,3466,2112,2629,1736,2073,1698,2160,7216,2704,14483,14490,14346,14188,14690,15303,15358,14994,14518,14702,13981,15126,15303,14707,14959,15547,14786,13993,15800,15435,14022,14623,14230,15118,14728,14303,15600,14968,15410,14626,15734,15546,14483,14490,14346,14188,14690,15303,15358,14994,14518,14702,13981,15126,15303,14707,14959,15547,14786,13993,15800,15435,14022,14623,14230,15118,14728,14303,15600,14968,15410,14626,15734,15546],"Rhat":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1.01,1.01,1.01,1,1.01,1,1,1.01,1.01,1.01,1,1.01,1,1,1,1.01,1.01,1.01,1.01,1,1.01,1.01,1.01,1,1,1,1.01,1.01,1.01,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]},"columns":[{"id":"Parameter","name":"Parameter","type":"character","minWidth":90,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Parameter name"},"children":["Parameter",{"name":"span","attribs":{"title":"Parameter name","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Mean","name":"Mean","type":"numeric","minWidth":90,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Posterior mean"},"children":["Mean",{"name":"span","attribs":{"title":"Posterior mean","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"SD","name":"SD","type":"numeric","minWidth":90,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Posterior standard deviation"},"children":["SD",{"name":"span","attribs":{"title":"Posterior standard deviation","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"2.5% HDI","name":"2.5% HDI","type":"numeric","minWidth":90,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"2.5% of highest posterior density interval"},"children":["2.5% HDI",{"name":"span","attribs":{"title":"2.5% of highest posterior density interval","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"97.5% HDI","name":"97.5% HDI","type":"numeric","minWidth":90,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"97.5% of highest posterior density interval"},"children":["97.5% HDI",{"name":"span","attribs":{"title":"97.5% of highest posterior density interval","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"ESS Bulk","name":"ESS Bulk","type":"numeric","minWidth":90,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Bulk effective sample size"},"children":["ESS Bulk",{"name":"span","attribs":{"title":"Bulk effective sample size","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"ESS Tail","name":"ESS Tail","type":"numeric","minWidth":90,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Tail effective sample size"},"children":["ESS Tail",{"name":"span","attribs":{"title":"Tail effective sample size","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}},{"id":"Rhat","name":"Rhat","type":"numeric","minWidth":90,"header":{"name":"div","attribs":{"style":{"display":"flex","align-items":"center","gap":"4px"},"title":"Gelman-Rubin Rhat"},"children":["Rhat",{"name":"span","attribs":{"title":"Gelman-Rubin Rhat","style":{"cursor":"pointer","color":"#7a0b80"}},"children":["ℹ"]}]}}],"pagination":false,"highlight":true,"style":{"fontFamily":"Work Sans, sans-serif","fontSize":"1rem"},"height":"600px","dataKey":"9a48bffd6328b31a7a3ff9c364f29efe"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+</div>
+</div></div>
+</section>
 <section id="estimated-item-parameters" class="slide level2">
 <h2>Estimated Item Parameters</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <p><img data-src="Additional%20files/Images/Figure_S1.png" width="880"></p>
 </div><div class="column" style="width:30%;">
-<p><span class="math display">\[Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+<p><span class="math display">\[
+Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 \mu_{iq} = b_i + Q_q \times d_i \\
-\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}\]</span></p>
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}
+\]</span></p>
 <ul>
 <li><p>The <em>dashed lines</em> represent the median of the item parameters.</p></li>
 <li><p>The <em>horizontal lines</em> represent the posterior SD.</p></li>
 </ul>
+<center>
+<div class="fragment" data-fragment-index="1">
+<p>Items can have very different properties!</p>
+</div>
+</center>
 </div></div>
 </section>
 <section id="posterior-predictive-checks" class="slide level2">
@@ -563,8 +626,12 @@ Diverse item domains: Financial, political, technology, energy…
 <ul>
 <li><p>The model predicts item responses fairly well across items</p></li>
 <li><p>The distribution of item responses varies greatly across items and the model accounts for that</p></li>
-<li><p>some bimodal strangeness 😧 (e.g., <a href="https://www.blockchain.com/explorer/charts/hash-ratelink" target="_blank">Bitcoin Graph</a>)</p></li>
 </ul>
+<div class="fragment" data-fragment-index="1">
+<ul>
+<li>some bimodal strangeness 😧 (e.g., <a href="https://www.blockchain.com/explorer/charts/hash-ratelink" target="_blank">Bitcoin Graph</a>)</li>
+</ul>
+</div>
 </div></div>
 </section>
 <section id="theta-distribution" class="slide level2">
@@ -576,10 +643,17 @@ Diverse item domains: Financial, political, technology, energy…
 </center>
 </div><div class="column" style="width:30%;">
 <p>On top of the regular sample, 47 “super forecasters” were invited to complete all the FPT questions.</p>
+<div class="fragment" data-fragment-index="1">
 <center>
 <img data-src="Additional%20files/Images/G_diff_crop.png" width="110">
 </center>
-<p><span class="math inline">\(\bar{\theta}_{\mathrm{SF}} - \bar{\theta}_{\mathrm{REG}} = 0.75, 95\% \, \mathrm{HDI} [0.49; 1.00]\)</span></p>
+<p><span class="math display">\[
+\bar{\theta}_{\mathrm{SF}} - \bar{\theta}_{\mathrm{REG}} =
+\]</span></p>
+<p><span class="math display">\[
+0.75, 95\% \, \mathrm{HDI} [0.49; 1.00]
+\]</span></p>
+</div>
 </div></div>
 </section>
 <section id="who-gets-higher-theta-s" class="slide level2">
@@ -592,11 +666,13 @@ Diverse item domains: Financial, political, technology, energy…
 </center>
 </div><div class="column" style="width:25%;">
 <center>
-<p>Also, note that the <span style="color: blue;"> item expected forecasts </span> are defined in the models as</p>
+<p><span style="color: blue;"> item expected forecasts </span> are defined in the models as</p>
 </center>
-<p><span class="math display">\[Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+<p><span class="math display">\[
+Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 \color{blue}{\mu_{iq} = b_i + Q_q \times d_i} \\
-\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}\]</span></p>
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}
+\]</span></p>
 </div></div>
 <div style="font-size: 22px">
 <em>note</em>. In the case of the two top panels, missing person forecast were outside the <span class="math inline">\(Y_{jiq} = [-9; 9]\)</span> range.
@@ -613,10 +689,13 @@ Diverse item domains: Financial, political, technology, energy…
 <figcaption>No statistical model is involved here!</figcaption>
 </figure>
 </div>
+<div class="fragment" data-fragment-index="1">
 <p>Psychometric folks prefer this:</p>
 <p><img data-src="Additional%20files/Images/diagram_5.png"></p>
+</div>
 </div><div class="column" style="width:50%;">
-<p>In the case of item like the ones on the FPT, one popular scoring rule is the S-score <span class="citation" data-cites="Jose_Winkler_2009">(<a href="#/section-12" role="doc-biblioref" onclick="">Jose &amp; Winkler, 2009</a>)</span></p>
+<div class="fragment" data-fragment-index="2">
+<p>In the case of item like the ones on the FPT, one popular scoring rule is the S-score <span class="citation" data-cites="Jose_Winkler_2009">(<a href="#/section-13" role="doc-biblioref" onclick="">Jose &amp; Winkler, 2009</a>)</span></p>
 <div class="panel-tabset">
 <ul id="tabset-1" class="panel-tabset-tabby"><li><a data-tabby-default="" href="#tabset-1-1">5%</a></li><li><a href="#tabset-1-2">25%</a></li><li><a href="#tabset-1-3">50%</a></li><li><a href="#tabset-1-4">75%</a></li><li><a href="#tabset-1-5">95%</a></li></ul>
 <div class="tab-content">
@@ -637,6 +716,7 @@ Diverse item domains: Financial, political, technology, energy…
 </div>
 </div>
 </div>
+</div>
 </div></div>
 </section>
 <section id="how-related-are-theta-and-s-scores" class="slide level2">
@@ -646,12 +726,18 @@ Diverse item domains: Financial, political, technology, energy…
 <div style="font-size: 26px">
 As per the study pre-registration, Waves 1 and 7 responses were treated as <em>outcome</em> and Waves 2,4, 6 were treated as <em>predictors</em>.
 </div>
-<p><br> <br></p>
+<p><br></p>
+<div class="fragment" data-fragment-index="1">
+<p>We refit the model and calculate both <span class="math inline">\(\theta\)</span> and the individual S-scores for Waves 1 and 7 and Waves 2,4, and 6 separately.</p>
+<p><br></p>
 <div style="font-size: 24px; padding-top: 14px;">
 * <strong>SS</strong> stands for <strong>S-Score</strong>
 </div>
+</div>
 </div><div class="column" style="width:70%;">
+<div class="fragment" data-fragment-index="1">
 <p><img data-src="Additional%20files/Images/Figure_7.png" style="width:95.0%"></p>
+</div>
 </div></div>
 </section>
 <section id="theta-and-s-scores" class="slide level2">
@@ -688,7 +774,65 @@ Magnus still loses every once in a while (i.e., lower S-score in some instances)
 </div>
 </div></div>
 </section>
-<section id="section-12" class="slide level2 smaller scrollable">
+<section id="section-12" class="slide level2">
+<h2></h2>
+<p><img data-src="Additional%20files/Images/theta_VS_Score.png" class="absolute" style="top: 250px; left: 450px; width: 350px; height: 350px; "></p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<center>
+<div class="fragment slideInLeft slower" data-fragment-index="1">
+<p><img data-src="Additional%20files/Images/mark_scoring.png" width="700"></p>
+</div>
+</center>
+</div><div class="column" style="width:50%;">
+<center>
+<div class="fragment slideInRight slower" data-fragment-index="2">
+<p><img data-src="Additional%20files/Images/fabio_score.png" width="700"></p>
+</div>
+</center>
+</div></div>
+</section>
+<section id="summary" class="slide level2">
+<h2>Summary</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Contributions:</strong></p>
+<div class="fragment" data-fragment-index="1">
+<ul>
+<li>Novel model for QEF items that measure item properties</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="2">
+<ul>
+<li>A latent trait metric that represents forecasting ability and relates to conventional scoring rules</li>
+</ul>
+</div>
+<p><strong>Limitations:</strong></p>
+<div class="fragment" data-fragment-index="3">
+<ul>
+<li>QEF items are very complex, some items present some irregularities that are not accounted by the model</li>
+</ul>
+</div>
+<div class="fragment" data-fragment-index="4">
+<ul>
+<li>Item properties may depend on the way in which the items are presented <span class="citation" data-cites="Crosetto_Haan_2023">(e.g., <a href="#/section-13" role="doc-biblioref" onclick="">Crosetto &amp; Haan, 2023</a>)</span></li>
+</ul>
+</div>
+</div><div class="column" style="width:50%;">
+<div class="r-stack">
+<div class="fragment fade-in-then-out" data-fragment-index="1">
+<p><img data-src="Additional%20files/Images/Figure_S1.png"></p>
+</div>
+<div class="fragment" data-fragment-index="2">
+<p><img data-src="Additional%20files/Images/Figure_6.png"></p>
+</div>
+<div class="fragment" data-fragment-index="3">
+<p><img data-src="Additional%20files/Images/Figure_4.png"></p>
+</div>
+</div>
+</div></div>
+</section>
+<section id="section-13" class="slide level2 smaller scrollable">
 <h2></h2>
 <div class="columns">
 <div class="column" style="width:50%;">
@@ -700,6 +844,9 @@ Magnus still loses every once in a while (i.e., lower S-score in some instances)
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list">
 <div id="ref-Abril-Pla_etal_2023" class="csl-entry" role="listitem">
 Abril-Pla, O., Andreani, V., Carroll, C., Dong, L., Fonnesbeck, C. J., Kochurov, M., Kumar, R., Lao, J., Luhmann, C. C., Martin, O. A., Osthege, M., Vieira, R., Wiecki, T., &amp; Zinkov, R. (2023). <span>PyMC</span>: A modern, and comprehensive probabilistic programming framework in <span>Python</span>. <em>PeerJ Computer Science</em>, <em>9</em>, e1516. <a href="https://doi.org/10.7717/peerj-cs.1516">https://doi.org/10.7717/peerj-cs.1516</a>
+</div>
+<div id="ref-Crosetto_Haan_2023" class="csl-entry" role="listitem">
+Crosetto, P., &amp; Haan, T. de. (2023). Comparing input interfaces to elicit belief distributions. <em>Judgment and Decision Making</em>, <em>18</em>, e27. <a href="https://doi.org/10.1017/jdm.2023.21">https://doi.org/10.1017/jdm.2023.21</a>
 </div>
 <div id="ref-Himmelstein_etal_2025" class="csl-entry" role="listitem">
 Himmelstein, M., Zhu, S. M., Petrov, N., Karger, E., Helmer, J., Livnat, S., Bennett, A., Hedley, P., &amp; Tetlock, P. (2025). <em>The <span>Forecasting Proficiency Test</span>: <span>A General Use Assessment</span> of <span>Forecasting Ability</span></em>. OSF. <a href="https://doi.org/10.31234/osf.io/a7kdx_v2">https://doi.org/10.31234/osf.io/a7kdx_v2</a>
@@ -722,6 +869,546 @@ Zhu, S. M., Budescu, D., Petrov, N., Karger, E., &amp; Himmelstein, M. (2025). <
 <img data-src="Additional%20files/Images/SlidesQR.svg" width="500">
 </center>
 </div></div>
+</section>
+<section id="item-prompts" class="slide level2">
+<h2>Item Prompts</h2>
+<div style="
+  max-height: 550px;
+  overflow-y: auto;
+  overflow-x: auto;
+  padding: 10px;
+">
+<table style="width: 100%; border-collapse: collapse; font-size: 0.7em;">
+<caption style="caption-side: top; font-weight: bold; margin-bottom: 8px;">
+Item Prompts
+</caption>
+<thead>
+<tr>
+<th style="border: 1px solid black;">
+Item
+</th>
+<th style="border: 1px solid black;">
+ID
+</th>
+<th style="border: 1px solid black; text-align: left;">
+Question
+</th>
+<th style="border: 1px solid black;">
+Form
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+1
+</td>
+<td>
+G2346
+</td>
+<td>
+What will be the average value of the FAO Meat Price Index in May 2024?
+</td>
+<td>
+A
+</td>
+</tr>
+<tr>
+<td>
+2
+</td>
+<td>
+G1472
+</td>
+<td>
+What will be the annual inflation rate (%) for the Euro area in May 2024?
+</td>
+<td>
+A
+</td>
+</tr>
+<tr>
+<td>
+3
+</td>
+<td>
+M9971
+</td>
+<td>
+Average PM2.5 (μg/m³) in Beijing for May 2024?
+</td>
+<td>
+A
+</td>
+</tr>
+<tr>
+<td>
+4
+</td>
+<td>
+G1948
+</td>
+<td>
+Federal firearm background checks in the U.S. during May 2024?
+</td>
+<td>
+A
+</td>
+</tr>
+<tr>
+<td>
+5
+</td>
+<td>
+G2268
+</td>
+<td>
+Southwest Land Border Encounters in the U.S. during May 2024?
+</td>
+<td>
+A
+</td>
+</tr>
+<tr>
+<td>
+6
+</td>
+<td>
+M3453
+</td>
+<td>
+% of cyberattacks targeting public admin/defense in May 2024?
+</td>
+<td>
+A
+</td>
+</tr>
+<tr>
+<td>
+7
+</td>
+<td>
+G1189
+</td>
+<td>
+Closing value for Dow Jones Transportation Average on May 31, 2024?
+</td>
+<td>
+B
+</td>
+</tr>
+<tr>
+<td>
+8
+</td>
+<td>
+G1631
+</td>
+<td>
+Total Assets of the Federal Reserve on May 31, 2024?
+</td>
+<td>
+B
+</td>
+</tr>
+<tr>
+<td>
+9
+</td>
+<td>
+C1039
+</td>
+<td>
+% of U.S. in severe drought (D2+) on May 31, 2024?
+</td>
+<td>
+B
+</td>
+</tr>
+<tr>
+<td>
+10
+</td>
+<td>
+M5680
+</td>
+<td>
+% change in global CO₂ emissions (ground transport) in May 2024?
+</td>
+<td>
+B
+</td>
+</tr>
+<tr>
+<td>
+11
+</td>
+<td>
+G2063
+</td>
+<td>
+NYC eviction filings in May 2024?
+</td>
+<td>
+B
+</td>
+</tr>
+<tr>
+<td>
+12
+</td>
+<td>
+G410
+</td>
+<td>
+Migrants arriving in Europe by sea (May 2024)?
+</td>
+<td>
+B
+</td>
+</tr>
+<tr>
+<td>
+13
+</td>
+<td>
+M1571
+</td>
+<td>
+Bitcoin hash rate (TH/s) on May 31, 2024?
+</td>
+<td>
+C
+</td>
+</tr>
+<tr>
+<td>
+14
+</td>
+<td>
+G1210
+</td>
+<td>
+USD to RUB exchange rate on May 31, 2024?
+</td>
+<td>
+C
+</td>
+</tr>
+<tr>
+<td>
+15
+</td>
+<td>
+M7949
+</td>
+<td>
+Arctic sea ice extent on May 31, 2024?
+</td>
+<td>
+C
+</td>
+</tr>
+<tr>
+<td>
+16
+</td>
+<td>
+M811
+</td>
+<td>
+# of magnitude 5+ earthquakes worldwide in May 2024?
+</td>
+<td>
+C
+</td>
+</tr>
+<tr>
+<td>
+17
+</td>
+<td>
+C47
+</td>
+<td>
+O1 visas to Chinese nationals in May 2024?
+</td>
+<td>
+C
+</td>
+</tr>
+<tr>
+<td>
+18
+</td>
+<td>
+G2352
+</td>
+<td>
+TSA travelers screened in May 2024?
+</td>
+<td>
+C
+</td>
+</tr>
+<tr>
+<td>
+19
+</td>
+<td>
+G1588
+</td>
+<td>
+U.S. unemployment rate for May 2024?
+</td>
+<td>
+D
+</td>
+</tr>
+<tr>
+<td>
+20
+</td>
+<td>
+G1799
+</td>
+<td>
+New housing units started in May 2024?
+</td>
+<td>
+D
+</td>
+</tr>
+<tr>
+<td>
+21
+</td>
+<td>
+G1920
+</td>
+<td>
+U.S. box office gross in May 2024?
+</td>
+<td>
+D
+</td>
+</tr>
+<tr>
+<td>
+22
+</td>
+<td>
+M4663
+</td>
+<td>
+Total minutes to listen to 80,000 Hours podcast (as of May 2024)?
+</td>
+<td>
+D
+</td>
+</tr>
+<tr>
+<td>
+23
+</td>
+<td>
+G2006
+</td>
+<td>
+U.S. President approval rating on May 31, 2024?
+</td>
+<td>
+D
+</td>
+</tr>
+<tr>
+<td>
+24
+</td>
+<td>
+G938
+</td>
+<td>
+Pro-Kremlin disinformation cases in May 2024?
+</td>
+<td>
+D
+</td>
+</tr>
+<tr>
+<td>
+25
+</td>
+<td>
+G2404
+</td>
+<td>
+12-month % change in U.S. CPI (Food) for May 2024?
+</td>
+<td>
+E
+</td>
+</tr>
+<tr>
+<td>
+26
+</td>
+<td>
+G2341
+</td>
+<td>
+Job quits (thousands) in May 2024?
+</td>
+<td>
+E
+</td>
+</tr>
+<tr>
+<td>
+27
+</td>
+<td>
+M6107
+</td>
+<td>
+# Amazon ratings for Harry Potter and the Deathly Hallows by May 31, 2024?
+</td>
+<td>
+E
+</td>
+</tr>
+<tr>
+<td>
+28
+</td>
+<td>
+G181
+</td>
+<td>
+Worker protests recorded in China (May 2024)?
+</td>
+<td>
+E
+</td>
+</tr>
+<tr>
+<td>
+29
+</td>
+<td>
+M3924
+</td>
+<td>
+Seattle Police total crime reports in May 2024?
+</td>
+<td>
+E
+</td>
+</tr>
+<tr>
+<td>
+30
+</td>
+<td>
+C1084
+</td>
+<td>
+Autonomous vehicle collisions in California (May 2024)?
+</td>
+<td>
+E
+</td>
+</tr>
+<tr>
+<td>
+31
+</td>
+<td>
+G1190
+</td>
+<td>
+U.S. gasoline price on May 31, 2024?
+</td>
+<td>
+X
+</td>
+</tr>
+<tr>
+<td>
+32
+</td>
+<td>
+M8907
+</td>
+<td>
+Global commercial flights on May 31, 2024?
+</td>
+<td>
+X
+</td>
+</tr>
+<tr>
+<td>
+33
+</td>
+<td>
+G1294
+</td>
+<td>
+PHEVs registered in the UK in May 2024?
+</td>
+<td>
+X
+</td>
+</tr>
+<tr>
+<td>
+34
+</td>
+<td>
+M5839
+</td>
+<td>
+FDA approvals (NDAs + BLAs) in May 2024?
+</td>
+<td>
+X
+</td>
+</tr>
+<tr>
+<td>
+35
+</td>
+<td>
+G584
+</td>
+<td>
+Russian government approval rating in May 2024?
+</td>
+<td>
+X
+</td>
+</tr>
+<tr>
+<td>
+36
+</td>
+<td>
+G794
+</td>
+<td>
+Civilian deaths reported in Syria (May 2024)?
+</td>
+<td>
+X
+</td>
+</tr>
+</tbody>
+</table>
+<p style="margin-top: 8px; font-size: 0.6em;">
+<em>Note.</em> “Item” corresponds to numbering in the main text. “ID” matches labels used in Himmelstein et al.&nbsp;(2025).
+</p>
+</div>
 
 </section>
     </div>

@@ -51,21 +51,37 @@ theme_set(theme_classic(base_size = 16, accent = "#7a0b80",
 
 The Forecasting proficiency test [FPT\; @Himmelstein_etal_2025] is test designed to identify skilled forecasters 🔮 
 
+
+::: {.fragment fragment-index=1}
+
 In general forecasting involves asking individuals to make predictions about future events and evaluating how accurate they are!
 
+:::
+
+::: {.fragment fragment-index=2}
+
 The FPT lasts around 1 hour and presents both cognitive tasks and forecasting questions (the focus of this presentation).
+
+:::
+
 
 </br>
 
 <center>
 
+::: {.fragment fragment-index=3}
+
 <p style='font-size: 32px'> Turns out there are many ways of asking for forecasts 🤔 </p>
+
+:::
 
 </br>
 
+::: {.fragment fragment-index=4}
+
  <p style='font-size: 32px'> **quantile elicitation format (QEF)** VS probability elicitation format (PEF). </p>
 
-
+:::
 
 </center>
 
@@ -92,7 +108,6 @@ The FPT lasts around 1 hour and presents both cognitive tasks and forecasting qu
 ::::
 
 
-
 ## Comparison of PEF and QEF Question
 
 :::: {.columns}
@@ -109,17 +124,12 @@ Probability elicitation format
 
 Quantile elicitation format
 
-
-
 :::
 ::::
 
 <center>  
 ![](Additional%20files/Images/Figure_1.png){width="1000"}
 </center>
-
-
-
 
 
 
@@ -132,7 +142,7 @@ Quantile elicitation format
 <center>
 <p style='font-size: 40px'> **Survey link** </p>
 
-![](Additional%20files/Images/SurveyQR.svg){width=500}
+![[https://shorturl.at/wLaIw](https://shorturl.at/wLaIw){target='_blank'}](Additional%20files/Images/SurveyQR.svg){width=500}
 </center>
 
 
@@ -165,7 +175,7 @@ Quantile elicitation format
 
 <center>
 
- <p style='font-size: 142px'>   Thoughts?   </p>
+ <p style='font-size: 142px'> Thoughts?   </p>
 
 </center>
 
@@ -464,16 +474,24 @@ ggplot() +
 
 ## Modeling Signed Error
 
+
+
 We model $Y_{jiq}$, the signed error of person $j$ to item $i$ at quantile $q$. 
 
 
+
+
 :::: {.columns}
+
 ::: {.column width="40%"}
 
-$$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
-\mu_{iq} = b_i + Q_q \times d_i \\
-\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}$$
 
+
+$$
+Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+\mu_{iq} = b_i + Q_q \times d_i \\
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}
+$$
 
 <ul style="font-size: 22px">  
 
@@ -482,6 +500,8 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 <li>  $b_i$: item bias (*irreducible uncertainty*) </li>
 
 :::
+
+
 
 ::: {.fragment fragment-index=2}
 
@@ -518,6 +538,7 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 
 :::
 ::::
+
 
 
 ## Priors 
@@ -647,10 +668,17 @@ Item forecasts were collected across 5 waves of a 7 Wave study.
 
 All models were estimated in `python` (Version 3.11) with `pymc` [@Abril-Pla_etal_2023] by using `nutpie`, an HMC sampler written in `rust` that improves on `stan`'s sampling algorithm [@Seyboldt_etal_2026 \;].
 
+::: {.fragment fragment-index=1}
+
 ![](Additional%20files/Images/Bob_post.png){width="320"}
 
+:::
+
+::: {.fragment fragment-index=2}
 
 Plotting and analyses where done in `R` (Version 4.5.2). 
+
+:::
 
 :::
 ::: {.column width = '70%'}
@@ -658,6 +686,79 @@ Plotting and analyses where done in `R` (Version 4.5.2).
 <center>  
 ![Model graph from `pymc`](Additional%20files/Images/model_graph.png){width="880"}
 </center>
+
+:::
+::::
+
+
+## Posterior and Convergence Statistics
+
+
+:::: {.columns}
+::: {.column width = '30%'}
+
+MCMC settings:
+
+- 4 chains
+
+  - 800 warmup iterations
+
+  - 5000 draws
+
+
+::: {.fragment fragment-index=1}
+
+Around 16 minutes for the full model! (1,354 estimated parameters)
+
+:::
+
+</br>
+
+::: {.fragment fragment-index=2}
+
+Good convergence, although $\sigma_i$ parameters seem a bit harder to sample.
+
+:::
+
+
+
+
+:::
+::: {.column width = '70%'}
+
+::: {.fragment fragment-index=1}
+
+```{r}
+
+posterior_sum <- rio::import("Additional files/T_model_summary.csv")[,c(1,2, 3, 4, 5  , 8, 9, 10)]
+
+colnames(posterior_sum) <- c("Parameter", "Mean", "SD", "2.5% HDI", "97.5% HDI", "ESS Bulk", "ESS Tail", "Rhat")
+
+labels <- c("Parameter name",
+            "Posterior mean",
+            "Posterior standard deviation",
+            "2.5% of highest posterior density interval",
+            "97.5% of highest posterior density interval",
+            "Bulk effective sample size",
+            "Tail effective sample size",
+            "Gelman-Rubin Rhat")
+
+labels_react <- FabioFun::reactbl_col.desc(names = colnames(posterior_sum),
+                                 desc =  labels,
+                                 style = "cursor: pointer; text-decoration: none;",
+                                 info_color = "#7a0b80")
+
+
+library(reactable)
+
+reactable(posterior_sum,
+          defaultColDef = colDef(minWidth = 90),
+          style = list(fontFamily = "Work Sans, sans-serif", fontSize = "1rem"),
+          pagination = FALSE, highlight = TRUE, height = 600, columns = labels_react)
+```
+
+
+:::
 
 :::
 ::::
@@ -674,9 +775,11 @@ Plotting and analyses where done in `R` (Version 4.5.2).
 :::
 ::: {.column width = '30%'}
 
-$$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+$$
+Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 \mu_{iq} = b_i + Q_q \times d_i \\
-\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}$$
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}
+$$
 
 
 
@@ -684,8 +787,19 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 
 - The *horizontal lines* represent the posterior SD.
 
+
+<center>
+
+::: {.fragment fragment-index=1}
+Items can have very different properties!
+:::
+
+</center>
+
 :::
 ::::
+
+
 
 ## Posterior Predictive Checks
 
@@ -700,16 +814,18 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 :::
 ::: {.column width = '20%'}
 
+
 - The model predicts item responses fairly well across items
+
 
 - The distribution of item responses varies greatly across items and the model accounts for that
 
+::: {.fragment fragment-index=1}
 - some bimodal strangeness 😧 (e.g., [Bitcoin Graph](https://www.blockchain.com/explorer/charts/hash-ratelink){target='_blank'})
+:::
 
 :::
 ::::
-
-
 
 ## $\theta$ Distribution
 
@@ -727,13 +843,22 @@ $$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 
 On top of the regular sample, 47 "super forecasters" were invited to complete all the FPT questions. 
 
+::: {.fragment fragment-index=1}
+
 <center>  
 ![](Additional%20files/Images/G_diff_crop.png){width="110"}
 </center>
 
-$\bar{\theta}_{\mathrm{SF}} - \bar{\theta}_{\mathrm{REG}} = 0.75, 95\% \, \mathrm{HDI} [0.49; 1.00]$
 
+$$
+\bar{\theta}_{\mathrm{SF}} - \bar{\theta}_{\mathrm{REG}} =
+$$
 
+$$
+0.75, 95\% \, \mathrm{HDI} [0.49; 1.00]
+$$
+
+:::
 
 :::
 ::::
@@ -754,13 +879,16 @@ Forecasters who consistently approach the expected forecasts get higher $\theta$
 
 <center>
 
-Also, note that the <span style="color: blue;"> item expected forecasts </span> are defined in the models as 
+<span style="color: blue;"> item expected forecasts </span> are defined in the models as 
 
 </center>
 
-$$Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
+
+$$
+Y_{jiq} \sim \mathrm{Student\ T}(\mu_{iq}, \sigma_{ji}, \mathrm{df}_i) \\
 \color{blue}{\mu_{iq} = b_i + Q_q \times d_i} \\
-\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}$$
+\sigma_{ji} = \frac{\sigma_i}{\mathrm{Exp}[a_i \times \theta_j]}
+$$
 
 :::
 ::::
@@ -778,10 +906,13 @@ The forecasting folks are perfectly fine with this:
 ![No statistical model is involved here!](Additional files/Images/diagram_1.png)
 
 
+::: {.fragment fragment-index=1}
+
 Psychometric folks prefer this: 
 
 ![](Additional files/Images/diagram_5.png)
 
+:::
 
 
 
@@ -789,6 +920,8 @@ Psychometric folks prefer this:
 :::
 
 ::: {.column width = '50%'}
+
+::: {.fragment fragment-index=2}
 
 In the case of item like the ones on the FPT, one popular scoring rule is the S-score [@Jose_Winkler_2009]
 
@@ -816,21 +949,10 @@ In the case of item like the ones on the FPT, one popular scoring rule is the S-
 ![](Additional files/Images/S-scores/S_score_95.png){width=95%}
 
 :::
-
+:::
 
 :::
 ::::
-
-
-
-
-
-
-
-
-
-
-
 
 
 ## How related are $\theta$ and *S*-scores?
@@ -840,17 +962,30 @@ In the case of item like the ones on the FPT, one popular scoring rule is the S-
 
 <div style="font-size: 26px"> As per the study pre-registration, Waves 1 and 7 responses were treated as *outcome* and Waves 2,4, 6 were treated as *predictors*. </div>
 
+
 </br>
+
+::: {.fragment fragment-index=1}
+
+We refit the model and calculate both $\theta$ and the individual S-scores for Waves 1 and 7 and Waves 2,4, and 6 separately.
+
+
+
 </br>
 
 <div style="font-size: 24px; padding-top: 14px;"> \* **SS** stands for **S-Score**  </div>
 
+:::
 
 
 :::
 ::: {.column width="70%"}
 
+::: {.fragment fragment-index=1}
+
 ![](Additional%20files/Images/Figure_7.png){width=95%}
+
+:::
 
 :::
 ::::
@@ -896,9 +1031,131 @@ In the case of item like the ones on the FPT, one popular scoring rule is the S-
   <figcaption style="font-size: 30px">Magnus still loses every once in a while (i.e., lower S-score in some instances) </figcaption>
 </figure>
 </center>
+
 :::
 :::
 ::::
+
+
+## 
+
+
+![](Additional files/Images/theta_VS_Score.png){.absolute top=250 left=450 width="350" height="350"}
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+<center>
+
+::: {.fragment fragment-index=1 .slideInLeft .slower}
+
+![](Additional%20files/Images/mark_scoring.png){width=700}
+
+:::
+
+</center>
+
+:::
+::: {.column width = '50%'}
+
+
+<center>
+
+::: {.fragment fragment-index=2 .slideInRight .slower}
+
+![](Additional%20files/Images/fabio_score.png){width=700}
+
+:::
+
+
+</center>
+
+:::
+::::
+
+
+
+
+## Summary
+
+
+:::: {.columns}
+::: {.column width = '50%'}
+
+
+**Contributions:**
+
+
+::: {.fragment fragment-index=1}
+
+- Novel model for QEF items that measure item properties
+
+:::
+
+
+::: {.fragment fragment-index=2}
+
+- A latent trait metric that represents forecasting ability and relates to conventional scoring rules
+
+:::
+
+**Limitations:**
+
+::: {.fragment fragment-index=3}
+
+- QEF items are very complex, some items present some irregularities that are not accounted by the model
+
+:::
+
+
+::: {.fragment fragment-index=4}
+
+- Item properties may depend on the way in which the items are presented [e.g., @Crosetto_Haan_2023]
+
+:::
+
+:::
+::: {.column width = '50%'}
+
+
+::: {.r-stack}
+
+
+::: {.fragment fragment-index=1 .fade-in-then-out}
+
+![](Additional%20files/Images/Figure_S1.png)
+
+:::
+
+::: {.fragment fragment-index=2}
+
+![](Additional%20files/Images/Figure_6.png)
+
+:::
+
+::: {.fragment fragment-index=3}
+
+![](Additional%20files/Images/Figure_4.png)
+
+:::
+
+:::
+
+
+
+
+:::
+::::
+
+
+
+
+
+
+
+
+
 
 
 
@@ -929,3 +1186,78 @@ In the case of item like the ones on the FPT, one popular scoring rule is the S-
 
 :::
 ::::
+
+
+## Item Prompts
+
+<div style="
+  max-height: 550px;
+  overflow-y: auto;
+  overflow-x: auto;
+  padding: 10px;
+">
+
+<table style="width: 100%; border-collapse: collapse; font-size: 0.7em;">
+  <caption style="caption-side: top; font-weight: bold; margin-bottom: 8px;">
+    Item Prompts
+  </caption>
+
+  <thead>
+    <tr>
+      <th style="border: 1px solid black;">Item</th>
+      <th style="border: 1px solid black;">ID</th>
+      <th style="border: 1px solid black; text-align: left;">Question</th>
+      <th style="border: 1px solid black;">Form</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr><td>1</td><td>G2346</td><td>What will be the average value of the FAO Meat Price Index in May 2024?</td><td>A</td></tr>
+    <tr><td>2</td><td>G1472</td><td>What will be the annual inflation rate (%) for the Euro area in May 2024?</td><td>A</td></tr>
+    <tr><td>3</td><td>M9971</td><td>Average PM2.5 (μg/m³) in Beijing for May 2024?</td><td>A</td></tr>
+    <tr><td>4</td><td>G1948</td><td>Federal firearm background checks in the U.S. during May 2024?</td><td>A</td></tr>
+    <tr><td>5</td><td>G2268</td><td>Southwest Land Border Encounters in the U.S. during May 2024?</td><td>A</td></tr>
+    <tr><td>6</td><td>M3453</td><td>% of cyberattacks targeting public admin/defense in May 2024?</td><td>A</td></tr>
+
+    <tr><td>7</td><td>G1189</td><td>Closing value for Dow Jones Transportation Average on May 31, 2024?</td><td>B</td></tr>
+    <tr><td>8</td><td>G1631</td><td>Total Assets of the Federal Reserve on May 31, 2024?</td><td>B</td></tr>
+    <tr><td>9</td><td>C1039</td><td>% of U.S. in severe drought (D2+) on May 31, 2024?</td><td>B</td></tr>
+    <tr><td>10</td><td>M5680</td><td>% change in global CO₂ emissions (ground transport) in May 2024?</td><td>B</td></tr>
+    <tr><td>11</td><td>G2063</td><td>NYC eviction filings in May 2024?</td><td>B</td></tr>
+    <tr><td>12</td><td>G410</td><td>Migrants arriving in Europe by sea (May 2024)?</td><td>B</td></tr>
+
+    <tr><td>13</td><td>M1571</td><td>Bitcoin hash rate (TH/s) on May 31, 2024?</td><td>C</td></tr>
+    <tr><td>14</td><td>G1210</td><td>USD to RUB exchange rate on May 31, 2024?</td><td>C</td></tr>
+    <tr><td>15</td><td>M7949</td><td>Arctic sea ice extent on May 31, 2024?</td><td>C</td></tr>
+    <tr><td>16</td><td>M811</td><td># of magnitude 5+ earthquakes worldwide in May 2024?</td><td>C</td></tr>
+    <tr><td>17</td><td>C47</td><td>O1 visas to Chinese nationals in May 2024?</td><td>C</td></tr>
+    <tr><td>18</td><td>G2352</td><td>TSA travelers screened in May 2024?</td><td>C</td></tr>
+
+    <tr><td>19</td><td>G1588</td><td>U.S. unemployment rate for May 2024?</td><td>D</td></tr>
+    <tr><td>20</td><td>G1799</td><td>New housing units started in May 2024?</td><td>D</td></tr>
+    <tr><td>21</td><td>G1920</td><td>U.S. box office gross in May 2024?</td><td>D</td></tr>
+    <tr><td>22</td><td>M4663</td><td>Total minutes to listen to 80,000 Hours podcast (as of May 2024)?</td><td>D</td></tr>
+    <tr><td>23</td><td>G2006</td><td>U.S. President approval rating on May 31, 2024?</td><td>D</td></tr>
+    <tr><td>24</td><td>G938</td><td>Pro-Kremlin disinformation cases in May 2024?</td><td>D</td></tr>
+
+    <tr><td>25</td><td>G2404</td><td>12-month % change in U.S. CPI (Food) for May 2024?</td><td>E</td></tr>
+    <tr><td>26</td><td>G2341</td><td>Job quits (thousands) in May 2024?</td><td>E</td></tr>
+    <tr><td>27</td><td>M6107</td><td># Amazon ratings for Harry Potter and the Deathly Hallows by May 31, 2024?</td><td>E</td></tr>
+    <tr><td>28</td><td>G181</td><td>Worker protests recorded in China (May 2024)?</td><td>E</td></tr>
+    <tr><td>29</td><td>M3924</td><td>Seattle Police total crime reports in May 2024?</td><td>E</td></tr>
+    <tr><td>30</td><td>C1084</td><td>Autonomous vehicle collisions in California (May 2024)?</td><td>E</td></tr>
+
+    <tr><td>31</td><td>G1190</td><td>U.S. gasoline price on May 31, 2024?</td><td>X</td></tr>
+    <tr><td>32</td><td>M8907</td><td>Global commercial flights on May 31, 2024?</td><td>X</td></tr>
+    <tr><td>33</td><td>G1294</td><td>PHEVs registered in the UK in May 2024?</td><td>X</td></tr>
+    <tr><td>34</td><td>M5839</td><td>FDA approvals (NDAs + BLAs) in May 2024?</td><td>X</td></tr>
+    <tr><td>35</td><td>G584</td><td>Russian government approval rating in May 2024?</td><td>X</td></tr>
+    <tr><td>36</td><td>G794</td><td>Civilian deaths reported in Syria (May 2024)?</td><td>X</td></tr>
+  </tbody>
+</table>
+
+<p style="margin-top: 8px; font-size: 0.6em;">
+  <em>Note.</em> “Item” corresponds to numbering in the main text. “ID” matches labels used in Himmelstein et al. (2025).
+</p>
+
+</div>

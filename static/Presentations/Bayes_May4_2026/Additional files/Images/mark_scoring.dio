@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e" scale="2" border="0">
     <diagram id="DV8VqNbs4qEn0C2zAm5C" name="Page-1">
-        <mxGraphModel dx="913" dy="810" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" background="none" math="0" shadow="0">
+        <mxGraphModel dx="913" dy="810" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="900" background="none" math="1" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -10,7 +10,7 @@
                 <mxCell id="10" value="" style="whiteSpace=wrap;html=1;shape=mxgraph.basic.cloud_callout;strokeColor=#000000;fillColor=#FFFFFF;fontColor=#000000;labelBorderColor=#000000;labelBackgroundColor=none;align=center;strokeWidth=2;" parent="1" vertex="1">
                     <mxGeometry x="370" y="110" width="290" height="240" as="geometry"/>
                 </mxCell>
-                <mxCell id="11" value="&lt;font color=&quot;#000000&quot;&gt;If only anyone could figure out that question mark on the previous slides 🙄🤔&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=17;" parent="1" vertex="1">
+                <mxCell id="11" value="&lt;font color=&quot;#000000&quot;&gt;I suppose you could say that \(\theta\) idetifies good foreca&lt;u&gt;sters&lt;/u&gt; while S-scores idetify good foreca&lt;u&gt;sts&lt;/u&gt; 🤔&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=17;" parent="1" vertex="1">
                     <mxGeometry x="407.5" y="150" width="215" height="110" as="geometry"/>
                 </mxCell>
             </root>
