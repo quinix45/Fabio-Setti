@@ -23,7 +23,7 @@ QEF_hist <- function(data, smooth = 1.5, title = "", xlim = NULL) {
 
     means <- df_long |>
         group_by(quantile) |>
-        summarise(mean_value = mean(Forecasts), .groups = "drop")
+        summarise(mean_value = mean(Forecasts, na.rm = TRUE), .groups = "drop")
 
     library(ggplot2)
 

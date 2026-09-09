@@ -935,9 +935,6 @@ ggplot()
 
 Just running `ggplot()` actually gives output! This is our "canvas"
 
-
-(You cannot see anything because the output is a white square, but it's there, I promise 😅)
-
 :::
 
 ::: {.column width="70%"}
@@ -981,7 +978,7 @@ ggplot(WH_2024,
 
 ## Scatterplot
 
-We use one of the `geom_...()` functions to add shapes to our plot. This is a the `geom_point()` function can be use to create scatterplots.
+We use one of the `geom_...()` functions to add shapes to our plot. The `geom_point()` function can be use to create scatterplots.
 
 :::: {.columns}
 ::: {.column width="30%"}
@@ -1020,8 +1017,7 @@ ggplot(WH_2024,
 
 ## Themes
 
-Sometimes `ggplot2`'s default theme is not the best <span style="font-size: 22px"> (not sure what changed but it should look much worse than what I have on the slides) </span>. There are many [themes](https://r-charts.com/ggplot2/themes/){target="_blank"}
- you can choose from, I like `theme_classic()`.
+Sometimes `ggplot2`'s default theme is not the best. There are many [themes](https://r-charts.com/ggplot2/themes/){target="_blank"} you can choose from, I like `theme_classic()`.
  
 :::: {.columns}
 ::: {.column width="30%"}
